@@ -7,3 +7,6 @@ Thumbs.db
 
 # Smart Connections embeddings (large, regenerable)
 .smart-connections/
+
+# Local 
+.env
