@@ -1,5 +1,5 @@
 # Obsidian internals
-.obsidian/**
+.obsidian/
 
 # OS files
 .DS_Store
