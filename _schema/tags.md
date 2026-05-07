@@ -9,10 +9,29 @@ here first with a brief description.
 - `statistics` — statistical methods and theory
 - `bayesian` — Bayesian inference and updating
 - `machine-learning` — ML models, training, evaluation
-- `AI` - artificial intelligence
+- `AI` — artificial intelligence
+- `deep-learning` — neural networks, backpropagation, gradient-based optimisation
 - `data-engineering` — pipelines, storage, ETL
-- `RAG`— retrieval augmented generation
-- `MCP`— model context protocol
+- `RAG` — retrieval augmented generation
+- `MCP` — model context protocol
+- `transformer` — Transformer architecture and variants
+- `attention` — attention mechanisms in neural networks
+- `machine-translation` — translating text between languages with ML
+- `sequence-modelling` — modelling sequential data (text, time series, etc.)
+- `architecture` — neural network architecture design patterns
+- `encoding` — representation and encoding schemes (e.g. positional encoding)
+- `normalization` — normalisation techniques (layer norm, batch norm, etc.)
+- `regularization` — techniques to prevent overfitting (dropout, label smoothing, etc.)
+- `training-technique` — optimiser schedules, training tricks, and procedures
+
+## Entity Tags
+
+- `person` — an individual (researcher, engineer, etc.)
+- `researcher` — academic or industry researcher
+- `organisation` — company, lab, institution
+- `university` — academic institution
+- `ai-research` — entity or work focused on AI research
+- `google` — Google and its divisions
 
 ## Meta Tags
 
@@ -20,7 +39,7 @@ here first with a brief description.
 - `contradicted` — contains a known contradiction
 - `single-source` — based on only one source (fragile)
 - `stub` — placeholder page, needs expansion
-- `stale-risk` - ageing and approaching stale day limit
+- `stale-risk` — ageing and approaching stale day limit
 
 ## Page Type Tags
 
@@ -28,4 +47,4 @@ here first with a brief description.
 - `concept` — idea, method, principle
 - `synthesis` — cross-source analysis
 - `question` — filed answer or investigation
-- `summary`— filed summary of raw source file
+- `summary` — filed summary of raw source file
