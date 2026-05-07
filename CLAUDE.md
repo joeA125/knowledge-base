@@ -123,5 +123,6 @@ Nothing should exist only in chat history.
 - Use [[wikilinks]] for all cross-references
 - Use Obsidian-compatible markdown
 - Tags from _schema/tags.md only
+- New tags must bed added to _schema/tags.md
 - Filenames: lowercase-kebab-case.md
 - One concept per page
