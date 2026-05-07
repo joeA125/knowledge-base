@@ -11,7 +11,9 @@ with every interaction.
    raw/.
 2. **Wiki pages are yours to maintain.** Create, update,
    and cross-link pages in wiki/. The human reads; you write.
-3. **Every interaction should leave a trace.** Log operations
+3. **Tag**. Tag wiki files for content type. Also update the tags 
+   source file in schema where appropriate
+4. **Every interaction should leave a trace.** Log operations
    to log.md. File good answers as wiki pages. Nothing
    should evaporate.
 
@@ -80,7 +82,7 @@ recalculate confidence. Flag any page below 0.5 for review.
    `## [YYYY-MM-DD] ingest | Source Title`
    `Pages created: X, Pages updated: Y`
 
-A single source should touch 10-15 wiki pages.
+A single source should touch 10-15.
 
 ### QUERY (question → answer, optionally filed)
 
@@ -90,6 +92,7 @@ A single source should touch 10-15 wiki pages.
 4. If the answer contains novel synthesis, offer to file
    it as a new page in wiki/questions/ (WRITEBACK)
 5. If filed, update index.md and log.md
+6. File chat in conversations folder
 
 ### LINT (periodic health check)
 
@@ -99,7 +102,7 @@ Run through this checklist:
 - Stale pages: confidence < 0.5 or not updated in 90+ days
 - Contradictions: pages making conflicting claims
 - Missing pages: concepts mentioned but lacking a page
-- Tag hygiene: tags not in _schema/taxonomy.md
+- Tag hygiene: tags not in _schema/tags.md
 - Source gaps: topics with only 1 source
 - Lifecycle: pages stuck in 'draft' for 30+ days
 
@@ -119,6 +122,6 @@ Nothing should exist only in chat history.
 
 - Use [[wikilinks]] for all cross-references
 - Use Obsidian-compatible markdown
-- Tags from _schema/taxonomy.md only
+- Tags from _schema/tags.md only
 - Filenames: lowercase-kebab-case.md
 - One concept per page
