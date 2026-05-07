@@ -9,6 +9,7 @@ here first with a brief description.
 - `statistics` — statistical methods and theory
 - `bayesian` — Bayesian inference and updating
 - `machine-learning` — ML models, training, evaluation
+- `AI` - artificial intelligence
 - `data-engineering` — pipelines, storage, ETL
 - `RAG`— retrieval augmented generation
 - `MCP`— model context protocol
@@ -19,6 +20,7 @@ here first with a brief description.
 - `contradicted` — contains a known contradiction
 - `single-source` — based on only one source (fragile)
 - `stub` — placeholder page, needs expansion
+- `stale-risk` - ageing and approaching stale day limit
 
 ## Page Type Tags
 
