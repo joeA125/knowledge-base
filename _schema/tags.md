@@ -23,6 +23,14 @@ here first with a brief description.
 - `normalization` — normalisation techniques (layer norm, batch norm, etc.)
 - `regularization` — techniques to prevent overfitting (dropout, label smoothing, etc.)
 - `training-technique` — optimiser schedules, training tricks, and procedures
+- `ranking-system` — skill rating and ranking algorithms (Elo, TrueSkill, etc.)
+- `matchmaking` — pairing players/teams for fair competition
+- `gaming` — online gaming, game design, esports
+- `factor-graph` — bipartite graphical model for factorised distributions
+- `message-passing` — inference algorithms that propagate messages on graphs
+- `inference` — computing posteriors or marginals from models and data
+- `probabilistic-graphical-model` — graphical models (factor graphs, Bayesian networks, MRFs)
+- `approximation` — approximate inference and computation methods
 
 ## Entity Tags
 
@@ -32,6 +40,7 @@ here first with a brief description.
 - `university` — academic institution
 - `ai-research` — entity or work focused on AI research
 - `google` — Google and its divisions
+- `microsoft` — Microsoft and its divisions
 
 ## Meta Tags
 

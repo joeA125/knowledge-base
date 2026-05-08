@@ -11,3 +11,12 @@ Entities: ashish-vaswani, noam-shazeer, niki-parmar, jakob-uszkoreit, llion-jone
 ## [2026-05-07 17:14] writeback | Updated _schema/tags.md with tags from Transformer ingest
 Added new tag categories: Entity Tags (person, researcher, organisation, university, ai-research, google). Added domain tags: deep-learning, transformer, attention, machine-translation, sequence-modelling, architecture, encoding, normalization, regularization, training-technique.
 
+## [2026-05-08 09:55] ingest | TrueSkill: A Bayesian Skill Rating System (Herbrich et al., 2006)
+Source: raw/papers/bayesian-true-skill-rating.md
+Pages created: 13 (1 source summary, 8 concepts, 4 entities)
+Pages updated: 0
+Tags updated: yes (added ranking-system, matchmaking, gaming, factor-graph, message-passing, inference, probabilistic-graphical-model, approximation, microsoft)
+Index updated: yes
+Concepts: trueskill, elo-rating-system, glicko-rating-system, factor-graph, approximate-message-passing, expectation-propagation, bayesian-inference, bayes-theorem
+Entities: microsoft-research, ralf-herbrich, tom-minka, thore-graepel
+
