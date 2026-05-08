@@ -18,6 +18,8 @@ here first with a brief description.
 - `attention` — attention mechanisms in neural networks
 - `machine-translation` — translating text between languages with ML
 - `sequence-modelling` — modelling sequential data (text, time series, etc.)
+- `set-modelling` — handling unordered sets as inputs or outputs in neural models
+- `ordering` — effects of data ordering on model training and performance
 - `architecture` — neural network architecture design patterns
 - `encoding` — representation and encoding schemes (e.g. positional encoding)
 - `normalization` — normalisation techniques (layer norm, batch norm, etc.)
@@ -31,6 +33,18 @@ here first with a brief description.
 - `inference` — computing posteriors or marginals from models and data
 - `probabilistic-graphical-model` — graphical models (factor graphs, Bayesian networks, MRFs)
 - `approximation` — approximate inference and computation methods
+- `rnn` — recurrent neural networks (vanilla, LSTM, GRU, BiRNN)
+- `encoder-decoder-bottleneck` — fixed-length vector bottleneck in seq2seq models
+- `alignment` — word/phrase alignment in machine translation
+- `pointer-mechanism` — using attention as a pointer to select input elements as output
+- `combinatorial-optimisation` — solving combinatorial problems (TSP, convex hull, etc.) with learned models
+- `dropout` — dropout regularisation technique and its variants
+- `lstm` — Long Short-Term Memory architecture
+- `language-modelling` — predicting next tokens in sequences of text
+- `speech-recognition` — mapping acoustic signals to words or phonemes
+- `residual-learning` — residual connections, skip connections, and ResNet architectures
+- `batch-normalization` — batch normalisation technique for training deep networks
+- `computer-vision` — image recognition, object detection, and visual tasks
 
 ## Entity Tags
 
