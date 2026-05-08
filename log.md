@@ -20,3 +20,49 @@ Index updated: yes
 Concepts: trueskill, elo-rating-system, glicko-rating-system, factor-graph, approximate-message-passing, expectation-propagation, bayesian-inference, bayes-theorem
 Entities: microsoft-research, ralf-herbrich, tom-minka, thore-graepel
 
+## [2026-05-08 11:57] ingest | Neural Machine Translation by Jointly Learning to Align and Translate (Bahdanau et al., 2014)
+Source: raw/papers/neural-machine-translation.md
+Pages created: 10 (1 source summary, 4 concepts, 5 entities)
+Pages updated: 1 (attention-mechanism — added additive-attention link and second source)
+Tags updated: yes (added rnn, encoder-decoder-bottleneck, alignment)
+Index updated: yes
+Concepts: additive-attention, encoder-decoder-bottleneck, bidirectional-rnn, gated-recurrent-unit
+Entities: dzmitry-bahdanau, kyunghyun-cho, yoshua-bengio, jacobs-university-bremen, universite-de-montreal
+
+## [2026-05-08 12:05] ingest | Pointer Networks (Vinyals et al., 2015)
+Source: raw/papers/pointer-networks.md
+Pages created: 5 (1 source summary, 1 concept, 3 entities)
+Pages updated: 1 (attention-mechanism — added pointer mechanism section and third source)
+Tags updated: yes (added pointer-mechanism, combinatorial-optimisation)
+Index updated: yes
+Concepts: pointer-network
+Entities: oriol-vinyals, meire-fortunato, navdeep-jaitly
+
+## [2026-05-08 12:19] ingest | Recurrent Neural Network Regularization (Zaremba et al., 2014)
+Source: raw/papers/rnn-regularisation.md
+Pages created: 5 (1 source summary, 3 concepts, 2 entities)
+Pages updated: 0
+Tags updated: no (all tags already present)
+Index updated: yes
+Concepts: dropout-for-rnns, dropout, lstm
+Entities: wojciech-zaremba, ilya-sutskever
+Note: oriol-vinyals entity already had this source added
+
+## [2026-05-08 12:26] ingest | Identity Mappings in Deep Residual Networks (He et al., 2016)
+Source: raw/papers/identity-mapping-residual-networks.md
+Pages created: 7 (1 source summary, 2 concepts, 4 entities)
+Pages updated: 2 (residual-connections — added theory/pre-activation sections and second source; microsoft-research — added ResNet contributions and people)
+Tags updated: yes (added residual-learning, batch-normalization, computer-vision)
+Index updated: yes
+Concepts: pre-activation-resnet, batch-normalization
+Entities: kaiming-he, xiangyu-zhang, shaoqing-ren, jian-sun
+
+## [2026-05-08 14:57] ingest | Order Matters: Sequence to Sequence for Sets (Vinyals et al., 2016)
+Source: raw/papers/sequence-to-sequence-sets.md
+Pages created: 2 (1 source summary, 1 concept)
+Pages updated: 1 (oriol-vinyals — added third source and RPW reference)
+Tags updated: yes (added set-modelling, ordering)
+Index updated: yes
+Concepts: read-process-write
+Entities: none new (oriol-vinyals updated)
+
