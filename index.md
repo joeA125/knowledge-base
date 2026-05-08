@@ -25,6 +25,8 @@ A catalog of all wiki pages, organised by type.
 - [[xiangyu-zhang]] — Researcher, co-author of ResNet papers
 - [[shaoqing-ren]] — Researcher, co-author of ResNet papers
 - [[jian-sun]] — Researcher, co-author of ResNet papers
+- [[fisher-yu]] — Researcher, lead author of dilated convolutions paper
+- [[vladlen-koltun]] — Researcher, co-author of dilated convolutions and CRF inference papers
 - [[google-brain]] — AI research team at Google
 - [[google-research]] — Research division of Google
 - [[microsoft-research]] — Research division of Microsoft
@@ -54,6 +56,8 @@ A catalog of all wiki pages, organised by type.
 - [[batch-normalization]] — Normalisation across mini-batch for each feature
 - [[layer-normalization]] — Feature-wise normalisation within a single example
 - [[label-smoothing]] — Regularisation technique softening target distributions
+- [[dilated-convolution]] — Convolution with dilation factor for exponential receptive field growth
+- [[semantic-segmentation]] — Per-pixel image classification into semantic categories
 - [[trueskill]] — Bayesian skill rating system generalising Elo
 - [[elo-rating-system]] — Classical statistical rating system for two-player games
 - [[glicko-rating-system]] — Bayesian extension of Elo with uncertainty tracking
@@ -80,3 +84,4 @@ A catalog of all wiki pages, organised by type.
 - [[rnn-regularisation]] — Summary of "Recurrent Neural Network Regularization" (Zaremba et al., 2014)
 - [[identity-mapping-residual-networks]] — Summary of "Identity Mappings in Deep Residual Networks" (He et al., 2016)
 - [[sequence-to-sequence-sets]] — Summary of "Order Matters: Sequence to Sequence for Sets" (Vinyals et al., 2016)
+- [[context-aggregation-dilated-convolutions]] — Summary of "Multi-Scale Context Aggregation by Dilated Convolutions" (Yu & Koltun, 2016)
