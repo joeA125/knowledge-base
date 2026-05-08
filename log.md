@@ -66,3 +66,12 @@ Index updated: yes
 Concepts: read-process-write
 Entities: none new (oriol-vinyals updated)
 
+## [2026-05-08 16:27] ingest | Multi-Scale Context Aggregation by Dilated Convolutions (Yu & Koltun, 2016)
+Source: raw/papers/context-aggregation-dilated-convolutions.md
+Pages created: 5 (1 source summary, 2 concepts, 2 entities)
+Pages updated: 0
+Tags updated: yes (added semantic-segmentation, dilated-convolution)
+Index updated: yes
+Concepts: dilated-convolution, semantic-segmentation
+Entities: fisher-yu, vladlen-koltun
+

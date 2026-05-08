@@ -45,6 +45,8 @@ here first with a brief description.
 - `residual-learning` — residual connections, skip connections, and ResNet architectures
 - `batch-normalization` — batch normalisation technique for training deep networks
 - `computer-vision` — image recognition, object detection, and visual tasks
+- `semantic-segmentation` — per-pixel classification of images into semantic categories
+- `dilated-convolution` — convolutions with dilation factor for expanded receptive fields without resolution loss
 
 ## Entity Tags
 
