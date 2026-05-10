@@ -55,6 +55,12 @@ here first with a brief description.
 - `autoregressive-model` — models that factorise distributions via chain rule (PixelCNN, RNN LMs, Transformers)
 - `representation-learning` — learning useful data representations for downstream tasks
 - `density-estimation` — estimating probability distributions from data
+- `prompt-engineering` — designing or retrieving prompts to guide LLM behaviour
+- `zero-shot-learning` — performing tasks without task-specific training examples
+- `knowledge-intensive` — tasks requiring factual, domain, or world knowledge beyond the input
+- `multi-hop-reasoning` — reasoning over multiple pieces of evidence or steps
+- `chain-of-thought` — prompting LLMs to produce intermediate reasoning steps
+- `instruction-tuning` — fine-tuning LMs on instruction-formatted data for better task generalisation
 
 ## Entity Tags
 

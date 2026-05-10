@@ -99,3 +99,15 @@ Entities: diederik-kingma, openai
 Tags updated: yes (added scaling-laws, generative-model, vae, autoregressive-model, representation-learning, density-estimation)
 Index updated: yes
 
+## [2026-05-10 16:21] ingest | RAG paper cluster: UPRISE, RETRO study, ITER-RETGEN, PKG
+Sources processed (4 papers, RAG cluster):
+1. raw/papers/universal-prompt-retrieval-zero-shot-eval.md — UPRISE (Cheng et al., 2023)
+2. raw/papers/autogressive-language-model-retrieval.md — RETRO study (Wang et al., 2023)
+3. raw/papers/autogressive-language-model-retrieval-iterative.md — ITER-RETGEN (Shao et al., 2023)
+4. raw/papers/augmented-llms-parametric-guiding.md — PKG (Luo et al., 2023)
+
+Pages created: 5 (4 source summaries, 1 concept: retrieval-augmented-generation)
+Pages updated: 0
+Tags updated: yes (added prompt-engineering, zero-shot-learning, knowledge-intensive, multi-hop-reasoning, chain-of-thought, instruction-tuning)
+Index updated: yes
+

@@ -69,6 +69,7 @@ A catalog of all wiki pages, organised by type.
 - [[dilated-convolution]] — Convolution with dilation factor for exponential receptive field growth
 - [[semantic-segmentation]] — Per-pixel image classification into semantic categories
 - [[scaling-laws]] — Power-law relationships between performance and scale
+- [[retrieval-augmented-generation]] — Enhancing LMs with external knowledge retrieval
 - [[variational-lossy-autoencoder]] — VAE with controlled lossy compression via autoregressive decoder
 - [[variational-autoencoder]] — Latent variable generative model trained via variational inference
 - [[autoregressive-model]] — Models factorising distributions via chain rule
@@ -102,3 +103,7 @@ A catalog of all wiki pages, organised by type.
 - [[neural-turing-machines]] — Summary of "Neural Turing Machines" (Graves, Wayne & Danihelka, 2014)
 - [[scaling-neural-language-models]] — Summary of "Scaling Laws for Neural Language Models" (Kaplan et al., 2020)
 - [[variational-lossy-autoencoders]] — Summary of "Variational Lossy Autoencoder" (Chen et al., 2017)
+- [[universal-prompt-retrieval-zero-shot-eval]] — Summary of "UPRISE" (Cheng et al., 2023)
+- [[autogressive-language-model-retrieval]] — Summary of "Shall We Pretrain Autoregressive LMs with Retrieval?" (Wang et al., 2023)
+- [[autogressive-language-model-retrieval-iterative]] — Summary of "ITER-RETGEN" (Shao et al., 2023)
+- [[augmented-llms-parametric-guiding]] — Summary of "PKG: Parametric Knowledge Guiding" (Luo et al., 2023)
