@@ -20,14 +20,23 @@ A catalog of all wiki pages, organised by type.
 - [[meire-fortunato]] — Researcher, co-author of Pointer Networks
 - [[navdeep-jaitly]] — Researcher, co-author of Pointer Networks
 - [[wojciech-zaremba]] — Researcher, first author of RNN Regularization paper
-- [[ilya-sutskever]] — Researcher, co-author of RNN Regularization and seq2seq learning
+- [[ilya-sutskever]] — Researcher, co-author of RNN Regularization, seq2seq learning, and VLAE
 - [[kaiming-he]] — Researcher, lead author of ResNet and identity mappings papers
 - [[xiangyu-zhang]] — Researcher, co-author of ResNet papers
 - [[shaoqing-ren]] — Researcher, co-author of ResNet papers
 - [[jian-sun]] — Researcher, co-author of ResNet papers
 - [[fisher-yu]] — Researcher, lead author of dilated convolutions paper
 - [[vladlen-koltun]] — Researcher, co-author of dilated convolutions and CRF inference papers
+- [[alex-graves]] — Researcher, lead author of Neural Turing Machines
+- [[greg-wayne]] — Researcher, co-author of Neural Turing Machines
+- [[ivo-danihelka]] — Researcher, co-author of Neural Turing Machines
+- [[jared-kaplan]] — Researcher, co-lead author of Scaling Laws paper
+- [[sam-mccandlish]] — Researcher, co-lead author of Scaling Laws paper
+- [[dario-amodei]] — Researcher, co-author of Scaling Laws paper
+- [[diederik-kingma]] — Researcher, co-creator of VAE, co-author of VLAE
+- [[openai]] — AI research organisation
 - [[google-brain]] — AI research team at Google
+- [[google-deepmind]] — AI research lab (London), developed NTMs
 - [[google-research]] — Research division of Google
 - [[microsoft-research]] — Research division of Microsoft
 - [[university-of-toronto]] — Canadian research university
@@ -43,6 +52,7 @@ A catalog of all wiki pages, organised by type.
 - [[multi-head-attention]] — Parallel attention over multiple subspaces
 - [[pointer-network]] — Attention as a pointer to input elements for variable-size output
 - [[read-process-write]] — Permutation-invariant architecture for input sets (Read, Process, Write)
+- [[neural-turing-machine]] — Neural network with differentiable external memory for learning algorithms
 - [[positional-encoding]] — Injecting sequence order into the Transformer
 - [[encoder-decoder]] — General architecture pattern for sequence transduction
 - [[encoder-decoder-bottleneck]] — Fixed-length vector compression problem in seq2seq
@@ -58,6 +68,10 @@ A catalog of all wiki pages, organised by type.
 - [[label-smoothing]] — Regularisation technique softening target distributions
 - [[dilated-convolution]] — Convolution with dilation factor for exponential receptive field growth
 - [[semantic-segmentation]] — Per-pixel image classification into semantic categories
+- [[scaling-laws]] — Power-law relationships between performance and scale
+- [[variational-lossy-autoencoder]] — VAE with controlled lossy compression via autoregressive decoder
+- [[variational-autoencoder]] — Latent variable generative model trained via variational inference
+- [[autoregressive-model]] — Models factorising distributions via chain rule
 - [[trueskill]] — Bayesian skill rating system generalising Elo
 - [[elo-rating-system]] — Classical statistical rating system for two-player games
 - [[glicko-rating-system]] — Bayesian extension of Elo with uncertainty tracking
@@ -85,3 +99,6 @@ A catalog of all wiki pages, organised by type.
 - [[identity-mapping-residual-networks]] — Summary of "Identity Mappings in Deep Residual Networks" (He et al., 2016)
 - [[sequence-to-sequence-sets]] — Summary of "Order Matters: Sequence to Sequence for Sets" (Vinyals et al., 2016)
 - [[context-aggregation-dilated-convolutions]] — Summary of "Multi-Scale Context Aggregation by Dilated Convolutions" (Yu & Koltun, 2016)
+- [[neural-turing-machines]] — Summary of "Neural Turing Machines" (Graves, Wayne & Danihelka, 2014)
+- [[scaling-neural-language-models]] — Summary of "Scaling Laws for Neural Language Models" (Kaplan et al., 2020)
+- [[variational-lossy-autoencoders]] — Summary of "Variational Lossy Autoencoder" (Chen et al., 2017)

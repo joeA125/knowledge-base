@@ -47,6 +47,14 @@ here first with a brief description.
 - `computer-vision` — image recognition, object detection, and visual tasks
 - `semantic-segmentation` — per-pixel classification of images into semantic categories
 - `dilated-convolution` — convolutions with dilation factor for expanded receptive fields without resolution loss
+- `external-memory` — neural architectures augmented with external readable/writable memory
+- `neural-computation` — neural networks that learn algorithms and program-like behaviour
+- `scaling-laws` — power-law relationships between performance and scale (model size, data, compute)
+- `generative-model` — models that learn to generate data (VAEs, GANs, autoregressive, diffusion)
+- `vae` — variational autoencoders and related latent variable models
+- `autoregressive-model` — models that factorise distributions via chain rule (PixelCNN, RNN LMs, Transformers)
+- `representation-learning` — learning useful data representations for downstream tasks
+- `density-estimation` — estimating probability distributions from data
 
 ## Entity Tags
 
