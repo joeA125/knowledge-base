@@ -75,3 +75,27 @@ Index updated: yes
 Concepts: dilated-convolution, semantic-segmentation
 Entities: fisher-yu, vladlen-koltun
 
+## [2026-05-10 15:52] ingest | Neural Turing Machines (Graves, Wayne & Danihelka, 2014)
+Source: raw/papers/neural-turing-machines.md
+Pages created: 6 (1 source summary, 1 concept, 4 entities)
+Pages updated: 1 (read-process-write — added NTM cross-link, external-memory tag, second source)
+Tags updated: yes (added external-memory, neural-computation)
+Index updated: yes
+Concepts: neural-turing-machine
+Entities: alex-graves, greg-wayne, ivo-danihelka, google-deepmind
+
+## [2026-05-10 16:02] ingest | Scaling Laws (Kaplan et al., 2020) + Variational Lossy Autoencoder (Chen et al., 2017)
+Source 1: raw/papers/scaling-neural-language-models.md
+Pages created: 5 (1 source summary, 1 concept, 3 entities)
+Concepts: scaling-laws
+Entities: jared-kaplan, sam-mccandlish, dario-amodei
+
+Source 2: raw/papers/variational-lossy-autoencoders.md
+Pages created: 6 (1 source summary, 3 concepts, 1 entity + 1 org)
+Pages updated: 1 (ilya-sutskever — added VLAE source and OpenAI affiliation)
+Concepts: variational-lossy-autoencoder, variational-autoencoder, autoregressive-model
+Entities: diederik-kingma, openai
+
+Tags updated: yes (added scaling-laws, generative-model, vae, autoregressive-model, representation-learning, density-estimation)
+Index updated: yes
+

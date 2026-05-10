@@ -1,8 +1,8 @@
 ---
 title: "Read-Process-Write"
 type: concept
-tags: [deep-learning, architecture, attention, set-modelling, sequence-modelling, pointer-mechanism]
-sources: [raw/papers/sequence-to-sequence-sets.md]
+tags: [deep-learning, architecture, attention, set-modelling, sequence-modelling, pointer-mechanism, external-memory]
+sources: [raw/papers/sequence-to-sequence-sets.md, raw/papers/neural-turing-machines.md]
 confidence: 0.95
 provenance:
   extracted: 85%
@@ -10,7 +10,7 @@ provenance:
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-05-08
-updated: 2026-05-08
+updated: 2026-05-10
 ---
 
 # Read-Process-Write
@@ -32,7 +32,7 @@ Read-Process-Write (RPW; Vinyals, Bengio & Kudlur, 2016) is a neural architectur
 
 - **Permutation invariance:** Swapping any $m_i$ and $m_j$ does not change the readout $r_t$, since attention is content-based.
 - **Scalable memory:** Unlike bag-of-words, the representation scales with the number of processing steps $T$, allowing richer computation over larger sets.
-- **Relation to other architectures:** Can be viewed as a special case of Neural Turing Machines (Graves et al., 2014) or Memory Networks (Weston et al., 2015).
+- **Relation to other architectures:** Can be viewed as a special case of [[neural-turing-machine|Neural Turing Machines]] (Graves et al., 2014) or Memory Networks (Weston et al., 2015).
 
 ## Results
 
@@ -41,6 +41,7 @@ On sorting $N$ numbers, RPW with 5 processing steps and glimpses achieves 94% ac
 ## See Also
 
 - [[pointer-network]]
+- [[neural-turing-machine]]
 - [[attention-mechanism]]
 - [[lstm]]
 - [[sequence-to-sequence-sets|Source Summary]]
