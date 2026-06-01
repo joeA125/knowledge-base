@@ -61,6 +61,16 @@ here first with a brief description.
 - `multi-hop-reasoning` — reasoning over multiple pieces of evidence or steps
 - `chain-of-thought` — prompting LLMs to produce intermediate reasoning steps
 - `instruction-tuning` — fine-tuning LMs on instruction-formatted data for better task generalisation
+- `cognitive-science` — models of human cognition, psychometrics, and cognitive ability
+- `evaluation` — benchmarking, testing, and measuring AI system capabilities
+- `uncertainty-quantification` — estimating and calibrating model confidence and uncertainty
+- `fact-checking` — verifying factual claims against evidence sources
+- `reasoning` — logical, abstract, or multi-step reasoning capabilities
+- `sports-analytics` — computer vision and data analysis applied to sports
+- `multi-object-tracking` — tracking multiple objects across video frames with consistent identities
+- `camera-calibration` — estimating camera parameters to map image to world coordinates
+- `object-detection` — locating and classifying objects in images (YOLO, Faster R-CNN, etc.)
+- `action-spotting` — temporally locating specific events/actions in untrimmed video
 
 ## Entity Tags
 
