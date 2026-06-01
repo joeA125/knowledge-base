@@ -114,3 +114,4 @@ A catalog of all wiki pages, organised by type.
 - [[soccernet-game-state-reconstruction-improvement]] — Summary of "From Broadcast to Minimap: SOTA GSR" (Golovkin et al., 2024)
 - [[soccernet-v2-action-spotting]] — Summary of "Camera Calibration and Player Localization in SoccerNet-v2" (Cioppa et al., 2021)
 - [[detection-tracking-football-broadcast-footage]] — Summary of "Multi-Class Detection and Tracking in Soccer Broadcast" (Tshiani, 2025)
+- [[computer-vision-football-review]] — Review of "CV Technology for Football Videos" (Zheng et al., 2025)

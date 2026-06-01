@@ -133,3 +133,11 @@ Pages updated: 0
 Tags updated: yes (added sports-analytics, multi-object-tracking, camera-calibration, object-detection, action-spotting)
 Index updated: yes
 
+## [2026-06-01 13:21] ingest | A Review of Computer Vision Technology for Football Videos (Zheng et al., 2025)
+Source: raw/papers/computer-vision-football-review.md
+Pages created: 1 (source summary)
+Pages updated: 0
+Tags updated: no (all tags already present)
+Index updated: yes
+Note: Review paper synthesising 49 studies (2020–2024) across detection/tracking, motion prediction, tactical analysis, and event detection. No new concepts or entities created — cross-links to existing game-state-reconstruction concept.
+
