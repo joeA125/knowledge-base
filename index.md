@@ -68,6 +68,7 @@ A catalog of all wiki pages, organised by type.
 - [[label-smoothing]] — Regularisation technique softening target distributions
 - [[dilated-convolution]] — Convolution with dilation factor for exponential receptive field growth
 - [[semantic-segmentation]] — Per-pixel image classification into semantic categories
+- [[game-state-reconstruction]] — End-to-end athlete tracking, identification, and pitch localisation from broadcast video
 - [[scaling-laws]] — Power-law relationships between performance and scale
 - [[retrieval-augmented-generation]] — Enhancing LMs with external knowledge retrieval
 - [[variational-lossy-autoencoder]] — VAE with controlled lossy compression via autoregressive decoder
@@ -107,3 +108,9 @@ A catalog of all wiki pages, organised by type.
 - [[autogressive-language-model-retrieval]] — Summary of "Shall We Pretrain Autoregressive LMs with Retrieval?" (Wang et al., 2023)
 - [[autogressive-language-model-retrieval-iterative]] — Summary of "ITER-RETGEN" (Shao et al., 2023)
 - [[augmented-llms-parametric-guiding]] — Summary of "PKG: Parametric Knowledge Guiding" (Luo et al., 2023)
+- [[agi-definition]] — Summary of "A Definition of AGI" (Hendrycks et al., 2025)
+- [[llm-factcheck-consistency-certainty]] — Summary of "PCC: Fact-Checking via Probabilistic Certainty and Consistency" (Wang et al., 2026)
+- [[soccernet-game-state-reconstruction]] — Summary of "SoccerNet Game State Reconstruction" (Somers et al., 2024)
+- [[soccernet-game-state-reconstruction-improvement]] — Summary of "From Broadcast to Minimap: SOTA GSR" (Golovkin et al., 2024)
+- [[soccernet-v2-action-spotting]] — Summary of "Camera Calibration and Player Localization in SoccerNet-v2" (Cioppa et al., 2021)
+- [[detection-tracking-football-broadcast-footage]] — Summary of "Multi-Class Detection and Tracking in Soccer Broadcast" (Tshiani, 2025)

@@ -111,3 +111,25 @@ Pages updated: 0
 Tags updated: yes (added prompt-engineering, zero-shot-learning, knowledge-intensive, multi-hop-reasoning, chain-of-thought, instruction-tuning)
 Index updated: yes
 
+## [2026-05-12 20:20] ingest | AGI Definition (Hendrycks et al., 2025) + PCC Fact-Checking (Wang et al., 2026)
+Sources processed:
+1. raw/papers/agi_definition.md — "A Definition of AGI" (Hendrycks et al., 2025): CHC-based framework for quantifying AGI via 10 cognitive domains; GPT-4=27%, GPT-5=57%.
+2. raw/papers/llm_factcheck_consistency_certainty.md — "PCC" (Wang et al., 2026): Adaptive fact-checking via internal certainty + reasoning consistency; outperforms FIRE by up to 15.2%.
+
+Pages created: 2 source summaries
+Pages updated: 0
+Tags updated: yes (added cognitive-science, evaluation, uncertainty-quantification, fact-checking, reasoning)
+Index updated: yes
+
+## [2026-05-26 17:51] ingest | Soccer analytics cluster: GSR, GSR improvement, SoccerNet-v2 action spotting, detection/tracking
+Sources processed (4 papers, soccer analytics cluster):
+1. raw/papers/soccernet-game-state-reconstruction.md — GSR task definition, dataset, GS-HOTA metric, baseline (Somers et al., 2024)
+2. raw/papers/soccernet-game-state-reconstruction-improvement.md — SOTA GSR pipeline, 1st place challenge 2024, GS-HOTA 63.81 (Golovkin et al., 2024)
+3. raw/papers/soccernet-v2-action-spotting.md — Camera calibration distillation, player localisation representations, action spotting SOTA (Cioppa et al., 2021)
+4. raw/papers/detection-tracking-football-broadcast-footage.md — Accessible YOLO+ByteTrack pipeline for amateur clubs (Tshiani, 2025)
+
+Pages created: 5 (4 source summaries, 1 concept: game-state-reconstruction)
+Pages updated: 0
+Tags updated: yes (added sports-analytics, multi-object-tracking, camera-calibration, object-detection, action-spotting)
+Index updated: yes
+
