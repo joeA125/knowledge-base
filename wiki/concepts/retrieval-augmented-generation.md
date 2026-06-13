@@ -2,7 +2,7 @@
 title: "Retrieval-Augmented Generation"
 type: concept
 tags: [deep-learning, RAG, language-modelling, knowledge-intensive]
-sources: [raw/papers/universal-prompt-retrieval-zero-shot-eval.md, raw/papers/autogressive-language-model-retrieval.md, raw/papers/autogressive-language-model-retrieval-iterative.md, raw/papers/augmented-llms-parametric-guiding.md]
+sources: [raw/papers/rag-intense-nlp-tasks.md, raw/papers/universal-prompt-retrieval-zero-shot-eval.md, raw/papers/autogressive-language-model-retrieval.md, raw/papers/autogressive-language-model-retrieval-iterative.md, raw/papers/augmented-llms-parametric-guiding.md]
 confidence: 0.9
 provenance:
   extracted: 60%
@@ -10,12 +10,16 @@ provenance:
   ambiguous: 10%
 lifecycle: reviewed
 created: 2026-05-10
-updated: 2026-05-10
+updated: 2026-06-10
 ---
 
 # Retrieval-Augmented Generation
 
 Retrieval-Augmented Generation (RAG) refers to a family of methods that enhance language models by incorporating external knowledge retrieved at inference time (or during training), rather than relying solely on knowledge stored in model parameters.
+
+## Origin
+
+[[rag-intense-nlp-tasks|Lewis et al. (2020)]] introduced the RAG framework, combining a pre-trained BART generator with Dense Passage Retrieval (DPR) over Wikipedia, jointly fine-tuned end-to-end. Two variants — RAG-Sequence (same documents for whole output) and RAG-Token (different documents per token) — set new SOTA on open-domain QA (Natural Questions, TriviaQA, CuratedTrec).
 
 ## Stages of Retrieval Integration
 
@@ -34,6 +38,10 @@ Rather than retrieving passages, [[universal-prompt-retrieval-zero-shot-eval|UPR
 ## Parametric Knowledge Generation
 
 [[augmented-llms-parametric-guiding|PKG]] replaces retrieval with a fine-tuned "white-box" LM that generates relevant background knowledge, avoiding external databases entirely.
+
+## Reasoning + Retrieval
+
+[[synergising-reasoning-acting-llms|ReAct]] interleaves reasoning traces with retrieval actions, grounding chain-of-thought in external knowledge. This eliminates hallucination in failure cases (0% vs 56% for CoT alone on HotpotQA).
 
 ## Key Trade-offs
 

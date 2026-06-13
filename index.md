@@ -69,6 +69,9 @@ A catalog of all wiki pages, organised by type.
 - [[dilated-convolution]] — Convolution with dilation factor for exponential receptive field growth
 - [[semantic-segmentation]] — Per-pixel image classification into semantic categories
 - [[game-state-reconstruction]] — End-to-end athlete tracking, identification, and pitch localisation from broadcast video
+- [[chain-of-thought]] — Eliciting multi-step reasoning via intermediate natural language steps in few-shot prompts
+- [[react]] — Synergising reasoning traces and task-specific actions in an agentic LLM loop
+- [[rlhf]] — Aligning LLMs with human intent via reward modelling and policy optimisation
 - [[scaling-laws]] — Power-law relationships between performance and scale
 - [[retrieval-augmented-generation]] — Enhancing LMs with external knowledge retrieval
 - [[variational-lossy-autoencoder]] — VAE with controlled lossy compression via autoregressive decoder
@@ -115,3 +118,7 @@ A catalog of all wiki pages, organised by type.
 - [[soccernet-v2-action-spotting]] — Summary of "Camera Calibration and Player Localization in SoccerNet-v2" (Cioppa et al., 2021)
 - [[detection-tracking-football-broadcast-footage]] — Summary of "Multi-Class Detection and Tracking in Soccer Broadcast" (Tshiani, 2025)
 - [[computer-vision-football-review]] — Review of "CV Technology for Football Videos" (Zheng et al., 2025)
+- [[chain-of-thought-reasoning-llms]] — Summary of "Chain-of-Thought Prompting Elicits Reasoning in LLMs" (Wei et al., 2022)
+- [[synergising-reasoning-acting-llms]] — Summary of "ReAct: Synergizing Reasoning and Acting in LLMs" (Yao et al., 2023)
+- [[training-lm-follow-instructions-with-human-feedback]] — Summary of "InstructGPT: Training LMs to Follow Instructions with Human Feedback" (Ouyang et al., 2022)
+- [[rag-intense-nlp-tasks]] — Summary of "RAG for Knowledge-Intensive NLP Tasks" (Lewis et al., 2020)

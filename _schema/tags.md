@@ -35,7 +35,7 @@ here first with a brief description.
 - `approximation` — approximate inference and computation methods
 - `rnn` — recurrent neural networks (vanilla, LSTM, GRU, BiRNN)
 - `encoder-decoder-bottleneck` — fixed-length vector bottleneck in seq2seq models
-- `alignment` — word/phrase alignment in machine translation
+- `alignment` — word/phrase alignment in MT; also AI alignment (training models to follow human intent)
 - `pointer-mechanism` — using attention as a pointer to select input elements as output
 - `combinatorial-optimisation` — solving combinatorial problems (TSP, convex hull, etc.) with learned models
 - `dropout` — dropout regularisation technique and its variants
@@ -61,6 +61,7 @@ here first with a brief description.
 - `multi-hop-reasoning` — reasoning over multiple pieces of evidence or steps
 - `chain-of-thought` — prompting LLMs to produce intermediate reasoning steps
 - `instruction-tuning` — fine-tuning LMs on instruction-formatted data for better task generalisation
+- `reinforcement-learning` — learning policies via reward signals (includes RLHF for LLM alignment)
 - `cognitive-science` — models of human cognition, psychometrics, and cognitive ability
 - `evaluation` — benchmarking, testing, and measuring AI system capabilities
 - `uncertainty-quantification` — estimating and calibrating model confidence and uncertainty

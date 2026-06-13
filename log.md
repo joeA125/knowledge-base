@@ -141,3 +141,37 @@ Tags updated: no (all tags already present)
 Index updated: yes
 Note: Review paper synthesising 49 studies (2020–2024) across detection/tracking, motion prediction, tactical analysis, and event detection. No new concepts or entities created — cross-links to existing game-state-reconstruction concept.
 
+## [2026-06-13 19:58] ingest | LLM reasoning & alignment: CoT (Wei 2022), ReAct (Yao 2023), InstructGPT (Ouyang 2022), RAG (Lewis 2020)
+Sources processed (4 papers, LLM reasoning & alignment cluster):
+1. raw/papers/chain-of-thought-reasoning-llms.md — CoT prompting (Wei et al., 2022): emergent reasoning via intermediate steps; PaLM 540B achieves 56.9% on GSM8K (vs 17.9% standard).
+2. raw/papers/synergising-reasoning-acting-llms.md — ReAct (Yao et al., 2023): interleaving reasoning traces with actions; 0% hallucination vs 56% for CoT on HotpotQA failures; 71% success on ALFWorld.
+3. raw/papers/training-lm-follow-instructions-with-human-feedback.md — InstructGPT/RLHF (Ouyang et al., 2022): SFT → reward model → PPO alignment pipeline; 1.3B InstructGPT preferred over 175B GPT-3.
+4. raw/papers/rag-intense-nlp-tasks.md — Original RAG paper (Lewis et al., 2020): BART + DPR end-to-end; RAG-Sequence and RAG-Token variants; new SOTA on open-domain QA.
+
+Pages created: 4 source summaries
+Pages updated: 1 (retrieval-augmented-generation — added Origin section with Lewis et al. 2020 and ReAct section)
+Tags updated: yes (added reinforcement-learning; updated alignment description to cover both MT and AI alignment senses)
+Index updated: yes
+
+NOTE: This log entry covers work that was completed in an earlier session but not logged due to context exhaustion. The summaries, concept update, tags, index, and log are now all consistent.
+
+## [2026-06-13 20:00] ingest | Chain-of-Thought concept page (gap fill from CoT paper ingest)
+Pages created: 1 (concept: chain-of-thought — covers CoT prompting method, emergent scaling behaviour, ablation evidence, limitations, and extensions including CoT-SC and ReAct)
+Index updated: yes
+Addresses gap from prior ingest where the CoT source summary was created but no concept page was produced.
+
+## [2026-06-13 20:06] lint | Concept coverage audit across all 26 summaries
+Audited all 26 source summaries against existing 36 concept pages. Identified 2 gaps where papers covered concepts in sufficient depth to warrant dedicated pages:
+
+1. wiki/concepts/rlhf.md — Reinforcement Learning from Human Feedback: 3-step alignment pipeline (SFT → RM → PPO), key results (1.3B preferred over 175B), significance, limitations. From InstructGPT paper.
+2. wiki/concepts/react.md — ReAct paradigm: augmented action space with language thoughts, grounded reasoning (0% hallucination vs 56% CoT), complementarity with CoT, human-editability. From ReAct paper.
+
+Remaining 24 summaries already had adequate concept coverage. Notable decisions NOT to create concept pages:
+- AGI Definition (Hendrycks 2025): measurement framework rather than reusable concept
+- PCC fact-checking (Wang 2026): single-source method, not broad enough
+- UPRISE, ITER-RETGEN, PKG: adequately covered as sections within the RAG concept page
+- Camera calibration, action spotting: broad CV techniques without sufficient vault-specific depth
+
+Pages created: 2 concepts (rlhf, react)
+Index updated: yes
+
