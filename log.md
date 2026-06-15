@@ -184,3 +184,12 @@ Index updated: yes
 
 The camera-calibration concept page was previously deferred (concept audit found insufficient vault depth). TVCalib now provides the dedicated deep treatment needed, joining SoccerNet-v2, GSR baseline, and Constructor Tech pipeline as the 4th paper with significant calibration content.
 
+## [2026-06-15 17:26] ingest | Sports Camera Calibration via Synthetic Data (Chen & Little, 2019)
+Source: raw/papers/sports-camera_calibration-synthetic_data.md
+Pages created: 1 (source summary: sports-camera-calibration-synthetic-data)
+Pages updated: 1 (camera-calibration concept — restructured from "Two Paradigms" to "Three Approaches", added Chen & Little's synthetic retrieval approach as a distinct paradigm alongside homography estimation and direct optimisation, added new source reference)
+Tags updated: no (all tags already present)
+Index updated: yes
+
+This paper is a key baseline referenced in TVCalib (as "Chen and Little [6]") and CCBV-SN. Its 3-free-parameter camera pose engine insight is foundational to the sports calibration field.
+

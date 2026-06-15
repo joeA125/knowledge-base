@@ -2,7 +2,7 @@
 title: "Camera Calibration (Sports Broadcast)"
 type: concept
 tags: [computer-vision, camera-calibration, sports-analytics, deep-learning, semantic-segmentation]
-sources: [raw/papers/tvcalib_camera_calibration_football.md, raw/papers/soccernet-v2-action-spotting.md, raw/papers/soccernet-game-state-reconstruction.md, raw/papers/soccernet-game-state-reconstruction-improvement.md]
+sources: [raw/papers/tvcalib_camera_calibration_football.md, raw/papers/soccernet-v2-action-spotting.md, raw/papers/soccernet-game-state-reconstruction.md, raw/papers/soccernet-game-state-reconstruction-improvement.md, raw/papers/sports-camera_calibration-synthetic_data.md]
 confidence: 0.9
 provenance:
   extracted: 70%
@@ -21,22 +21,24 @@ Camera calibration in sports broadcast refers to estimating the camera's intrins
 
 Camera calibration is the critical bridge between image-space detections and real-world pitch coordinates. In [[game-state-reconstruction]], calibration failures cause catastrophic localisation errors — a single bad frame can place players 50+ metres from their true position. Calibration also enables offside detection, virtual stadium graphics, augmented reality overlays, and automated camera control.
 
-## Two Paradigms
+## Three Approaches
 
-### 1. Homography Estimation (Traditional)
-Most approaches treat sports field registration as predicting a $3 \times 3$ homography matrix mapping the 2D field plane to the image. This typically involves a two-stage process:
+### 1. Synthetic Retrieval + Refinement
+[[sports-camera-calibration-synthetic-data|Chen & Little (2019)]] exploit the strong prior of sports camera placement — cameras are roughly fixed on the main tribune with only three significant free parameters ($f$, $\phi$, $\theta$) — to generate large synthetic databases of edge images with known camera poses. A Siamese network learns compact 16-d features for nearest-neighbour retrieval, and Lucas-Kanade alignment on truncated distance images refines the result. Achieves 94.5% mean IoU$_{part}$ on WC14 and generalises to volleyball (97.6%).
 
-- **Initial estimation:** Keypoint detection + DLT, or retrieval from a database of synthetic templates with known homographies (Chen & Little, 2019; Sha et al., 2020).
-- **Refinement:** Spatial Transformer Networks or Lucas-Kanade alignment to correct the initial estimate.
+[[soccernet-v2-action-spotting|CCBV-SN]] (Cioppa et al., 2021) extends this paradigm by distilling a commercial tool into a neural network: zone segmentation → Siamese retrieval → STN refinement, achieving 88.5% IoU$_{part}$ on WC14 without fine-tuning.
 
-[[soccernet-v2-action-spotting|CCBV-SN]] (Cioppa et al., 2021) distilled a commercial camera calibration tool into a neural network using this paradigm: zone segmentation → Siamese retrieval → STN refinement, achieving 88.5% IoU on WC14.
+**Limitation:** Retrieval accuracy is bounded by database density and camera prior accuracy; displacement beyond ~5m degrades performance significantly.
+
+### 2. Homography Estimation
+Traditional approaches predict a $3 \times 3$ homography matrix mapping the 2D field plane to the image via keypoint detection + DLT or direct regression from deep features.
 
 **Limitation:** Homographies assume all points lie on one plane — they cannot model 3D elements (goal posts, crossbars). Accessing individual camera parameters requires homography decomposition, which introduces additional errors.
 
-### 2. Direct Camera Parameter Optimisation
-[[tvcalib-camera-calibration-football|TVCalib]] (Theiner & Ewerth, 2023) reframes the task as direct calibration: a differentiable **segment reprojection loss** optimises $\phi = (FoV, pan, tilt, roll, t)$ via gradient descent from segment correspondences. No keypoint matches or training data required for the calibration module. Single-step estimation avoids error accumulation from decomposition.
+### 3. Direct Camera Parameter Optimisation
+[[tvcalib-camera-calibration-football|TVCalib]] (Theiner & Ewerth, 2023) reframes the task as direct calibration: a differentiable **segment reprojection loss** optimises $\phi = (FoV, pan, tilt, roll, t)$ via gradient descent from segment correspondences. No keypoint matches or training data required for the calibration module. Single-step estimation avoids error accumulation from decomposition. Outperforms Chen & Little on both SN-Calib (CS 76.9 vs 65.1) and WC14 (CS 86.4 vs 79.0).
 
-The [[soccernet-game-state-reconstruction-improvement|Constructor Tech pipeline]] (Golovkin et al., 2024) also uses direct parameter regression (SegFormer predicting 7 camera params) combined with keypoint-based refinement, achieving real-time performance at 80 FPS.
+The [[soccernet-game-state-reconstruction-improvement|Constructor Tech pipeline]] (Golovkin et al., 2024) uses direct parameter regression (SegFormer predicting 7 camera params) combined with keypoint-based refinement, achieving real-time performance at 80 FPS.
 
 ## Key Challenges
 
@@ -50,5 +52,6 @@ The [[soccernet-game-state-reconstruction-improvement|Constructor Tech pipeline]
 
 - [[game-state-reconstruction]]
 - [[tvcalib-camera-calibration-football|TVCalib Source Summary]]
+- [[sports-camera-calibration-synthetic-data|Chen & Little Source Summary]]
 - [[soccernet-v2-action-spotting|CCBV-SN Source Summary]]
 - [[semantic-segmentation]]

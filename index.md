@@ -124,3 +124,4 @@ A catalog of all wiki pages, organised by type.
 - [[training-lm-follow-instructions-with-human-feedback]] — Summary of "InstructGPT: Training LMs to Follow Instructions with Human Feedback" (Ouyang et al., 2022)
 - [[rag-intense-nlp-tasks]] — Summary of "RAG for Knowledge-Intensive NLP Tasks" (Lewis et al., 2020)
 - [[tvcalib-camera-calibration-football]] — Summary of "TVCalib: Camera Calibration for Sports Field Registration" (Theiner & Ewerth, 2023)
+- [[sports-camera-calibration-synthetic-data]] — Summary of "Sports Camera Calibration via Synthetic Data" (Chen & Little, 2019)
