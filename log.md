@@ -175,3 +175,12 @@ Remaining 24 summaries already had adequate concept coverage. Notable decisions 
 Pages created: 2 concepts (rlhf, react)
 Index updated: yes
 
+## [2026-06-15 16:59] ingest | TVCalib: Camera Calibration for Sports Field Registration (Theiner & Ewerth, 2023)
+Source: raw/papers/tvcalib_camera_calibration_football.md
+Pages created: 2 (1 source summary: tvcalib-camera-calibration-football, 1 concept: camera-calibration)
+Pages updated: 0
+Tags updated: no (all tags already present)
+Index updated: yes
+
+The camera-calibration concept page was previously deferred (concept audit found insufficient vault depth). TVCalib now provides the dedicated deep treatment needed, joining SoccerNet-v2, GSR baseline, and Constructor Tech pipeline as the 4th paper with significant calibration content.
+

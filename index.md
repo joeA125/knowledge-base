@@ -69,6 +69,7 @@ A catalog of all wiki pages, organised by type.
 - [[dilated-convolution]] — Convolution with dilation factor for exponential receptive field growth
 - [[semantic-segmentation]] — Per-pixel image classification into semantic categories
 - [[game-state-reconstruction]] — End-to-end athlete tracking, identification, and pitch localisation from broadcast video
+- [[camera-calibration]] — Estimating camera parameters from broadcast sports video using field geometry
 - [[chain-of-thought]] — Eliciting multi-step reasoning via intermediate natural language steps in few-shot prompts
 - [[react]] — Synergising reasoning traces and task-specific actions in an agentic LLM loop
 - [[rlhf]] — Aligning LLMs with human intent via reward modelling and policy optimisation
@@ -122,3 +123,4 @@ A catalog of all wiki pages, organised by type.
 - [[synergising-reasoning-acting-llms]] — Summary of "ReAct: Synergizing Reasoning and Acting in LLMs" (Yao et al., 2023)
 - [[training-lm-follow-instructions-with-human-feedback]] — Summary of "InstructGPT: Training LMs to Follow Instructions with Human Feedback" (Ouyang et al., 2022)
 - [[rag-intense-nlp-tasks]] — Summary of "RAG for Knowledge-Intensive NLP Tasks" (Lewis et al., 2020)
+- [[tvcalib-camera-calibration-football]] — Summary of "TVCalib: Camera Calibration for Sports Field Registration" (Theiner & Ewerth, 2023)
