@@ -1,7 +1,7 @@
 ---
 title: "From Broadcast to Minimap: SOTA SoccerNet Game State Reconstruction — Source Summary"
 type: source_summary
-tags: [computer-vision, deep-learning, sports-analytics, multi-object-tracking, camera-calibration]
+tags: [computer-vision, deep-learning, sports-analytics, multi-object-tracking, camera-calibration, object-detection]
 sources: [raw/papers/soccernet-game-state-reconstruction-improvement.md]
 confidence: 0.95
 provenance:
@@ -10,7 +10,7 @@ provenance:
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-05-26
-updated: 2026-05-26
+updated: 2026-06-18
 ---
 
 # From Broadcast to Minimap: SOTA SoccerNet Game State Reconstruction
@@ -27,7 +27,7 @@ Presents the winning pipeline for the SoccerNet [[game-state-reconstruction]] Ch
 
 ### 1. Raw Tracking (real-time, 80 FPS on RTX 3080Ti)
 - **Detection:** Fine-tuned YOLOv5m.
-- **Camera parameters:** Custom SegFormer encoder-decoder predicting 7 params (x, y, z, pan, roll, tilt, FoV) with multi-loss training ($L^2_{world} + L^2_{camera} + L^1_{params} + L^2_{heatmap}$).
+- **[[camera-calibration|Camera parameters]]:** Custom SegFormer encoder-decoder predicting 7 params (x, y, z, pan, roll, tilt, FoV) with multi-loss training ($L^2_{world} + L^2_{camera} + L^1_{params} + L^2_{heatmap}$). Replaces [[tvcalib-camera-calibration-football|TVCalib]] from the baseline with direct regression.
 - **Keypoints refinement:** ResNet-18 detecting 74 pitch keypoints; brute-force delta optimisation minimises reprojection error. Savitzky-Golay temporal smoothing.
 - **Jersey number:** Modified ResNet-18 with dual classification heads (leading digit + second digit), trained with BinaryFocalLoss + CrossEntropy.
 - **Feature extraction:** ResNet-50 ReID, OSNet TeamID (111 uniform classes), ResNet-18 orientation (4 classes), anomaly filter.
@@ -45,4 +45,7 @@ Combined real-world (22K images) and synthetic (40K images from Google Research 
 ## See Also
 
 - [[game-state-reconstruction]]
+- [[camera-calibration]]
+- [[homography]]
 - [[soccernet-game-state-reconstruction|Original GSR Paper]]
+- [[tvcalib-camera-calibration-football|TVCalib]]

@@ -215,3 +215,23 @@ Concept coverage gap-fill for the amateur football analytics thesis (Mavrogianni
 Tags updated: yes (added gan, metric-learning, optical-flow, image-alignment, projective-geometry)
 Index updated: yes
 
+## [2026-06-18 12:16] lint | Full vault audit: cross-references, broken wikilinks, and concept coverage across all 29 summaries
+Systematic audit of all 29 source summaries for missing concepts, cross-references, and broken wikilinks.
+
+SUMMARIES UPDATED (10):
+1. attention-is-all-you-need.md — removed 6 broken wikilinks ([[recurrence]], [[convolution]], [[feed-forward-network]], [[adam-optimizer]], [[bert]], [[gpt]]), replaced with plain text or existing links (autoregressive-model, dropout); added See Also links to residual-connections, layer-normalization, label-smoothing, scaling-laws
+2. chain-of-thought-reasoning-llms.md — added [[chain-of-thought]], [[react]], [[rlhf]] to See Also; added Google Brain/Research entity links; added scaling-laws inline link
+3. synergising-reasoning-acting-llms.md — added [[react]], [[chain-of-thought]] to See Also; added entity links; linked CoT concept inline
+4. training-lm-follow-instructions-with-human-feedback.md — added [[rlhf]] inline and to See Also; added [[chain-of-thought]], [[react]], [[retrieval-augmented-generation]]
+5. soccernet-game-state-reconstruction.md — added [[camera-calibration]], [[homography]], [[tvcalib-camera-calibration-football|TVCalib]] inline; added object-detection tag; expanded See Also with concept + summary cross-refs
+6. soccernet-game-state-reconstruction-improvement.md — added [[camera-calibration]], [[tvcalib-camera-calibration-football|TVCalib]], [[homography]] inline; added object-detection tag
+7. soccernet-v2-action-spotting.md — added [[camera-calibration]], [[siamese-network]], [[homography]], [[sports-camera-calibration-synthetic-data|Chen & Little]] inline; added metric-learning tag; expanded See Also
+8. detection-tracking-football-broadcast-footage.md — added [[feature-pyramid-network]], [[camera-calibration]] inline; cross-linked to Mavrogiannis, CV review; noted ball detection consistency with review
+9. rag-intense-nlp-tasks.md — added [[chain-of-thought]], [[react]], [[autogressive-language-model-retrieval-iterative|ITER-RETGEN]] cross-refs in Impact; expanded See Also
+10. (implicit) amateur-football-analytics-computer-vision.md already had good cross-refs from creation
+
+CONCEPT PAGES UPDATED (1):
+1. game-state-reconstruction.md — added 5th source (Mavrogiannis thesis); expanded Sub-Tasks with inline links to homography, camera-calibration, siamese-network, optical-flow, enhanced-correlation-coefficient, feature-pyramid-network, conditional-gan; added Court Detection section; added Accessibility section; updated See Also with all new concept links
+
+NO NEW CONCEPTS NEEDED — the previous gap-fill (homography, siamese-network, optical-flow, ECC, conditional-gan, FPN) covered the remaining substantive gaps. Remaining unlinked items (CLIP, UMAP, ByteTrack, DeepSORT, BART, DPR) are specific tools/models not covered in enough vault depth to warrant pages.
+

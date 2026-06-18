@@ -10,7 +10,7 @@ provenance:
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-18
 ---
 
 # Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks
@@ -21,7 +21,7 @@ updated: 2026-06-10
 
 ## Key Contribution
 
-Introduces RAG (Retrieval-Augmented Generation), the first general-purpose fine-tuning approach that combines a pre-trained parametric model (BART) with a non-parametric memory (Dense Passage Retrieval over Wikipedia) for knowledge-intensive NLP tasks. The retriever and generator are jointly fine-tuned end-to-end.
+Introduces RAG ([[retrieval-augmented-generation]]), the first general-purpose fine-tuning approach that combines a pre-trained parametric model (BART) with a non-parametric memory (Dense Passage Retrieval over Wikipedia) for knowledge-intensive NLP tasks. The retriever and generator are jointly fine-tuned end-to-end.
 
 ## Two RAG Variants
 
@@ -38,9 +38,12 @@ Introduces RAG (Retrieval-Augmented Generation), the first general-purpose fine-
 
 ## Impact
 
-The RAG paper established the paradigm of combining retrieval with generation that became foundational to modern [[retrieval-augmented-generation]] systems, influencing RETRO, REALM, and the broader RAG ecosystem.
+The RAG paper established the paradigm of combining retrieval with generation that became foundational to modern [[retrieval-augmented-generation]] systems, influencing RETRO, REALM, and the broader RAG ecosystem. Later work extended RAG with [[chain-of-thought|chain-of-thought reasoning]] ([[react|ReAct]]) and iterative retrieval-generation loops ([[autogressive-language-model-retrieval-iterative|ITER-RETGEN]]).
 
 ## See Also
 
 - [[retrieval-augmented-generation]]
+- [[react]]
+- [[chain-of-thought]]
 - [[transformer]]
+- [[scaling-laws]]

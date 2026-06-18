@@ -1,7 +1,7 @@
 ---
 title: "SoccerNet Game State Reconstruction — Source Summary"
 type: source_summary
-tags: [computer-vision, deep-learning, sports-analytics, multi-object-tracking, camera-calibration]
+tags: [computer-vision, deep-learning, sports-analytics, multi-object-tracking, camera-calibration, object-detection]
 sources: [raw/papers/soccernet-game-state-reconstruction.md]
 confidence: 0.95
 provenance:
@@ -10,7 +10,7 @@ provenance:
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-05-26
-updated: 2026-05-26
+updated: 2026-06-18
 ---
 
 # SoccerNet Game State Reconstruction
@@ -33,7 +33,9 @@ Extends HOTA with: (1) LocSim — Gaussian kernel on Euclidean pitch distance ($
 
 ## Baseline Pipeline (GSR-Baseline)
 
-YOLOv8 detection → StrongSORT tracking → PRTreID for role/team-aware embeddings → TVCalib for pitch localisation and camera calibration → MMOCR for jersey number recognition → majority voting for tracklet consistency → K-means for team affiliation.
+YOLOv8 detection → StrongSORT tracking → PRTreID for role/team-aware embeddings → [[tvcalib-camera-calibration-football|TVCalib]] for pitch localisation and [[camera-calibration]] → MMOCR for jersey number recognition → majority voting for tracklet consistency → K-means for team affiliation.
+
+The pipeline relies on [[homography]] estimation to map image-space detections to pitch coordinates, making camera calibration the critical link between detection and localisation.
 
 ## Results
 
@@ -42,4 +44,8 @@ Full GS-HOTA on test: **22.26%**. Jersey number recognition is the biggest bottl
 ## See Also
 
 - [[game-state-reconstruction]]
+- [[camera-calibration]]
+- [[homography]]
+- [[tvcalib-camera-calibration-football|TVCalib]]
 - [[soccernet-game-state-reconstruction-improvement|SOTA Improvement]]
+- [[amateur-football-analytics-computer-vision|Mavrogiannis Thesis]]

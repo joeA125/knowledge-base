@@ -10,18 +10,18 @@ provenance:
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-18
 ---
 
 # Chain-of-Thought Prompting Elicits Reasoning in Large Language Models
 
 **Authors:** Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter, Fei Xia, Ed H. Chi, Quoc V. Le, Denny Zhou
-**Affiliation:** Google Research, Brain Team
+**Affiliation:** [[google-brain]], [[google-research]]
 **Published:** 2022 (NeurIPS 2022)
 
 ## Key Contribution
 
-Introduces chain-of-thought (CoT) prompting — augmenting few-shot exemplars with intermediate natural language reasoning steps — which dramatically improves LLM performance on arithmetic, commonsense, and symbolic reasoning tasks. CoT is an emergent ability that only appears at ~100B+ parameters.
+Introduces [[chain-of-thought]] (CoT) prompting — augmenting few-shot exemplars with intermediate natural language reasoning steps — which dramatically improves LLM performance on arithmetic, commonsense, and symbolic reasoning tasks. CoT is an emergent ability that only appears at ~100B+ parameters.
 
 ## Key Results
 
@@ -31,7 +31,7 @@ Introduces chain-of-thought (CoT) prompting — augmenting few-shot exemplars wi
 
 ## Three Key Findings
 
-1. **Emergent ability of scale:** CoT hurts performance for models <10B; only yields gains at ~100B+.
+1. **Emergent ability of scale:** CoT hurts performance for models <10B; only yields gains at ~100B+. Related to [[scaling-laws]].
 2. **Larger gains on harder problems:** GSM8K (multi-step) sees 3× improvement; single-step MAWPS subsets see minimal gains.
 3. **Robust to prompt variation:** Different annotators, exemplar sets, and exemplar orderings all outperform standard prompting by a large margin.
 
@@ -43,5 +43,8 @@ Introduces chain-of-thought (CoT) prompting — augmenting few-shot exemplars wi
 
 ## See Also
 
+- [[chain-of-thought]]
+- [[react]]
+- [[rlhf]]
 - [[scaling-laws]]
 - [[retrieval-augmented-generation]]

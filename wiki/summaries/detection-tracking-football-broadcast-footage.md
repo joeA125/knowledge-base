@@ -10,7 +10,7 @@ provenance:
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-05-26
-updated: 2026-05-26
+updated: 2026-06-18
 ---
 
 # A Computer Vision Framework for Multi-Class Detection and Tracking in Soccer Broadcast Footage
@@ -24,7 +24,9 @@ Develops and evaluates an accessible single-camera pipeline for detecting and tr
 
 ## Pipeline
 
-YOLOv8s (fine-tuned, 1280×1280 input) → CLIP embeddings for appearance → UMAP dimensionality reduction → K-Means team clustering → ByteTrack for temporal association.
+YOLOv8s (fine-tuned, 1280×1280 input, uses [[feature-pyramid-network]] for multi-scale detection) → CLIP embeddings for appearance → UMAP dimensionality reduction → K-Means team clustering → ByteTrack for temporal association.
+
+Unlike the [[soccernet-game-state-reconstruction|GSR baseline]] and [[amateur-football-analytics-computer-vision|Mavrogiannis thesis]], this pipeline does not include [[camera-calibration]] — all analysis is in image space rather than pitch coordinates.
 
 ## Results (mAP@0.5)
 
@@ -36,7 +38,7 @@ YOLOv8s (fine-tuned, 1280×1280 input) → CLIP embeddings for appearance → UM
 | Ball | 0.914 | 0.511 | 0.616 | 0.296 |
 | **All** | **0.884** | **0.828** | **0.871** | **0.583** |
 
-Ball detection is the primary weakness (high precision but low recall due to small size, rapid motion, and frequent occlusion).
+Ball detection is the primary weakness (high precision but low recall due to small size, rapid motion, and frequent occlusion) — consistent with findings across the [[computer-vision-football-review|CV football review]].
 
 ## Limitations
 
@@ -47,3 +49,7 @@ Ball detection is the primary weakness (high precision but low recall due to sma
 ## See Also
 
 - [[game-state-reconstruction]]
+- [[feature-pyramid-network]]
+- [[camera-calibration]]
+- [[amateur-football-analytics-computer-vision|Mavrogiannis Thesis]]
+- [[computer-vision-football-review|CV Review]]

@@ -10,7 +10,7 @@ provenance:
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-05-07
-updated: 2026-05-07
+updated: 2026-06-18
 ---
 
 # Attention Is All You Need
@@ -21,14 +21,14 @@ updated: 2026-05-07
 
 ## Key Contribution
 
-This paper introduces the [[transformer]], the first sequence transduction model built entirely on [[attention-mechanism]]s, eliminating [[recurrence]] and [[convolution]] altogether. The architecture relies on [[multi-head-attention]] and [[positional-encoding]] to process sequences in parallel, enabling dramatically faster training with superior results.
+This paper introduces the [[transformer]], the first sequence transduction model built entirely on [[attention-mechanism]]s, eliminating recurrence and convolution altogether. The architecture relies on [[multi-head-attention]] and [[positional-encoding]] to process sequences in parallel, enabling dramatically faster training with superior results.
 
 ## Architecture Overview
 
 The [[transformer]] follows an [[encoder-decoder]] structure:
 
-- **Encoder:** 6 identical layers, each containing a [[multi-head-attention]] sub-layer and a position-wise [[feed-forward-network]], with [[residual-connections]] and [[layer-normalization]] around each.
-- **Decoder:** 6 identical layers with an additional masked [[multi-head-attention]] sub-layer for autoregressive generation, plus cross-attention over encoder output.
+- **Encoder:** 6 identical layers, each containing a [[multi-head-attention]] sub-layer and a position-wise feed-forward network (two linear transformations with ReLU), with [[residual-connections]] and [[layer-normalization]] around each.
+- **Decoder:** 6 identical layers with an additional masked [[multi-head-attention]] sub-layer for [[autoregressive-model|autoregressive]] generation, plus cross-attention over encoder output.
 - **Attention:** [[scaled-dot-product-attention]] computes $\text{softmax}(QK^T / \sqrt{d_k})V$. Multi-head attention runs $h=8$ parallel heads with $d_k = d_v = 64$.
 - **Positional Encoding:** Sinusoidal functions inject sequence order information, allowing the model to generalise to unseen sequence lengths.
 - **Embedding sharing:** Input/output embeddings and the pre-softmax linear layer share the same weight matrix.
@@ -51,7 +51,7 @@ The paper argues self-attention is superior to recurrence and convolution on thr
 
 ## Training Details
 
-- Optimizer: [[adam-optimizer]] with custom warmup schedule ($\text{warmup\_steps} = 4000$).
+- Optimizer: Adam with custom warmup schedule ($\text{warmup\_steps} = 4000$).
 - Regularisation: [[dropout]] ($P_{drop} = 0.1$), [[label-smoothing]] ($\epsilon_{ls} = 0.1$).
 - Hardware: 8 NVIDIA P100 GPUs; base model trained in ~12 hours (100K steps).
 
@@ -59,12 +59,12 @@ The paper argues self-attention is superior to recurrence and convolution on thr
 
 - Single attention head hurts performance (−0.9 BLEU); too many heads (32) also degrades slightly.
 - Reducing $d_k$ hurts quality, suggesting dot-product compatibility needs sufficient dimensionality.
-- Bigger models perform better; dropout is essential for avoiding overfitting.
+- Bigger models perform better; [[dropout]] is essential for avoiding overfitting.
 - Learned positional embeddings perform nearly identically to sinusoidal encodings.
 
 ## Impact
 
-This paper is one of the most cited in deep learning history. The Transformer architecture became the foundation for [[bert]], [[gpt]], and virtually all modern large language models, fundamentally reshaping NLP and eventually computer vision, speech, and other domains.
+This paper is one of the most cited in deep learning history. The [[transformer]] architecture became the foundation for BERT, GPT, and virtually all modern large language models, fundamentally reshaping NLP and eventually computer vision, speech, and other domains.
 
 ## See Also
 
@@ -74,3 +74,7 @@ This paper is one of the most cited in deep learning history. The Transformer ar
 - [[scaled-dot-product-attention]]
 - [[positional-encoding]]
 - [[encoder-decoder]]
+- [[residual-connections]]
+- [[layer-normalization]]
+- [[label-smoothing]]
+- [[scaling-laws]]

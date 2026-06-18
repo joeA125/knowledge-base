@@ -10,7 +10,7 @@ provenance:
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-18
 ---
 
 # Training Language Models to Follow Instructions with Human Feedback (InstructGPT)
@@ -21,7 +21,7 @@ updated: 2026-06-10
 
 ## Key Contribution
 
-Introduces InstructGPT, which aligns GPT-3 with human intent using a three-step process: (1) supervised fine-tuning (SFT) on human-written demonstrations, (2) training a reward model (RM) on human preference rankings, and (3) optimising the SFT model against the RM using Proximal Policy Optimization (PPO) — the RLHF pipeline.
+Introduces InstructGPT, which aligns GPT-3 with human intent using the [[rlhf]] (Reinforcement Learning from Human Feedback) pipeline: (1) supervised fine-tuning (SFT) on human-written demonstrations, (2) training a reward model (RM) on human preference rankings, and (3) optimising the SFT model against the RM using Proximal Policy Optimization (PPO).
 
 ## Method (Three Steps)
 
@@ -41,5 +41,8 @@ InstructGPT / RLHF became the standard alignment technique for LLMs, directly in
 
 ## See Also
 
+- [[rlhf]]
+- [[chain-of-thought]]
+- [[react]]
 - [[scaling-laws]]
-- [[chain-of-thought-reasoning-llms|Chain-of-Thought Prompting]]
+- [[retrieval-augmented-generation]]

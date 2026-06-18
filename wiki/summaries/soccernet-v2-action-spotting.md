@@ -1,7 +1,7 @@
 ---
 title: "Camera Calibration and Player Localization in SoccerNet-v2 for Action Spotting — Source Summary"
 type: source_summary
-tags: [computer-vision, deep-learning, sports-analytics, camera-calibration, action-spotting]
+tags: [computer-vision, deep-learning, sports-analytics, camera-calibration, action-spotting, metric-learning]
 sources: [raw/papers/soccernet-v2-action-spotting.md]
 confidence: 0.95
 provenance:
@@ -10,7 +10,7 @@ provenance:
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-05-26
-updated: 2026-05-26
+updated: 2026-06-18
 ---
 
 # Camera Calibration and Player Localization in SoccerNet-v2
@@ -21,11 +21,11 @@ updated: 2026-05-26
 
 ## Key Contribution
 
-Distills a commercial camera calibration tool (EVS Xeebra) into a neural network (CCBV-SN) on 12,000 frames from SoccerNet's 500 games — the largest public soccer calibration dataset. Releases calibration estimates, player localisations, and the trained network. Proposes three calibration data representations and achieves SOTA on SoccerNet-v2 action spotting (Average-mAP **46.8%**).
+Distills a commercial [[camera-calibration]] tool (EVS Xeebra) into a neural network (CCBV-SN) on 12,000 frames from SoccerNet's 500 games — the largest public soccer calibration dataset. Releases calibration estimates, player localisations, and the trained network. Proposes three calibration data representations and achieves SOTA on SoccerNet-v2 action spotting (Average-mAP **46.8%**).
 
 ## Calibration (CCBV-SN)
 
-Based on the CCBV architecture (Sha et al., 2020): dictionary of synthetic field templates → zone segmentation (U-Net) → Siamese network for rough homography lookup → Spatial Transform Network for refinement. Student trained on 12K pseudo-ground-truth calibrations from the commercial teacher. Achieves 88.5% IoU (part) on World Cup 2014 without any fine-tuning on that dataset.
+Based on the [[sports-camera-calibration-synthetic-data|CCBV architecture (Chen & Little, 2019)]]: dictionary of synthetic field templates → zone segmentation (U-Net) → [[siamese-network]] for rough [[homography]] lookup → Spatial Transform Network for refinement. Student trained on 12K pseudo-ground-truth calibrations from the commercial teacher. Achieves 88.5% IoU (part) on World Cup 2014 without any fine-tuning on that dataset.
 
 ## Three Representations of Calibrated Data
 
@@ -39,5 +39,10 @@ Split 17 SoccerNet-v2 classes into "patterned" (8 classes: penalty, kick-off, co
 
 ## See Also
 
+- [[camera-calibration]]
+- [[homography]]
+- [[siamese-network]]
 - [[game-state-reconstruction]]
+- [[tvcalib-camera-calibration-football|TVCalib]]
+- [[sports-camera-calibration-synthetic-data|Chen & Little]]
 - [[soccernet-game-state-reconstruction|GSR Paper]]
