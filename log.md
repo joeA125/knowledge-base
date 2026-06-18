@@ -193,3 +193,25 @@ Index updated: yes
 
 This paper is a key baseline referenced in TVCalib (as "Chen and Little [6]") and CCBV-SN. Its 3-free-parameter camera pose engine insight is foundational to the sports calibration field.
 
+## [2026-06-15 17:50] ingest | Amateur Football Analytics Using Computer Vision (Mavrogiannis, 2021)
+Source: raw/papers/amateur_footbal_analytics_computer_vision.md
+Pages created: 1 (source summary: amateur-football-analytics-computer-vision)
+Pages updated: 0
+Tags updated: no (all tags already present)
+Index updated: yes
+
+MSc thesis — end-to-end prototype for amateur football analytics. Integrates dual-GAN court detection, FootAndBall detector (198K params), Chen & Little Siamese camera retrieval, ECC camera tracking, HSV histogram team classification, and LK optical flow tracking. 2.5–3 FPS on consumer laptop. No new concepts warranted (applied systems integration of existing methods).
+
+## [2026-06-18 11:51] lint | Concept gap-fill: homography, siamese-network, optical-flow, ECC, conditional-gan, FPN
+Concept coverage gap-fill for the amateur football analytics thesis (Mavrogiannis, 2021) and the broader sports CV cluster. Created 6 new concept pages:
+
+1. wiki/concepts/homography.md — 3×3 projective transformation; role in sports field registration; relation to camera parameters; planar assumption limitation. Referenced across 5+ vault papers.
+2. wiki/concepts/siamese-network.md — Twin-branch metric learning; contrastive loss; 16-d compact embeddings; used in Chen & Little, Mavrogiannis, CCBV-SN. Referenced across 3 vault papers.
+3. wiki/concepts/optical-flow.md — Motion estimation; pyramidal Lucas-Kanade; use in object tracking (0.02s for 15 players) and camera tracking; comparison with detection-based trackers. Referenced across 2+ vault papers.
+4. wiki/concepts/enhanced-correlation-coefficient.md — Photometric-invariant image alignment; distance transformation preprocessing; dual-phase use (1000-iter estimation, 50-iter tracking); comparison with LK. Referenced across 2 vault papers.
+5. wiki/concepts/conditional-gan.md — Pix2Pix cGAN for image-to-image translation; U-Net generator + PatchGAN discriminator; dual-cGAN court detection pipeline; training details. Referenced across 2 vault papers.
+6. wiki/concepts/feature-pyramid-network.md — Multi-scale feature fusion via top-down pathway + lateral connections; FootAndBall detector (198K params); implicit use in YOLO v3+. Referenced across 2+ vault papers.
+
+Tags updated: yes (added gan, metric-learning, optical-flow, image-alignment, projective-geometry)
+Index updated: yes
+

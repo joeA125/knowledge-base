@@ -70,6 +70,12 @@ A catalog of all wiki pages, organised by type.
 - [[semantic-segmentation]] — Per-pixel image classification into semantic categories
 - [[game-state-reconstruction]] — End-to-end athlete tracking, identification, and pitch localisation from broadcast video
 - [[camera-calibration]] — Estimating camera parameters from broadcast sports video using field geometry
+- [[homography]] — 3×3 projective transformation mapping points between planes
+- [[siamese-network]] — Twin-branch architecture for metric learning and similarity retrieval
+- [[optical-flow]] — Motion estimation between consecutive frames (Lucas-Kanade, pyramidal)
+- [[enhanced-correlation-coefficient]] — Photometric-invariant iterative image alignment for camera tracking
+- [[conditional-gan]] — GAN conditioned on input for image-to-image translation (Pix2Pix)
+- [[feature-pyramid-network]] — Multi-scale feature fusion for detecting objects at different sizes
 - [[chain-of-thought]] — Eliciting multi-step reasoning via intermediate natural language steps in few-shot prompts
 - [[react]] — Synergising reasoning traces and task-specific actions in an agentic LLM loop
 - [[rlhf]] — Aligning LLMs with human intent via reward modelling and policy optimisation
@@ -125,3 +131,4 @@ A catalog of all wiki pages, organised by type.
 - [[rag-intense-nlp-tasks]] — Summary of "RAG for Knowledge-Intensive NLP Tasks" (Lewis et al., 2020)
 - [[tvcalib-camera-calibration-football]] — Summary of "TVCalib: Camera Calibration for Sports Field Registration" (Theiner & Ewerth, 2023)
 - [[sports-camera-calibration-synthetic-data]] — Summary of "Sports Camera Calibration via Synthetic Data" (Chen & Little, 2019)
+- [[amateur-football-analytics-computer-vision]] — Summary of "Amateur Football Analytics Using Computer Vision" (Mavrogiannis, 2021)

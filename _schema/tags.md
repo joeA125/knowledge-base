@@ -51,10 +51,15 @@ here first with a brief description.
 - `neural-computation` — neural networks that learn algorithms and program-like behaviour
 - `scaling-laws` — power-law relationships between performance and scale (model size, data, compute)
 - `generative-model` — models that learn to generate data (VAEs, GANs, autoregressive, diffusion)
+- `gan` — generative adversarial networks and variants (cGAN, Pix2Pix, CycleGAN, etc.)
 - `vae` — variational autoencoders and related latent variable models
 - `autoregressive-model` — models that factorise distributions via chain rule (PixelCNN, RNN LMs, Transformers)
 - `representation-learning` — learning useful data representations for downstream tasks
 - `density-estimation` — estimating probability distributions from data
+- `metric-learning` — learning distance functions or embeddings for similarity/retrieval (Siamese, triplet loss)
+- `optical-flow` — estimating motion fields between consecutive frames (Lucas-Kanade, FlowNet, etc.)
+- `image-alignment` — registering or aligning images via geometric or intensity-based methods (ECC, LK warp)
+- `projective-geometry` — homographies, epipolar geometry, and camera projection models
 - `prompt-engineering` — designing or retrieving prompts to guide LLM behaviour
 - `zero-shot-learning` — performing tasks without task-specific training examples
 - `knowledge-intensive` — tasks requiring factual, domain, or world knowledge beyond the input
