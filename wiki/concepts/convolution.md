@@ -15,7 +15,7 @@ updated: 2026-07-07
 
 # Convolution
 
-Convolution is an operation that slides a small learnable filter (kernel) over an input signal, computing a weighted sum at each position to produce a feature map. It is the core building block of convolutional neural networks (CNNs), which dominate [[computer-vision]] and also appear in sequence modelling.
+Convolution is an operation that slides a small learnable filter (kernel) over an input signal, computing a weighted sum at each position to produce a feature map. It is the core building block of convolutional neural networks (CNNs), which dominate computer vision and also appear in sequence modelling.
 
 ## Properties
 

@@ -30,7 +30,7 @@ The pretrained encoder is then fine-tuned with a small task-specific head for do
 
 ## Significance
 
-BERT is one of the archetypal demonstrations that a single [[transformer]]-based model, pretrained at scale, can be adapted to many [[language-modelling]] and NLP tasks — a paradigm that reshaped the field alongside the [[gpt|GPT]] line of decoder models.
+BERT is one of the archetypal demonstrations that a single [[transformer]]-based model, pretrained at scale, can be adapted to many language-modelling and NLP tasks — a paradigm that reshaped the field alongside the [[gpt|GPT]] line of decoder models.
 
 ## See Also
 

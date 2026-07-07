@@ -15,7 +15,7 @@ updated: 2026-07-07
 
 # Object Detection
 
-Object detection is the computer-vision task of locating and classifying objects within an image, typically by predicting a bounding box and a class label for each instance. It combines localisation (where) with classification (what), and is the foundation of downstream tasks like [[multi-object-tracking|tracking]] and [[game-state-reconstruction]].
+Object detection is the computer-vision task of locating and classifying objects within an image, typically by predicting a bounding box and a class label for each instance. It combines localisation (where) with classification (what), and is the foundation of downstream tasks like tracking and [[game-state-reconstruction]].
 
 ## Families of Detectors
 

@@ -8,12 +8,16 @@ provenance:
   extracted: 85%
   inferred: 10%
   ambiguous: 5%
-lifecycle: reviewed
+lifecycle: archived
 created: 2026-05-08
-updated: 2026-05-08
+updated: 2026-07-07
 ---
 
 # Recurrent Dropout
+
+> **Archived duplicate.** This page describes the same concept and draws on the same source (Zaremba et al., 2014) as [[dropout-for-rnns]], which is now the canonical page. Its unique formulation has been merged there. Kept for history; intentionally has no inbound links.
+
+---
 
 Recurrent dropout is the technique of applying [[dropout]] only to the non-recurrent (inter-layer) connections in an RNN, while leaving the recurrent (temporal) connections untouched. Introduced by [[rnn-regularisation|Zaremba et al. (2014)]] (and independently by Pham et al., 2013).
 
@@ -35,6 +39,6 @@ This technique enabled training much larger LSTMs (e.g. 1500 units per layer vs 
 
 ## See Also
 
+- [[dropout-for-rnns]] — canonical page
 - [[dropout]]
 - [[lstm]]
-- [[gated-recurrent-unit]]

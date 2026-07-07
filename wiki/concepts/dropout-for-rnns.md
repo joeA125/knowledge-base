@@ -10,7 +10,7 @@ provenance:
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-05-08
-updated: 2026-05-08
+updated: 2026-07-07
 ---
 
 # Dropout for RNNs
@@ -25,6 +25,12 @@ Applying dropout to recurrent connections amplifies noise over time, destroying 
 
 In a deep LSTM with $L$ layers, dropout is applied to $h_t^{l-1}$ (input from the layer below) but not to $h_{t-1}^l$ (recurrent state). This ensures information flowing through the network is corrupted by dropout exactly $L + 1$ times, regardless of how many time steps the information traverses.
 
+## Formulation
+
+Concretely, the dropout operator $\mathbf{D}$ is applied to the input from the layer below within the LSTM gate computation, leaving the recurrent state untouched:
+
+$$T_{2n,4n} \begin{pmatrix} \mathbf{D}(h_t^{l-1}) \\ h_{t-1}^l \end{pmatrix}$$
+
 ## Effect
 
 This approach enables training much larger LSTMs without overfitting. On Penn Treebank language modelling, a large regularised LSTM (1500 units) with 65% dropout achieved 78.4 test perplexity, far outperforming a non-regularised LSTM (200 units) at 114.5 perplexity.
@@ -38,5 +44,10 @@ This approach enables training much larger LSTMs without overfitting. On Penn Tr
 ## See Also
 
 - [[dropout]]
+- [[regularization]]
 - [[lstm]]
 - [[rnn-regularisation|Source Summary]]
+
+---
+
+*Note: this page is the canonical home for the "recurrent dropout" concept. The former `recurrent-dropout` page was an archived duplicate merged here on 2026-07-07.*
