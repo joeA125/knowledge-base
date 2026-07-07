@@ -235,3 +235,9 @@ CONCEPT PAGES UPDATED (1):
 
 NO NEW CONCEPTS NEEDED — the previous gap-fill (homography, siamese-network, optical-flow, ECC, conditional-gan, FPN) covered the remaining substantive gaps. Remaining unlinked items (CLIP, UMAP, ByteTrack, DeepSORT, BART, DPR) are specific tools/models not covered in enough vault depth to warrant pages.
 
+## [2026-07-07 10:04] lint | Knowledge base lint run
+Broken wikilinks: 18 distinct missing pages (11 genuine concept gaps, 7 doc/citation false positives). Orphan pages: 5. Stale pages: 0. Unprocessed sources: 0.
+
+## [2026-07-07 10:19] writeback | Flesh out 11 missing concept pages from lint
+Created 11 concept pages to resolve dead links: feed-forward-network, recurrence, convolution, adam-optimizer (from attention-is-all-you-need); combinatorial-optimisation (pointer-networks); gaussian-density-filtering (trueskill); image-alignment (camera-calibration sources); object-detection (football CV sources); regularization (rnn-regularisation + transformer). bert and gpt created as stubs (needs-review, confidence 0.45, no primary source ingested). Updated index.md with all 11 entries. Tags all drawn from existing taxonomy; none added.
+

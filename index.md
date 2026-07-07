@@ -92,6 +92,17 @@ A catalog of all wiki pages, organised by type.
 - [[expectation-propagation]] — Approximate inference via iterative moment matching
 - [[bayesian-inference]] — Updating beliefs with data via Bayes' theorem
 - [[bayes-theorem]] — Fundamental rule relating conditional and marginal probabilities
+- [[feed-forward-network]] — Position-wise feed-forward sub-layer in the Transformer
+- [[recurrence]] — Sequential hidden-state processing underlying RNNs
+- [[convolution]] — Sliding-kernel operation underlying CNNs
+- [[adam-optimizer]] — Adaptive-moment gradient optimiser with warmup schedule in the Transformer
+- [[combinatorial-optimisation]] — Learning approximate solutions to discrete optimisation problems
+- [[gaussian-density-filtering]] — Online Gaussian approximate inference (ADF) used by TrueSkill
+- [[image-alignment]] — Registering images via feature-based or direct (LK/ECC) methods
+- [[object-detection]] — Locating and classifying objects in images
+- [[regularization]] — Techniques improving generalisation (dropout, label smoothing, weight decay)
+- [[bert]] — Bidirectional Transformer encoder for language representation (stub, needs source)
+- [[gpt]] — Autoregressive Transformer decoder language model family (stub, needs source)
 
 ## Syntheses
 
