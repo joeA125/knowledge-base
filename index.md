@@ -25,7 +25,7 @@ A catalog of all wiki pages, organised by type.
 - [[meire-fortunato]] — Researcher, co-author of Pointer Networks
 - [[navdeep-jaitly]] — Researcher, co-author of Pointer Networks
 - [[wojciech-zaremba]] — Researcher, first author of RNN Regularization paper
-- [[ilya-sutskever]] — Researcher, co-author of RNN Regularization, seq2seq learning, and VLAE
+- [[ilya-sutskever]] — Researcher, co-author of RNN Regularization, seq2seq, VLAE, and GPT
 - [[kaiming-he]] — Researcher, lead author of ResNet and identity mappings papers
 - [[xiangyu-zhang]] — Researcher, co-author of ResNet papers
 - [[shaoqing-ren]] — Researcher, co-author of ResNet papers
@@ -39,7 +39,7 @@ A catalog of all wiki pages, organised by type.
 - [[sam-mccandlish]] — Researcher, co-lead author of Scaling Laws paper
 - [[dario-amodei]] — Researcher, co-author of Scaling Laws paper
 - [[diederik-kingma]] — Researcher, co-creator of VAE, co-author of VLAE
-- [[openai]] — AI research organisation
+- [[openai]] — AI research organisation (GPT, InstructGPT, Scaling Laws, VLAE)
 - [[google-brain]] — AI research team at Google
 - [[google-deepmind]] — AI research lab (London), developed NTMs
 - [[google-research]] — Research division of Google
@@ -81,6 +81,8 @@ A catalog of all wiki pages, organised by type.
 - [[enhanced-correlation-coefficient]] — Photometric-invariant iterative image alignment for camera tracking
 - [[conditional-gan]] — GAN conditioned on input for image-to-image translation (Pix2Pix)
 - [[feature-pyramid-network]] — Multi-scale feature fusion for detecting objects at different sizes
+- [[masked-language-model]] — Predicting masked tokens from bidirectional context (BERT-style pre-training)
+- [[pre-train-then-fine-tune]] — Two-stage paradigm: self-supervised pre-training then task-specific fine-tuning
 - [[chain-of-thought]] — Eliciting multi-step reasoning via intermediate natural language steps in few-shot prompts
 - [[react]] — Synergising reasoning traces and task-specific actions in an agentic LLM loop
 - [[rlhf]] — Aligning LLMs with human intent via reward modelling and policy optimisation
@@ -106,8 +108,6 @@ A catalog of all wiki pages, organised by type.
 - [[image-alignment]] — Registering images via feature-based or direct (LK/ECC) methods
 - [[object-detection]] — Locating and classifying objects in images
 - [[regularization]] — Techniques improving generalisation (dropout, label smoothing, weight decay)
-- [[bert]] — Bidirectional Transformer encoder for language representation (stub, needs source)
-- [[gpt]] — Autoregressive Transformer decoder language model family (stub, needs source)
 
 ## Syntheses
 
@@ -148,3 +148,5 @@ A catalog of all wiki pages, organised by type.
 - [[tvcalib-camera-calibration-football]] — Summary of "TVCalib: Camera Calibration for Sports Field Registration" (Theiner & Ewerth, 2023)
 - [[sports-camera-calibration-synthetic-data]] — Summary of "Sports Camera Calibration via Synthetic Data" (Chen & Little, 2019)
 - [[amateur-football-analytics-computer-vision]] — Summary of "Amateur Football Analytics Using Computer Vision" (Mavrogiannis, 2021)
+- [[language-understanding-gpt]] — Summary of "Improving Language Understanding by Generative Pre-Training" (Radford et al., 2018)
+- [[bert-bidirectional-transformers]] — Summary of "BERT: Pre-training of Deep Bidirectional Transformers" (Devlin et al., 2019)

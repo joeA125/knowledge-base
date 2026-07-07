@@ -244,3 +244,30 @@ Created 11 concept pages to resolve dead links: feed-forward-network, recurrence
 ## [2026-07-07 10:43] writeback | Resolve orphan pages from lint
 Navigational orphans fixed via hub linking: added Navigation section to index.md linking [[overview]] and the three dashboards ([[health]], [[reinforcement]], [[sources]]); populated overview.md domain map and linked all three dashboards from it. Note: orphan detector credits inbound links by basename, so path-style [[dashboards/x]] links did not register — switched to basename form. recurrent-dropout resolved as a duplicate of canonical [[dropout-for-rnns]]: merged its unique gate-matrix formulation into dropout-for-rnns, set recurrent-dropout lifecycle=archived with a redirect banner (archived duplicate intentionally left linkless). Fixed 3 self-introduced dead links (computer-vision, language-modelling, multi-object-tracking were wikilinked as pages but are tags only) by unlinking to plain text. Remaining orphan: recurrent-dropout (intentional, archived).
 
+## [2026-07-07 11:06] ingest | GPT (Radford et al., 2018) + BERT (Devlin et al., 2019)
+Sources processed (2 papers, foundational LLM pre-training):
+
+1. raw/papers/language_understanding_gpt.md — GPT (Radford et al., 2018): 12-layer decoder-only Transformer, left-to-right LM pre-training on BooksCorpus, task-specific input transformations for fine-tuning. SOTA on 9/12 benchmarks. Established the pre-train→fine-tune paradigm for Transformers.
+
+2. raw/papers/bert-bidirectional-transformers.md — BERT (Devlin et al., 2019): Bidirectional Transformer encoder, masked language model (MLM) + next sentence prediction (NSP) pre-training on BooksCorpus + Wikipedia. BERT_LARGE: 340M params. GLUE 80.5, SQuAD v1.1 93.2 F1, SQuAD v2.0 83.1 F1. Showed bidirectional > unidirectional for understanding tasks.
+
+Pages created: 4 (2 source summaries, 2 concepts)
+- wiki/summaries/language-understanding-gpt.md
+- wiki/summaries/bert-bidirectional-transformers.md
+- wiki/concepts/masked-language-model.md — MLM objective, masking procedure, trade-offs vs autoregressive, variants (RoBERTa, SpanBERT, etc.)
+- wiki/concepts/pre-train-then-fine-tune.md — Two-stage paradigm, GPT→BERT→InstructGPT evolution, why it works, encoder vs decoder approaches
+
+Pages updated: 2
+- wiki/entities/ilya-sutskever.md — added GPT source
+- wiki/entities/openai.md — added GPT and restructured contributions list
+
+Tags updated: yes (added transfer-learning, pre-training, masked-language-model)
+Index updated: yes
+
+## [2026-07-07 11:15] lint | Updated BERT and GPT concept stubs with source-backed content
+Updated 2 existing concept stubs with full source-backed content:
+1. wiki/concepts/bert.md — was stub (confidence 0.45, no sources); now fully populated from raw/papers/bert-bidirectional-transformers.md. Architecture, MLM/NSP pre-training, fine-tuning approach, key results, bidirectionality ablation, impact. Confidence raised to 0.95, stub/needs-review tags removed.
+2. wiki/concepts/gpt.md — was stub (confidence 0.45, no sources); now fully populated from raw/papers/language_understanding_gpt.md. Architecture, LTR pre-training, input transformations, key results, ablation findings, zero-shot behaviour, impact. Confidence raised to 0.95, stub/needs-review tags removed.
+
+Both stubs previously existed because the Transformer summary referenced BERT and GPT as downstream impact. Now properly grounded in ingested source material.
+

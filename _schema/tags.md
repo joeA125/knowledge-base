@@ -60,6 +60,9 @@ here first with a brief description.
 - `optical-flow` — estimating motion fields between consecutive frames (Lucas-Kanade, FlowNet, etc.)
 - `image-alignment` — registering or aligning images via geometric or intensity-based methods (ECC, LK warp)
 - `projective-geometry` — homographies, epipolar geometry, and camera projection models
+- `transfer-learning` — reusing representations learned on one task/dataset for another
+- `pre-training` — unsupervised or self-supervised training on large corpora before task-specific fine-tuning
+- `masked-language-model` — predicting randomly masked tokens from bidirectional context (BERT-style)
 - `prompt-engineering` — designing or retrieving prompts to guide LLM behaviour
 - `zero-shot-learning` — performing tasks without task-specific training examples
 - `knowledge-intensive` — tasks requiring factual, domain, or world knowledge beyond the input
