@@ -39,6 +39,12 @@ A catalog of all wiki pages, organised by type.
 - [[sam-mccandlish]] — Researcher, co-lead author of Scaling Laws paper
 - [[dario-amodei]] — Researcher, co-author of Scaling Laws paper
 - [[diederik-kingma]] — Researcher, co-creator of VAE, co-author of VLAE
+- [[alec-radford]] — Researcher, lead author of GPT (2018)
+- [[jacob-devlin]] — Researcher, lead author of BERT (2019)
+- [[jianhui-chen]] — Researcher, lead author of Sports Camera Calibration via Synthetic Data
+- [[james-little]] — Professor, co-author of Sports Camera Calibration via Synthetic Data
+- [[floriane-magera]] — Researcher, lead author of ProCC camera calibration benchmarking
+- [[marc-van-droogenbroeck]] — Professor, co-author of SoccerNet-v2 action spotting and ProCC
 - [[openai]] — AI research organisation (GPT, InstructGPT, Scaling Laws, VLAE)
 - [[google-brain]] — AI research team at Google
 - [[google-deepmind]] — AI research lab (London), developed NTMs
@@ -73,6 +79,7 @@ A catalog of all wiki pages, organised by type.
 - [[label-smoothing]] — Regularisation technique softening target distributions
 - [[dilated-convolution]] — Convolution with dilation factor for exponential receptive field growth
 - [[semantic-segmentation]] — Per-pixel image classification into semantic categories
+- [[eigenvector]] — Directions preserved under linear transformation; eigenvalues measure scaling
 - [[game-state-reconstruction]] — End-to-end athlete tracking, identification, and pitch localisation from broadcast video
 - [[camera-calibration]] — Estimating camera parameters from broadcast sports video using field geometry
 - [[homography]] — 3×3 projective transformation mapping points between planes
@@ -83,6 +90,9 @@ A catalog of all wiki pages, organised by type.
 - [[enhanced-correlation-coefficient]] — Photometric-invariant iterative image alignment for camera tracking
 - [[conditional-gan]] — GAN conditioned on input for image-to-image translation (Pix2Pix)
 - [[feature-pyramid-network]] — Multi-scale feature fusion for detecting objects at different sizes
+- [[ai-agent]] — Autonomous LLM system that plans, uses tools, and acts iteratively toward goals
+- [[tool-use]] — LLM function calling and interaction with external tools/APIs
+- [[agent-memory]] — Short-term and long-term state management for agent systems
 - [[bert]] — Bidirectional Encoder Representations from Transformers (Devlin et al., 2019)
 - [[gpt]] — Generative Pre-trained Transformer (Radford et al., 2018)
 - [[masked-language-model]] — Predicting masked tokens from bidirectional context (BERT-style pre-training)
@@ -155,3 +165,5 @@ A catalog of all wiki pages, organised by type.
 - [[language-understanding-gpt]] — Summary of "Improving Language Understanding by Generative Pre-Training" (Radford et al., 2018)
 - [[bert-bidirectional-transformers]] — Summary of "BERT: Pre-training of Deep Bidirectional Transformers" (Devlin et al., 2019)
 - [[camera-calibration-benchmarking]] — Summary of "ProCC: A Universal Protocol to Benchmark Camera Calibration for Sports" (Magera et al., 2025)
+- [[ai-agent-architecture-breakdown]] — Summary of "AI Agent Architecture Breakdown" (technical article, 2026)
+- [[eigenvectors-explained]] — Summary of "Eigenvectors Explained" (tutorial article, 2026)

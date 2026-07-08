@@ -286,3 +286,42 @@ Pages updated: 2
 Tags updated: yes (added radial-distortion)
 Index updated: yes (also added bert + gpt concepts that were missing from index)
 
+## [2026-07-08 09:32] ingest | AI Agent Architecture Breakdown (technical article, 2026)
+Source: raw/articles/ai-agent-architecture-breakdown.md — Technical article (2026) on production AI agent architecture: 7-component decomposition (LLM brain, memory, tool interface, planning engine, execution loop, monitoring, security). Distinguishes agents (stateful autonomous loops) from chatbots (stateless request-response). Covers ReAct and CoT planning approaches, deployment patterns (API-first, event-driven, hybrid), and security (prompt injection, least-privilege tool access, cost controls).
+
+Pages created: 4 (1 source summary, 3 concepts)
+- wiki/summaries/ai-agent-architecture-breakdown.md
+- wiki/concepts/ai-agent.md — Agent definition, core loop, planning paradigms (ReAct vs CoT), chatbot comparison table, relation to NTM and RAG
+- wiki/concepts/tool-use.md — Function calling, tool categories (retrieval vs action), security architecture, relation to ReAct actions, practical considerations
+- wiki/concepts/agent-memory.md — Two-layer architecture (short-term/working vs long-term/persistent), vector DB + relational DB, detailed comparison table with Neural Turing Machine memory, relation to RAG
+
+Tags updated: yes (added ai-agent, tool-use; cleaned up radial-distortion placement)
+Index updated: yes
+
+## [2026-07-08 09:38] ingest | Eigenvectors Explained (tutorial article, 2026)
+Source: raw/articles/eigenvectors-explained.md — Tutorial article (2026) explaining eigenvectors from first principles. Covers definition (Av = λv), geometric interpretation (preserved directions under linear transformation), determinant condition for eigenvalues, complete 2×2 worked example, and applications (PCA, image compression, quantum mechanics, structural engineering).
+
+Pages created: 2 (1 source summary, 1 concept)
+- wiki/summaries/eigenvectors-explained.md
+- wiki/concepts/eigenvector.md — Definition, geometric interpretation, finding procedure (characteristic polynomial → null space), key properties (symmetric matrices, positive semi-definiteness), connections to vault concepts: SVD in DLT/homography, PCA in dimensionality reduction, covariance matrices in TrueSkill/EP, attention as weighted combination
+
+Tags updated: yes (added linear-algebra)
+Index updated: yes
+
+Note: tags file needs structural cleanup — linear-algebra tag was appended at end rather than inserted in Domain Tags section.
+
+## [2026-07-08 09:46] lint | Entity gap-fill: 6 missing researcher pages from recent ingests
+Entity gap-fill for recent ingests that neglected entity creation.
+
+Pages created: 6 entity pages
+1. wiki/entities/marc-van-droogenbroeck.md — Professor, University of Liège; co-author of SoccerNet-v2 + ProCC (2 vault sources)
+2. wiki/entities/floriane-magera.md — Researcher, EVS/ULiège; lead author of ProCC, co-author of SoccerNet-v2 (2 vault sources)
+3. wiki/entities/jianhui-chen.md — Researcher, UBC; lead author of Chen & Little sports calibration (referenced in 3+ vault papers)
+4. wiki/entities/james-little.md — Professor, UBC; co-author of Chen & Little sports calibration (referenced in 3+ vault papers)
+5. wiki/entities/jacob-devlin.md — Researcher, Google AI Language; lead author of BERT (1 vault source)
+6. wiki/entities/alec-radford.md — Researcher, OpenAI; lead author of GPT (1 vault source)
+
+Index updated: yes (6 new entities added)
+
+Priority was given to researchers appearing in multiple vault sources (Magera, Van Droogenbroeck, Chen, Little) over single-source authors.
+

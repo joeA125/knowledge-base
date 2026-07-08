@@ -60,6 +60,7 @@ here first with a brief description.
 - `optical-flow` — estimating motion fields between consecutive frames (Lucas-Kanade, FlowNet, etc.)
 - `image-alignment` — registering or aligning images via geometric or intensity-based methods (ECC, LK warp)
 - `projective-geometry` — homographies, epipolar geometry, and camera projection models
+- `radial-distortion` — lens distortion modelling (barrel/pincushion) in camera calibration
 - `transfer-learning` — reusing representations learned on one task/dataset for another
 - `pre-training` — unsupervised or self-supervised training on large corpora before task-specific fine-tuning
 - `masked-language-model` — predicting randomly masked tokens from bidirectional context (BERT-style)
@@ -70,6 +71,8 @@ here first with a brief description.
 - `chain-of-thought` — prompting LLMs to produce intermediate reasoning steps
 - `instruction-tuning` — fine-tuning LMs on instruction-formatted data for better task generalisation
 - `reinforcement-learning` — learning policies via reward signals (includes RLHF for LLM alignment)
+- `ai-agent` — autonomous systems that plan, use tools, and act iteratively toward goals
+- `tool-use` — LLM function calling and interaction with external tools/APIs
 - `cognitive-science` — models of human cognition, psychometrics, and cognitive ability
 - `evaluation` — benchmarking, testing, and measuring AI system capabilities
 - `uncertainty-quantification` — estimating and calibrating model confidence and uncertainty
@@ -106,6 +109,4 @@ here first with a brief description.
 - `synthesis` — cross-source analysis
 - `question` — filed answer or investigation
 - `summary` — filed summary of raw source file
-
-NOTE: Added 2026-07-07
-- `radial-distortion` — lens distortion modelling (barrel/pincushion) in camera calibration
+- `linear-algebra` — vectors, matrices, eigendecomposition, SVD, and related theory
