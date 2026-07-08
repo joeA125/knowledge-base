@@ -271,3 +271,18 @@ Updated 2 existing concept stubs with full source-backed content:
 
 Both stubs previously existed because the Transformer summary referenced BERT and GPT as downstream impact. Now properly grounded in ingested source material.
 
+## [2026-07-08 09:26] ingest | ProCC: Camera Calibration Benchmarking Protocol (Magera et al., 2025)
+Source: raw/papers/camera-calibration-benchmarking.md — ProCC (Magera et al., 2025): Model-agnostic benchmarking protocol for camera calibration in sports. Introduces JaC metric (Jaccard over reprojected field elements). Demonstrates homographies are inadequate: pinhole + radial distortion achieves JaC₅ 92.5 vs 79.1 for best homography annotations on WC14. Disagreement exceeds 2.5m in some regions, failing FIFA's 50cm offside standard.
+
+Pages created: 3 (1 source summary, 2 concepts)
+- wiki/summaries/camera-calibration-benchmarking.md
+- wiki/concepts/radial-distortion.md — lens distortion modelling, ProCC evidence (JaC₅ gap of 13.4), TVCalib distortion experiments, FIFA accuracy implications
+- wiki/concepts/jac-metric.md — model-agnostic Jaccard index, annotation design (semantic polylines vs homographies), threshold interpretation, relation to GS-HOTA
+
+Pages updated: 2
+- wiki/concepts/camera-calibration.md — added "Field Registration ≠ Camera Calibration" distinction, Radial Distortion section, Evaluation section referencing JaC, added ProCC as 6th source, added radial-distortion + evaluation tags
+- wiki/concepts/homography.md — added "Cannot Model Lens Distortion" and "Benchmark Bias" subsections under expanded Limitations, added ProCC as 6th source, added radial-distortion and jac-metric cross-refs
+
+Tags updated: yes (added radial-distortion)
+Index updated: yes (also added bert + gpt concepts that were missing from index)
+

@@ -106,3 +106,6 @@ here first with a brief description.
 - `synthesis` — cross-source analysis
 - `question` — filed answer or investigation
 - `summary` — filed summary of raw source file
+
+NOTE: Added 2026-07-07
+- `radial-distortion` — lens distortion modelling (barrel/pincushion) in camera calibration

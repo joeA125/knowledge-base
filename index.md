@@ -76,11 +76,15 @@ A catalog of all wiki pages, organised by type.
 - [[game-state-reconstruction]] — End-to-end athlete tracking, identification, and pitch localisation from broadcast video
 - [[camera-calibration]] — Estimating camera parameters from broadcast sports video using field geometry
 - [[homography]] — 3×3 projective transformation mapping points between planes
+- [[radial-distortion]] — Lens distortion modelling (barrel/pincushion) in camera calibration
+- [[jac-metric]] — Model-agnostic Jaccard index for evaluating camera calibration (ProCC)
 - [[siamese-network]] — Twin-branch architecture for metric learning and similarity retrieval
 - [[optical-flow]] — Motion estimation between consecutive frames (Lucas-Kanade, pyramidal)
 - [[enhanced-correlation-coefficient]] — Photometric-invariant iterative image alignment for camera tracking
 - [[conditional-gan]] — GAN conditioned on input for image-to-image translation (Pix2Pix)
 - [[feature-pyramid-network]] — Multi-scale feature fusion for detecting objects at different sizes
+- [[bert]] — Bidirectional Encoder Representations from Transformers (Devlin et al., 2019)
+- [[gpt]] — Generative Pre-trained Transformer (Radford et al., 2018)
 - [[masked-language-model]] — Predicting masked tokens from bidirectional context (BERT-style pre-training)
 - [[pre-train-then-fine-tune]] — Two-stage paradigm: self-supervised pre-training then task-specific fine-tuning
 - [[chain-of-thought]] — Eliciting multi-step reasoning via intermediate natural language steps in few-shot prompts
@@ -150,3 +154,4 @@ A catalog of all wiki pages, organised by type.
 - [[amateur-football-analytics-computer-vision]] — Summary of "Amateur Football Analytics Using Computer Vision" (Mavrogiannis, 2021)
 - [[language-understanding-gpt]] — Summary of "Improving Language Understanding by Generative Pre-Training" (Radford et al., 2018)
 - [[bert-bidirectional-transformers]] — Summary of "BERT: Pre-training of Deep Bidirectional Transformers" (Devlin et al., 2019)
+- [[camera-calibration-benchmarking]] — Summary of "ProCC: A Universal Protocol to Benchmark Camera Calibration for Sports" (Magera et al., 2025)
