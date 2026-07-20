@@ -45,6 +45,8 @@ A catalog of all wiki pages, organised by type.
 - [[james-little]] — Professor, co-author of Sports Camera Calibration via Synthetic Data
 - [[floriane-magera]] — Researcher, lead author of ProCC camera calibration benchmarking
 - [[marc-van-droogenbroeck]] — Professor, co-author of SoccerNet-v2 action spotting and ProCC
+- [[tom-decroos]] — Researcher, lead author of SPADL/VAEP (KDD 2019)
+- [[jesse-davis]] — Professor, senior author of SPADL/VAEP (KDD 2019)
 - [[openai]] — AI research organisation (GPT, InstructGPT, Scaling Laws, VLAE)
 - [[google-brain]] — AI research team at Google
 - [[google-deepmind]] — AI research lab (London), developed NTMs
@@ -80,6 +82,13 @@ A catalog of all wiki pages, organised by type.
 - [[dilated-convolution]] — Convolution with dilation factor for exponential receptive field growth
 - [[semantic-segmentation]] — Per-pixel image classification into semantic categories
 - [[eigenvector]] — Directions preserved under linear transformation; eigenvalues measure scaling
+- [[vaep]] — Valuing Actions by Estimating Probabilities for soccer player evaluation
+- [[spadl]] — Soccer Player Action Description Language for unified event stream data
+- [[expected-goals]] — Probability of a shot resulting in a goal (xG)
+- [[markov-game]] — Multi-agent stochastic-game framework underpinning action valuation
+- [[event-stream-data]] — Time-stamped, located event annotations of a game (passes, shots, etc.)
+- [[gradient-boosting]] — Ensemble of additive trees via boosting (XGBoost, CatBoost)
+- [[probability-calibration]] — Aligning predicted probabilities with observed frequencies (Brier score)
 - [[game-state-reconstruction]] — End-to-end athlete tracking, identification, and pitch localisation from broadcast video
 - [[camera-calibration]] — Estimating camera parameters from broadcast sports video using field geometry
 - [[homography]] — 3×3 projective transformation mapping points between planes
@@ -167,3 +176,4 @@ A catalog of all wiki pages, organised by type.
 - [[camera-calibration-benchmarking]] — Summary of "ProCC: A Universal Protocol to Benchmark Camera Calibration for Sports" (Magera et al., 2025)
 - [[ai-agent-architecture-breakdown]] — Summary of "AI Agent Architecture Breakdown" (technical article, 2026)
 - [[eigenvectors-explained]] — Summary of "Eigenvectors Explained" (tutorial article, 2026)
+- [[evaluating-football-player-actions]] — Summary of "Actions Speak Louder than Goals: Valuing Player Actions in Soccer" (Decroos et al., 2019)

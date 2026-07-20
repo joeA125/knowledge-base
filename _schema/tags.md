@@ -12,6 +12,7 @@ here first with a brief description.
 - `AI` — artificial intelligence
 - `deep-learning` — neural networks, backpropagation, gradient-based optimisation
 - `data-engineering` — pipelines, storage, ETL
+- `linear-algebra` — vectors, matrices, eigendecomposition, SVD, and related theory
 - `RAG` — retrieval augmented generation
 - `MCP` — model context protocol
 - `transformer` — Transformer architecture and variants
@@ -32,6 +33,7 @@ here first with a brief description.
 - `message-passing` — inference algorithms that propagate messages on graphs
 - `inference` — computing posteriors or marginals from models and data
 - `probabilistic-graphical-model` — graphical models (factor graphs, Bayesian networks, MRFs)
+- `markov-model` — stochastic processes with the Markov property (Markov chains, MDPs, Markov games)
 - `approximation` — approximate inference and computation methods
 - `rnn` — recurrent neural networks (vanilla, LSTM, GRU, BiRNN)
 - `encoder-decoder-bottleneck` — fixed-length vector bottleneck in seq2seq models
@@ -75,10 +77,15 @@ here first with a brief description.
 - `tool-use` — LLM function calling and interaction with external tools/APIs
 - `cognitive-science` — models of human cognition, psychometrics, and cognitive ability
 - `evaluation` — benchmarking, testing, and measuring AI system capabilities
+- `gradient-boosting` — ensemble methods building additive trees via boosting (XGBoost, CatBoost, etc.)
+- `probabilistic-classification` — classifiers that output calibrated probabilities rather than hard labels
+- `calibration` — alignment of predicted probabilities with observed frequencies (Brier score, reliability)
 - `uncertainty-quantification` — estimating and calibrating model confidence and uncertainty
 - `fact-checking` — verifying factual claims against evidence sources
 - `reasoning` — logical, abstract, or multi-step reasoning capabilities
 - `sports-analytics` — computer vision and data analysis applied to sports
+- `event-stream-data` — time-stamped, located event annotations of a game (passes, shots, etc.)
+- `player-evaluation` — quantifying individual player contribution, value, and playing style
 - `multi-object-tracking` — tracking multiple objects across video frames with consistent identities
 - `camera-calibration` — estimating camera parameters to map image to world coordinates
 - `object-detection` — locating and classifying objects in images (YOLO, Faster R-CNN, etc.)
@@ -109,4 +116,3 @@ here first with a brief description.
 - `synthesis` — cross-source analysis
 - `question` — filed answer or investigation
 - `summary` — filed summary of raw source file
-- `linear-algebra` — vectors, matrices, eigendecomposition, SVD, and related theory

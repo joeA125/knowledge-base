@@ -325,3 +325,47 @@ Index updated: yes (6 new entities added)
 
 Priority was given to researchers appearing in multiple vault sources (Magera, Van Droogenbroeck, Chen, Little) over single-source authors.
 
+## [2026-07-20 15:45] ingest | Actions Speak Louder than Goals: SPADL + VAEP (Decroos et al., KDD 2019)
+Source: raw/papers/evaluating-football-player-actions.md — "Actions Speak Louder than Goals" (Decroos et al., KDD 2019). Introduces SPADL (unified action representation, 9 attributes × 21 types) and VAEP (action valuation via scoring/conceding probability changes). CatBoost classifiers on 11,565 games (2012–2018). VAEP top-10 EPL (Coutinho 0.899, Salah 0.817, De Bruyne 0.641) identifies stars invisible to goals/assists metrics. Use cases: scouting (Mbappé, de Jong, Mount identified), style characterisation (Neymar vs Coutinho vs Dembélé), quality vs quantity analysis (Messi as outlier on both).
+
+Pages created: 6 (1 source summary, 3 concepts, 2 entities)
+- wiki/summaries/evaluating-football-player-actions.md
+- wiki/concepts/vaep.md — Action valuation framework, scoring/conceding probability changes, player ratings, relation to xG, limitations (on-ball only)
+- wiki/concepts/spadl.md — Unified event stream language, 9 fixed attributes, 21 action types, vendor conversion, design principles
+- wiki/concepts/expected-goals.md — xG definition, limitations (shot-centric, context-blind, immediate-only), relation to VAEP as special case
+- wiki/entities/tom-decroos.md — Lead author, KU Leuven
+- wiki/entities/jesse-davis.md — Senior author, KU Leuven
+
+Tags updated: no (existing tags sufficient)
+Index updated: yes
+
+## [2026-07-20 21:37] lint | Concept + tag gap-fill for VAEP/SPADL ingest (under-extraction correction)
+Follow-up to VAEP/SPADL ingest (evaluating-football-player-actions.md) — corrected under-extraction of concepts and tags flagged by Joe.
+
+Additional concept pages created: 3
+- wiki/concepts/event-stream-data.md — Event stream vs optical tracking modality, vendor fragmentation, five data science challenges, relation to GSR (complementary data sources)
+- wiki/concepts/gradient-boosting.md — Additive tree ensembles, XGBoost vs CatBoost, why CatBoost wins on VAEP (categorical handling), training-time tradeoff, non-neural alternative to vault's DL methods
+- wiki/concepts/probability-calibration.md — Calibration vs discrimination, why it's binding for VAEP (probabilities summed/subtracted), Brier score as proper scoring rule, ROC AUC and class imbalance, relation to LLM uncertainty quantification (PCC/ECE)
+
+Tags added: 5 (gradient-boosting, probabilistic-classification, calibration, event-stream-data, player-evaluation). Also fixed misplaced linear-algebra tag (was appended under Page Type Tags, moved to Domain Tags).
+
+Pages updated: 2
+- wiki/concepts/vaep.md — added Data Foundation section, expanded Probability Estimation with calibration rationale, added Markov-process framing, cross-linked all 3 new concepts + player-evaluation
+- wiki/summaries/evaluating-football-player-actions.md — added author entity links (Decroos, Davis), cross-linked event-stream-data/gradient-boosting/probabilistic-classification/calibration inline, expanded tags and See Also
+
+Total for this source now: 6 concepts (vaep, spadl, expected-goals, event-stream-data, gradient-boosting, probability-calibration), 2 entities, 10 new tags across both passes.
+
+Self-note: on a paper opening a new subdomain, initial extraction should aim higher — this paper warranted 6 concepts and 10 tags, not the 3 concepts / 0 tags produced on first pass.
+
+## [2026-07-20 21:41] lint | Standalone Markov game concept + VAEP cross-reference
+Created standalone Markov game concept per Joe's request, replacing the inline description in the VAEP page.
+
+Pages created: 1
+- wiki/concepts/markov-game.md — Definition (states, agents, transition/reward functions, Markov property), relation to Markov chains/MDPs, use in sports analytics (Routley & Schulte, Liu & Schulte, Cervone et al., Littman 1994), how VAEP adopts the framing without solving for equilibrium policies, relation to reinforcement learning
+
+Pages updated: 1
+- wiki/concepts/vaep.md — replaced inline "Markov-like Process" paragraph with a section referencing [[markov-game]]; added markov-model tag; added markov-game to See Also
+
+Tags added: 1 (markov-model, placed under Domain Tags after probabilistic-graphical-model)
+Index updated: yes (markov-game added to concepts, sports-analytics cluster)
+
