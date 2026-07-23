@@ -464,3 +464,48 @@ Additional content added while rerouting:
 
 Verified via find_backlinks: both pages correctly linked, no dead references.
 
+## [2026-07-23 14:51] ingest | Transformer NMSTPP + HPUS for football event modelling (Yeung, Sit & Fujii, 2023)
+Source: raw/papers/transformer-point-process-football-event-modelling.md — Yeung, Sit & Fujii (2023). Transformer-based Neural Marked Spatio Temporal Point Process (NMSTPP) for football event forecasting, plus the HPUS possession metric. Bridges the vault's transformer cluster and sports analytics cluster, and introduces point processes for the first time.
+
+Pages created: 10 (1 source summary, 5 concepts, 4 entities)
+
+Source summary:
+- wiki/summaries/transformer-point-process-football-event-modelling.md
+
+Concepts (5):
+- point-process — conditional intensity vs conditional density characterisations, marks and space, MSTPP factorisation, classical families (Poisson/Hawkes/Log-Gaussian Cox/reactive), why ML replaced parametric specification. Retroactively grounds point-process material cited in the Cervone EPV paper (Miller et al. factorised intensities).
+- neural-temporal-point-process — the Shchur et al. three-step construction, why history encoding matters (links to encoder-decoder-bottleneck), transformer-vs-LSTM tradeoff with numbers, why learned distributions beat parametric ones
+- nmstpp — the dependent chain factorisation and its ablation validation, five-stage architecture, Juego de posición zoning (interpretability at zero accuracy cost), forecasting-vs-valuation comparison table against xT/VAEP/EPV
+- hpus — HAS construction and why each design choice (multiplication, time division, square root) does work, exponential decay weighting, validation without any goal data, the universal ~0.30 HPUS ratio
+- seq2event — the predecessor model and poss-util metric; flagged as citation-only knowledge; origin of the transformer-vs-LSTM efficiency finding
+
+Entities (4):
+- calvin-yeung, tony-sit, keisuke-fujii, ian-simpson (last flagged as citation-only)
+
+Pages updated: 2
+- action-valuation-frameworks-compared — added a "Valuation vs Forecasting" section establishing NMSTPP/HPUS as an orthogonal axis rather than another entry in the comparison table; noted that HPUS achieves -0.78 correlation with league position using no outcome labels at all, unlike every valuation framework; added HPUS to practical guidance; added 4th source
+- competing-risks — added "Relation to Point Processes" section showing a cause-specific hazard IS a conditional intensity, and that the two literatures describe the same machinery with different emphases; added point-process tag
+
+Tags added: 2 (point-process, event-prediction). Most of this paper's territory was already covered by existing tags (transformer, sports-analytics, event-stream-data, spatiotemporal); point processes were the genuinely new domain.
+
+## [2026-07-23 15:04] lint | Existing-page update audit for NMSTPP ingest (correcting under-updating)
+Follow-up to the NMSTPP/HPUS ingest, after Joe correctly challenged an inconsistency: I had claimed the paper's territory was "already covered by existing tags" while updating only 2 existing pages. Coverage means existing pages have somewhere to put the material — it is an argument for MORE updates, not fewer. I had used it to justify doing less.
+
+Audit of existing pages with genuine additions from this source. Pages updated: 5
+
+1. wiki/concepts/lstm.md — the page had NO transformer comparison at all, a real gap. Added "LSTM vs Transformer for Sequence Encoding" with the paper's controlled measurement (Uni-LSTM 4.51 loss / 129 min vs Transformer 4.57 / 47 min), the general pattern that LSTMs stay competitive on accuracy but cost 2.7x training time, and when LSTMs still make sense (short sequences, parameter count — 4K vs 13K). Added a "Uses in This Vault" section. Added 3rd source.
+
+2. wiki/concepts/autoregressive-model.md — was thin (40% extracted, draft). Added "Factorising Within an Element, Not Just Across a Sequence" — NMSTPP applies the chain rule to an event's attributes (t, z, m) nested inside sequence autoregression, with the ablation validating it. Added "Ordering Is Free in Theory, Not in Practice" — all six orderings are exact factorisations of the same joint, yet span 0.18 total loss; connected to PixelCNN raster order and the Order Matters/read-process-write finding. Added point-process relation. Lifecycle draft → reviewed.
+
+3. wiki/concepts/encoder-decoder-bottleneck.md — page framed the bottleneck as solved by attention. Added "Where the Bottleneck Returns by Design": NTPP deliberately reintroduces fixed-size history compression, which is fine because only one next event is predicted. Noted NMSTPP compresses 40 events to 31 dims, that all three predicted components share one history vector, and that dependence is recovered via chain-rule factorisation rather than per-component attention. Added the attention-weight diagnostic for window sizing.
+
+4. wiki/concepts/attention-mechanism.md — added "Attention Weights as Diagnostic Output": using the last row of the self-attention matrix to test context-window sizing (flat 0.01-0.06 profile = well-sized window). Flagged the caveat that attention-as-explanation is contested, and that this diagnostic use is more defensible than causal claims. Added "Beyond Language" listing the non-linguistic sequence types attention covers across this vault. Added interpretability tag.
+
+5. wiki/concepts/expected-goals.md — added the sparsity figure grounding xG's core limitation (shots = 1.68% of WyScout events). Added "Can Team Performance Be Assessed Without It?" — HPUS correlates 0.92 with season xG and -0.78 with league position using no outcome data at all, suggesting both measure overlapping quality by different routes. Added Macdonald (2012) hockey origin.
+
+6. wiki/concepts/event-stream-data.md — added NMSTPP as a third modelling route (event stream treated as continuous-time point process, recovering temporal structure without tracking data). Added "How Much to Discretise?" comparing raw WyScout (21 types/78 subtypes) vs SPADL (21) vs NMSTPP (5 classes) with the class-imbalance rationale, plus the spatial finding that 20 zones match raw coordinates exactly. Added WyScout Open Access Dataset note and the cross-league-sharing rationale for event data in recruitment.
+
+Not updated, with reasons: transformer (core page, addition would be a domain-application list entry only); spadl (contrast already captured in event-stream-data); positional-encoding (paper applies it conventionally to event index; no new material); vaep / expected-threat (cited only as related work, nothing substantive added).
+
+Lesson recorded: "already covered" is a signal to check existing pages for additions, not a reason to skip them.
+

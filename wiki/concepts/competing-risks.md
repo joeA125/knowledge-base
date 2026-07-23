@@ -1,7 +1,7 @@
 ---
 title: "Competing Risks"
 type: concept
-tags: [statistics, survival-analysis, stochastic-process, probabilistic-classification, sports-analytics]
+tags: [statistics, survival-analysis, stochastic-process, point-process, probabilistic-classification, sports-analytics]
 sources: [raw/papers/multiresolution-stochastic-process-model-nba-possessions.md]
 confidence: 0.85
 provenance:
@@ -20,6 +20,16 @@ A competing risks model (Prentice et al., 1978) describes a situation where a su
 $$\lambda_j(t) = \lim_{\epsilon \to 0} \frac{\mathbb{P}(\text{event } j \text{ occurs in } (t, t+\epsilon] \mid \mathcal{F}_t)}{\epsilon}$$
 
 Because the types are disjoint, the overall hazard is simply $\lambda(t) = \sum_j \lambda_j(t)$, and conditional on an event occurring, the probability it is of type $j$ is $\lambda_j(t) / \sum_k \lambda_k(t)$.
+
+## Relation to Point Processes
+
+A cause-specific hazard **is** a conditional intensity: compare the definition above with the intensity of a [[point-process]],
+
+$$\lambda(t \mid H_t) = \lim_{\Delta t \downarrow 0} \frac{\mathbb{P}(\text{event in } [t, t + \Delta t))}{\Delta t}$$
+
+They are the same object. A competing risks model is therefore a *marked* point process specified through its per-mark intensities, where the marks are the competing event types.
+
+The two literatures emphasise different things: survival analysis focuses on time-to-first-event with censoring, while point processes focus on recurrent events over a whole sequence. But the machinery is shared, which is why football and basketball models can be built in either idiom — [[martingale-epv]] uses competing-risks hazards, while [[nmstpp]] specifies conditional densities directly, and both are modelling the same underlying phenomenon.
 
 ## Application to Basketball Macrotransitions
 
@@ -65,7 +75,9 @@ The fitted hazards do double duty: integrating them gives *expected* transition 
 
 ## See Also
 
+- [[point-process]]
 - [[martingale-epv]]
+- [[nmstpp]]
 - [[multiresolution-modelling]]
 - [[gaussian-process]]
 - [[inla]]

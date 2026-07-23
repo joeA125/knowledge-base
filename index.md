@@ -54,6 +54,10 @@ A catalog of all wiki pages, organised by type.
 - [[alex-damour]] — Researcher, co-author of the NBA martingale EPV paper
 - [[luke-bornn]] — Professor, co-author of the NBA EPV paper and spatial sports analytics
 - [[kirk-goldsberry]] — Geographer, co-author of the NBA EPV paper; basketball spatial analysis
+- [[calvin-yeung]] — Researcher, lead author of NMSTPP and the HPUS metric
+- [[tony-sit]] — Statistician, co-author of NMSTPP
+- [[keisuke-fujii]] — Researcher, senior author of NMSTPP; sports trajectory and defensive valuation
+- [[ian-simpson]] — Lead author of Seq2Event and the poss-util metric
 - [[openai]] — AI research organisation (GPT, InstructGPT, Scaling Laws, VLAE)
 - [[google-brain]] — AI research team at Google
 - [[google-deepmind]] — AI research lab (London), developed NTMs
@@ -93,6 +97,8 @@ A catalog of all wiki pages, organised by type.
 - [[jaccard-index]] — Set similarity as intersection over union; underlies IoU and JaC
 - [[gaussian-process]] — Nonparametric Bayesian prior over functions; basis and GMRF representations
 - [[martingale]] — Process whose expected future value equals its present value
+- [[point-process]] — Models of discrete event occurrence in time and space (Poisson, Hawkes, MSTPP)
+- [[neural-temporal-point-process]] — Learning point-process conditional distributions with neural networks
 - [[competing-risks]] — Cause-specific hazards for mutually exclusive event types
 - [[car-prior]] — Hierarchical prior shrinking units toward their neighbours
 - [[inla]] — Deterministic approximate Bayesian inference for latent Gaussian models
@@ -104,6 +110,9 @@ A catalog of all wiki pages, organised by type.
 - [[martingale-epv]] — Cervone et al.'s specific basketball EPV construction with martingale guarantee
 - [[expected-threat]] — Zonal Markov model valuing ball progression in soccer (xT)
 - [[vaep]] — Valuing Actions by Estimating Probabilities for soccer player evaluation
+- [[nmstpp]] — Transformer point-process model forecasting event time, zone, and action jointly
+- [[hpus]] — Possession utilisation score derived from NMSTPP forecasts, using no goal data
+- [[seq2event]] — Predecessor event-forecasting model; origin of the poss-util metric
 - [[spadl]] — Soccer Player Action Description Language for unified event stream data
 - [[expected-goals]] — Probability of a shot resulting in a goal (xG)
 - [[markov-game]] — Multi-agent stochastic-game framework underpinning action valuation
@@ -156,7 +165,7 @@ A catalog of all wiki pages, organised by type.
 
 ## Syntheses
 
-- [[action-valuation-frameworks-compared]] — xG, xT, VAEP and martingale EPV compared across state representation, horizon, reliability, and cost
+- [[action-valuation-frameworks-compared]] — xG, xT, VAEP and martingale EPV compared across state representation, horizon, reliability, and cost; plus the valuation-vs-forecasting axis
 
 ## Conversations
 
@@ -201,3 +210,4 @@ A catalog of all wiki pages, organised by type.
 - [[evaluating-football-player-actions]] — Summary of "Actions Speak Louder than Goals: Valuing Player Actions in Soccer" (Decroos et al., 2019)
 - [[multiresolution-stochastic-process-nba-possessions]] — Summary of "A Multiresolution Stochastic Process Model for Predicting Basketball Possession Outcomes" (Cervone et al., 2016)
 - [[on-ball-actions-football-xt-vs-vaep]] — Summary of "Valuing On-the-Ball Actions in Soccer: A Critical Comparison of xT and VAEP" (Van Roy et al., 2020)
+- [[transformer-point-process-football-event-modelling]] — Summary of "Transformer-Based Neural Marked Spatio Temporal Point Process Model for Football Match Events Analysis" (Yeung et al., 2023)

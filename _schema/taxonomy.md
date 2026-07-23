@@ -20,6 +20,7 @@ here first with a brief description.
 - `attention` — attention mechanisms in neural networks
 - `machine-translation` — translating text between languages with ML
 - `sequence-modelling` — modelling sequential data (text, time series, etc.)
+- `event-prediction` — forecasting the time, location, and type of the next event in a sequence
 - `set-modelling` — handling unordered sets as inputs or outputs in neural models
 - `ordering` — effects of data ordering on model training and performance
 - `architecture` — neural network architecture design patterns
@@ -36,6 +37,7 @@ here first with a brief description.
 - `probabilistic-graphical-model` — graphical models (factor graphs, Bayesian networks, MRFs)
 - `markov-model` — stochastic processes with the Markov property (Markov chains, MDPs, Markov games)
 - `stochastic-process` — random processes indexed by time (martingales, point processes, diffusions)
+- `point-process` — models of discrete event occurrences in time/space via intensity or conditional density (Poisson, Hawkes, NTPP)
 - `dynamic-programming` — solving problems via recursive decomposition and value propagation (value iteration, Bellman equations)
 - `spatiotemporal` — joint modelling of variation across both space and time
 - `gaussian-process` — distributions over functions used as nonparametric priors

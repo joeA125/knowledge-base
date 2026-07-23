@@ -1,8 +1,8 @@
 ---
 title: "Attention Mechanism"
 type: concept
-tags: [attention, deep-learning, sequence-modelling]
-sources: [raw/papers/attention-is-all-you-need.md, raw/papers/neural-machine-translation.md, raw/papers/pointer-networks.md]
+tags: [attention, deep-learning, sequence-modelling, interpretability]
+sources: [raw/papers/attention-is-all-you-need.md, raw/papers/neural-machine-translation.md, raw/papers/pointer-networks.md, raw/papers/transformer-point-process-football-event-modelling.md]
 confidence: 0.9
 provenance:
   extracted: 70%
@@ -10,7 +10,7 @@ provenance:
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-05-07
-updated: 2026-05-08
+updated: 2026-07-23
 ---
 
 # Attention Mechanism
@@ -39,6 +39,20 @@ The [[transformer]] uses attention in three ways:
 2. **Decoder masked self-attention:** Each position attends only to earlier positions (preserving autoregression).
 3. **Encoder-decoder cross-attention:** Decoder queries attend to all encoder outputs.
 
+## Attention Weights as Diagnostic Output
+
+Beyond their computational role, attention weights are inspectable, and can be read as a diagnostic on the model's *inputs* rather than its internals.
+
+[[transformer-point-process-football-event-modelling|Yeung et al. (2023)]] use the last row of the self-attention matrix — the contribution of each historical event to the final history representation — to test whether their 40-event context window is appropriately sized. Weights lay between 0.01 and 0.06 with **no trend across the window**, which they take as evidence the window is neither too short (weights would pile up at the recent end, implying more history could help) nor too long (distant events would receive negligible weight).
+
+This is a cheap and general check on context-length hyperparameters, applicable wherever a fixed-size window feeds a self-attention encoder.
+
+A caveat worth keeping: attention weights are widely used as [[interpretability|interpretability]] evidence, but the broader literature is divided on whether they constitute genuine explanation of model behaviour. The diagnostic use above is more defensible than causal claims, since it asks only whether the model *distributes* attention across the available window rather than what any individual weight means.
+
+## Beyond Language
+
+Attention is architecture-agnostic about what a "sequence" contains. In this vault it appears over word sequences ([[transformer]], [[additive-attention]]), sets ([[read-process-write]]), memory locations ([[neural-turing-machine]]), image patches for retrieval ([[siamese-network]] in calibration), and football match events ([[nmstpp]]) — the mechanism is unchanged; only the tokens differ.
+
 ## See Also
 
 - [[additive-attention]]
@@ -46,4 +60,5 @@ The [[transformer]] uses attention in three ways:
 - [[multi-head-attention]]
 - [[pointer-network]]
 - [[encoder-decoder-bottleneck]]
+- [[neural-temporal-point-process]]
 - [[transformer]]
