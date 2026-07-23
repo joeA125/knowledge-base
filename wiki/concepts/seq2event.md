@@ -1,14 +1,14 @@
 ---
 title: "Seq2Event"
 type: concept
-tags: [sports-analytics, event-prediction, transformer, deep-learning, event-stream-data, sequence-modelling, action-valuation]
-sources: [raw/papers/transformer-point-process-football-event-modelling.md]
-confidence: 0.75
+tags: [sports-analytics, event-prediction, transformer, deep-learning, event-stream-data, sequence-modelling, action-valuation, feature-engineering]
+sources: [raw/papers/transformer-point-process-football-event-modelling.md, raw/papers/understanding_football_posessions_using_path_signatures.md]
+confidence: 0.8
 provenance:
-  extracted: 45%
-  inferred: 40%
-  ambiguous: 15%
-lifecycle: draft
+  extracted: 55%
+  inferred: 35%
+  ambiguous: 10%
+lifecycle: reviewed
 created: 2026-07-23
 updated: 2026-07-23
 ---
@@ -17,7 +17,7 @@ updated: 2026-07-23
 
 Seq2Event ([[ian-simpson|Simpson]], Beal, Locke & Norman, KDD 2022) forecasts the **location and action type** of the next football event from a sequence of preceding events, using a [[transformer]] encoder or recurrent encoder for history representation. It also introduced **poss-util**, a possession-utilisation metric derived from the model's predictions.
 
-> **Provenance note:** the vault's knowledge of Seq2Event comes only from its treatment as the baseline and predecessor in [[transformer-point-process-football-event-modelling|Yeung et al. (2023)]], not from the primary source. Details beyond what that paper reports are unverified.
+> **Provenance note:** the vault's knowledge of Seq2Event comes from its treatment as baseline and predecessor in [[transformer-point-process-football-event-modelling|Yeung et al. (2023)]] and [[understanding-football-possessions-path-signatures|Hirnschall & Bajons (2025)]], not from the primary source.
 
 ## Contribution
 
@@ -31,28 +31,43 @@ $$\text{poss-util} = \sum_{i=1}^{n} P(\text{Cross, Shot})$$
 
 Possessions containing no cross or shot are multiplied by −1, then percentile ranks are applied separately to positive and negative values, yielding a metric in $[-1, 1]$.
 
-## What NMSTPP Changed
+## Two Successors, Two Different Criticisms
 
-[[nmstpp]] extends Seq2Event on two axes:
+Seq2Event has been extended twice in this vault, and the two successors object to *different* aspects of it.
 
-1. **Adds time.** Seq2Event forecasts location and action but not *when* the next event occurs. NMSTPP adds inter-event time as a third forecast component.
-2. **Makes the components dependent.** Seq2Event predicts its outputs from a shared history vector; NMSTPP chains them via a [[point-process]] factorisation so each conditions on the previous.
+### NMSTPP: it ignores time
+[[nmstpp]] adds inter-event time as a third forecast component and chains the three components via a [[point-process]] factorisation so each conditions on the previous. Correspondingly [[hpus]] extends poss-util with expected zone, action, and time, plus within-possession weighting.
 
-Correspondingly, [[hpus]] extends poss-util by incorporating expected zone, action, *and* time, and by weighting actions within a possession rather than summing them uniformly.
+### Sig-Model: the fixed window is the wrong unit
+[[sig-model]] accepts Seq2Event's outputs but rejects its input structure. A fixed window of the last $k$ actions spans possession boundaries and discards possession length; the natural unit is the possession itself, which requires a length-agnostic encoding ([[path-signature]]).
 
-In the head-to-head comparison (with Seq2Event modified to also output inter-event time for fairness), NMSTPP wins on total loss 4.40 vs 4.48–4.57.
+The supporting evidence is pointed: sweeping the window across 5, 10, and 40 past actions produces **no clear optimum**, suggesting the window size was never really tuned. And restricting Seq2Event to raw $(x, y, T)$ inputs degrades it noticeably — it *depends* on handcrafted geometric features in a way the signature model does not (see [[feature-engineering]]).
+
+## Benchmark Results Against It
+
+| Challenger | Outcome |
+|---|---|
+| [[nmstpp]] | Wins on total loss (4.40 vs 4.48–4.57) |
+| [[sig-model]] | Wins on total loss, MSE, Brier, KL; **loses narrowly on CEL** |
+
+The Sig-Model split is informative: Seq2Event remains marginally better at classifying the *action type*, while losing clearly on predicting *where* it happens. Its transformer over engineered features encodes action semantics well and spatial structure less well.
+
+## A Runtime Figure Worth Correcting
+
+Seq2Event's originally reported runtime of roughly **45 minutes** was repeated in [[transformer-point-process-football-event-modelling|Yeung et al.]]. [[understanding-football-possessions-path-signatures|Hirnschall & Bajons]] re-implemented it and report **250–688 seconds** — an order of magnitude lower — attributing the difference to improved PyTorch handling of training-sample storage and loading, not to any change in the model.
+
+Any comparison citing the older figure overstates the transformer's cost. This is a useful caution about benchmark runtimes in general: they measure an implementation at a moment in time, and propagate through citation chains long after they stop being accurate.
 
 ## The Transformer-vs-LSTM Finding
 
-Seq2Event is the origin of a result the NTPP literature repeatedly echoes: the transformer encoder is *slightly less effective but significantly more efficient* than an LSTM for encoding event history. Yeung et al. reproduce it — Uni-LSTM 4.51 total loss in 129 minutes, transformer 4.57 in 47 minutes — and cite it as their reason for choosing the transformer encoder.
-
-This is the same efficiency argument that motivated the [[transformer]] originally: recurrent gradient computation is sequential and expensive on long sequences, whereas self-attention parallelises.
+Seq2Event is also the origin of a result the [[neural-temporal-point-process|NTPP]] literature repeatedly echoes: the transformer encoder is *slightly less effective but significantly more efficient* than an LSTM for encoding event history. Yeung et al. reproduce it — Uni-LSTM 4.51 total loss in 129 minutes, transformer 4.57 in 47 minutes.
 
 ## See Also
 
 - [[nmstpp]]
+- [[sig-model]]
 - [[hpus]]
-- [[neural-temporal-point-process]]
+- [[lpv]]
+- [[feature-engineering]]
 - [[transformer]]
 - [[ian-simpson]]
-- [[transformer-point-process-football-event-modelling|Source Summary]]

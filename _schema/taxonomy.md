@@ -13,7 +13,9 @@ here first with a brief description.
 - `deep-learning` — neural networks, backpropagation, gradient-based optimisation
 - `data-engineering` — pipelines, storage, ETL
 - `linear-algebra` — vectors, matrices, eigendecomposition, SVD, and related theory
+- `information-theory` — entropy, divergence, and coding-theoretic measures (KL, cross-entropy, mutual information)
 - `dimensionality-reduction` — compressing data into low-dimensional representations (PCA, NMF, functional bases)
+- `feature-engineering` — constructing, selecting, or learning input representations for a model
 - `RAG` — retrieval augmented generation
 - `MCP` — model context protocol
 - `transformer` — Transformer architecture and variants
@@ -38,6 +40,7 @@ here first with a brief description.
 - `markov-model` — stochastic processes with the Markov property (Markov chains, MDPs, Markov games)
 - `stochastic-process` — random processes indexed by time (martingales, point processes, diffusions)
 - `point-process` — models of discrete event occurrences in time/space via intensity or conditional density (Poisson, Hawkes, NTPP)
+- `path-signature` — iterated-integral feature maps for paths, from rough path theory
 - `dynamic-programming` — solving problems via recursive decomposition and value propagation (value iteration, Bellman equations)
 - `spatiotemporal` — joint modelling of variation across both space and time
 - `gaussian-process` — distributions over functions used as nonparametric priors
@@ -87,6 +90,7 @@ here first with a brief description.
 - `cognitive-science` — models of human cognition, psychometrics, and cognitive ability
 - `evaluation` — benchmarking, testing, and measuring AI system capabilities
 - `reliability` — consistency of a measurement across repeated or split samples (split-half, test-retest)
+- `predictive-validity` — whether a metric forecasts future outcomes it should, used where ground truth is unavailable
 - `interpretability` — the degree to which a model's outputs can be explained in human terms
 - `gradient-boosting` — ensemble methods building additive trees via boosting (XGBoost, CatBoost, etc.)
 - `probabilistic-classification` — classifiers that output calibrated probabilities rather than hard labels

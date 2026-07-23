@@ -509,3 +509,29 @@ Not updated, with reasons: transformer (core page, addition would be a domain-ap
 
 Lesson recorded: "already covered" is a signal to check existing pages for additions, not a reason to skip them.
 
+## [2026-07-23 18:16] ingest | Path signatures for football possessions: Sig-Model + LPV (Hirnschall & Bajons, 2025)
+Source: raw/papers/understanding_football_posessions_using_path_signatures.md — Hirnschall & Bajons (2025), WU Vienna. Path signatures for football possession modelling; introduces the Sig-Model and the LPV metric. Direct successor to and critic of both Seq2Event and NMSTPP.
+
+Pages created: 9 (1 source summary, 6 concepts, 2 entities)
+
+Source summary:
+- wiki/summaries/understanding-football-possessions-path-signatures.md
+
+Concepts (6):
+- path-signature — iterated integrals, Chen's identity for discrete paths, truncation O(1/M!), log-signatures and the shuffle-product redundancy, time/visibility augmentations, uniqueness up to tree-like equivalence, cross-domain applications (Alzheimer's, bipolar episode detection, finance, gesture recognition), comparison table against learned sequence encoders. Entirely new mathematics for the vault.
+- sig-model — the possession-as-unit argument, architecture (55-dim log-sig + 7-dim weighted action average + scrad → feedforward), results split (wins MSE/Brier/KL, loses CEL narrowly), trained on a laptop vs martingale-EPV's 461 processors
+- lpv — xG/xT at predicted location, the HPUS arbitrary-constants critique, what it deliberately omits and why, predicted-vs-observed possession value as an effectiveness measure (R≈-0.876 with points)
+- kl-divergence — long overdue; asymmetry and mode-covering/mode-seeking, a table of its six roles across the vault (VAE ELBO, VLAE bits-back, RLHF PPO penalty, EP, cross-entropy equivalence, NMF), and the paper's novel use as a tactical-plausibility check against zone-conditioned empirical distributions
+- feature-engineering — the symmetric ablation evidence (Sig-Model harmed BY handcrafted features, Seq2Event harmed WITHOUT them), yielding a transferable heuristic; a table placing every vault model on the engineering spectrum; the separability of feature interpretability from model interpretability
+- predictive-validity — the third answer to "no ground truth" alongside concurrent correlation and reliability; the finding that HPUS and LPV outpredict xG and goals at forecasting next-match outcomes, with goals the worst predictor of future goals
+
+Entities (2): david-hirnschall, robert-bajons
+
+Pages updated: 4
+- seq2event — restructured around its two successors objecting to different things (NMSTPP: ignores time; Sig-Model: wrong unit); added the no-clear-optimum window sweep and the handcrafted-feature dependence; added a runtime correction section (the ~45 min figure repeated from Simpson through Yeung is an order of magnitude too high per re-implementation — a caution about benchmark figures propagating through citation chains)
+- hpus — added "The Arbitrary-Constants Criticism" quoting the LPV objection and assessing its force; added independent predictive-validity results showing HPUS beats xG and goals at forecasting; added LPV to the comparison table; noted the LPV trade honestly (gains interpretability, loses the temporal information that was HPUS's contribution)
+- split-half-reliability — added the three-strategy framing (concurrent correlation / reliability / predictive validity) for validating metrics without ground truth; noted the open gap that no vault paper reports both reliability and predictive validity for the same metric
+- action-valuation-frameworks-compared — added the Seq2Event→NMSTPP→Sig-Model lineage table with the feature-engineering row; added an HPUS-vs-LPV comparison; added the "metrics beat outcomes at predicting outcomes" section; extended practical guidance; 5th source
+
+Tags added: 4 (path-signature, feature-engineering, predictive-validity, information-theory)
+

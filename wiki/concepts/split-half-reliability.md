@@ -1,8 +1,8 @@
 ---
 title: "Split-Half Reliability"
 type: concept
-tags: [statistics, evaluation, reliability, player-evaluation, sports-analytics, cognitive-science]
-sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md]
+tags: [statistics, evaluation, reliability, predictive-validity, player-evaluation, sports-analytics, cognitive-science]
+sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/understanding_football_posessions_using_path_signatures.md]
 confidence: 0.85
 provenance:
   extracted: 60%
@@ -23,7 +23,7 @@ It originates in psychometrics as a test of internal consistency, but applies to
 
 A metric can be highly reliable and still measure the wrong thing — a broken thermometer that always reads 20°C is perfectly reliable and useless. Reliability is a *necessary* but not sufficient condition: an unreliable metric cannot be valid, since it does not measure anything stably, but a reliable one may still be measuring something you do not care about.
 
-This distinction is why the finding below is suggestive rather than decisive.
+The complementary test is [[predictive-validity]] — does the metric forecast outcomes it should? The two can disagree, and neither alone settles whether a metric is good.
 
 ## The xT vs VAEP Result
 
@@ -61,8 +61,11 @@ Which is preferable depends on use. For season-long player recruitment, stabilit
 
 Reliability sits alongside [[probability-calibration|calibration]] as a property distinct from accuracy. A model can be accurate on average, well calibrated, and still yield unreliable per-subject aggregates if the quantity being aggregated is high-variance. VAEP is well calibrated (Brier 0.0138) yet unreliable at the player-rating level — the two coexist without contradiction.
 
+An open gap in the literature: no paper in this vault reports both split-half reliability *and* [[predictive-validity]] for the same metric. xT is the most reliable measured ($\rho = 0.89$); [[lpv]] and [[hpus]] are the most predictive of future performance. Whether reliability and forecasting power align across these metrics is untested.
+
 ## See Also
 
+- [[predictive-validity]]
 - [[expected-threat]]
 - [[vaep]]
 - [[action-valuation]]

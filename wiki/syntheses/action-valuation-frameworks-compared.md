@@ -1,8 +1,8 @@
 ---
 title: "Action Valuation Frameworks Compared"
 type: synthesis
-tags: [sports-analytics, action-valuation, player-evaluation, evaluation, reliability, interpretability, markov-model, point-process]
-sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md, raw/papers/multiresolution-stochastic-process-model-nba-possessions.md, raw/papers/transformer-point-process-football-event-modelling.md]
+tags: [sports-analytics, action-valuation, player-evaluation, evaluation, reliability, predictive-validity, interpretability, markov-model, point-process, path-signature]
+sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md, raw/papers/multiresolution-stochastic-process-model-nba-possessions.md, raw/papers/transformer-point-process-football-event-modelling.md, raw/papers/understanding_football_posessions_using_path_signatures.md]
 confidence: 0.85
 provenance:
   extracted: 55%
@@ -15,13 +15,13 @@ updated: 2026-07-23
 
 # Action Valuation Frameworks Compared
 
-The vault holds four frameworks for valuing what players do: [[expected-goals|xG]], [[expected-threat|xT]], [[vaep]], and basketball's [[martingale-epv]]. This page compares them across the design axes that actually distinguish them.
+The vault holds four frameworks for valuing what players do — [[expected-goals|xG]], [[expected-threat|xT]], [[vaep]], and basketball's [[martingale-epv]] — plus two possession-level metrics derived from forecasting models, [[hpus]] and [[lpv]].
 
 For the shared idea underlying xT and martingale EPV specifically, see [[expected-possession-value]]; for the general task, [[action-valuation]].
 
 ## The Shared Skeleton
 
-All four instantiate the same equation:
+All four valuation frameworks instantiate the same equation:
 
 $$V(a_i) = Q(S_i) - Q(S_{i-1})$$
 
@@ -45,36 +45,68 @@ They differ only in what $S$ contains and how $Q$ is computed. Everything below 
 
 ## The Central Trade-off
 
-There is a consistent pattern running through the table: **richer state representations buy sensitivity and pay in stability, interpretability, and cost.**
+A consistent pattern: **richer state representations buy sensitivity and pay in stability, interpretability, and cost.**
 
 - xT's state is a single zone. It cannot see risk, context, or finishing — but its ratings are extraordinarily stable ($\rho = 0.89$) and the whole model is a visualisable heatmap.
-- VAEP's state is three actions plus game context. It captures risk, values every action type, and responds to context — but its player ratings barely replicate across halves of a season ($\rho = 0.25$), and no individual valuation can be readily explained.
-- Martingale EPV's state is the entire tracking history. It sees off-ball positioning and counterfactual passing options that neither soccer model can — at the price of a model so expensive that, as its authors note, it likely confines the approach to academia and well-resourced professional teams.
+- VAEP's state is three actions plus game context. It captures risk, values every action type, and responds to context — but its player ratings barely replicate across halves of a season ($\rho = 0.25$).
+- Martingale EPV's state is the entire tracking history. It sees off-ball positioning and counterfactual passing options neither soccer model can — at a cost that confines it to academia and well-resourced clubs.
 
-Critically, [[on-ball-actions-football-xt-vs-vaep|Van Roy et al.]] show the reliability gap is not just about scope: restricting VAEP to xT's action set and offensive dimension only recovers $\rho = 0.25 \to 0.59$, still far below 0.89. The richer representation *itself* introduces variance.
+Critically, [[on-ball-actions-football-xt-vs-vaep|Van Roy et al.]] show the reliability gap is not just about scope: restricting VAEP to xT's action set and offensive dimension only recovers $\rho = 0.25 \to 0.59$. The richer representation *itself* introduces variance.
 
 ## A Different Axis: Valuation vs Forecasting
 
-All four frameworks above value actions that *already happened*. [[nmstpp]] does something orthogonal — it **forecasts** the next event's time, location, and action type, with valuation ([[hpus]]) following only downstream.
+All four frameworks above value actions that *already happened*. A second line of work **forecasts** the next event, with valuation following downstream:
 
-This distinction matters because the two tasks have different requirements:
+| | [[seq2event]] (2022) | [[nmstpp]] (2023) | [[sig-model]] (2025) |
+|---|---|---|---|
+| History | Fixed window | Fixed window (40) | **Whole possession** |
+| Encoder | [[transformer]] | Transformer | [[path-signature]] + feedforward |
+| Forecasts time? | No | **Yes** | No |
+| Forecasts location? | Yes | Zone (20) | **Exact $(x,y)$** |
+| Handcrafted features | **Required** | Used | **Harmful** |
+| Derived metric | poss-util | [[hpus]] | [[lpv]] |
 
-| | Valuation frameworks | Forecasting ([[nmstpp]]) |
+The lineage is a genuine argument, each step objecting to something in the last. NMSTPP says Seq2Event ignores *when*; Sig-Model says both use the wrong *unit*, since a fixed window spans possession boundaries and discards possession length.
+
+The [[feature-engineering]] row captures a finding that generalises: Seq2Event degrades without handcrafted geometry, while Sig-Model degrades *with* it. Engineered features are a crutch for a representation that cannot recover the geometry itself.
+
+Forecasting and valuation have different requirements:
+
+| | Valuation frameworks | Forecasting models |
 |---|---|---|
 | Question | How good was that action? | What happens next? |
 | Needs outcome labels | Yes (goals, points) | No |
-| Models event *timing* | No (xT, VAEP) | **Yes** |
 | Unit of analysis | Action → player | Event → possession → team |
 
-[[hpus]] is the striking case: it correlates −0.78 with final league position **without ever using goal or shot-outcome data**, in either the model or the metric. Every valuation framework in the table above depends on outcome labels somewhere. That HPUS achieves comparable signal from event *dynamics* alone suggests the two approaches are picking up substantially overlapping information by different routes.
+[[martingale-epv]] sits between the camps — it forecasts continuously via [[competing-risks]] hazards *and* values, which is why it needs both a [[point-process]] treatment of timing and a [[martingale]] structure for valuation.
 
-The cost is that HPUS is possession- and team-level, so it cannot do the player valuation that is xT and VAEP's primary purpose.
+## Possession Metrics: HPUS vs LPV
 
-[[martingale-epv|Martingale EPV]] sits between the camps: it forecasts continuously (via [[competing-risks]] hazards) *and* values, which is why it needs both a [[point-process]] treatment of event timing and a [[martingale]] structure for valuation.
+| | [[hpus]] | [[lpv]] |
+|---|---|---|
+| Action value from | Constants 0/5/10 | [[expected-goals\|xG]] and [[expected-threat\|xT]] at predicted location |
+| Location | Multiplied in (3 areas) | Built into the value |
+| Time | Divides by interevent time | Not modelled |
+| Within-possession weighting | Exponential decay | None |
+| Interpretable units | No | **Yes** |
+| vs next-match xG | 0.27 | **0.32** |
+
+LPV's critique is that HPUS's constants are unexplained and, by its authors' own admission, adjustable — which makes the scale arbitrary and cross-study comparison impossible. LPV answers this by using units the field already understands. The trade is real though: LPV loses the temporal information that was HPUS's distinguishing contribution.
+
+## Metrics Beat Outcomes at Predicting Outcomes
+
+The most striking cross-paper result, and it is not about any single metric:
+
+| | poss-util | HPUS | LPV | xG | goals |
+|---|---|---|---|---|---|
+| vs next-match xG | 0.15 | 0.27 | **0.32** | 0.21 | 0.19 |
+| vs next-match goals | 0.17 | 0.26 | **0.28** | 0.17 | 0.11 |
+
+**Both possession-value metrics predict a team's next match better than xG or goals do — including predicting goals themselves.** Goals are the *worst* predictor of future goals in the table.
+
+A scoreline is a small, noisy sample of an underlying process; a possession metric aggregates hundreds of actions and estimates that process more directly. See [[predictive-validity]].
 
 ## What Each Rewards
-
-The models disagree about players in ways that trace directly to design choices:
 
 | Player | Divergence | Cause |
 |---|---|---|
@@ -82,41 +114,32 @@ The models disagree about players in ways that trace directly to design choices:
 | Alexis Sánchez | 7th xT, 106th VAEP | Creates threat without finishing it |
 | Virgil van Dijk | 81st VAEP, 142nd xT | Defender; *both* frameworks structurally favour attackers |
 
-Correlations with traditional metrics confirm the tendencies: VAEP tracks goals/90 more closely ($\rho = 0.41$ vs 0.26), xT tracks assists/90 more closely ($\rho = 0.53$ vs 0.33).
+VAEP tracks goals/90 more closely ($\rho = 0.41$ vs 0.26); xT tracks assists/90 more closely ($\rho = 0.53$ vs 0.33).
 
 ## A Terminology Warning
 
-"Expected possession value" means two different things in this literature:
-
-- In **basketball**, it names [[martingale-epv|Cervone et al.'s]] specific continuous-time martingale construction from tracking data.
-- In **soccer**, "EPV approaches" is a *category label* for possession-based Markov models — the family containing xT, Rudd (2011), Mackay (2017), and Yam (2019).
-
-See [[expected-possession-value]] for the umbrella concept and the distinction.
+"Expected possession value" means two different things: in **basketball**, [[martingale-epv|Cervone et al.'s]] specific martingale construction; in **soccer**, a *category label* for possession-based Markov models including xT. See [[expected-possession-value]].
 
 ## Structural Limitations Shared by All
 
-1. **Offensive bias.** Value is defined by proximity to scoring, so defensive contribution is systematically undervalued in every framework — including NMSTPP, which models only the possessing team's on-ball events.
-2. **On-ball only** (except tracking-based models, partially). Pressing, marking, and off-ball movement are invisible to all the soccer models.
-3. **No ground truth.** When xT and VAEP disagree about a through ball, there is no way to adjudicate. The Van Roy paper is explicit that determining true action values is "very difficult, if not impossible."
-4. **Context-dependence of ratings.** It is easier to accumulate value in a weaker league or a stronger team, so cross-context comparison remains unresolved.
+1. **Offensive bias.** Value is defined by proximity to scoring, so defensive contribution is systematically undervalued everywhere — including the forecasting models, which model only the possessing team.
+2. **On-ball only** (except tracking-based models, partially).
+3. **No ground truth.** Nothing adjudicates when two frameworks disagree, which is why [[split-half-reliability|reliability]] and [[predictive-validity]] have become the substitute tests.
+4. **Context-dependence.** Accumulating value is easier in a weaker league or a stronger team.
 
 ## Practical Guidance
 
-- **Season-long recruitment and scouting** → xT's reliability is a strong argument; unstable ratings are actively misleading when the decision is expensive.
-- **Analysing specific passages of play** → VAEP's context sensitivity is the point, and season-level reliability is not the relevant criterion.
-- **Team-level possession quality, or where outcome data is sparse/unavailable** → [[hpus]], which needs no goal data at all.
-- **Tactical and off-ball analysis with tracking data available** → martingale-EPV-style models, accepting the cost.
-- **Shot quality alone** → xG remains the right tool, and is a component of both xT and VAEP rather than a competitor.
+- **Season-long recruitment and scouting** → xT's reliability is a strong argument; unstable ratings mislead when decisions are expensive.
+- **Analysing specific passages of play** → VAEP's context sensitivity is the point.
+- **Team-level possession quality, or where outcome data is sparse** → LPV (interpretable units) or HPUS (if timing matters).
+- **Forecasting the next action** → Sig-Model if location matters and compute is limited; NMSTPP if timing matters.
+- **Tactical and off-ball analysis with tracking data** → martingale-EPV-style models, accepting the cost.
+- **Shot quality alone** → xG, which is a *component* of xT, VAEP, and LPV rather than a competitor.
 
 ## See Also
 
 - [[action-valuation]]
 - [[expected-possession-value]]
-- [[expected-threat]]
-- [[vaep]]
-- [[martingale-epv]]
-- [[expected-goals]]
-- [[hpus]]
-- [[nmstpp]]
-- [[split-half-reliability]]
-- [[markov-game]]
+- [[expected-threat]] · [[vaep]] · [[martingale-epv]] · [[expected-goals]]
+- [[hpus]] · [[lpv]] · [[sig-model]] · [[nmstpp]] · [[seq2event]]
+- [[split-half-reliability]] · [[predictive-validity]] · [[feature-engineering]]
