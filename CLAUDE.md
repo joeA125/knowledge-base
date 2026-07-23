@@ -71,28 +71,38 @@ recalculate confidence. Flag any page below 0.5 for review.
 
 ### INGEST (new source → wiki updates)
 
-1. Read the source document in full
-2. Create a source summary page in wiki/ with key takeaways
-3. For each entity mentioned: update or create its page
-4. For each concept discussed: update or create its page
-5. Check for contradictions with existing pages — flag them
-6. Update cross-references ([[wikilinks]]) on affected pages
-7. Update index.md with new entries
-8. Append to log.md:
+1. Read it in full with read_note
+2. Create a source summary page in wiki/summaries/ with write_note
+3. List every distinct technical concept, method, or architecture introduced 
+   or substantially covered. For each, state whether it warrants a concept page 
+   and why. Err toward creating pages.
+4. Before creating any new concept or entity page, search wiki/concepts/ and 
+   wiki/entities/ for existing pages that reference the same topic. Update existing 
+   pages rather than leaving stubs stale
+5. Create or update entity pages for each entity mentioned and deemed appropriate 
+   for a page or with an existing page
+6. Create or update concept pages for each concept discussed and deemed appropriate 
+   for page or with an existing page
+7. Re-check for contradictions with existing pages
+8. Add new tags to the tags tracker 
+9. Add [[wikilinks]] cross-references on all affected pages
+10. Update the index with update_index
+11. Log the operation with append_log
    `## [YYYY-MM-DD] ingest | Source Title`
    `Pages created: X, Pages updated: Y`
 
-A single source should touch 10-15.
+A single source should touch roughly 10-15 concepts/entries and have muliple tags.
 
 ### QUERY (question → answer, optionally filed)
 
-1. Read index.md to find relevant pages
-2. Read the relevant wiki pages (not raw sources)
-3. Synthesise an answer with [[wikilink]] citations
-4. If the answer contains novel synthesis, offer to file
+1. Read index.md with read_index to find relevant pages
+2. Read those wiki pages with read_note (not the raw sources)
+3. If needed, use search_notes for additional context
+4. Synthesise an answer citing sources with [[wikilinks]]
+5. If the answer contains novel synthesis, offer to file
    it as a new page in wiki/questions/ (WRITEBACK)
-5. If filed, update index.md and log.md
-6. File chat in conversations folder
+6. Store completed question and answer pairs in wiki/conversations, store 
+   all pairs from same chat in one file
 
 ### LINT (periodic health check)
 
@@ -104,7 +114,8 @@ Run through this checklist:
 - Missing pages: concepts mentioned but lacking a page
 - Tag hygiene: tags not in _schema/tags.md
 - Source gaps: topics with only 1 source
-- Lifecycle: pages stuck in 'draft' for 30+ days
+- Lifecycle: list_unprocessed_sources — sources not yet ingested
+- Drafts: pages stuck in draft phase for 30+ days
 
 Report findings. Fix what you can. Flag the rest.
 
