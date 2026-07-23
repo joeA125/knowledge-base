@@ -29,7 +29,7 @@ with every interaction.
 - `wiki/overview.md` — high-level map of the domain
 - `index.md` — catalog of all wiki pages
 - `log.md` — chronological operation log
-- `_schema/tags.md` — canonical tags
+- `_schema/taxonomy.md` — canonical tags
 - `_schema/conventions.md` — naming, linking, style rules
 
 ## Page Template
@@ -112,7 +112,7 @@ Run through this checklist:
 - Stale pages: confidence < 0.5 or not updated in 90+ days
 - Contradictions: pages making conflicting claims
 - Missing pages: concepts mentioned but lacking a page
-- Tag hygiene: tags not in _schema/tags.md
+- Tag hygiene: tags not in _schema/taxonomy.md
 - Source gaps: topics with only 1 source
 - Lifecycle: list_unprocessed_sources — sources not yet ingested
 - Drafts: pages stuck in draft phase for 30+ days
@@ -133,7 +133,7 @@ Nothing should exist only in chat history.
 
 - Use [[wikilinks]] for all cross-references
 - Use Obsidian-compatible markdown
-- Tags from _schema/tags.md only
-- New tags must bed added to _schema/tags.md
+- Tags from _schema/taxonomy.md only
+- New tags must bed added to _schema/taxonomy.md
 - Filenames: lowercase-kebab-case.md
 - One concept per page

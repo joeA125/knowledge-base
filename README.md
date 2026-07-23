@@ -8,7 +8,7 @@ The operating model for the vault is defined in `CLAUDE.md`: raw inputs stay imm
 
 1. `raw/` is source storage and must not be edited.
 2. `wiki/` is the maintained knowledge layer and should be updated, cross-linked, and kept readable.
-3. Tags should come from `_schema/tags.md`.
+3. Tags should come from `_schema/taxonomy.md`.
 4. Substantive maintenance work should be recorded in `log.md`.
 
 ## Repository Layout
@@ -21,7 +21,7 @@ The operating model for the vault is defined in `CLAUDE.md`: raw inputs stay imm
 |- log.md
 |- _schema/
 |  |- conventions.md
-|  |- tags.md
+|  |- taxonomy.md
 |  |- templates/
 |     |- concept.md
 |     |- entity.md
@@ -73,7 +73,7 @@ Wiki pages should:
 - use Obsidian-compatible markdown and `[[wikilinks]]`
 - follow lowercase-kebab-case filenames
 - include the required frontmatter described in `CLAUDE.md`
-- use tags defined in `_schema/tags.md`
+- use tags defined in `_schema/taxonomy.md`
 - maintain a confidence score and lifecycle state when applicable
 
 For exact formatting and naming rules, see `_schema/conventions.md` and the templates in `_schema/templates/`.
