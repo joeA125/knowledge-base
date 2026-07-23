@@ -10,7 +10,7 @@ provenance:
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-07-20
-updated: 2026-07-20
+updated: 2026-07-23
 ---
 
 # VAEP (Valuing Actions by Estimating Probabilities)
@@ -47,7 +47,23 @@ Because action values are computed by **summing and subtracting** these probabil
 
 ## Modelling as a Markov Game
 
-VAEP fits within a line of related work that models sports matches as a [[markov-game]] — the framework for sequential, multi-agent, adversarial decision-making (Routley & Schulte for ice hockey, Cervone et al. for basketball). The core assumption inherited from that framing is the Markov property: near-future scoring/conceding probability depends on the current game state, not the full history. VAEP approximates the state by the last 3 actions — a truncated representation that trades some history for fixed-length features — and estimates state values directly with supervised learning rather than solving the game for equilibrium policies. Unlike zone-based Markov models, VAEP uses exact action locations.
+VAEP fits within a line of related work that models sports matches as a [[markov-game]] — the framework for sequential, multi-agent, adversarial decision-making (Routley & Schulte for ice hockey, [[multiresolution-stochastic-process-nba-possessions|Cervone et al.]] for basketball). The core assumption inherited from that framing is the Markov property: near-future scoring/conceding probability depends on the current game state, not the full history. VAEP approximates the state by the last 3 actions — a truncated representation that trades some history for fixed-length features — and estimates state values directly with supervised learning rather than solving the game for equilibrium policies. Unlike zone-based Markov models, VAEP uses exact action locations.
+
+## Relation to Basketball's EPV
+
+[[expected-possession-value|EPV]] answers the same question for basketball, but from a different data regime and with stronger theoretical guarantees:
+
+| | VAEP | [[expected-possession-value\|EPV]] |
+|---|---|---|
+| Data | [[event-stream-data]] | [[optical-tracking-data]], 25 Hz |
+| Model | [[gradient-boosting]] classifiers | Bayesian [[stochastic-process]] model |
+| Output | Per-action value $V(a_i)$ | Continuous curve $\nu_t$ |
+| [[martingale]] structure | Not guaranteed | Guaranteed by construction |
+| Aggregation | Values sum directly per player | Requires a relative baseline (EPVA) |
+| Cost | Modest | Very high (461 processors) |
+| Portability | Widely available data | Requires camera installations |
+
+The martingale contrast is the sharpest difference. Because EPV is a genuine conditional expectation, a player's raw EPV changes average to zero, forcing EPVA to compare against a hypothetical league-average player. VAEP's values, produced by differencing two independently trained classifiers, carry no such constraint — so they can be summed directly, at the cost of losing the formal consistency guarantee.
 
 ## Player Ratings
 
@@ -63,16 +79,18 @@ Ratings can be decomposed by action type to characterise playing style — e.g.,
 
 ## Limitations
 
-- Only values on-ball actions — defensive positioning, pressing, and off-ball movement are invisible.
+- Only values on-ball actions — defensive positioning, pressing, and off-ball movement are invisible. (The [[optical-tracking-data|tracking-based]] EPV model partially addresses this, valuing off-ball players as potential pass targets.)
 - Cross-league and cross-club comparisons are difficult (it's easier to perform valuable actions in weaker leagues or at stronger clubs).
 
 ## See Also
 
 - [[spadl]]
 - [[expected-goals]]
+- [[expected-possession-value]]
 - [[event-stream-data]]
 - [[gradient-boosting]]
 - [[probability-calibration]]
 - [[markov-game]]
+- [[martingale]]
 - [[evaluating-football-player-actions|Source Summary]]
 - [[game-state-reconstruction]]

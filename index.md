@@ -47,6 +47,10 @@ A catalog of all wiki pages, organised by type.
 - [[marc-van-droogenbroeck]] — Professor, co-author of SoccerNet-v2 action spotting and ProCC
 - [[tom-decroos]] — Researcher, lead author of SPADL/VAEP (KDD 2019)
 - [[jesse-davis]] — Professor, senior author of SPADL/VAEP (KDD 2019)
+- [[daniel-cervone]] — Researcher, lead author of the NBA Expected Possession Value paper
+- [[alex-damour]] — Researcher, co-author of the NBA EPV paper
+- [[luke-bornn]] — Professor, co-author of the NBA EPV paper and spatial sports analytics
+- [[kirk-goldsberry]] — Geographer, co-author of the NBA EPV paper; basketball spatial analysis
 - [[openai]] — AI research organisation (GPT, InstructGPT, Scaling Laws, VLAE)
 - [[google-brain]] — AI research team at Google
 - [[google-deepmind]] — AI research lab (London), developed NTMs
@@ -82,11 +86,20 @@ A catalog of all wiki pages, organised by type.
 - [[dilated-convolution]] — Convolution with dilation factor for exponential receptive field growth
 - [[semantic-segmentation]] — Per-pixel image classification into semantic categories
 - [[eigenvector]] — Directions preserved under linear transformation; eigenvalues measure scaling
+- [[non-negative-matrix-factorization]] — Additive parts-based low-rank factorisation of non-negative data
+- [[gaussian-process]] — Nonparametric Bayesian prior over functions; basis and GMRF representations
+- [[martingale]] — Process whose expected future value equals its present value
+- [[competing-risks]] — Cause-specific hazards for mutually exclusive event types
+- [[car-prior]] — Hierarchical prior shrinking units toward their neighbours
+- [[inla]] — Deterministic approximate Bayesian inference for latent Gaussian models
+- [[multiresolution-modelling]] — Composing coarse and fine process models for tractable expectations
 - [[vaep]] — Valuing Actions by Estimating Probabilities for soccer player evaluation
+- [[expected-possession-value]] — Expected points from a basketball possession, updated continuously
 - [[spadl]] — Soccer Player Action Description Language for unified event stream data
 - [[expected-goals]] — Probability of a shot resulting in a goal (xG)
 - [[markov-game]] — Multi-agent stochastic-game framework underpinning action valuation
 - [[event-stream-data]] — Time-stamped, located event annotations of a game (passes, shots, etc.)
+- [[optical-tracking-data]] — Continuous high-frequency positions of all players and the ball
 - [[gradient-boosting]] — Ensemble of additive trees via boosting (XGBoost, CatBoost)
 - [[probability-calibration]] — Aligning predicted probabilities with observed frequencies (Brier score)
 - [[game-state-reconstruction]] — End-to-end athlete tracking, identification, and pitch localisation from broadcast video
@@ -177,3 +190,4 @@ A catalog of all wiki pages, organised by type.
 - [[ai-agent-architecture-breakdown]] — Summary of "AI Agent Architecture Breakdown" (technical article, 2026)
 - [[eigenvectors-explained]] — Summary of "Eigenvectors Explained" (tutorial article, 2026)
 - [[evaluating-football-player-actions]] — Summary of "Actions Speak Louder than Goals: Valuing Player Actions in Soccer" (Decroos et al., 2019)
+- [[multiresolution-stochastic-process-nba-possessions]] — Summary of "A Multiresolution Stochastic Process Model for Predicting Basketball Possession Outcomes" (Cervone et al., 2016)

@@ -13,6 +13,7 @@ here first with a brief description.
 - `deep-learning` — neural networks, backpropagation, gradient-based optimisation
 - `data-engineering` — pipelines, storage, ETL
 - `linear-algebra` — vectors, matrices, eigendecomposition, SVD, and related theory
+- `dimensionality-reduction` — compressing data into low-dimensional representations (PCA, NMF, functional bases)
 - `RAG` — retrieval augmented generation
 - `MCP` — model context protocol
 - `transformer` — Transformer architecture and variants
@@ -34,6 +35,11 @@ here first with a brief description.
 - `inference` — computing posteriors or marginals from models and data
 - `probabilistic-graphical-model` — graphical models (factor graphs, Bayesian networks, MRFs)
 - `markov-model` — stochastic processes with the Markov property (Markov chains, MDPs, Markov games)
+- `stochastic-process` — random processes indexed by time (martingales, point processes, diffusions)
+- `spatiotemporal` — joint modelling of variation across both space and time
+- `gaussian-process` — distributions over functions used as nonparametric priors
+- `survival-analysis` — time-to-event modelling via hazards (competing risks, Cox models)
+- `hierarchical-model` — multilevel models sharing information across units via partial pooling
 - `approximation` — approximate inference and computation methods
 - `rnn` — recurrent neural networks (vanilla, LSTM, GRU, BiRNN)
 - `encoder-decoder-bottleneck` — fixed-length vector bottleneck in seq2seq models
@@ -85,6 +91,7 @@ here first with a brief description.
 - `reasoning` — logical, abstract, or multi-step reasoning capabilities
 - `sports-analytics` — computer vision and data analysis applied to sports
 - `event-stream-data` — time-stamped, located event annotations of a game (passes, shots, etc.)
+- `optical-tracking-data` — continuous high-frequency positional tracking of all players and the ball
 - `player-evaluation` — quantifying individual player contribution, value, and playing style
 - `multi-object-tracking` — tracking multiple objects across video frames with consistent identities
 - `camera-calibration` — estimating camera parameters to map image to world coordinates

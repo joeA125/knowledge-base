@@ -1,16 +1,16 @@
 ---
 title: "Markov Game"
 type: concept
-tags: [machine-learning, markov-model, reinforcement-learning, statistics, sports-analytics]
-sources: [raw/papers/evaluating-football-player-actions.md]
-confidence: 0.85
+tags: [machine-learning, markov-model, reinforcement-learning, statistics, sports-analytics, stochastic-process]
+sources: [raw/papers/evaluating-football-player-actions.md, raw/papers/multiresolution-stochastic-process-model-nba-possessions.md]
+confidence: 0.9
 provenance:
-  extracted: 55%
-  inferred: 35%
-  ambiguous: 10%
+  extracted: 60%
+  inferred: 32%
+  ambiguous: 8%
 lifecycle: reviewed
 created: 2026-07-20
-updated: 2026-07-20
+updated: 2026-07-23
 ---
 
 # Markov Game
@@ -35,27 +35,52 @@ The defining **Markov property** is that the next state and rewards depend only 
 
 Soccer is naturally adversarial — two teams with opposing objectives — making the Markov game a natural fit.
 
+## Semi-Markov Processes
+
+A **semi-Markov** process relaxes the Markov chain's assumption about *timing*. In a standard continuous-time Markov chain, the holding time in each state must be exponentially distributed (the only memoryless continuous distribution). A semi-Markov process allows arbitrary holding-time distributions while keeping the *embedded* sequence of visited states Markovian.
+
+This distinction matters for continuous-time sports models. The [[multiresolution-stochastic-process-nba-possessions|EPV model]] assumes its coarsened possession process is marginally semi-Markov (its assumption A1) precisely so that:
+
+- the embedded state sequence $C^{(0)}, C^{(1)}, \dots, C^{(K)}$ forms a Markov chain, making $\mathbb{E}[X \mid C_t]$ computable by standard transition-matrix algebra;
+- while how long a player holds the ball in a given state is left unconstrained, since real possession durations are nothing like exponential.
+
+The assumption's known failure mode is scripted play — pre-set sequences that deliberately chain states together in ways the embedded chain cannot represent.
+
 ## Use in Sports Analytics
 
-Modelling a sports match as a Markov game underpins much of the action-valuation literature. The [[evaluating-football-player-actions|VAEP paper]] situates itself within this tradition, citing several works that value player actions by modelling games as Markov games:
+Modelling a sports match as a Markov game underpins much of the action-valuation literature:
 
-- Routley & Schulte (2015) — a Markov game model for valuing actions in ice hockey.
-- Liu & Schulte (2018) — deep reinforcement learning for context-aware player evaluation in ice hockey.
-- Cervone et al. (2014) — POINTWISE, valuing decisions in basketball from optical tracking.
+- **Routley & Schulte (2015)** — Markov game model for valuing actions in ice hockey, using zone-discretised state spaces.
+- **Liu & Schulte (2018)** — deep reinforcement learning for context-aware player evaluation in ice hockey.
+- **[[multiresolution-stochastic-process-nba-possessions|Cervone et al. (2016)]]** — [[expected-possession-value]] for basketball, using a semi-Markov coarsening combined with continuous-resolution models.
+- **[[evaluating-football-player-actions|Decroos et al. (2019)]]** — [[vaep]] for soccer, adopting the framing while estimating state values by supervised learning.
 
-The shared idea is that the value of a game state (and hence of the action that produced it) can be defined via the expected future reward — for soccer, the probability of scoring or conceding — under the Markov assumption.
+The shared idea is that the value of a game state (and hence of the action that produced it) can be defined via expected future reward — points for basketball, scoring/conceding probability for soccer.
 
-## How VAEP Relates
+## How VAEP and EPV Differ in Their Use of the Framing
 
-[[vaep|VAEP]] does not solve a full Markov game (it does not compute equilibrium policies). Instead, it adopts the Markov framing's core assumption — that near-future scoring/conceding probability depends on the current game state — and estimates those probabilities directly with supervised learning. The game state is approximated by the previous three actions, a deliberately truncated (but still Markovian in spirit) representation. Unlike approaches that divide the pitch into a fixed number of zones (Routley & Schulte; Nørstebø et al.), VAEP models exact action locations.
+Neither solves a full Markov game — neither computes equilibrium policies. But they diverge in how faithfully they implement the process model:
+
+| | [[vaep]] | [[expected-possession-value|EPV]] |
+|---|---|---|
+| State representation | Previous 3 actions (truncated) | Semi-Markov coarsening + full-resolution conditioning |
+| Estimation | Supervised [[gradient-boosting]] on state features | Genuine [[multiresolution-modelling\|multiresolution]] process model |
+| [[martingale]] structure | Not guaranteed | Guaranteed by construction |
+| Spatial granularity | Exact action locations | Exact locations, plus 7-region coarsening |
+
+VAEP takes the Markov *assumption* but not the process machinery; EPV builds the process model explicitly, which is what buys it the martingale property.
 
 ## Relation to Reinforcement Learning
 
-Markov games are the theoretical foundation of multi-agent [[reinforcement-learning]]. The same state-value machinery that underpins [[rlhf|RLHF]] (where a reward model scores states/trajectories) appears here — action values in VAEP play a role analogous to advantage estimates in RL, quantifying how much an action improved the agent's expected outcome.
+Markov games are the theoretical foundation of multi-agent [[reinforcement-learning]]. The same state-value machinery that underpins [[rlhf|RLHF]] (where a reward model scores states/trajectories) appears here — action values in VAEP and EPV play a role analogous to advantage estimates in RL, quantifying how much an action improved expected outcome.
 
 ## See Also
 
 - [[vaep]]
+- [[expected-possession-value]]
+- [[multiresolution-modelling]]
+- [[martingale]]
 - [[reinforcement-learning]]
 - [[expected-goals]]
-- [[evaluating-football-player-actions|Source Summary]]
+- [[evaluating-football-player-actions|VAEP Source Summary]]
+- [[multiresolution-stochastic-process-nba-possessions|EPV Source Summary]]

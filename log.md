@@ -369,3 +369,34 @@ Pages updated: 1
 Tags added: 1 (markov-model, placed under Domain Tags after probabilistic-graphical-model)
 Index updated: yes (markov-game added to concepts, sports-analytics cluster)
 
+## [2026-07-23 10:11] ingest | Multiresolution Stochastic Process Model for NBA Possessions / EPV (Cervone et al., 2016)
+Source: raw/papers/multiresolution-stochastic-process-model-nba-possessions.md — Cervone, D'Amour, Bornn & Goldsberry (2016, JASA). Introduces Expected Possession Value (EPV) for basketball, estimated from 25Hz NBA optical tracking data via a multiresolution stochastic process model. Cited as related work in the VAEP paper.
+
+Pages created: 14 (1 source summary, 9 concepts, 4 entities)
+
+Source summary:
+- wiki/summaries/multiresolution-stochastic-process-nba-possessions.md
+
+Concepts (9):
+- expected-possession-value — EPV definition, stock-ticker analogy, martingale requirement, EPVA and shot satisfaction, full comparison table against VAEP
+- multiresolution-modelling — the coarse/fine composition, decoupling assumption (A2), Rao-Blackwellised transition counts, generality beyond sport
+- martingale — tower property, why conditional expectations are martingales, why the property forces relative baselines in EPVA, contrast with VAEP
+- gaussian-process — O(n³) problem, functional basis representation, GMRF/Matérn approximation, non-stationarity, composability with CAR priors
+- competing-risks — cause-specific hazards, 6 basketball event types, Poisson regression equivalence, Rao-Blackwellisation of transition counts
+- car-prior — neighbour-based shrinkage vs exchangeable priors, similarity learned from court occupancy not positional labels, why shrinkage is necessary for counterfactual states
+- inla — latent Gaussian model class, nested Laplace + integration, 30.4M×5993 design matrix, comparison table against EP/AMP/ADF
+- non-negative-matrix-factorization — non-negativity vs orthogonality, parts-based representations, both uses in the EPV model, PCA/SVD comparison
+- optical-tracking-data — modality definition, full comparison against event-stream-data, what it enables (off-ball value, defensive assignment), relation to GSR as democratisation attempt
+
+Entities (4):
+- daniel-cervone, alex-damour, luke-bornn, kirk-goldsberry
+
+Pages updated: 3
+- markov-game — added Semi-Markov Processes section (holding-time relaxation, why EPV needs it, failure mode); corrected the placeholder "Cervone et al. (2014) POINTWISE" reference to the actual 2016 paper; added VAEP-vs-EPV comparison table; added second source
+- event-stream-data — linked to the new optical-tracking-data page throughout; added "Modelling Consequences of the Choice" section explaining how modality determines model class; added second source
+- vaep — added "Relation to Basketball's EPV" comparison table; noted martingale contrast as the sharpest difference; cross-linked EPV in the Markov game and limitations sections
+
+Tags added: 7 (optical-tracking-data, gaussian-process, survival-analysis, hierarchical-model, spatiotemporal, stochastic-process, dimensionality-reduction)
+
+Note: _schema/tags.md has been renamed to _schema/taxonomy.md; taxonomy updated at the new path.
+
