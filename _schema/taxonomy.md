@@ -36,6 +36,7 @@ here first with a brief description.
 - `probabilistic-graphical-model` — graphical models (factor graphs, Bayesian networks, MRFs)
 - `markov-model` — stochastic processes with the Markov property (Markov chains, MDPs, Markov games)
 - `stochastic-process` — random processes indexed by time (martingales, point processes, diffusions)
+- `dynamic-programming` — solving problems via recursive decomposition and value propagation (value iteration, Bellman equations)
 - `spatiotemporal` — joint modelling of variation across both space and time
 - `gaussian-process` — distributions over functions used as nonparametric priors
 - `survival-analysis` — time-to-event modelling via hazards (competing risks, Cox models)
@@ -83,6 +84,8 @@ here first with a brief description.
 - `tool-use` — LLM function calling and interaction with external tools/APIs
 - `cognitive-science` — models of human cognition, psychometrics, and cognitive ability
 - `evaluation` — benchmarking, testing, and measuring AI system capabilities
+- `reliability` — consistency of a measurement across repeated or split samples (split-half, test-retest)
+- `interpretability` — the degree to which a model's outputs can be explained in human terms
 - `gradient-boosting` — ensemble methods building additive trees via boosting (XGBoost, CatBoost, etc.)
 - `probabilistic-classification` — classifiers that output calibrated probabilities rather than hard labels
 - `calibration` — alignment of predicted probabilities with observed frequencies (Brier score, reliability)
@@ -90,6 +93,7 @@ here first with a brief description.
 - `fact-checking` — verifying factual claims against evidence sources
 - `reasoning` — logical, abstract, or multi-step reasoning capabilities
 - `sports-analytics` — computer vision and data analysis applied to sports
+- `action-valuation` — assigning value to individual game actions via change in game-state quality
 - `event-stream-data` — time-stamped, located event annotations of a game (passes, shots, etc.)
 - `optical-tracking-data` — continuous high-frequency positional tracking of all players and the ball
 - `player-evaluation` — quantifying individual player contribution, value, and playing style

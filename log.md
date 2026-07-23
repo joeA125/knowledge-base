@@ -400,3 +400,34 @@ Tags added: 7 (optical-tracking-data, gaussian-process, survival-analysis, hiera
 
 Note: _schema/tags.md has been renamed to _schema/taxonomy.md; taxonomy updated at the new path.
 
+## [2026-07-23 10:32] ingest | Valuing On-the-Ball Actions: xT vs VAEP (Van Roy et al., AAAI 2020)
+Source: raw/papers/on-ball-actions-football-xt-vs-vaep.md — Van Roy, Robberechts, Decroos & Davis (AAAI 2020). Critical comparison of expected threat (xT) and VAEP as action valuation frameworks, on 2018/19 EPL StatsBomb data. Notable for being written by VAEP's own authors and reporting a finding unfavourable to their model (split-half reliability ρ=0.25 vs xT's 0.89).
+
+Pages created: 10 (1 source summary, 5 concepts, 1 synthesis, 3 entities)
+
+Source summary:
+- wiki/summaries/on-ball-actions-football-xt-vs-vaep.md
+
+Concepts (5):
+- expected-threat — xT model, Bellman recursion, zone-based state, strengths (interpretability, robustness) and limitations (ball progression only, no risk, no finishing credit)
+- action-valuation — the unifying V(a_i) = Q(S_i) - Q(S_{i-1}) equation, three-style taxonomy (count-based / possession-based / action-based), design axes, cross-sport lineage, shared offensive bias
+- value-iteration — Bellman backup, contraction/convergence, how xT instantiates it, evaluation vs optimisation distinction, contrast with supervised estimation
+- split-half-reliability — the paper's headline result, reliability vs validity distinction, why the gap exists, the controlled comparison (0.25 → 0.59 → 0.89), framed as bias-variance
+- jaccard-index — general set similarity, use for top-k ranking overlap here and as the basis of the existing jac-metric page, limitations (order-insensitive, size-sensitive, no partial credit)
+
+Synthesis (1) — first entry in wiki/syntheses/:
+- action-valuation-frameworks-compared — xG, xT, VAEP, EPV compared across 12 dimensions; central richness/stability trade-off; player-level divergences traced to design choices; the EPV terminology collision; shared structural limitations; practical guidance by use case
+
+Entities (3 new):
+- maaike-van-roy, pieter-robberechts, karun-singh (xT creator; flagged as citation-only knowledge)
+
+Pages updated: 6
+- tom-decroos — added second source; noted his co-authorship of a paper critical of his own model; added player vectors work (the source of the "players are consistent in where they act" finding)
+- jesse-davis — added second source; restructured around both KU Leuven papers; added collaborator links
+- vaep — added full xT comparison table, where-VAEP-wins/loses analysis, reliability finding, bias-variance framing; added second source
+- expected-goals — added "A Building Block, Not Just a Competitor" section showing xG appears inside the xT recursion as well as being a VAEP special case; added second source
+- expected-possession-value — added prominent terminology-collision warning (basketball EPV vs soccer "EPV approaches" as a category label); added position-among-frameworks table; added second source
+- jac-metric — linked to the new general jaccard-index page; explained how the τ threshold adapts a binary set metric to a continuous geometric problem
+
+Tags added: 5 (action-valuation, dynamic-programming, reliability, interpretability, plus dynamic-programming placement near markov-model)
+

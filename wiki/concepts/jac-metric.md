@@ -10,12 +10,12 @@ provenance:
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-07-07
-updated: 2026-07-07
+updated: 2026-07-23
 ---
 
 # JaC Metric (ProCC)
 
-JaC (Jaccard index for Camera Calibration) is a model-agnostic evaluation metric introduced by [[camera-calibration-benchmarking|Magera et al. (2025)]] as part of the ProCC benchmarking protocol for [[camera-calibration]] in sports.
+JaC (Jaccard index for Camera Calibration) is a model-agnostic evaluation metric introduced by [[camera-calibration-benchmarking|Magera et al. (2025)]] as part of the ProCC benchmarking protocol for [[camera-calibration]] in sports. It is an application of the general [[jaccard-index]] to reprojected field elements.
 
 ## Motivation: Why IoU Is Inadequate
 
@@ -35,7 +35,7 @@ Given semantic polyline annotations of field elements in the image and estimated
 
 $$\text{JaC}_\tau = \frac{\text{TP}_\tau}{\text{TP}_\tau + \text{FN} + \text{FP}}$$
 
-This bridges camera calibration evaluation with object detection scoring (Jaccard index / IoU over field elements rather than pixels).
+This is exactly the [[jaccard-index]] $|A \cap B| / |A \cup B|$ written in detection terminology, deliberately bridging camera calibration evaluation with object detection scoring.
 
 ## Key Properties
 
@@ -44,12 +44,15 @@ This bridges camera calibration evaluation with object detection scoring (Jaccar
 - **Interpretable thresholds:** $\tau = 5$ pixels differentiates between methods at current quality levels; $\tau = 2$ pixels separates precise methods. Results are proportions (0–100%), not unbounded distances.
 - **Handles hallucination:** Unlike reprojection error, JaC penalises elements that are projected into the image when they shouldn't be visible.
 
+The tolerance threshold $\tau$ is what adapts the Jaccard index — normally a hard set-membership criterion with no partial credit — to a continuous geometric problem. It defines what counts as a match *before* the set arithmetic begins.
+
 ## Relation to GS-HOTA
 
 The [[game-state-reconstruction|GS-HOTA metric]] (from the SoccerNet GSR challenge) also uses a Jaccard-style formulation but operates at the athlete level (LocSim × IdSim). JaC operates at the field element level and evaluates only the camera calibration component, not tracking or identification.
 
 ## See Also
 
+- [[jaccard-index]]
 - [[camera-calibration-benchmarking|ProCC Source Summary]]
 - [[camera-calibration]]
 - [[homography]]

@@ -45,8 +45,11 @@ A catalog of all wiki pages, organised by type.
 - [[james-little]] — Professor, co-author of Sports Camera Calibration via Synthetic Data
 - [[floriane-magera]] — Researcher, lead author of ProCC camera calibration benchmarking
 - [[marc-van-droogenbroeck]] — Professor, co-author of SoccerNet-v2 action spotting and ProCC
-- [[tom-decroos]] — Researcher, lead author of SPADL/VAEP (KDD 2019)
-- [[jesse-davis]] — Professor, senior author of SPADL/VAEP (KDD 2019)
+- [[tom-decroos]] — Researcher, lead author of SPADL/VAEP; co-author of the xT/VAEP comparison
+- [[jesse-davis]] — Professor, senior author of SPADL/VAEP and the xT/VAEP comparison
+- [[maaike-van-roy]] — Researcher, lead author of the xT vs VAEP critical comparison (AAAI 2020)
+- [[pieter-robberechts]] — Researcher, co-author of the xT vs VAEP comparison; win probability modelling
+- [[karun-singh]] — Creator of expected threat (xT)
 - [[daniel-cervone]] — Researcher, lead author of the NBA Expected Possession Value paper
 - [[alex-damour]] — Researcher, co-author of the NBA EPV paper
 - [[luke-bornn]] — Professor, co-author of the NBA EPV paper and spatial sports analytics
@@ -87,12 +90,17 @@ A catalog of all wiki pages, organised by type.
 - [[semantic-segmentation]] — Per-pixel image classification into semantic categories
 - [[eigenvector]] — Directions preserved under linear transformation; eigenvalues measure scaling
 - [[non-negative-matrix-factorization]] — Additive parts-based low-rank factorisation of non-negative data
+- [[jaccard-index]] — Set similarity as intersection over union; underlies IoU and JaC
 - [[gaussian-process]] — Nonparametric Bayesian prior over functions; basis and GMRF representations
 - [[martingale]] — Process whose expected future value equals its present value
 - [[competing-risks]] — Cause-specific hazards for mutually exclusive event types
 - [[car-prior]] — Hierarchical prior shrinking units toward their neighbours
 - [[inla]] — Deterministic approximate Bayesian inference for latent Gaussian models
 - [[multiresolution-modelling]] — Composing coarse and fine process models for tractable expectations
+- [[value-iteration]] — Dynamic-programming backup converging to a Markov value function
+- [[split-half-reliability]] — Consistency of a metric across disjoint halves of the same data
+- [[action-valuation]] — Valuing individual actions via change in game-state quality
+- [[expected-threat]] — Zonal Markov model valuing ball progression in soccer (xT)
 - [[vaep]] — Valuing Actions by Estimating Probabilities for soccer player evaluation
 - [[expected-possession-value]] — Expected points from a basketball possession, updated continuously
 - [[spadl]] — Soccer Player Action Description Language for unified event stream data
@@ -147,7 +155,7 @@ A catalog of all wiki pages, organised by type.
 
 ## Syntheses
 
-
+- [[action-valuation-frameworks-compared]] — xG, xT, VAEP and EPV compared across state representation, horizon, reliability, and cost
 
 ## Conversations
 
@@ -191,3 +199,4 @@ A catalog of all wiki pages, organised by type.
 - [[eigenvectors-explained]] — Summary of "Eigenvectors Explained" (tutorial article, 2026)
 - [[evaluating-football-player-actions]] — Summary of "Actions Speak Louder than Goals: Valuing Player Actions in Soccer" (Decroos et al., 2019)
 - [[multiresolution-stochastic-process-nba-possessions]] — Summary of "A Multiresolution Stochastic Process Model for Predicting Basketball Possession Outcomes" (Cervone et al., 2016)
+- [[on-ball-actions-football-xt-vs-vaep]] — Summary of "Valuing On-the-Ball Actions in Soccer: A Critical Comparison of xT and VAEP" (Van Roy et al., 2020)
