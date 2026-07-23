@@ -15,11 +15,13 @@ updated: 2026-07-23
 
 # Action Valuation Frameworks Compared
 
-The vault now holds four frameworks for valuing what players do: [[expected-goals|xG]], [[expected-threat|xT]], [[vaep]], and basketball's [[expected-possession-value|EPV]]. This page compares them across the design axes that actually distinguish them.
+The vault holds four frameworks for valuing what players do: [[expected-goals|xG]], [[expected-threat|xT]], [[vaep]], and basketball's [[martingale-epv]]. This page compares them across the design axes that actually distinguish them.
+
+For the shared idea underlying xT and martingale EPV specifically, see [[expected-possession-value]]; for the general task, [[action-valuation]].
 
 ## The Shared Skeleton
 
-All four instantiate the same equation ([[action-valuation]]):
+All four instantiate the same equation:
 
 $$V(a_i) = Q(S_i) - Q(S_{i-1})$$
 
@@ -27,7 +29,7 @@ They differ only in what $S$ contains and how $Q$ is computed. Everything below 
 
 ## Side-by-Side
 
-| | [[expected-goals\|xG]] | [[expected-threat\|xT]] | [[vaep]] | [[expected-possession-value\|EPV]] |
+| | [[expected-goals\|xG]] | [[expected-threat\|xT]] | [[vaep]] | [[martingale-epv\|Martingale EPV]] |
 |---|---|---|---|---|
 | **Sport** | Soccer | Soccer | Soccer | Basketball |
 | **Data** | [[event-stream-data\|Event stream]] | Event stream | Event stream | [[optical-tracking-data\|Optical tracking]] |
@@ -47,7 +49,7 @@ There is a consistent pattern running through the table: **richer state represen
 
 - xT's state is a single zone. It cannot see risk, context, or finishing — but its ratings are extraordinarily stable ($\rho = 0.89$) and the whole model is a visualisable heatmap.
 - VAEP's state is three actions plus game context. It captures risk, values every action type, and responds to context — but its player ratings barely replicate across halves of a season ($\rho = 0.25$), and no individual valuation can be readily explained.
-- EPV's state is the entire tracking history. It sees off-ball positioning and counterfactual passing options that neither soccer model can — at the price of a model so expensive that, as its authors note, it likely confines EPV to academia and well-resourced professional teams.
+- Martingale EPV's state is the entire tracking history. It sees off-ball positioning and counterfactual passing options that neither soccer model can — at the price of a model so expensive that, as its authors note, it likely confines the approach to academia and well-resourced professional teams.
 
 Critically, [[on-ball-actions-football-xt-vs-vaep|Van Roy et al.]] show the reliability gap is not just about scope: restricting VAEP to xT's action set and offensive dimension only recovers $\rho = 0.25 \to 0.59$, still far below 0.89. The richer representation *itself* introduces variance.
 
@@ -67,15 +69,15 @@ Correlations with traditional metrics confirm the tendencies: VAEP tracks goals/
 
 "Expected possession value" means two different things in this literature:
 
-- In **basketball**, EPV is [[expected-possession-value|Cervone et al.'s]] specific continuous-time martingale construction from tracking data.
+- In **basketball**, it names [[martingale-epv|Cervone et al.'s]] specific continuous-time martingale construction from tracking data.
 - In **soccer**, "EPV approaches" is a *category label* for possession-based Markov models — the family containing xT, Rudd (2011), Mackay (2017), and Yam (2019).
 
-The soccer category and the basketball model are not the same thing, and the soccer usage is the broader one.
+See [[expected-possession-value]] for the umbrella concept and the distinction.
 
 ## Structural Limitations Shared by All
 
 1. **Offensive bias.** Value is defined by proximity to scoring, so defensive contribution is systematically undervalued in every framework.
-2. **On-ball only** (except EPV, partially). Pressing, marking, and off-ball movement are invisible to all three soccer models.
+2. **On-ball only** (except tracking-based models, partially). Pressing, marking, and off-ball movement are invisible to all three soccer models.
 3. **No ground truth.** When xT and VAEP disagree about a through ball, there is no way to adjudicate. The Van Roy paper is explicit that determining true action values is "very difficult, if not impossible."
 4. **Context-dependence of ratings.** It is easier to accumulate value in a weaker league or a stronger team, so cross-context comparison remains unresolved.
 
@@ -83,15 +85,16 @@ The soccer category and the basketball model are not the same thing, and the soc
 
 - **Season-long recruitment and scouting** → xT's reliability is a strong argument; unstable ratings are actively misleading when the decision is expensive.
 - **Analysing specific passages of play** → VAEP's context sensitivity is the point, and season-level reliability is not the relevant criterion.
-- **Tactical and off-ball analysis with tracking data available** → EPV-style models, accepting the cost.
+- **Tactical and off-ball analysis with tracking data available** → martingale-EPV-style models, accepting the cost.
 - **Shot quality alone** → xG remains the right tool, and is a component of both xT and VAEP rather than a competitor.
 
 ## See Also
 
 - [[action-valuation]]
+- [[expected-possession-value]]
 - [[expected-threat]]
 - [[vaep]]
-- [[expected-possession-value]]
+- [[martingale-epv]]
 - [[expected-goals]]
 - [[split-half-reliability]]
 - [[markov-game]]

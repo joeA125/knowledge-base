@@ -15,7 +15,9 @@ updated: 2026-07-23
 
 # Expected Threat (xT)
 
-Expected Threat (xT; Karun Singh, 2019) is a possession-based [[markov-model|Markov model]] for [[action-valuation|valuing on-the-ball actions]] in soccer. It assigns each zone of the pitch a value representing how dangerous a team is when in possession there, then values an action by the change in zone value it produces.
+Expected Threat (xT; [[karun-singh|Karun Singh]], 2019) is a possession-based [[markov-model|Markov model]] for [[action-valuation|valuing on-the-ball actions]] in soccer. It assigns each zone of the pitch a value representing how dangerous a team is when in possession there, then values an action by the change in zone value it produces.
+
+It is the canonical example of the possession-based [[expected-possession-value]] family in soccer.
 
 ## Core Idea
 
@@ -61,13 +63,14 @@ Note that [[expected-goals|xG]] appears *inside* the recursion — xT is built o
 
 **No credit for finishing.** Shots are not valued directly, so a clinical finisher gains nothing. Sergio Agüero ranks 19th by VAEP but 109th by xT for exactly this reason.
 
-## Position Among Valuation Frameworks
+## A Note on Naming
 
-xT is the canonical example of the *possession-based* style in the [[action-valuation]] taxonomy. It is confusingly also called an "expected possession value" approach in the soccer literature — a name collision with basketball's [[expected-possession-value|EPV]] (Cervone et al.), which is a different and much heavier construction.
+xT belongs to what the soccer literature calls "expected possession value (EPV) approaches" — a category label, not a reference to [[martingale-epv|Cervone et al.'s basketball model]], which shares the name but is a vastly heavier construction with a [[martingale]] guarantee xT does not have. See [[expected-possession-value]] for the distinction.
 
 ## See Also
 
 - [[action-valuation]]
+- [[expected-possession-value]]
 - [[vaep]]
 - [[expected-goals]]
 - [[value-iteration]]

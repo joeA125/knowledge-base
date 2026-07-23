@@ -23,7 +23,7 @@ Because the types are disjoint, the overall hazard is simply $\lambda(t) = \sum_
 
 ## Application to Basketball Macrotransitions
 
-[[multiresolution-stochastic-process-nba-possessions|Cervone et al. (2016)]] use competing risks for the *macrotransition entry model* — predicting which ball-movement event ends the current possession state. Six competing event types:
+[[multiresolution-stochastic-process-nba-possessions|Cervone et al. (2016)]] use competing risks for the *macrotransition entry model* in [[martingale-epv]] — predicting which ball-movement event ends the current possession state. Six competing event types:
 
 | $j$ | Event |
 |---|---|
@@ -65,7 +65,7 @@ The fitted hazards do double duty: integrating them gives *expected* transition 
 
 ## See Also
 
-- [[expected-possession-value]]
+- [[martingale-epv]]
 - [[multiresolution-modelling]]
 - [[gaussian-process]]
 - [[inla]]

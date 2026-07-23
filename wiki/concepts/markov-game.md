@@ -39,7 +39,7 @@ Soccer is naturally adversarial — two teams with opposing objectives — makin
 
 A **semi-Markov** process relaxes the Markov chain's assumption about *timing*. In a standard continuous-time Markov chain, the holding time in each state must be exponentially distributed (the only memoryless continuous distribution). A semi-Markov process allows arbitrary holding-time distributions while keeping the *embedded* sequence of visited states Markovian.
 
-This distinction matters for continuous-time sports models. The [[multiresolution-stochastic-process-nba-possessions|EPV model]] assumes its coarsened possession process is marginally semi-Markov (its assumption A1) precisely so that:
+This distinction matters for continuous-time sports models. [[martingale-epv|The basketball EPV model]] assumes its coarsened possession process is marginally semi-Markov (its assumption A1) precisely so that:
 
 - the embedded state sequence $C^{(0)}, C^{(1)}, \dots, C^{(K)}$ forms a Markov chain, making $\mathbb{E}[X \mid C_t]$ computable by standard transition-matrix algebra;
 - while how long a player holds the ball in a given state is left unconstrained, since real possession durations are nothing like exponential.
@@ -48,39 +48,41 @@ The assumption's known failure mode is scripted play — pre-set sequences that 
 
 ## Use in Sports Analytics
 
-Modelling a sports match as a Markov game underpins much of the action-valuation literature:
+Modelling a sports match as a Markov game underpins much of the [[action-valuation]] literature:
 
 - **Routley & Schulte (2015)** — Markov game model for valuing actions in ice hockey, using zone-discretised state spaces.
 - **Liu & Schulte (2018)** — deep reinforcement learning for context-aware player evaluation in ice hockey.
-- **[[multiresolution-stochastic-process-nba-possessions|Cervone et al. (2016)]]** — [[expected-possession-value]] for basketball, using a semi-Markov coarsening combined with continuous-resolution models.
+- **[[multiresolution-stochastic-process-nba-possessions|Cervone et al. (2016)]]** — [[martingale-epv]] for basketball, using a semi-Markov coarsening combined with continuous-resolution models.
+- **[[expected-threat|xT]]** (Singh, 2019) and the wider possession-based [[expected-possession-value]] family in soccer — transition matrices over pitch zones solved by [[value-iteration]].
 - **[[evaluating-football-player-actions|Decroos et al. (2019)]]** — [[vaep]] for soccer, adopting the framing while estimating state values by supervised learning.
 
 The shared idea is that the value of a game state (and hence of the action that produced it) can be defined via expected future reward — points for basketball, scoring/conceding probability for soccer.
 
-## How VAEP and EPV Differ in Their Use of the Framing
+## How the Soccer and Basketball Models Differ in Their Use of the Framing
 
-Neither solves a full Markov game — neither computes equilibrium policies. But they diverge in how faithfully they implement the process model:
+None solves a full Markov game — none computes equilibrium policies. But they diverge in how faithfully they implement the process model:
 
-| | [[vaep]] | [[expected-possession-value|EPV]] |
-|---|---|---|
-| State representation | Previous 3 actions (truncated) | Semi-Markov coarsening + full-resolution conditioning |
-| Estimation | Supervised [[gradient-boosting]] on state features | Genuine [[multiresolution-modelling\|multiresolution]] process model |
-| [[martingale]] structure | Not guaranteed | Guaranteed by construction |
-| Spatial granularity | Exact action locations | Exact locations, plus 7-region coarsening |
+| | [[expected-threat\|xT]] | [[vaep]] | [[martingale-epv\|EPV]] |
+|---|---|---|---|
+| State | Ball's zone | Last 3 actions | Semi-Markov coarsening + full-resolution conditioning |
+| Estimation | [[value-iteration]] on a transition matrix | Supervised [[gradient-boosting]] | Genuine [[multiresolution-modelling\|multiresolution]] process model |
+| [[martingale]] structure | No | No | Yes |
+| Spatial granularity | Coarse zones | Exact action locations | Exact locations + 7-region coarsening |
 
-VAEP takes the Markov *assumption* but not the process machinery; EPV builds the process model explicitly, which is what buys it the martingale property.
+xT builds an explicit Markov chain but over an impoverished state space; VAEP takes the Markov *assumption* but not the process machinery; EPV builds the process model in full, which is what buys it the martingale property.
 
 ## Relation to Reinforcement Learning
 
-Markov games are the theoretical foundation of multi-agent [[reinforcement-learning]]. The same state-value machinery that underpins [[rlhf|RLHF]] (where a reward model scores states/trajectories) appears here — action values in VAEP and EPV play a role analogous to advantage estimates in RL, quantifying how much an action improved expected outcome.
+Markov games are the theoretical foundation of multi-agent [[reinforcement-learning]]. The same state-value machinery that underpins [[rlhf|RLHF]] (where a reward model scores states/trajectories) appears here — action values play a role analogous to advantage estimates in RL, quantifying how much an action improved expected outcome.
 
 ## See Also
 
-- [[vaep]]
+- [[action-valuation]]
 - [[expected-possession-value]]
+- [[expected-threat]]
+- [[vaep]]
+- [[martingale-epv]]
+- [[value-iteration]]
 - [[multiresolution-modelling]]
 - [[martingale]]
 - [[reinforcement-learning]]
-- [[expected-goals]]
-- [[evaluating-football-player-actions|VAEP Source Summary]]
-- [[multiresolution-stochastic-process-nba-possessions|EPV Source Summary]]

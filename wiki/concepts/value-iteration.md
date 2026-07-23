@@ -39,6 +39,8 @@ The correspondence to the general form is direct:
 
 Initialising all $xT(z) = 0$ gives a clean interpretation: **after iteration $i$, $xT(z)$ is the probability of scoring within the next $i$ actions.** Each iteration literally looks one action further ahead. [[on-ball-actions-football-xt-vs-vaep|Van Roy et al. (2020)]] report convergence after 6 iterations on a $16 \times 12$ grid — meaning goal-scoring threat in soccer effectively propagates about six actions.
 
+This is the standard estimation route for the possession-based family of [[expected-possession-value]] models in soccer.
+
 ## Relation to Policy Iteration
 
 Value iteration and policy iteration are the two classical dynamic-programming methods for [[markov-model|MDPs]]. Policy iteration alternates full policy evaluation with policy improvement; value iteration collapses these into a single backup per sweep. Value iteration typically needs more sweeps but each is far cheaper.
@@ -60,12 +62,13 @@ The enumeration requirement is why xT must discretise the pitch into zones, whic
 
 ## Broader Context
 
-Value iteration underpins classical [[reinforcement-learning]] and, in approximate form, deep RL. The same backup structure appears in the reward modelling of [[rlhf]], and in the transition-matrix algebra used to compute $\mathbb{E}[X \mid C_{\delta_t}]$ in the [[expected-possession-value|EPV]] model's coarsened chain.
+Value iteration underpins classical [[reinforcement-learning]] and, in approximate form, deep RL. The same backup structure appears in the reward modelling of [[rlhf]], and in the transition-matrix algebra used to compute $\mathbb{E}[X \mid C_{\delta_t}]$ in [[martingale-epv|the basketball EPV model's]] coarsened chain.
 
 ## See Also
 
 - [[expected-threat]]
+- [[expected-possession-value]]
 - [[markov-game]]
 - [[reinforcement-learning]]
-- [[expected-possession-value]]
+- [[martingale-epv]]
 - [[on-ball-actions-football-xt-vs-vaep|Source Summary]]

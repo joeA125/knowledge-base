@@ -15,13 +15,13 @@ updated: 2026-07-23
 
 # Alex D'Amour
 
-PhD candidate in the Statistics Department at Harvard University at the time of publication. Co-author of [[multiresolution-stochastic-process-nba-possessions|A Multiresolution Stochastic Process Model for Predicting Basketball Possession Outcomes]] (2016), which introduced [[expected-possession-value]].
+PhD candidate in the Statistics Department at Harvard University at the time of publication. Co-author of [[multiresolution-stochastic-process-nba-possessions|A Multiresolution Stochastic Process Model for Predicting Basketball Possession Outcomes]] (2016), which introduced [[martingale-epv]].
 
 Research interests span causal inference, [[bayesian-inference|Bayesian]] statistics, and the reliability of machine learning systems.
 
 ## See Also
 
-- [[expected-possession-value]]
+- [[martingale-epv]]
 - [[daniel-cervone]]
 - [[luke-bornn]]
 - [[kirk-goldsberry]]

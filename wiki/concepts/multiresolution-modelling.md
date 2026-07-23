@@ -15,7 +15,7 @@ updated: 2026-07-23
 
 # Multiresolution Modelling
 
-Multiresolution modelling represents the same process at two or more levels of granularity simultaneously, combining them so that each resolution handles the part of the problem it is best suited to. [[multiresolution-stochastic-process-nba-possessions|Cervone et al. (2016)]] introduced this approach for estimating [[expected-possession-value]] from basketball [[optical-tracking-data]].
+Multiresolution modelling represents the same process at two or more levels of granularity simultaneously, combining them so that each resolution handles the part of the problem it is best suited to. [[multiresolution-stochastic-process-nba-possessions|Cervone et al. (2016)]] introduced this approach for estimating [[martingale-epv]] from basketball [[optical-tracking-data]].
 
 ## The Problem It Solves
 
@@ -62,8 +62,11 @@ The authors present basketball as a case study for a broader pattern applicable 
 | Fully continuous process | ✓ | ✓ | ✗ |
 | **Multiresolution** | ✓ | ✓ | ✓ |
 
+The simpler soccer models in the [[expected-possession-value]] family sit in the second row — they buy tractability by discretising the pitch into zones and accept the resulting loss of detail.
+
 ## See Also
 
+- [[martingale-epv]]
 - [[expected-possession-value]]
 - [[markov-game]]
 - [[martingale]]

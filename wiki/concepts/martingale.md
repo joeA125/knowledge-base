@@ -23,11 +23,11 @@ Informally: it is a "fair game" — no strategy using only past information can 
 
 ## Why Conditional Expectations Are Martingales
 
-Any process defined as a conditional expectation of a fixed terminal quantity, $M_t = \mathbb{E}[X \mid \mathcal{F}_t]$, is automatically a martingale by the tower property of conditional expectation:
+Any process defined as a conditional expectation of a fixed terminal quantity, $M_t = \mathbb{E}[X \mid \mathcal{F}_t]$, is automatically a martingale by the tower property:
 
 $$\mathbb{E}[M_{t+s} \mid \mathcal{F}_t] = \mathbb{E}\big[\mathbb{E}[X \mid \mathcal{F}_{t+s}] \mid \mathcal{F}_t\big] = \mathbb{E}[X \mid \mathcal{F}_t] = M_t$$
 
-This is exactly the structure of [[expected-possession-value]] and of asset prices under risk-neutral valuation — hence the "stock ticker" reading of EPV.
+This is exactly the structure of [[martingale-epv]] and of asset prices under risk-neutral valuation — hence the "stock ticker" reading of EPV.
 
 ## Why It Matters for Sports Valuation
 
@@ -39,11 +39,15 @@ If the EPV curve is a martingale, every movement in it is attributable to inform
 ### 2. It forces relative baselines for player metrics
 The martingale property has a sharp consequence: $\mathbb{E}[\nu_{t+\epsilon} - \nu_t] = 0$. **On average, EPV does not change while any given player holds the ball.** So summing a player's EPV changes over a season yields approximately zero and measures nothing.
 
-This is why [[expected-possession-value|EPVA]] must be defined *relative* to a hypothetical league-average player facing the same situations. The baseline is not a stylistic choice — it is mathematically forced by the martingale structure. Any valuation metric built on a conditional-expectation process inherits this constraint.
+This is why [[martingale-epv|EPVA]] must be defined *relative* to a hypothetical league-average player facing the same situations. The baseline is not a stylistic choice — it is mathematically forced by the martingale structure. Any valuation metric built on a conditional-expectation process inherits this constraint.
 
-## Contrast with VAEP
+## Contrast with Other Action Valuation Frameworks
 
-[[vaep]] does not guarantee a martingale structure. Its action values come from differencing two independently trained [[gradient-boosting|classifiers]] rather than from a single coherent process model, so VAEP values can be summed directly per player without a relative baseline. The trade-off is that VAEP's fluctuations carry no formal consistency guarantee — a cost the authors of VAEP accept in exchange for tractability and portability to cheap [[event-stream-data]].
+Neither [[vaep]] nor [[expected-threat|xT]] guarantees a martingale structure, and they are the only frameworks in this vault's [[action-valuation]] cluster that do not.
+
+VAEP's action values come from differencing two independently trained [[gradient-boosting|classifiers]] rather than from a single coherent process model, so VAEP values can be summed directly per player without a relative baseline. The trade-off is that VAEP's fluctuations carry no formal consistency guarantee — a cost the authors of VAEP accept in exchange for tractability and portability to cheap [[event-stream-data]].
+
+xT is computed by [[value-iteration]] to a fixed point, which gives internally consistent zone values but no martingale property over the realised sequence of play, since the state representation discards everything except ball location.
 
 ## Related Structures
 
@@ -53,8 +57,10 @@ This is why [[expected-possession-value|EPVA]] must be defined *relative* to a h
 
 ## See Also
 
+- [[martingale-epv]]
 - [[expected-possession-value]]
 - [[multiresolution-modelling]]
 - [[vaep]]
+- [[expected-threat]]
 - [[markov-game]]
 - [[multiresolution-stochastic-process-nba-possessions|Source Summary]]

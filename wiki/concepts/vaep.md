@@ -35,6 +35,10 @@ A positive value means the action helped the team; a negative value means it hur
 
 This is why VAEP identifies players like De Bruyne and Hazard who are invisible to goals/assists metrics but whose passing and dribbling consistently raise their team's scoring probability.
 
+## Why It Is Not "Possession-Based"
+
+VAEP deliberately breaks the possession boundary. Where the [[expected-possession-value|possession-based family]] estimates the chance of a goal *within the current possession*, VAEP looks $k=10$ actions ahead regardless of turnovers. That single choice is what lets it model **risk** — the chance an action increases the opponent's scoring probability — and is why it is classified as action-based rather than as an EPV approach.
+
 ## Data Foundation
 
 VAEP is built on [[spadl]] representations of [[event-stream-data]]. The fixed 9-attribute action format makes it possible to construct the fixed-length feature vectors that the probability estimators require.
@@ -44,10 +48,6 @@ VAEP is built on [[spadl]] representations of [[event-stream-data]]. The fixed 9
 Two [[probabilistic-classification|probabilistic classifiers]] ([[gradient-boosting|CatBoost]]; XGBoost in later work) estimate $P_{scores}$ and $P_{concedes}$ from features of the previous 3 actions — action characteristics, action context, and game context (score difference, time remaining). CatBoost outperforms Logistic Regression, Random Forest, and XGBoost on both [[probability-calibration|Brier score and ROC AUC]].
 
 Because action values are computed by **summing and subtracting** these probabilities, [[probability-calibration|calibration]] is essential — miscalibrated probabilities would propagate directly into the action values.
-
-## Modelling as a Markov Game
-
-VAEP fits within a line of work modelling sports matches as a [[markov-game]] (Routley & Schulte for ice hockey, [[multiresolution-stochastic-process-nba-possessions|Cervone et al.]] for basketball). It adopts the Markov assumption but not the process machinery: the state is approximated by the last 3 actions, and state values are estimated by supervised learning rather than by solving a recursion.
 
 ## Comparison with xT
 
@@ -71,7 +71,7 @@ This is a bias–variance trade-off. VAEP's context sensitivity is exactly what 
 
 ## Relation to Basketball's EPV
 
-[[expected-possession-value|EPV]] answers the same question from [[optical-tracking-data]] with a Bayesian [[stochastic-process]] model. Because EPV is a genuine conditional expectation it is a [[martingale]], so a player's raw EPV changes average to zero, forcing a relative baseline (EPVA). VAEP's values, produced by differencing two independently trained classifiers, carry no such constraint and can be summed directly — at the cost of losing that consistency guarantee.
+[[martingale-epv]] answers the same question from [[optical-tracking-data]] with a Bayesian [[stochastic-process]] model. Because it is a genuine conditional expectation it is a [[martingale]], so a player's raw EPV changes average to zero, forcing a relative baseline (EPVA). VAEP's values, produced by differencing two independently trained classifiers, carry no such constraint and can be summed directly — at the cost of losing that consistency guarantee.
 
 ## Player Ratings
 
@@ -93,10 +93,11 @@ Ratings decompose by action type to characterise playing style — Neymar's drib
 ## See Also
 
 - [[action-valuation]]
+- [[expected-possession-value]]
 - [[expected-threat]]
+- [[martingale-epv]]
 - [[spadl]]
 - [[expected-goals]]
-- [[expected-possession-value]]
 - [[split-half-reliability]]
 - [[event-stream-data]]
 - [[gradient-boosting]]

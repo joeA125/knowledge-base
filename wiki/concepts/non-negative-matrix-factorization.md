@@ -38,9 +38,9 @@ Contrast with [[eigenvector]]-based methods:
 
 For spatial intensity data — where a "negative amount of time spent in the corner" is meaningless — the non-negative factorisation is the semantically correct one.
 
-## Two Uses in the EPV Model
+## Two Uses in the Basketball EPV Model
 
-The paper deploys NMF twice, for quite different purposes.
+[[martingale-epv|Cervone et al.'s model]] deploys NMF twice, for quite different purposes.
 
 ### 1. Learning player position from court occupancy
 A $461 \times 575$ matrix of players × court bins is factorised at rank $r=5$. The rows of $\mathbf{V}$ become basis distributions over the court; the rows of $\mathbf{U}$ give each player a 5-dimensional "position" learned from behaviour rather than from the league's positional labels. Distances in this space then define the neighbourhood structure for the [[car-prior]].
@@ -59,5 +59,5 @@ Topic modelling (documents × words), audio source separation (spectrograms), re
 - [[eigenvector]]
 - [[gaussian-process]]
 - [[car-prior]]
-- [[expected-possession-value]]
+- [[martingale-epv]]
 - [[multiresolution-stochastic-process-nba-possessions|Source Summary]]

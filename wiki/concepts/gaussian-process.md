@@ -50,6 +50,8 @@ The precision matrix is *sparse* under this construction, giving further computa
 
 Because each player gets his own GP weights, the fitted surfaces are directly interpretable. LeBron James's shot-taking hazard peaks near the basket with secondary peaks at the corner threes; his pass-to-point-guard hazard peaks at the top of the arc. The acceleration fields from the microtransition model show Tony Parker attacking the basket from beyond the perimeter while Dwight Howard only accelerates to the rim from inside the paint.
 
+This is the sharp contrast with zone-discretised models like [[expected-threat|xT]]: a GP gives a smooth surface over continuous space, where xT gives a step function over a coarse grid.
+
 ## Relation to Other Vault Concepts
 
 - GPs are the function-space counterpart of the finite Gaussian machinery in [[trueskill]] and [[gaussian-density-filtering]] — same distributional family, extended to infinite dimensions.
@@ -61,5 +63,5 @@ Because each player gets his own GP weights, the fitted surfaces are directly in
 - [[non-negative-matrix-factorization]]
 - [[car-prior]]
 - [[inla]]
-- [[expected-possession-value]]
+- [[martingale-epv]]
 - [[multiresolution-stochastic-process-nba-possessions|Source Summary]]

@@ -39,10 +39,10 @@ The two are complementary rather than competing: event streams say *what happene
 
 Analyses impossible from box scores or event streams alone:
 
-- **Off-ball value.** The [[multiresolution-stochastic-process-nba-possessions|EPV model]] shows Ray Allen as one of the most valuable passing options on a possession where he never touches the ball — visible only because his position and defensive coverage are tracked continuously.
+- **Off-ball value.** [[martingale-epv|The basketball EPV model]] shows Ray Allen as one of the most valuable passing options on a possession where he never touches the ball — visible only because his position and defensive coverage are tracked continuously.
 - **Defensive structure.** Franks et al. (2015) infer *who is guarding whom* by modelling each defender's position as a linear combination of the basket, the ball, and a guarded offender ($0.62\mathbf{z}^k + 0.11\mathbf{z}_{bask} + 0.27\mathbf{z}_{ball}$).
 - **Movement dynamics.** Per-player acceleration fields reveal that Tony Parker attacks the rim from beyond the perimeter while Dwight Howard only does so from inside the paint.
-- **Counterfactual valuation.** [[expected-possession-value]] weights actions that *could* have been taken, not just those that were.
+- **Counterfactual valuation.** Tracking-based [[expected-possession-value]] models weight actions that *could* have been taken, not just those that were — something no event-stream model can do, since unrealised options leave no event record.
 
 ## Relation to Game State Reconstruction
 
@@ -57,6 +57,7 @@ Even at full resolution, tracking data omits information that matters: hand and 
 ## See Also
 
 - [[event-stream-data]]
+- [[martingale-epv]]
 - [[expected-possession-value]]
 - [[game-state-reconstruction]]
 - [[camera-calibration]]

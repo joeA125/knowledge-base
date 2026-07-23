@@ -21,7 +21,9 @@ updated: 2026-07-23
 
 ## Key Contribution
 
-Introduces [[expected-possession-value]] (EPV) — the expected number of points a basketball possession will yield, conditional on everything observed so far. EPV is estimated in real time from NBA [[optical-tracking-data]] via a [[multiresolution-modelling|multiresolution]] stochastic process model that combines a fully continuous model of player movement with a coarsened [[markov-game|Markov chain]] over discrete game states.
+Introduces [[martingale-epv|expected possession value (EPV)]] for basketball — the expected number of points a possession will yield, conditional on everything observed so far. EPV is estimated in real time from NBA [[optical-tracking-data]] via a [[multiresolution-modelling|multiresolution]] stochastic process model that combines a fully continuous model of player movement with a coarsened [[markov-game|Markov chain]] over discrete game states.
+
+> Note on naming: "expected possession value" is also used in soccer as a *category label* for a family of much simpler models. This page and [[martingale-epv]] cover the specific basketball construction; [[expected-possession-value]] covers the shared idea.
 
 ## The Data
 
@@ -98,9 +100,11 @@ EPV is the basketball analogue of soccer's [[vaep]] — [[evaluating-football-pl
 
 ## See Also
 
+- [[martingale-epv]]
 - [[expected-possession-value]]
 - [[multiresolution-modelling]]
 - [[martingale]]
 - [[optical-tracking-data]]
 - [[vaep]]
 - [[markov-game]]
+- [[action-valuation-frameworks-compared]]

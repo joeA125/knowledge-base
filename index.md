@@ -50,8 +50,8 @@ A catalog of all wiki pages, organised by type.
 - [[maaike-van-roy]] — Researcher, lead author of the xT vs VAEP critical comparison (AAAI 2020)
 - [[pieter-robberechts]] — Researcher, co-author of the xT vs VAEP comparison; win probability modelling
 - [[karun-singh]] — Creator of expected threat (xT)
-- [[daniel-cervone]] — Researcher, lead author of the NBA Expected Possession Value paper
-- [[alex-damour]] — Researcher, co-author of the NBA EPV paper
+- [[daniel-cervone]] — Researcher, lead author of the NBA martingale EPV paper
+- [[alex-damour]] — Researcher, co-author of the NBA martingale EPV paper
 - [[luke-bornn]] — Professor, co-author of the NBA EPV paper and spatial sports analytics
 - [[kirk-goldsberry]] — Geographer, co-author of the NBA EPV paper; basketball spatial analysis
 - [[openai]] — AI research organisation (GPT, InstructGPT, Scaling Laws, VLAE)
@@ -100,9 +100,10 @@ A catalog of all wiki pages, organised by type.
 - [[value-iteration]] — Dynamic-programming backup converging to a Markov value function
 - [[split-half-reliability]] — Consistency of a metric across disjoint halves of the same data
 - [[action-valuation]] — Valuing individual actions via change in game-state quality
+- [[expected-possession-value]] — Umbrella concept: a possession's current worth; covers both the basketball model and the soccer category
+- [[martingale-epv]] — Cervone et al.'s specific basketball EPV construction with martingale guarantee
 - [[expected-threat]] — Zonal Markov model valuing ball progression in soccer (xT)
 - [[vaep]] — Valuing Actions by Estimating Probabilities for soccer player evaluation
-- [[expected-possession-value]] — Expected points from a basketball possession, updated continuously
 - [[spadl]] — Soccer Player Action Description Language for unified event stream data
 - [[expected-goals]] — Probability of a shot resulting in a goal (xG)
 - [[markov-game]] — Multi-agent stochastic-game framework underpinning action valuation
@@ -155,7 +156,7 @@ A catalog of all wiki pages, organised by type.
 
 ## Syntheses
 
-- [[action-valuation-frameworks-compared]] — xG, xT, VAEP and EPV compared across state representation, horizon, reliability, and cost
+- [[action-valuation-frameworks-compared]] — xG, xT, VAEP and martingale EPV compared across state representation, horizon, reliability, and cost
 
 ## Conversations
 

@@ -42,7 +42,7 @@ LeBron James's learned neighbours: Iguodala, Barnes, Paul George, Kobe Bryant, E
 
 ## Why Shrinkage Is Necessary Here
 
-Computing [[expected-possession-value]] requires integrating over *all possible* future paths, including situations a player never faced. DeAndre Jordan attempted no three-pointers in 2013–14, yet EPV for any possession with him on the court needs an estimate of his shooting ability from everywhere on the floor. Only borrowing strength from similar players makes such counterfactual estimates possible.
+Computing [[martingale-epv]] requires integrating over *all possible* future paths, including situations a player never faced. DeAndre Jordan attempted no three-pointers in 2013–14, yet EPV for any possession with him on the court needs an estimate of his shooting ability from everywhere on the floor. Only borrowing strength from similar players makes such counterfactual estimates possible.
 
 The paper's out-of-sample results bear this out: without shrinkage, the full spatial model sometimes performs *worse* than a model with no spatial effects at all — overfitting sparse per-player data. With CAR shrinkage it is consistently best.
 
@@ -59,6 +59,7 @@ The same CAR structure is applied to the [[gaussian-process]] basis weights $\ma
 - [[non-negative-matrix-factorization]]
 - [[gaussian-process]]
 - [[inla]]
+- [[martingale-epv]]
 - [[bayesian-inference]]
 - [[regularization]]
 - [[multiresolution-stochastic-process-nba-possessions|Source Summary]]

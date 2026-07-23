@@ -29,14 +29,14 @@ Event stream data is one of two primary data modalities for analysing team sport
 | Off-ball information | None | Full (all players tracked) |
 | Semantics | Directly annotated | Must be inferred |
 
-The [[evaluating-football-player-actions|VAEP paper]] focuses on event stream data because of its wider availability, though the [[vaep]] framework can extend to tracking data. The [[multiresolution-stochastic-process-nba-possessions|EPV model]] takes the opposite bet — building on optical tracking to capture off-ball value that event streams cannot see at all.
+The [[evaluating-football-player-actions|VAEP paper]] focuses on event stream data because of its wider availability, though the [[vaep]] framework can extend to tracking data. [[martingale-epv|The basketball EPV model]] takes the opposite bet — building on optical tracking to capture off-ball value that event streams cannot see at all.
 
 ## Modelling Consequences of the Choice
 
 The modality shapes what kind of model is even possible:
 
-- **Event streams** are naturally discrete, so [[vaep]] can use fixed-length feature vectors and off-the-shelf [[gradient-boosting]] classifiers.
-- **Tracking data** is continuous, which is why [[expected-possession-value|EPV]] needs a [[multiresolution-modelling|multiresolution]] [[stochastic-process|stochastic process]] model — and why it costs 461 processors to fit.
+- **Event streams** are naturally discrete, so [[vaep]] can use fixed-length feature vectors and off-the-shelf [[gradient-boosting]] classifiers, and [[expected-threat|xT]] can solve a small transition matrix by [[value-iteration]].
+- **Tracking data** is continuous, which is why [[martingale-epv]] needs a [[multiresolution-modelling|multiresolution]] [[stochastic-process|stochastic process]] model — and why it costs 461 processors to fit.
 
 ## Vendors
 
@@ -61,6 +61,8 @@ Event stream data and [[game-state-reconstruction|GSR]] are complementary: event
 - [[optical-tracking-data]]
 - [[spadl]]
 - [[vaep]]
+- [[expected-threat]]
+- [[martingale-epv]]
 - [[expected-possession-value]]
 - [[game-state-reconstruction]]
 - [[evaluating-football-player-actions|Source Summary]]

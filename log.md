@@ -431,3 +431,36 @@ Pages updated: 6
 
 Tags added: 5 (action-valuation, dynamic-programming, reliability, interpretability, plus dynamic-programming placement near markov-model)
 
+## [2026-07-23 11:35] lint | Split EPV into martingale-epv (specific model) and expected-possession-value (umbrella concept)
+Restructured the EPV concept space to resolve the terminology collision flagged during the xT/VAEP ingest.
+
+Problem: "expected possession value" denotes both (a) Cervone et al.'s specific basketball martingale construction and (b) a broad category label in soccer analytics for possession-based Markov models (xT, Rudd, Mackay, Yam). A single page could not serve both without being misleading.
+
+Pages created: 1
+- wiki/concepts/martingale-epv.md — the specific Cervone et al. (2016) basketball model. Named for the martingale property, which is precisely what distinguishes it from the category sharing its name. Covers the stock-ticker analogy, why the martingale structure is a design requirement, multiresolution estimation, EPVA and shot satisfaction, the 461-processor cost, and limitations.
+
+Pages rewritten: 1
+- wiki/concepts/expected-possession-value.md — now an umbrella concept covering the shared ideology behind both usages. Prominent warning distinguishing the basketball model from the soccer category; the three shared commitments (possession as unit of value, valuation by change, lookahead not outcome); where implementations diverge (horizon, state, estimation, data); use cases; common limitations; index of vault implementations.
+
+Backlinks rerouted: all 20 inbound links audited and repointed by semantics.
+
+To martingale-epv (references to the specific model):
+- concepts: car-prior, competing-risks, gaussian-process, non-negative-matrix-factorization, martingale, multiresolution-modelling, optical-tracking-data, value-iteration, event-stream-data
+- entities: daniel-cervone, alex-damour, luke-bornn, kirk-goldsberry
+- summaries: multiresolution-stochastic-process-nba-possessions
+
+To the umbrella, or both (references to the general idea or the soccer category):
+- concepts: action-valuation, expected-threat, vaep, markov-game
+- syntheses: action-valuation-frameworks-compared
+- index.md
+
+Additional content added while rerouting:
+- expected-threat — new "A Note on Naming" section situating xT in the soccer EPV category
+- vaep — new "Why It Is Not Possession-Based" section, explaining that breaking the possession boundary is what lets it model risk
+- markov-game — comparison table extended to three models (xT, VAEP, EPV) showing how each uses the Markov framing differently
+- gaussian-process — added contrast with zone-discretised models (smooth surface vs step function)
+- multiresolution-modelling — noted that simpler soccer models occupy the "pure Markov chain" row of the tradeoff table
+- daniel-cervone, luke-bornn — added Fernández, Bornn & Cervone (2019), which carries the basketball approach to soccer using tracking data
+
+Verified via find_backlinks: both pages correctly linked, no dead references.
+

@@ -37,7 +37,7 @@ Assign a weight to each action type, then take a weighted sum of how many times 
 *Limitation:* aggregates actions with no regard for context. A pass is a pass, wherever and whenever it happens.
 
 ### Possession-based
-Split the match into possessions, then value ball-progressing actions by how they change the chance of a goal *within that possession*. Almost all such models are [[markov-model|Markov models]] over a discretised state space.
+Split the match into possessions, then value ball-progressing actions by how they change the chance of a goal *within that possession*. Almost all such models are [[markov-model|Markov models]] over a discretised state space. This is the family the soccer literature labels "[[expected-possession-value|expected possession value]] approaches".
 
 *Examples:* Rudd (2011); Mackay (2017); [[expected-threat|xT]] (Singh, 2019); Yam (2019).
 
@@ -66,7 +66,7 @@ The design space has a few recurring axes:
 The problem is not soccer-specific, and soccer arrived late because its low scoring rate and sparse on-ball actions make it especially hard. Antecedents:
 
 - American football — Romer (2006)
-- Basketball — [[expected-possession-value|Cervone et al.]] (2014, 2016)
+- Basketball — [[martingale-epv|Cervone et al.]] (2014, 2016)
 - Ice hockey — Routley & Schulte (2015); Liu & Schulte (2018)
 - Rugby — Kempton et al. (2016)
 
@@ -76,9 +76,10 @@ Every framework in this family rewards offensive actions more richly than defens
 
 ## See Also
 
+- [[expected-possession-value]]
 - [[expected-threat]]
 - [[vaep]]
-- [[expected-possession-value]]
+- [[martingale-epv]]
 - [[expected-goals]]
 - [[markov-game]]
 - [[action-valuation-frameworks-compared]]
