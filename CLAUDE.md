@@ -71,23 +71,24 @@ recalculate confidence. Flag any page below 0.5 for review.
 
 ### INGEST (new source → wiki updates)
 
-1. Read it in full with read_note
-2. Create a source summary page in wiki/summaries/ with write_note
+1. Read it in full with read_note.
+2. Create a source summary page in wiki/summaries/ with write_note.
 3. List every distinct technical concept, method, or architecture introduced 
    or substantially covered. For each, state whether it warrants a concept page 
    and why. Err toward creating pages.
 4. Before creating any new concept or entity page, search wiki/concepts/ and 
-   wiki/entities/ for existing pages that reference the same topic. Update existing 
-   pages rather than leaving stubs stale
-5. Create or update entity pages for each entity mentioned and deemed appropriate 
-   for a page or with an existing page
-6. Create or update concept pages for each concept discussed and deemed appropriate 
-   for page or with an existing page
-7. Re-check for contradictions with existing pages
-8. Add new tags to the tags tracker 
-9. Add [[wikilinks]] cross-references on all affected pages
-10. Update the index with update_index
-11. Log the operation with append_log
+   wiki/entities/ for existing pages that reference the same topic. 
+5. Update existing pages which contain overlap or are further developed by 
+   the new raw source.
+5. Create entity pages for each entity mentioned and deemed appropriate 
+   for a page.
+6. Create concept pages for each concept discussed and deemed appropriate 
+   for page.
+7. Re-check for contradictions with existing pages.
+8. Add new tags to the tags tracker.
+9. Add [[wikilinks]] cross-references on all affected pages.
+10. Update the index with update_index.
+11. Log the operation with append_log.
    `## [YYYY-MM-DD] ingest | Source Title`
    `Pages created: X, Pages updated: Y`
 
