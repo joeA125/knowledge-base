@@ -588,3 +588,33 @@ Tags added: 4 (tokenization, counterfactual, multi-task-learning, constrained-de
 
 Not updated, with reason: nmstpp (the LEM Transformer baseline is derived from it, but that is a detail about ScoutGPT's experimental setup rather than a fact about NMSTPP); vaep (used as ScoutGPT's value target, already covered by the synthesis and the scoutgpt page); event-stream-data (VERSA format is worth a line but the discretisation table was already extended twice this week and is at a sensible length).
 
+## [2026-07-24 11:54] ingest | EventGPT: player-conditioned generation and residual OBV (Lee, Hong et al., 2025)
+Source: raw/papers/eventgpt-player-impact-from-team-action-sequences.md — Lee, Hong (joint first), Jo, So, Bauer & Ko (2025). EventGPT: player-conditioned, value-aware next-event prediction on nanoGPT, introducing residual On-Ball Value (rOBV) as a forward-looking target. Premier League 2020/21-2024/25, 173,951 episodes. Direct predecessor to ScoutGPT, which I ingested yesterday FROM CITATION ONLY.
+
+Pages created: 9 (1 source summary, 4 concepts, 2 entities, plus 2 entity corrections below)
+
+Source summary:
+- wiki/summaries/eventgpt-player-impact-team-action-sequences.md
+
+Concepts (4):
+- on-ball-value — StatsBomb's possession-bounded action value (absent from the vault; flagged as a vendor metric with no public specification), plus residual OBV as the paper's actual contribution: a forward-looking value target making value a prediction target inside the generative process rather than a post-hoc layer. Noted the close analogy to an RL state-value function. Records the truncated-mean-for-attackers aggregation and that it makes positions non-comparable.
+- eventgpt — the two ideas (player conditioning, value-as-token), architecture with weight tying and unified vocabulary, results including the two metrics it loses on, and the four case studies which carry the argument more than the headline numbers
+- player-embedding — static vs conditioned embeddings and why only the latter supports counterfactual transplantation; position emerging without supervision across BOTH papers; masking improving retrieval; and the important negative result that embedding similarity is NOT contextual fit (Mbeumo/Bowen close in style, far in projected value)
+- teacher-forcing — absent from the vault despite underlying every generative model in it. Covers why it is used, exposure bias, and a table showing the sports models' differing rollout lengths — with the observation that EventGPT sidesteps exposure bias entirely by re-scoring rather than generating, while ScoutGPT is exposed over ~28 events and neither paper measures it.
+
+Entities (2 new): geonhee-jo (also lead author of VERSA, which supplies both ScoutGPT's preprocessing and its decoding constraints — the same artifact used twice), jae-hee-so (Bank of Korea, an unusual affiliation; the financial-valuation connection is flagged as inferred, not stated)
+
+CORRECTIONS made from having the primary source:
+- minho-lee — I described him yesterday as a minor co-author, from ScoutGPT's author list alone. He is JOINT FIRST AUTHOR of EventGPT, the foundational paper in this line. Page corrected with an explicit note.
+- miru-hong — updated to joint first author of EventGPT (equal contribution), plus the progression between the two papers.
+- scoutgpt — I wrote yesterday that EventGPT "generated only short fragments and so had to approximate the remaining value", taken from ScoutGPT's related-work section. The primary source shows its transfer simulation primarily RE-SCORES fixed sequences. The two accounts are not straightforwardly reconcilable; I have recorded both with a caution that a group's account of its own prior work is a characterisation, not a neutral summary.
+
+Pages updated: 3
+- scoutgpt — added the EventGPT comparison table, the re-score vs re-generate distinction, the characterisation caveat above, exposure-bias limitation, and links to the new concepts
+- counterfactual-simulation — added the two-strengths-of-counterfactual table (re-scoring vs re-generation, with their different questions and different error exposure); added the "sanity checks worth borrowing" section from EventGPT's case studies, including the genuine falsification test (substituting a striker into defensive contexts degrades value, and the model has no positional labels so cannot be penalising him for position); added the self-to-self baseline failure (Saka simulated 18.59 vs GT 15.72, with the simulated value then used as baseline)
+- miru-hong, minho-lee — see corrections above
+
+Tags added: 2 (teacher-forcing, entity-embedding). Modest, correctly — this paper sits almost entirely in territory mapped during the ScoutGPT ingest, which per the standing lesson means more cross-page updates and fewer new tags.
+
+Not updated, with reason: spadl (EventGPT is the only model in the cluster using SPADL, which is worth a line on that page — flagging as a small outstanding item); action-valuation-frameworks-compared (EventGPT belongs to the counterfactual row already present; adding it would duplicate rather than extend, and the re-score/re-generate distinction is better placed on counterfactual-simulation where it is developed).
+

@@ -1,8 +1,8 @@
 ---
 title: "Counterfactual Simulation"
 type: concept
-tags: [counterfactual, generative-model, sports-analytics, player-evaluation, evaluation, machine-learning]
-sources: [raw/papers/scoutgpt-generative-transformer-football-player-valuation.md]
+tags: [counterfactual, generative-model, sports-analytics, player-evaluation, evaluation, machine-learning, entity-embedding]
+sources: [raw/papers/scoutgpt-generative-transformer-football-player-valuation.md, raw/papers/eventgpt-player-impact-from-team-action-sequences.md]
 confidence: 0.85
 provenance:
   extracted: 65%
@@ -19,50 +19,70 @@ Counterfactual simulation uses a generative model to answer "what would have hap
 
 ## Why Valuation Is Not Enough
 
-The [[action-valuation]] frameworks in this vault — [[vaep]], [[expected-threat|xT]], [[martingale-epv]] — all value actions that **actually happened**. That answers "how good was this player's contribution?" but not "how good would this player be *for us*?"
+The [[action-valuation]] frameworks in this vault — [[vaep]], [[expected-threat|xT]], [[on-ball-value|OBV]], [[martingale-epv]] — all value actions that **actually happened**. That answers "how good was this player's contribution?" but not "how good would this player be *for us*?"
 
-[[scoutgpt-counterfactual-player-valuation|Hong et al. (2026)]] put the objection sharply: a transfer is not a like-for-like substitution. Moving a player changes the tactical configuration and reshapes interaction patterns across the whole team, so past performance is drawn from a different distribution than future performance will be. The question is behaviour **under distribution shift**, which extrapolation cannot supply.
+The objection is put sharply in both papers from this line. A transfer is not a like-for-like substitution: moving a player changes the tactical configuration and reshapes interaction patterns, so past performance is drawn from a different distribution than future performance will be. The question is behaviour **under distribution shift**.
 
-Forecasting models ([[seq2event]], [[nmstpp]], [[sig-model]]) come closer — they generate — but are trained and evaluated on predicting *observed* continuations, and generally lack the entity-conditioning needed to hold everything fixed while changing one thing.
+[[eventgpt-player-impact-team-action-sequences|Lee, Hong et al.]] add a second objection aimed at the value models specifically — that value is "applied as a post-hoc layer on completed event sequences… rather than co-learned with the sequential process that generates actions." Their answer is [[on-ball-value|residual OBV]], a forward-looking value target predicted *inside* the generative process.
+
+## Two Strengths of Counterfactual
+
+An important distinction, and the axis on which this line of work advanced:
+
+| | **Re-scoring** | **Re-generation** |
+|---|---|---|
+| Procedure | Hold the observed sequence fixed, substitute the player, re-evaluate value | Substitute the player, generate a new sequence |
+| Question answered | How would this player *value* these situations? | How would this player *change what happens*? |
+| Example | [[eventgpt]] | [[scoutgpt]] |
+| Exposure to [[teacher-forcing\|compounding error]] | None — nothing generated | Substantial over long rollouts |
+
+Re-scoring is the weaker counterfactual but the safer estimate. Re-generation asks the question you actually care about and pays for it in accumulated generation error. Neither paper measures that cost directly.
 
 ## What a Model Needs to Support It
 
-Three requirements, and the third is the one usually missing:
-
-1. **Generative.** It must produce sequences, not score existing ones.
+1. **Generative.** It must produce sequences, not score existing ones — at least for re-generation.
 2. **Long enough horizon.** Fragment-level generation forces the remaining value to be approximated; evaluating a transfer needs whole possessions.
-3. **Explicit entity conditioning.** The intervention must be *surgical* — change the player, hold the context fixed. If player identity is entangled with everything else, or generated freely, the counterfactual is not isolated.
+3. **Explicit entity conditioning.** The intervention must be *surgical*. If entity identity is entangled with everything else, or generated freely, the counterfactual is not isolated.
 
-[[scoutgpt]] achieves the third by conditioning on an explicit lineup context block and **never generating player identity** — it is resolved deterministically from the lineup given the predicted team and position. Swapping the lineup therefore swaps the player without the model being able to overrule the intervention.
+The third is achieved in both models by the same trick, established in [[eventgpt]]: **player identity conditions the prediction but is never itself predicted.** Substituting the identity token therefore cannot be silently overruled by the model regenerating the player it expected.
 
 ## Estimation by Monte Carlo
 
-Generation is stochastic, so a single rollout is a sample rather than an estimate. Counterfactual quantities are computed by averaging over many sampled continuations.
+Generation is stochastic, so a single rollout is a sample rather than an estimate. Counterfactual quantities are computed by averaging over many sampled continuations, and [[scoutgpt]]'s self-to-self reconstruction error falls monotonically with sample count ($1.9 \to 1.5 \times 10^{-3}$ from 1 to 20 samples). **A single rollout is not a counterfactual estimate.**
 
-The stability matters empirically: ScoutGPT's self-to-self reconstruction error falls monotonically as samples increase (per-episode mean $1.9 \to 1.5 \times 10^{-3}$ from 1 to 20 samples). **A single rollout is not a counterfactual estimate**, and reported results should state the sample count.
+Aggregation is not always a plain mean. [[eventgpt]] uses a **truncated mean over the top quartile** for attackers, whose value distributions are heavily skewed, and an arithmetic mean elsewhere — defensible given the skew, but a hand-chosen position-dependent estimator that makes roles non-comparable.
 
-## Validation: the Self-to-Self Check
+## Validation
 
-Counterfactual claims are hard to validate because the counterfactual world is unobserved. One available check is **self-to-self reconstruction**: simulate with the *actual* lineup and compare against what really happened. If the model cannot reproduce the factual, its counterfactuals are not credible.
+**Self-to-self reconstruction.** Simulate with the *actual* entity and compare against what really happened. Necessary but not sufficient — a model could reconstruct well while responding wrongly to interventions.
 
-This is necessary but not sufficient — a model could reconstruct well while responding wrongly to interventions. The stronger test used here is out-of-sample transfer prediction: simulate a player into their new team and compare against their actual subsequent season (MAE 1.25 vs 1.88 for naive carry-over).
+It also fails informatively. EventGPT's simulated rOBV for Saka (18.59) *exceeds* his ground truth (15.72), and the authors then use the simulated value as the comparison baseline. That is an acknowledged but uncorrected bias, and it means their reported gaps are measured against the model's own optimism rather than reality.
+
+**Out-of-sample intervention.** The stronger test: simulate the entity into a genuinely new context and compare against what actually happened there. ScoutGPT's transfer prediction (MAE 1.25 vs 1.88 naive) is this, though against a weak baseline.
+
+## Sanity Checks Worth Borrowing
+
+EventGPT's case studies include two checks that generalise to any counterfactual system:
+
+- **Does the intervention produce differentiated effects?** Substituting strikers into different tactical contexts *reverses* their ranking — Haaland's predicted value falls from 2.71 in Manchester City's structured build-up to 1.37 in a transition-heavy context. A model that produced the same ranking everywhere would not be modelling context at all.
+- **Does it degrade where it should?** Substituting a striker into defensive contexts collapses his projected value. Critically, the model has **no positional labels**, so it cannot be penalising him for being "out of position" — the decline comes purely from contextual demands. This is a genuine falsification test, and it passes.
 
 ## Causal Caveats
 
-The language of counterfactuals is borrowed from causal inference, and the borrowing is loose. A generative model trained on observational data learns the *observational* distribution; intervening on one variable and regenerating gives the correct causal answer only if the model has captured the right dependency structure and there is no unmeasured confounding.
+The language is borrowed from causal inference, and the borrowing is loose. A generative model trained on observational data learns the *observational* distribution; intervening and regenerating gives the correct causal answer only if the model captured the right dependency structure and there is no unmeasured confounding.
 
-In football, a player's observed performance is confounded with their team's quality, tactical system, and opposition. A model conditioned on lineup may absorb some of this, but nothing guarantees the learned association is the causal effect. The transfer-prediction results are evidence the simulation is *useful*, not proof it is causally valid.
-
-The vault's other causal-flavoured work — the [[martingale|martingale]] requirement in [[martingale-epv]] — takes a different route to the same worry, insisting on stochastic consistency so that changes in the value curve reflect what players did rather than estimator artifacts.
+In football, observed performance is confounded with team quality, tactical system, and opposition. Conditioning on lineup absorbs some of this, but nothing guarantees the learned association is the causal effect. Both papers also note **training-window sensitivity**: an unusually poor observed season propagates into the baseline against which substitutions are compared. The transfer results are evidence the simulation is *useful*, not proof it is causally valid.
 
 ## Beyond Sport
 
-The pattern generalises to any domain where a generative model can be conditioned on an intervenable entity: simulating patient outcomes under alternative treatments, user behaviour under different recommendations, or system behaviour under configuration changes. The same three requirements apply, and the same caveat about observational training data.
+The pattern generalises wherever a generative model can be conditioned on an intervenable entity: patient outcomes under alternative treatments, user behaviour under different recommendations, system behaviour under configuration changes. The same three requirements apply, and the same caveat about observational training data.
 
 ## See Also
 
-- [[scoutgpt]]
-- [[large-event-model]]
+- [[eventgpt]] · [[scoutgpt]]
+- [[on-ball-value]]
+- [[player-embedding]]
+- [[teacher-forcing]]
 - [[action-valuation]]
-- [[vaep]]
-- [[scoutgpt-counterfactual-player-valuation|Source Summary]]
+- [[scoutgpt-counterfactual-player-valuation|ScoutGPT Summary]]
+- [[eventgpt-player-impact-team-action-sequences|EventGPT Summary]]

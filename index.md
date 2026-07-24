@@ -65,10 +65,12 @@ A catalog of all wiki pages, organised by type.
 - [[matthieu-marbac]] — Researcher, co-author; specialist in model-based clustering for sports data
 - [[anthony-sorel]] — Researcher, co-author; sports science and VR training applications
 - [[sandeep-narayanan]] — Lead author of the foundational Bayesian point-process model of football events
-- [[miru-hong]] — Researcher, lead author of ScoutGPT and EventGPT
-- [[sang-ki-ko]] — Researcher, senior author of ScoutGPT; leads the VERSA/EventGPT programme
+- [[miru-hong]] — Researcher, joint first author of EventGPT and lead author of ScoutGPT
+- [[minho-lee]] — Researcher, joint first author of EventGPT; co-author of ScoutGPT and VERSA
+- [[sang-ki-ko]] — Researcher, senior author of EventGPT and ScoutGPT
+- [[geonhee-jo]] — Researcher, co-author of EventGPT and ScoutGPT; lead author of VERSA
+- [[jae-hee-so]] — Researcher, Bank of Korea; co-author of EventGPT
 - [[pascal-bauer]] — Chair for Sports Analytics, Saarland; also Deutscher Fussball-Bund
-- [[minho-lee]] — Researcher, co-author of ScoutGPT
 - [[tiago-mendes-neves]] — Lead author of the Large Event Model line of work
 - [[openai]] — AI research organisation (GPT, InstructGPT, Scaling Laws, VLAE)
 - [[google-brain]] — AI research team at Google
@@ -126,8 +128,10 @@ A catalog of all wiki pages, organised by type.
 - [[feature-engineering]] — Constructing input representations; when handcrafted features help and when they hurt
 - [[tokenization]] — Converting raw data into discrete units for sequence models (BPE, WordPiece, event tokens)
 - [[constrained-decoding]] — Masking invalid tokens during generation to enforce validity rules
+- [[teacher-forcing]] — Training autoregressive models on ground-truth history, and the exposure bias it creates
 - [[multi-task-learning]] — Jointly optimising several objectives over a shared representation
 - [[counterfactual-simulation]] — Generating outcomes under hypothetical, unobserved conditions
+- [[player-embedding]] — Learned player representations; static vs conditioned, and why position emerges unsupervised
 - [[split-half-reliability]] — Consistency of a metric across disjoint halves of the same data
 - [[predictive-validity]] — Whether a metric forecasts future outcomes, used where ground truth is absent
 - [[action-valuation]] — Valuing individual actions via change in game-state quality
@@ -135,9 +139,11 @@ A catalog of all wiki pages, organised by type.
 - [[martingale-epv]] — Cervone et al.'s specific basketball EPV construction with martingale guarantee
 - [[expected-threat]] — Zonal Markov model valuing ball progression in soccer (xT)
 - [[vaep]] — Valuing Actions by Estimating Probabilities for soccer player evaluation
+- [[on-ball-value]] — StatsBomb's possession-bounded action value; and residual OBV as a forward-looking target
 - [[large-event-model]] — Football-as-language paradigm; foundation models for event streams
 - [[nmstpp]] — Transformer point-process model forecasting event time, zone, and action jointly
 - [[sig-model]] — Path-signature model forecasting next action type and exact location
+- [[eventgpt]] — Player-conditioned generative model predicting residual on-ball value
 - [[scoutgpt]] — Lineup-conditioned generative transformer for counterfactual transfer simulation
 - [[hpus]] — Possession utilisation score derived from NMSTPP forecasts, using no goal data
 - [[lpv]] — Location-based possession value built from xG and xT at predicted locations
@@ -242,4 +248,5 @@ A catalog of all wiki pages, organised by type.
 - [[transformer-point-process-football-event-modelling]] — Summary of "Transformer-Based Neural Marked Spatio Temporal Point Process Model for Football Match Events Analysis" (Yeung et al., 2023)
 - [[understanding-football-possessions-path-signatures]] — Summary of "The Path to a Goal: Understanding Soccer Possessions via Path Signatures" (Hirnschall & Bajons, 2025)
 - [[football-event-sequences-point-process-mixture]] — Summary of "Model-Based Clustering of Football Event Sequences: A Marked Spatio-Temporal Point Process Mixture Approach" (Amezouwui et al., 2025)
+- [[eventgpt-player-impact-team-action-sequences]] — Summary of "EventGPT: Capturing Player Impact from Team Action Sequences Using GPT-Based Framework" (Lee, Hong et al., 2025)
 - [[scoutgpt-counterfactual-player-valuation]] — Summary of "Modeling Matches as Language: A Generative Transformer Approach for Counterfactual Player Valuation in Football" (Hong et al., 2026)
