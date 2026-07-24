@@ -60,6 +60,16 @@ A catalog of all wiki pages, organised by type.
 - [[ian-simpson]] — Lead author of Seq2Event and the poss-util metric
 - [[david-hirnschall]] — Researcher, joint first author of the path-signature possession paper
 - [[robert-bajons]] — Researcher, joint first author of the path-signature possession paper
+- [[koffi-amezouwui]] — Researcher, lead author of the possession mixture-model clustering paper
+- [[brigitte-gelein]] — Researcher, co-author of the possession mixture-model paper
+- [[matthieu-marbac]] — Researcher, co-author; specialist in model-based clustering for sports data
+- [[anthony-sorel]] — Researcher, co-author; sports science and VR training applications
+- [[sandeep-narayanan]] — Lead author of the foundational Bayesian point-process model of football events
+- [[miru-hong]] — Researcher, lead author of ScoutGPT and EventGPT
+- [[sang-ki-ko]] — Researcher, senior author of ScoutGPT; leads the VERSA/EventGPT programme
+- [[pascal-bauer]] — Chair for Sports Analytics, Saarland; also Deutscher Fussball-Bund
+- [[minho-lee]] — Researcher, co-author of ScoutGPT
+- [[tiago-mendes-neves]] — Lead author of the Large Event Model line of work
 - [[openai]] — AI research organisation (GPT, InstructGPT, Scaling Laws, VLAE)
 - [[google-brain]] — AI research team at Google
 - [[google-deepmind]] — AI research lab (London), developed NTMs
@@ -97,18 +107,27 @@ A catalog of all wiki pages, organised by type.
 - [[eigenvector]] — Directions preserved under linear transformation; eigenvalues measure scaling
 - [[non-negative-matrix-factorization]] — Additive parts-based low-rank factorisation of non-negative data
 - [[jaccard-index]] — Set similarity as intersection over union; underlies IoU and JaC
+- [[adjusted-rand-index]] — Chance-corrected agreement between two partitions; standard clustering metric
 - [[kl-divergence]] — Information-theoretic divergence between distributions; underlies ELBO, CEL, and PPO penalties
 - [[path-signature]] — Iterated-integral feature map encoding order and interaction in paths
 - [[gaussian-process]] — Nonparametric Bayesian prior over functions; basis and GMRF representations
 - [[martingale]] — Process whose expected future value equals its present value
-- [[point-process]] — Models of discrete event occurrence in time and space (Poisson, Hawkes, MSTPP)
+- [[point-process]] — Models of discrete event occurrence in time and space (Poisson, Hawkes, Gamma, MSTPP)
 - [[neural-temporal-point-process]] — Learning point-process conditional distributions with neural networks
 - [[competing-risks]] — Cause-specific hazards for mutually exclusive event types
+- [[absorbing-markov-chain]] — Chains that terminate; fundamental matrix gives expected visits and absorption time
+- [[mixture-model]] — Population as a weighted combination of components; basis of model-based clustering
+- [[expectation-maximization]] — Iterative maximum likelihood with latent variables (EM, GEM)
+- [[identifiability]] — Whether parameters are uniquely determined by the distribution they induce
 - [[car-prior]] — Hierarchical prior shrinking units toward their neighbours
 - [[inla]] — Deterministic approximate Bayesian inference for latent Gaussian models
 - [[multiresolution-modelling]] — Composing coarse and fine process models for tractable expectations
 - [[value-iteration]] — Dynamic-programming backup converging to a Markov value function
 - [[feature-engineering]] — Constructing input representations; when handcrafted features help and when they hurt
+- [[tokenization]] — Converting raw data into discrete units for sequence models (BPE, WordPiece, event tokens)
+- [[constrained-decoding]] — Masking invalid tokens during generation to enforce validity rules
+- [[multi-task-learning]] — Jointly optimising several objectives over a shared representation
+- [[counterfactual-simulation]] — Generating outcomes under hypothetical, unobserved conditions
 - [[split-half-reliability]] — Consistency of a metric across disjoint halves of the same data
 - [[predictive-validity]] — Whether a metric forecasts future outcomes, used where ground truth is absent
 - [[action-valuation]] — Valuing individual actions via change in game-state quality
@@ -116,8 +135,10 @@ A catalog of all wiki pages, organised by type.
 - [[martingale-epv]] — Cervone et al.'s specific basketball EPV construction with martingale guarantee
 - [[expected-threat]] — Zonal Markov model valuing ball progression in soccer (xT)
 - [[vaep]] — Valuing Actions by Estimating Probabilities for soccer player evaluation
+- [[large-event-model]] — Football-as-language paradigm; foundation models for event streams
 - [[nmstpp]] — Transformer point-process model forecasting event time, zone, and action jointly
 - [[sig-model]] — Path-signature model forecasting next action type and exact location
+- [[scoutgpt]] — Lineup-conditioned generative transformer for counterfactual transfer simulation
 - [[hpus]] — Possession utilisation score derived from NMSTPP forecasts, using no goal data
 - [[lpv]] — Location-based possession value built from xG and xT at predicted locations
 - [[seq2event]] — Predecessor event-forecasting model; origin of the poss-util metric
@@ -173,7 +194,7 @@ A catalog of all wiki pages, organised by type.
 
 ## Syntheses
 
-- [[action-valuation-frameworks-compared]] — xG, xT, VAEP and martingale EPV compared; the valuation-vs-forecasting axis; the Seq2Event → NMSTPP → Sig-Model lineage; HPUS vs LPV; and why possession metrics outpredict goals
+- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the four distinct tasks (valuation, forecasting, clustering, counterfactual simulation), how each is validated, and why possession metrics outpredict goals
 
 ## Conversations
 
@@ -220,3 +241,5 @@ A catalog of all wiki pages, organised by type.
 - [[on-ball-actions-football-xt-vs-vaep]] — Summary of "Valuing On-the-Ball Actions in Soccer: A Critical Comparison of xT and VAEP" (Van Roy et al., 2020)
 - [[transformer-point-process-football-event-modelling]] — Summary of "Transformer-Based Neural Marked Spatio Temporal Point Process Model for Football Match Events Analysis" (Yeung et al., 2023)
 - [[understanding-football-possessions-path-signatures]] — Summary of "The Path to a Goal: Understanding Soccer Possessions via Path Signatures" (Hirnschall & Bajons, 2025)
+- [[football-event-sequences-point-process-mixture]] — Summary of "Model-Based Clustering of Football Event Sequences: A Marked Spatio-Temporal Point Process Mixture Approach" (Amezouwui et al., 2025)
+- [[scoutgpt-counterfactual-player-valuation]] — Summary of "Modeling Matches as Language: A Generative Transformer Approach for Counterfactual Player Valuation in Football" (Hong et al., 2026)

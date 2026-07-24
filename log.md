@@ -535,3 +535,56 @@ Pages updated: 4
 
 Tags added: 4 (path-signature, feature-engineering, predictive-validity, information-theory)
 
+## [2026-07-24 09:16] ingest | Model-based clustering of football possessions via point-process mixture (Amezouwui et al., 2025)
+Source: raw/papers/football-event-sequences-spatiotemporal-point-process-mixture-model.md — Amezouwui, Gelein, Marbac & Sorel (2025). Mixture model whose components are marked spatio-temporal point processes, clustering whole football possessions. StatsBomb data, 2623 possessions faced by Stade Rennais in defence, 2020/21 Ligue 1. Motivated by populating VR goalkeeper training environments.
+
+Pages created: 11 (1 source summary, 5 concepts, 5 entities)
+
+Source summary:
+- wiki/summaries/football-event-sequences-point-process-mixture.md
+
+Concepts (5):
+- mixture-model — model-based clustering, why generative beats distance-based for structured data, EM estimation, BIC for choosing K (with the caveat that its regularity conditions don't strictly hold for mixtures), label switching, multi-start necessity
+- expectation-maximization — A SIGNIFICANT GAP NOW CLOSED. The vault had EP, INLA, and ADF but not EM, which inverts the conceptual order. Covers the E/M steps, the Jensen minorise-maximise argument, the KL-gap connection to the VAE ELBO, GEM and why a single L-BFGS-B step preserves the guarantee, and a table placing all the vault's inference methods relative to EM.
+- absorbing-markov-chain — canonical form, fundamental matrix F=(I-Q)^-1 as expected visits, the three derived statistics (expected events, visits per type, duration), and the general lesson about reporting derived quantities rather than raw parameters
+- identifiability — definition, why it precedes estimation, label switching in mixtures, what actually does the identifying work here (the Gamma timing parameters, via a tail argument), kinds of non-identifiability, and the observation that deep nets are massively non-identifiable and nobody minds because parameters aren't the object of interest
+- adjusted-rand-index — chance correction and why the raw Rand index fails, comparison table against jaccard-index, the ARI-ceiling point (0.83 in the easy case is near-optimal given 5% Bayes error, not a shortfall), and the ground-truth problem linking to split-half-reliability/predictive-validity
+
+Entities (5): koffi-amezouwui, brigitte-gelein, matthieu-marbac, anthony-sorel, sandeep-narayanan (last is citation-only, but warranted — his 2023 JRSS-C paper is the foundational point-process treatment cited by two vault sources)
+
+Pages updated: 3
+- point-process — added the Gamma process to the classical families table; added a "Football Does Not Self-Excite" section recording Narayanan's empirical finding and why it rules out Hawkes processes despite their intuitive appeal; added "Mixtures of Point Processes" with a table showing the three football treatments differ in unit (match/event/possession) and task (modelling/forecasting/clustering)
+- jaccard-index — added "Comparing Partitions, Not Sets" pointing to adjusted-rand-index; added chance correction to the limitations; added clustering tag
+- event-stream-data — extended the discretisation table with the 16-type StatsBomb row and drew out the pattern that forecasting models collapse hardest while structural models collapse least, with the reason (class imbalance vs estimability); added the spatial counterpart showing neither continuous nor zoned is simply better; added manual-annotation error rates
+
+Tags added: 5 (clustering, mixture-model, expectation-maximization, identifiability, model-selection)
+
+Not updated, with reason: markov-game (absorbing-markov-chain links to it; the reverse link would be nice but adds no content); action-valuation-frameworks-compared (this paper is clustering, not valuation — it belongs to a third task family and forcing it into that synthesis would distort it; a separate synthesis on sports modelling tasks may be warranted if more clustering work arrives).
+
+## [2026-07-24 09:46] ingest | ScoutGPT: counterfactual player valuation via lineup-conditioned generation (Hong et al., 2026)
+Source: raw/papers/scoutgpt-generative-transformer-football-player-valuation.md — Hong, Lee, Jo, Jo, Bauer & Ko (2026). ScoutGPT: nanoGPT-based decoder-only transformer generating football event sequences conditioned on an explicit lineup, enabling counterfactual simulation of player transfers. K League 2021-2025, 222,940 episodes.
+
+Pages created: 12 (1 source summary, 6 concepts, 5 entities)
+
+Source summary:
+- wiki/summaries/scoutgpt-counterfactual-player-valuation.md
+
+Concepts (6):
+- counterfactual-simulation — why valuation cannot answer transfer questions (distribution shift), the three requirements (generative / long horizon / surgical entity conditioning), Monte Carlo estimation and why a single rollout is not an estimate, self-to-self validation, and explicit causal caveats about observational training data
+- scoutgpt — the design problem and how never generating player identity keeps the intervention clean, architecture table, honest reporting that CatBoost still beats it on goal-scored AUC, and the emergent position-from-masking finding
+- large-event-model — the football-as-language paradigm; where the analogy holds and where it breaks (structured tuples, hard validity constraints, value≠likelihood, data scarcity); the 2022-2026 lineage table; the open foundation-model question with evidence on both sides
+- tokenization — CROSS-CUTTING GAP CLOSED. BPE and WordPiece were mentioned on the GPT/BERT pages with nowhere to anchor. Covers text schemes, structured-event tokenization, the discretisation question across four vault models, and why tokenization choices propagate into attention cost and hypothesis space
+- constrained-decoding — logit masking vs post-hoc filtering, the football validity rules, the identical technique in LLM structured output and function calling, dependence on tokenization, and what it cannot fix (validity is not plausibility)
+- multi-task-learning — why auxiliary objectives change what is learned (likelihood ≠ tactical value), design choices (head placement, loss weighting, task masking), and a distinction worth drawing between genuine multi-task and chained autoregressive factorisation (NMSTPP's composite loss is the latter, as its ablation shows)
+
+Entities (5): miru-hong, sang-ki-ko, pascal-bauer (notable — Chair for Sports Analytics AND Deutscher Fussball-Bund, a rare direct line into federation practice), minho-lee, tiago-mendes-neves (citation-only; the LEM programme lead)
+
+Pages updated: 3
+- action-valuation-frameworks-compared — RESTRUCTURED AND RETITLED to "Football Modelling Tasks Compared". The valuation-only framing had been outgrown: the vault now holds four distinct tasks (valuation, forecasting, clustering, counterfactual simulation) with different questions, units, label requirements, and validation strategies. Added a four-task table up front, a per-task validation table, and the clustering paper which I had previously and correctly declined to force into a valuation comparison. Page filename retained to preserve inbound links.
+- seq2event — restructured around three successors objecting to three different things (NMSTPP: ignores time; Sig-Model: wrong unit; ScoutGPT: cannot be conditioned on a hypothetical lineup); added ScoutGPT to the benchmark table; added the LEM framing note
+- gpt — added "The Architecture Travels Beyond Language" with a table showing what changes and what doesn't when nanoGPT is applied to football events (backbone unmodified; tokenization, conditioning, objective and decoding all change). This is the transformer-as-general-sequence-architecture point I declined to add during the NMSTPP ingest for lack of substance — with a second source and a concrete comparison it now earns its place. Also linked tokenization and multi-task-learning.
+
+Tags added: 4 (tokenization, counterfactual, multi-task-learning, constrained-decoding)
+
+Not updated, with reason: nmstpp (the LEM Transformer baseline is derived from it, but that is a detail about ScoutGPT's experimental setup rather than a fact about NMSTPP); vaep (used as ScoutGPT's value target, already covered by the synthesis and the scoutgpt page); event-stream-data (VERSA format is worth a line but the discretisation table was already extended twice this week and is at a sensible length).
+

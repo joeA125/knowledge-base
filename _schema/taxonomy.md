@@ -16,6 +16,15 @@ here first with a brief description.
 - `information-theory` — entropy, divergence, and coding-theoretic measures (KL, cross-entropy, mutual information)
 - `dimensionality-reduction` — compressing data into low-dimensional representations (PCA, NMF, functional bases)
 - `feature-engineering` — constructing, selecting, or learning input representations for a model
+- `tokenization` — converting raw data into discrete units for sequence models (BPE, WordPiece, event tokens)
+- `clustering` — unsupervised partitioning of data into groups
+- `mixture-model` — modelling a population as a weighted combination of component distributions
+- `expectation-maximization` — iterative maximum-likelihood estimation with latent variables (EM, GEM)
+- `identifiability` — whether model parameters are uniquely determined by the distribution they induce
+- `model-selection` — choosing model complexity via penalised likelihood or validation (BIC, AIC)
+- `counterfactual` — reasoning about outcomes under hypothetical, unobserved conditions
+- `multi-task-learning` — jointly optimising several objectives so they share representation
+- `constrained-decoding` — restricting generation to outputs satisfying validity rules
 - `RAG` — retrieval augmented generation
 - `MCP` — model context protocol
 - `transformer` — Transformer architecture and variants
