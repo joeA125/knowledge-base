@@ -27,12 +27,17 @@ here first with a brief description.
 - `multi-task-learning` — jointly optimising several objectives so they share representation
 - `constrained-decoding` — restricting generation to outputs satisfying validity rules
 - `teacher-forcing` — training autoregressive models on ground-truth history, and the exposure bias it creates
+- `regression` — predicting continuous-valued targets rather than discrete classes
+- `random-forest` — bagged ensembles of decorrelated decision trees
 - `RAG` — retrieval augmented generation
 - `MCP` — model context protocol
 - `transformer` — Transformer architecture and variants
 - `attention` — attention mechanisms in neural networks
 - `machine-translation` — translating text between languages with ML
 - `sequence-modelling` — modelling sequential data (text, time series, etc.)
+- `time-series` — observations indexed by time, and the extraction of trend, form, and volatility from them
+- `smoothing` — recovering trend from noisy series (moving averages, exponential smoothing, windowing)
+- `volatility` — variability of a measurement around its own trend or long-run level
 - `event-prediction` — forecasting the time, location, and type of the next event in a sequence
 - `set-modelling` — handling unordered sets as inputs or outputs in neural models
 - `ordering` — effects of data ordering on model training and performance
@@ -102,6 +107,7 @@ here first with a brief description.
 - `evaluation` — benchmarking, testing, and measuring AI system capabilities
 - `reliability` — consistency of a measurement across repeated or split samples (split-half, test-retest)
 - `predictive-validity` — whether a metric forecasts future outcomes it should, used where ground truth is unavailable
+- `selection-bias` — systematic non-representativeness of a sample relative to the population it is meant to describe
 - `interpretability` — the degree to which a model's outputs can be explained in human terms
 - `gradient-boosting` — ensemble methods building additive trees via boosting (XGBoost, CatBoost, etc.)
 - `probabilistic-classification` — classifiers that output calibrated probabilities rather than hard labels
@@ -114,6 +120,8 @@ here first with a brief description.
 - `event-stream-data` — time-stamped, located event annotations of a game (passes, shots, etc.)
 - `optical-tracking-data` — continuous high-frequency positional tracking of all players and the ball
 - `player-evaluation` — quantifying individual player contribution, value, and playing style
+- `player-development` — how player performance evolves over age, experience, and career stage
+- `recruitment` — scouting, transfer, and squad-building decision support
 - `multi-object-tracking` — tracking multiple objects across video frames with consistent identities
 - `camera-calibration` — estimating camera parameters to map image to world coordinates
 - `object-detection` — locating and classifying objects in images (YOLO, Faster R-CNN, etc.)
@@ -125,6 +133,8 @@ here first with a brief description.
 - `researcher` — academic or industry researcher
 - `organisation` — company, lab, institution
 - `university` — academic institution
+- `research-institute` — non-university research laboratory or institute
+- `sports-club` — a professional sporting club or its corporate arm
 - `ai-research` — entity or work focused on AI research
 - `google` — Google and its divisions
 - `microsoft` — Microsoft and its divisions

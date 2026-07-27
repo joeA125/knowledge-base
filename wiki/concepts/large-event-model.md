@@ -1,8 +1,8 @@
 ---
 title: "Large Event Model (LEM)"
 type: concept
-tags: [sports-analytics, generative-model, transformer, event-prediction, event-stream-data, tokenization, sequence-modelling, pre-training]
-sources: [raw/papers/scoutgpt-generative-transformer-football-player-valuation.md]
+tags: [sports-analytics, generative-model, transformer, event-prediction, event-stream-data, tokenization, sequence-modelling, pre-training, time-series]
+sources: [raw/papers/scoutgpt-generative-transformer-football-player-valuation.md, raw/papers/football-performance-time-series.md]
 confidence: 0.8
 provenance:
   extracted: 50%
@@ -10,14 +10,29 @@ provenance:
   ambiguous: 10%
 lifecycle: reviewed
 created: 2026-07-24
-updated: 2026-07-24
+updated: 2026-07-27
 ---
 
 # Large Event Model (LEM)
 
-A Large Event Model (Mendes-Neves, Meireles & Mendes-Moreira, 2024) applies the large-language-model recipe to sports event streams: decompose each event into attributes, tokenise, and train a [[transformer]] on next-token prediction over whole matches. The ambition is a **foundation model for football** — one generative model supporting many downstream tasks rather than a bespoke model per task.
+A Large Event Model ([[tiago-mendes-neves|Mendes-Neves]], [[luis-meireles|Meireles]] & [[joao-mendes-moreira|Mendes-Moreira]], 2024) applies the large-language-model recipe to sports event streams: decompose each event into attributes, tokenise, and train a [[transformer]] on next-token prediction over whole matches. The ambition is a **foundation model for football** — one generative model supporting many downstream tasks rather than a bespoke model per task.
 
-> **Provenance note:** vault knowledge comes from citations in [[scoutgpt-counterfactual-player-valuation|Hong et al. (2026)]], not the primary sources.
+> **Provenance note:** vault knowledge of the LEM papers themselves comes from citations in [[scoutgpt-counterfactual-player-valuation|Hong et al. (2026)]], not the primary sources. The group's *earlier* work is held directly — see below.
+
+## The Group's Earlier Work
+
+The same three authors produced [[football-performance-time-series|"Valuing Players Over Time"]] before the LEM papers, and the contrast is instructive about what the foundation-model turn was reacting against.
+
+| | Valuing Players Over Time | LEM |
+|---|---|---|
+| Model | [[random-forest\|Random Forest]] regressor | [[transformer]] decoder |
+| Target | Hand-designed time-decayed value label | Next token |
+| Pipeline | Value actions → aggregate per game → [[smoothing\|smooth]] → analyse | Learn the event distribution directly |
+| Contribution | The **aggregation** ([[player-rating-time-series\|time-series framing]]) | The **representation** |
+
+The earlier paper takes a valuation model as given and extracts more from it by better aggregation. The LEM papers discard the hand-built pipeline entirely. What persists is the conviction that football event streams are **sequential data with exploitable structure**, argued first at the level of match-by-match ratings and later at the level of individual events.
+
+Notably, the earlier paper's derived quantities — [[performance-volatility|volatility]], [[player-development-curve|development curves]] — have **no counterpart in the LEM line**. A generative event model produces distributions over what happens next; it does not by itself produce a longitudinal account of a career. These remain complementary rather than superseded.
 
 ## The Football-as-Language Analogy
 
@@ -56,6 +71,8 @@ Whether football has enough data for the foundation-model recipe to pay off rema
 
 The vault's evidence is mixed. [[sig-model]] beats a transformer benchmark using a plain feedforward network on [[path-signature]] features, suggesting the right *representation* can substitute for scale in this regime. Conversely, ScoutGPT's lineup-conditioned generation does something no smaller model has demonstrated. The paradigms may be suited to different tasks rather than one superseding the other.
 
+The same group's earlier Random-Forest-based work is a further data point for the sceptical reading: its most durable contributions came from **how ratings were aggregated**, not from model capacity.
+
 ## See Also
 
 - [[scoutgpt]]
@@ -64,4 +81,7 @@ The vault's evidence is mixed. [[sig-model]] beats a transformer benchmark using
 - [[sig-model]]
 - [[tokenization]]
 - [[constrained-decoding]]
+- [[player-rating-time-series]]
+- [[tiago-mendes-neves]] · [[luis-meireles]] · [[joao-mendes-moreira]]
 - [[scoutgpt-counterfactual-player-valuation|Source Summary]]
+- [[football-performance-time-series|Valuing Players Over Time Summary]]

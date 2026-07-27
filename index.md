@@ -71,7 +71,9 @@ A catalog of all wiki pages, organised by type.
 - [[geonhee-jo]] — Researcher, co-author of EventGPT and ScoutGPT; lead author of VERSA
 - [[jae-hee-so]] — Researcher, Bank of Korea; co-author of EventGPT
 - [[pascal-bauer]] — Chair for Sports Analytics, Saarland; also Deutscher Fussball-Bund
-- [[tiago-mendes-neves]] — Lead author of the Large Event Model line of work
+- [[tiago-mendes-neves]] — Lead author of Valuing Players Over Time and the Large Event Model line of work
+- [[luis-meireles]] — Researcher, co-author of Valuing Players Over Time; affiliated with FC Porto
+- [[joao-mendes-moreira]] — Senior author of Valuing Players Over Time and the LEM papers
 - [[openai]] — AI research organisation (GPT, InstructGPT, Scaling Laws, VLAE)
 - [[google-brain]] — AI research team at Google
 - [[google-deepmind]] — AI research lab (London), developed NTMs
@@ -80,6 +82,9 @@ A catalog of all wiki pages, organised by type.
 - [[university-of-toronto]] — Canadian research university
 - [[jacobs-university-bremen]] — Research university in Bremen, Germany
 - [[universite-de-montreal]] — Canadian university, home of MILA
+- [[universidade-do-porto]] — Portuguese university; base of the Porto football-analytics group
+- [[inesc-tec]] — Portuguese research institute (LIAAD), joint affiliation of the Porto group
+- [[fc-porto]] — Professional football club; co-author affiliation on Valuing Players Over Time
 
 ## Concepts
 
@@ -99,6 +104,7 @@ A catalog of all wiki pages, organised by type.
 - [[lstm]] — Long Short-Term Memory recurrent architecture with gated memory cells
 - [[dropout]] — Regularisation via random unit zeroing during training
 - [[dropout-for-rnns]] — Applying dropout only to non-recurrent connections in LSTMs
+- [[recurrent-dropout]] — Dropout applied to recurrent connections themselves
 - [[residual-connections]] — Shortcut connections for gradient flow in deep networks
 - [[pre-activation-resnet]] — Pre-activation residual unit with BN→ReLU→Weight ordering
 - [[batch-normalization]] — Normalisation across mini-batch for each feature
@@ -125,6 +131,10 @@ A catalog of all wiki pages, organised by type.
 - [[inla]] — Deterministic approximate Bayesian inference for latent Gaussian models
 - [[multiresolution-modelling]] — Composing coarse and fine process models for tractable expectations
 - [[value-iteration]] — Dynamic-programming backup converging to a Markov value function
+- [[smoothing]] — Recovering trend from noisy series; moving averages, window choice, robustness
+- [[selection-bias]] — When what you observe depends on what you are measuring
+- [[random-forest]] — Bagged, feature-subsampled tree ensembles; variance reduction
+- [[gradient-boosting]] — Ensemble of additive trees via boosting (XGBoost, CatBoost)
 - [[feature-engineering]] — Constructing input representations; when handcrafted features help and when they hurt
 - [[tokenization]] — Converting raw data into discrete units for sequence models (BPE, WordPiece, event tokens)
 - [[constrained-decoding]] — Masking invalid tokens during generation to enforce validity rules
@@ -134,7 +144,12 @@ A catalog of all wiki pages, organised by type.
 - [[player-embedding]] — Learned player representations; static vs conditioned, and why position emerges unsupervised
 - [[split-half-reliability]] — Consistency of a metric across disjoint halves of the same data
 - [[predictive-validity]] — Whether a metric forecasts future outcomes, used where ground truth is absent
+- [[performance-volatility]] — Consistency of a player against their own trend; downside deviation
+- [[player-rating-time-series]] — Treating ratings as series rather than points; form, trend, and style change
+- [[player-development-curve]] — Expected performance against age, with selection-bias correction
+- [[recruitment]] — The signing decision, and what it requires that other tasks do not
 - [[action-valuation]] — Valuing individual actions via change in game-state quality
+- [[intent-vs-outcome-valuation]] — Separating decision quality from execution quality (I-VAEP / O-VAEP)
 - [[expected-possession-value]] — Umbrella concept: a possession's current worth; covers both the basketball model and the soccer category
 - [[martingale-epv]] — Cervone et al.'s specific basketball EPV construction with martingale guarantee
 - [[expected-threat]] — Zonal Markov model valuing ball progression in soccer (xT)
@@ -153,7 +168,6 @@ A catalog of all wiki pages, organised by type.
 - [[markov-game]] — Multi-agent stochastic-game framework underpinning action valuation
 - [[event-stream-data]] — Time-stamped, located event annotations of a game (passes, shots, etc.)
 - [[optical-tracking-data]] — Continuous high-frequency positions of all players and the ball
-- [[gradient-boosting]] — Ensemble of additive trees via boosting (XGBoost, CatBoost)
 - [[probability-calibration]] — Aligning predicted probabilities with observed frequencies (Brier score)
 - [[game-state-reconstruction]] — End-to-end athlete tracking, identification, and pitch localisation from broadcast video
 - [[camera-calibration]] — Estimating camera parameters from broadcast sports video using field geometry
@@ -200,7 +214,7 @@ A catalog of all wiki pages, organised by type.
 
 ## Syntheses
 
-- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the four distinct tasks (valuation, forecasting, clustering, counterfactual simulation), how each is validated, and why possession metrics outpredict goals
+- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the four distinct tasks (valuation, forecasting, clustering, counterfactual simulation), how each is validated, why possession metrics outpredict goals, and time as a cross-cutting axis
 
 ## Conversations
 
@@ -250,3 +264,4 @@ A catalog of all wiki pages, organised by type.
 - [[football-event-sequences-point-process-mixture]] — Summary of "Model-Based Clustering of Football Event Sequences: A Marked Spatio-Temporal Point Process Mixture Approach" (Amezouwui et al., 2025)
 - [[eventgpt-player-impact-team-action-sequences]] — Summary of "EventGPT: Capturing Player Impact from Team Action Sequences Using GPT-Based Framework" (Lee, Hong et al., 2025)
 - [[scoutgpt-counterfactual-player-valuation]] — Summary of "Modeling Matches as Language: A Generative Transformer Approach for Counterfactual Player Valuation in Football" (Hong et al., 2026)
+- [[football-performance-time-series]] — Summary of "Valuing Players Over Time" (Mendes-Neves, Meireles & Mendes-Moreira)

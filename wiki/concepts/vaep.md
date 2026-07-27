@@ -1,8 +1,8 @@
 ---
 title: "VAEP (Valuing Actions by Estimating Probabilities)"
 type: concept
-tags: [machine-learning, sports-analytics, statistics, evaluation, player-evaluation, probabilistic-classification, markov-model, action-valuation, reliability]
-sources: [raw/papers/evaluating-football-player-actions.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md]
+tags: [machine-learning, sports-analytics, statistics, evaluation, player-evaluation, probabilistic-classification, markov-model, action-valuation, reliability, regression, random-forest, time-series]
+sources: [raw/papers/evaluating-football-player-actions.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/football-performance-time-series.md]
 confidence: 0.95
 provenance:
   extracted: 90%
@@ -10,7 +10,7 @@ provenance:
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-07-20
-updated: 2026-07-23
+updated: 2026-07-27
 ---
 
 # VAEP (Valuing Actions by Estimating Probabilities)
@@ -45,9 +45,37 @@ VAEP is built on [[spadl]] representations of [[event-stream-data]]. The fixed 9
 
 ## Probability Estimation
 
-Two [[probabilistic-classification|probabilistic classifiers]] ([[gradient-boosting|CatBoost]]; XGBoost in later work) estimate $P_{scores}$ and $P_{concedes}$ from features of the previous 3 actions — action characteristics, action context, and game context (score difference, time remaining). CatBoost outperforms Logistic Regression, Random Forest, and XGBoost on both [[probability-calibration|Brier score and ROC AUC]].
+Two [[probabilistic-classification|probabilistic classifiers]] ([[gradient-boosting|CatBoost]]; XGBoost in later work) estimate $P_{scores}$ and $P_{concedes}$ from features of the previous 3 actions — action characteristics, action context, and game context (score difference, time remaining). CatBoost outperforms Logistic Regression, [[random-forest|Random Forest]], and XGBoost on both [[probability-calibration|Brier score and ROC AUC]].
 
 Because action values are computed by **summing and subtracting** these probabilities, [[probability-calibration|calibration]] is essential — miscalibrated probabilities would propagate directly into the action values.
+
+## Variants: I-VAEP and O-VAEP
+
+[[football-performance-time-series|Mendes-Neves, Meireles & Mendes-Moreira]] build a modified VAEP departing from the original in three ways:
+
+| | Original (Decroos et al.) | Mendes-Neves et al. |
+|---|---|---|
+| Target | Two probabilities ($P_{scores}$, $P_{concedes}$) | One continuous label on $[-1, 1]$ |
+| Framing | [[probabilistic-classification\|Classification]] | Regression |
+| Label horizon | Next $k = 10$ actions | Time-decayed (capped at 1 min), floored at last 5 actions |
+| Learner | [[gradient-boosting\|CatBoost]] | [[random-forest\|Random Forest]] |
+| Differencing | Consecutive states | **Lag of two actions** |
+
+The lag-of-two choice addresses paired actions — a foul followed by a dribble should contribute jointly rather than have the second cancel the first.
+
+Collapsing two probabilities into one signed target means offensive and defensive value are no longer separately estimated; they become the two signs of a single number. This loses independent inspection of each, but sidesteps the [[probability-calibration|calibration]] concern that arises when differencing two independently-trained classifiers.
+
+**The more portable idea is the intent/outcome split.** Training the same model with and without features encoding how the action turned out yields two ratings: **I-VAEP** (intent — was this the right thing to attempt?) and **O-VAEP** (outcome-aware — including execution quality). See [[intent-vs-outcome-valuation]].
+
+This suggests a possible route around VAEP's reliability problem. If unreliability stems largely from goals being rare and heavily weighted, an intent model — blind to conversion — should be more stable. **Untested:** no vault source reports [[split-half-reliability]] for I-VAEP.
+
+A caveat on the benchmark: the source's MAE/MedAE comparison tests **labelling strategies on a common architecture**, not this model against Decroos's. The two are not benchmarked head to head anywhere in the vault.
+
+## Ratings Over Time
+
+The variants above are still per-action. [[player-rating-time-series|Mendes-Neves et al. also argue against the final aggregation step]] — summing a season of VAEP into one number per player discards form, development, and style change. Their [[performance-volatility|volatility metrics]] and [[player-development-curve|development curve]] are built on per-game VAEP series rather than season totals.
+
+This partly reframes the reliability critique below. Within-season movement is noise *if* it is measurement variance and signal *if* it is genuine form — a distinction no vault source has settled empirically.
 
 ## Comparison with xT
 
@@ -89,10 +117,15 @@ Ratings decompose by action type to characterise playing style — Neymar's drib
 - Structurally favours attackers; Virgil van Dijk ranks 81st.
 - Cross-league and cross-club comparison is difficult.
 - Low interpretability: no straightforward explanation for why a given action received a given value.
+- Defensive actions are mis-valued because [[event-stream-data|event data]] lacks the context to judge tackles and interceptions — noted independently by Mendes-Neves et al. as a data limitation rather than a modelling one.
 
 ## See Also
 
 - [[action-valuation]]
+- [[intent-vs-outcome-valuation]]
+- [[player-rating-time-series]]
+- [[performance-volatility]]
+- [[player-development-curve]]
 - [[expected-possession-value]]
 - [[expected-threat]]
 - [[martingale-epv]]
@@ -101,9 +134,11 @@ Ratings decompose by action type to characterise playing style — Neymar's drib
 - [[split-half-reliability]]
 - [[event-stream-data]]
 - [[gradient-boosting]]
+- [[random-forest]]
 - [[probability-calibration]]
 - [[markov-game]]
 - [[martingale]]
 - [[action-valuation-frameworks-compared]]
 - [[evaluating-football-player-actions|VAEP Source Summary]]
 - [[on-ball-actions-football-xt-vs-vaep|xT/VAEP Comparison Summary]]
+- [[football-performance-time-series|Valuing Players Over Time Summary]]

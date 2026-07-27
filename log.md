@@ -618,3 +618,111 @@ Tags added: 2 (teacher-forcing, entity-embedding). Modest, correctly — this pa
 
 Not updated, with reason: spadl (EventGPT is the only model in the cluster using SPADL, which is worth a line on that page — flagging as a small outstanding item); action-valuation-frameworks-compared (EventGPT belongs to the counterfactual row already present; adding it would duplicate rather than extend, and the re-score/re-generate distinction is better placed on counterfactual-simulation where it is developed).
 
+## [2026-07-27 10:06] ingest | Valuing Players Over Time (Mendes-Neves, Meireles & Mendes-Moreira)
+Source: raw/papers/football-performance-time-series.md — the only unprocessed source across all five raw subfolders.
+
+Pages created: 14, Pages updated: 10 (plus taxonomy and index).
+
+CREATED
+- Summary: football-performance-time-series
+- Concepts: intent-vs-outcome-valuation, player-rating-time-series, performance-volatility, player-development-curve, selection-bias, random-forest, smoothing, recruitment
+- Entities: luis-meireles, joao-mendes-moreira, universidade-do-porto, inesc-tec, fc-porto
+
+UPDATED
+- tiago-mendes-neves — rewritten; vault's first PRIMARY source by this author, so the "citations only" provenance note was obsolete. Paper predates the LEM work.
+- vaep — new sections on the I-VAEP/O-VAEP variant and on ratings over time
+- action-valuation — two new design axes (outcome visibility, credit assignment); aggregation-step section
+- split-half-reliability — new section on the metric-vs-player interpretation conflict
+- large-event-model — the group's earlier work as precursor and contrast
+- expected-possession-value — citation correction; credit-decay axis
+- expected-goals — xG reframed as an intent metric
+- gradient-boosting — Random Forest contrast; fixed 2 dead [[calibration]] links (correct page is probability-calibration)
+- action-valuation-frameworks-compared (synthesis) — "Time as a Cross-Cutting Axis" section; intent/outcome axis added to Task 1; validation table row for time-series derivatives
+- _schema/taxonomy.md — 12 new tags added BEFORE any page using them: regression, random-forest, time-series, smoothing, volatility, selection-bias, player-development, recruitment, research-institute, sports-club (+ verified by re-read; nothing lost)
+
+SUBSTANTIVE FINDINGS
+1. CONTRADICTION recorded, not resolved: split-half-reliability treats within-season rating variation as measurement noise; performance-volatility treats the same variation as signal about the player. Both cannot be wholly right. Decisive experiment (does short-term deviation from long-term level predict next-match contribution?) is unrun in all vault sources. Recorded on both pages and in the synthesis.
+2. CITATION CORRECTION: expected-possession-value dated Fernandez-Bornn-Cervone to 2019; journal version is Machine Learning 110(6), 1389-1427 (June 2021). Both dates circulate (2019 MIT Sloan conference version). Noted inline per the supersession convention.
+3. DATA-FIDELITY WARNING on the summary: figure-derived tables in the raw file are visibly corrupted (Messi listed last in an ostensibly sorted volatility table with values identical to Falcao's; several player columns repeat identical values across rows). Prose relationships reliable; digits are not. Flagged for review if exact figures are ever needed.
+4. UNTESTED PREDICTION flagged as inference, not finding: an I-VAEP-style intent model should show higher split-half reliability than O-VAEP, since withholding outcome features removes the rare-goal noise channel that Van Roy et al. identified. No vault source measures this.
+
+TOOL ISSUES ENCOUNTERED
+- list_unprocessed_sources returned [] — FALSE NEGATIVE. The new source was found by manual comparison of the five raw folder listings against the index, and confirmed unreferenced via search_notes. A silent false negative here means sources can be missed entirely; worth fixing server-side.
+- read_taxonomy returned "No tags file found" — still hardcoded to the old _schema/tags.md path. Worked around by reading/writing _schema/taxonomy.md directly.
+
+LINT NOTES
+- find_mentioned_but_missing reports ~25 phantom targets of the form "expected-threat\" etc. These are a PARSER ARTEFACT, not dead links: the escaped pipe in [[page\|alias]] is required inside Obsidian table cells and is endorsed by _schema/conventions.md. Must NOT be "fixed" — doing so would break every table in the vault.
+- Fixed 2 real dead links I had introduced (recruitment, smoothing were linked as pages while existing only as tags) by creating both pages rather than de-linking.
+- Added recurrent-dropout to the index — page existed on disk but was uncatalogued.
+- Remaining pre-existing dead links, all tag-names-without-pages: interpretability, markov-model, reinforcement-learning, player-evaluation, probabilistic-classification, stochastic-process, spatiotemporal, rnn, clustering, model-selection, multi-object-tracking, representation-learning, survival-analysis. Not addressed this run.
+
+## [2026-07-27 10:06] ingest | Valuing Players Over Time (Mendes-Neves, Meireles & Mendes-Moreira)
+Source: raw/papers/football-performance-time-series.md — the only unprocessed source across all five raw subfolders.
+
+Pages created: 14, Pages updated: 10 (plus taxonomy and index).
+
+CREATED
+- Summary: football-performance-time-series
+- Concepts: intent-vs-outcome-valuation, player-rating-time-series, performance-volatility, player-development-curve, selection-bias, random-forest, smoothing, recruitment
+- Entities: luis-meireles, joao-mendes-moreira, universidade-do-porto, inesc-tec, fc-porto
+
+UPDATED
+- tiago-mendes-neves — rewritten; vault's first PRIMARY source by this author, so the "citations only" provenance note was obsolete. Paper predates the LEM work.
+- vaep — new sections on the I-VAEP/O-VAEP variant and on ratings over time
+- action-valuation — two new design axes (outcome visibility, credit assignment); aggregation-step section
+- split-half-reliability — new section on the metric-vs-player interpretation conflict
+- large-event-model — the group's earlier work as precursor and contrast
+- expected-possession-value — citation correction; credit-decay axis
+- expected-goals — xG reframed as an intent metric
+- gradient-boosting — Random Forest contrast; fixed 2 dead [[calibration]] links (correct page is probability-calibration)
+- action-valuation-frameworks-compared (synthesis) — "Time as a Cross-Cutting Axis" section; intent/outcome axis added to Task 1; validation-table row for time-series derivatives
+- _schema/taxonomy.md — 12 new tags added BEFORE any page using them: regression, random-forest, time-series, smoothing, volatility, selection-bias, player-development, recruitment, research-institute, sports-club. Verified by re-read; nothing lost.
+
+SUBSTANTIVE FINDINGS
+1. CONTRADICTION recorded, not resolved: split-half-reliability treats within-season rating variation as measurement noise; performance-volatility treats the same variation as signal about the player. Both cannot be wholly right. The decisive experiment — does short-term deviation from long-term level predict next-match contribution? — is unrun in all vault sources. Recorded on both pages and in the synthesis.
+2. CITATION CORRECTION: expected-possession-value dated Fernandez-Bornn-Cervone to 2019; the journal version is Machine Learning 110(6), 1389-1427 (June 2021). Both dates circulate (a 2019 MIT Sloan conference version exists). Noted inline per the supersession convention.
+3. DATA-FIDELITY WARNING on the summary: figure-derived tables in the raw file are visibly corrupted (Messi listed last in an ostensibly sorted volatility table with values identical to Falcao's; several player columns repeat identical values across rows). Prose relationships reliable; digits are not. Flagged for review if exact figures are ever needed.
+4. UNTESTED PREDICTION, flagged as inference rather than finding: an I-VAEP-style intent model should show higher split-half reliability than O-VAEP, since withholding outcome features removes the rare-goal noise channel Van Roy et al. identified. No vault source measures this.
+
+TOOL ISSUES ENCOUNTERED
+- list_unprocessed_sources returned [] — FALSE NEGATIVE. The new source was found by manual comparison of the five raw folder listings against the index, and confirmed unreferenced via search_notes. A silent false negative here means sources can be missed entirely; worth fixing server-side.
+- read_taxonomy returned "No tags file found" — still hardcoded to the old _schema/tags.md path. Worked around by reading/writing _schema/taxonomy.md directly.
+
+LINT NOTES
+- find_mentioned_but_missing reports ~25 phantom targets of the form "expected-threat\" etc. These are a PARSER ARTEFACT, not dead links: the escaped pipe in [[page\|alias]] is required inside Obsidian table cells and is endorsed by _schema/conventions.md. Must NOT be "fixed" — doing so would break every table in the vault.
+- Fixed 2 real dead links introduced this run (recruitment, smoothing were linked as pages while existing only as tags) by creating both pages rather than de-linking.
+- Added recurrent-dropout to the index — the page existed on disk but was uncatalogued.
+- Remaining pre-existing dead links, all tag-names-without-pages: interpretability, markov-model, reinforcement-learning, player-evaluation, probabilistic-classification, stochastic-process, spatiotemporal, rnn, clustering, model-selection, multi-object-tracking, representation-learning, survival-analysis. Not addressed this run.
+
+## [2026-07-27 12:17] lint | Investigation: reliability/volatility contradiction and figure-table fabrication
+Follow-up to the Valuing Players Over Time ingest. Two flagged issues investigated properly; both findings were stronger than first recorded.
+
+FINDING 1 — The reliability/volatility contradiction is a variance decomposition, and is testable.
+Writing r_ig = theta_i + eps_ig gives the standard identity rho = var(theta) / (var(theta) + 2*var(eps)/n). So rho = 0.25 is not a statement about VAEP's construction; it says within-player game-to-game variance is large relative to between-player variance in true level. Game-to-game volatility sigma(r_G - r_LT) estimates that SAME variance component. One quantity, two names — the framings differ only in whether theta is assumed constant.
+
+The separating test: with the 10-game short window nested in the 40-game long window,
+  sigma(r_ST - r_LT) = sqrt(120/1600) = 0.274 sigma_eps
+  sigma(r_G  - r_LT) = sqrt(1560/1600) = 0.987 sigma_eps
+  predicted ratio under the pure-noise null ~= 0.28
+Downside-only truncation multiplies both by ~0.584 under normality, leaving the ratio unchanged. Observed ratio materially above 0.28 => genuine slow-moving form signal; near 0.28 => apparent form is noise read as trend. Requires no new data or modelling.
+
+Added in full to wiki/concepts/split-half-reliability.md (new "decomposition" and "test that separates them" subsections). Also strengthened the intent-model argument there: withholding outcome features should raise rho by shrinking var(eps) while leaving var(theta) intact, whereas restricting scope shrinks both.
+
+FINDING 2 — The figure tables are FABRICATED, not corrupted. Previous warning understated this.
+Three independent checks:
+  (a) Fig. 4 volatility table is a perfect arithmetic ramp: col 1 descends 0.0045 -> 0.0027 in exact -0.0001 steps across all 19 players; col 2 ramps 0.0022 -> 0.0004 identically; col 3 ramps to 0.0000 and floors. Messi appended repeating row 1 verbatim.
+  (b) Fig. 8 PDC table contradicts its own stated method. Procedure is value * (1 - relative amount of players). Age 15: 0.82 * 0.85 = 0.697, table claims 0.10. Age 25: 1.00 * 0.15 = 0.150, table claims 0.80. The internal check (1 - r) IS satisfied, so the fabrication is partial and locally plausible — which makes it more dangerous, not less.
+  (c) Fig. 2 assigns 2010 La Liga ratings to Neymar (at Santos until 2013) and Iago Aspas (Segunda Division); six players share the identical value 0.0055.
+
+CONTRAST — Table 1 (MAE/MedAE benchmark) VERIFIED GENUINE. It was a real table rather than a figure, and all eight reported percentage changes reconcile exactly (0.02748 vs 0.02681 = +2.5%; 0.00693 vs 0.00752 = -7.8%; etc.). Gives a clean discriminator: genuine tables here are internally consistent, figure-derived ones fail.
+
+CONNECTION BETWEEN THE TWO — the cheap test for Finding 1 requires the league-median volatility row, which sits inside the fabricated ramp of Finding 2. An initial calculation using those numbers gave ~2x the null (suggesting real form) and has been RETRACTED as meaningless. The contradiction is unresolved not because it is deep but because the adjudicating statistic did not survive into this copy of the source.
+
+PAGES UPDATED
+- wiki/summaries/football-performance-time-series.md — data-fidelity note upgraded from a short caveat to a full evidenced section with a per-artefact status table; inline caveats added to Use Cases 1, 3, 4 and to the Fig. 7 play-sequence values; confidence 0.85 -> 0.80, ambiguous 8% -> 15%; tagged needs-review.
+- wiki/concepts/split-half-reliability.md — decomposition, null prediction, and the blocked-test note added.
+
+ACTION FOR HUMAN: recovering the original PDF would likely resolve the contradiction immediately and restore all figure data. This is the highest-value outstanding item on this source.
+
+TOOL STATUS: read_taxonomy still returns "No tags file found" after the reported server-side fix. The file reads fine directly, so the running MCP server is likely still holding pre-fix code — suggest restarting it and re-testing.
+

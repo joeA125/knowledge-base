@@ -1,8 +1,8 @@
 ---
 title: "Expected Goals (xG)"
 type: concept
-tags: [sports-analytics, statistics, machine-learning, evaluation, action-valuation, player-evaluation]
-sources: [raw/papers/evaluating-football-player-actions.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/transformer-point-process-football-event-modelling.md]
+tags: [sports-analytics, statistics, machine-learning, evaluation, action-valuation, player-evaluation, time-series, volatility]
+sources: [raw/papers/evaluating-football-player-actions.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/transformer-point-process-football-event-modelling.md, raw/papers/football-performance-time-series.md]
 confidence: 0.9
 provenance:
   extracted: 65%
@@ -10,18 +10,26 @@ provenance:
   ambiguous: 7%
 lifecycle: reviewed
 created: 2026-07-20
-updated: 2026-07-23
+updated: 2026-07-27
 ---
 
 # Expected Goals (xG)
 
 Expected Goals (xG) is a statistical metric that estimates the probability of a shot resulting in a goal, based on features of the shot opportunity (location, angle, body part, preceding action, defensive pressure, etc.).
 
-Originally proposed for ice hockey (Macdonald, 2012) and subsequently adapted to football (Eggels, van Elk & Pechenizkiy, 2016).
+Originally proposed for ice hockey (Macdonald, 2012) and subsequently adapted to football (Eggels, van Elk & Pechenizkiy, 2016). [[football-performance-time-series|Mendes-Neves et al.]] trace the idea further back, to Pollard, Ensum & Taylor (2004) on estimating goal probability from distance, angle and space.
 
 ## How It Works
 
 For each goal attempt, an xG model predicts the probability $P(\text{goal} \mid \text{shot features})$ using a classifier trained on historical shot data. A shot from the penalty spot might have xG ≈ 0.76, while a long-range effort might have xG ≈ 0.03. Summing a player's xG over a season gives their expected goal tally, enabling comparison with their actual goals.
+
+## xG Is an Intent Metric
+
+xG is defined over the situation *at the moment of the shot* — where it was taken from, at what angle, under what pressure — and deliberately excludes how well the ball was actually struck. It measures **chance quality, not strike quality**.
+
+This makes it the clearest existing instance of [[intent-vs-outcome-valuation|intent-based valuation]], and explains the metric's most familiar debate. "Is he a good finisher or is he just getting good chances?" is precisely the intent/outcome question: goals minus xG is an outcome-versus-intent residual.
+
+The I-VAEP/O-VAEP construction generalises the same split from shots to all 21 [[spadl]] action types. Where xG asks it only of finishing, an intent/outcome pair asks it of passing, dribbling, and every other action — with the outcome-encoding features (including shot placement relative to post and bar) as the switch.
 
 ## Limitations
 
@@ -32,6 +40,8 @@ The [[evaluating-football-player-actions|VAEP paper (Decroos et al., 2019)]] ide
 3. **Immediate only:** Does not capture longer-term effects of actions several steps before a shot.
 
 The underlying issue is sparsity. Shots and assists together constitute **less than 1% of all on-the-ball actions**; in the WyScout event data used by [[nmstpp]], shots are just **1.68%** of events. xG is undefined for the other 98%, which is what motivates the whole [[action-valuation]] literature.
+
+A fourth limitation, from the same sparsity: xG applied to a *single player over a short window* is extremely noisy, since it aggregates a handful of events. This is the same rarity problem that drives [[split-half-reliability|VAEP's low reliability]] and that [[performance-volatility|volatility analysis]] has to control for.
 
 ## A Building Block, Not Just a Competitor
 
@@ -55,10 +65,13 @@ Despite its limitations, xG has become the most widely used advanced metric in f
 ## See Also
 
 - [[action-valuation]]
+- [[intent-vs-outcome-valuation]]
 - [[vaep]]
 - [[expected-threat]]
 - [[hpus]]
 - [[spadl]]
+- [[performance-volatility]]
 - [[action-valuation-frameworks-compared]]
 - [[evaluating-football-player-actions|VAEP Source Summary]]
 - [[on-ball-actions-football-xt-vs-vaep|xT/VAEP Comparison Summary]]
+- [[football-performance-time-series|Valuing Players Over Time Summary]]

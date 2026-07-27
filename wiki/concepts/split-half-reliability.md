@@ -1,16 +1,16 @@
 ---
 title: "Split-Half Reliability"
 type: concept
-tags: [statistics, evaluation, reliability, predictive-validity, player-evaluation, sports-analytics, cognitive-science]
-sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/understanding_football_posessions_using_path_signatures.md]
+tags: [statistics, evaluation, reliability, predictive-validity, player-evaluation, sports-analytics, cognitive-science, volatility, selection-bias, time-series]
+sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/understanding_football_posessions_using_path_signatures.md, raw/papers/football-performance-time-series.md]
 confidence: 0.85
 provenance:
-  extracted: 60%
-  inferred: 32%
+  extracted: 55%
+  inferred: 37%
   ambiguous: 8%
 lifecycle: reviewed
 created: 2026-07-23
-updated: 2026-07-23
+updated: 2026-07-27
 ---
 
 # Split-Half Reliability
@@ -57,6 +57,57 @@ This is a bias–variance trade-off dressed in applied clothing. xT's crude stat
 
 Which is preferable depends on use. For season-long player recruitment, stability matters enormously and xT's reliability is a serious argument in its favour. For analysing individual passages of play, VAEP's context-sensitivity is what you actually want, and split-half reliability across a season is close to irrelevant.
 
+## Is the Instability in the Metric or the Player?
+
+[[football-performance-time-series|Mendes-Neves et al.]] measure a superficially similar quantity — [[performance-volatility|deviation of a player's per-game rating from their own long-term level]] — but treat it as a **property of the player**, a real and decision-relevant fact about consistency, rather than as measurement noise.
+
+This is not a difference of opinion. Written out, the two framings are reading the same variance component.
+
+### The decomposition
+
+Model a player's per-game rating as a true level plus a deviation:
+
+$$r_{ig} = \theta_i + \varepsilon_{ig}$$
+
+Averaging $n/2$ games in each half and correlating across players gives the standard reliability identity:
+
+$$\rho = \frac{\sigma^2_\theta}{\sigma^2_\theta + 2\sigma^2_\varepsilon / n}$$
+
+So $\rho = 0.25$ is **not a direct statement about VAEP's construction**. It says within-player game-to-game variance $\sigma^2_\varepsilon$ is large relative to between-player variance in true level $\sigma^2_\theta$.
+
+Game-to-game volatility, $\sigma(r_G - r_{LT})$, estimates that same $\sigma_\varepsilon$ per player. **One variance, two names.** The reliability framing calls it noise because it assumes $\theta_i$ is constant; the time-series framing assumes $\theta_i(t)$ moves.
+
+### The test that separates them
+
+Compare the two volatility measures at different aggregation levels. If deviations are i.i.d. noise around a fixed $\theta$, averaging over a 10-game window shrinks them by a computable factor. With the short window nested inside the long one (10 of the trailing 40 games):
+
+$$\sigma(r_{ST} - r_{LT}) = \sqrt{\tfrac{120}{1600}}\,\sigma_\varepsilon = 0.274\,\sigma_\varepsilon
+\qquad
+\sigma(r_G - r_{LT}) = \sqrt{\tfrac{1560}{1600}}\,\sigma_\varepsilon = 0.987\,\sigma_\varepsilon$$
+
+giving a predicted ratio under the pure-noise null of:
+
+$$\frac{\sigma(r_{ST} - r_{LT})}{\sigma(r_G - r_{LT})} \approx 0.28$$
+
+(The downside-only truncation applies the same factor $\approx 0.584$ to both under normality, so the ratio is unchanged for the negative variants.)
+
+**Interpretation.** If the observed ratio materially exceeds 0.28, deviations at the 10–40 game scale are larger than i.i.d. noise permits — there is genuine slow-moving signal, and *form is real*. If it sits near 0.28, apparent form is noise being read as trend, and volatility metrics are measuring the instrument rather than the player.
+
+This requires no new modelling and no new data. It is computable from series the authors already built.
+
+> ⚠️ **Why it is still unresolved.** The league-median volatility figures that would run this test do not survive in the vault's copy of the source: the Fig. 4 table is a fabricated arithmetic ramp, not measurement. Any ratio computed from it is meaningless. See the Data Fidelity section of [[football-performance-time-series]]. Recovering the original PDF would likely settle the question immediately.
+
+There is also a [[selection-bias]] caveat on the reliability figures themselves. They are computed on players with enough minutes to rate, and minutes are awarded partly on performance — a restricted range attenuates correlations. Reported reliability is therefore conservative for the full population of players, though comparisons *between* metrics on the same sample remain fair.
+
+## Two Routes to a More Reliable Metric
+
+The diagnosis — goals are rare, heavily weighted, and noisy — suggests two fixes, only one of which has been tested:
+
+1. **Restrict scope** (what Van Roy et al. tested): drop finishing and defensive value. Recovers $\rho = 0.25 \to 0.59$.
+2. **Withhold outcome information** ([[intent-vs-outcome-valuation|untested]]): value the *decision* rather than the result. An I-VAEP-style model never sees whether the shot went in, removing the dominant noise channel while retaining full action scope.
+
+The second is attractive precisely because it does not require narrowing what the metric covers. In the decomposition above, it should raise $\rho$ by shrinking $\sigma^2_\varepsilon$ while leaving $\sigma^2_\theta$ largely intact — whereas restricting scope shrinks both. No source in this vault has measured it.
+
 ## Relation to Other Evaluation Concepts
 
 Reliability sits alongside [[probability-calibration|calibration]] as a property distinct from accuracy. A model can be accurate on average, well calibrated, and still yield unreliable per-subject aggregates if the quantity being aggregated is high-variance. VAEP is well calibrated (Brier 0.0138) yet unreliable at the player-rating level — the two coexist without contradiction.
@@ -66,9 +117,16 @@ An open gap in the literature: no paper in this vault reports both split-half re
 ## See Also
 
 - [[predictive-validity]]
+- [[performance-volatility]]
+- [[intent-vs-outcome-valuation]]
+- [[player-rating-time-series]]
+- [[smoothing]]
 - [[expected-threat]]
 - [[vaep]]
 - [[action-valuation]]
 - [[probability-calibration]]
+- [[selection-bias]]
+- [[recruitment]]
 - [[action-valuation-frameworks-compared]]
 - [[on-ball-actions-football-xt-vs-vaep|Source Summary]]
+- [[football-performance-time-series|Valuing Players Over Time Summary]]

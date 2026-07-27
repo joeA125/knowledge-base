@@ -1,8 +1,8 @@
 ---
 title: "Expected Possession Value (EPV)"
 type: concept
-tags: [sports-analytics, action-valuation, player-evaluation, markov-model, evaluation, statistics]
-sources: [raw/papers/multiresolution-stochastic-process-model-nba-possessions.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md]
+tags: [sports-analytics, action-valuation, player-evaluation, markov-model, evaluation, statistics, time-series]
+sources: [raw/papers/multiresolution-stochastic-process-model-nba-possessions.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md, raw/papers/football-performance-time-series.md]
 confidence: 0.9
 provenance:
   extracted: 60%
@@ -10,7 +10,7 @@ provenance:
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-07-23
-updated: 2026-07-23
+updated: 2026-07-27
 ---
 
 # Expected Possession Value (EPV)
@@ -38,7 +38,9 @@ This is the main source of confusion in the literature, and the reason this page
 
 These are far simpler than the basketball model — typically a transition matrix over pitch zones solved by [[value-iteration]].
 
-**The two usages are not interchangeable.** The soccer category is broad and includes models that would fail the basketball model's own stated criteria (notably stochastic consistency). Fernández, Bornn & Cervone (2019) complicate matters further by bringing a genuine Cervone-style framework *to* soccer using tracking data.
+**The two usages are not interchangeable.** The soccer category is broad and includes models that would fail the basketball model's own stated criteria (notably stochastic consistency). Fernández, Bornn & Cervone complicate matters further by bringing a genuine Cervone-style framework *to* soccer using tracking data.
+
+> **Citation note.** This vault previously dated the Fernández–Bornn–Cervone soccer EPV framework to 2019. The journal version is **2021** — *Machine Learning* 110(6), 1389–1427 (June 2021), "A framework for the fine-grained evaluation of the instantaneous expected value of soccer possessions" — as cited by [[football-performance-time-series|Mendes-Neves et al.]]. A 2019 conference version (MIT Sloan) also exists, so both dates appear in the literature; the 2021 journal reference is the fuller one.
 
 ## The Shared Ideology
 
@@ -63,13 +65,16 @@ The value of a position is the expected *future* payoff from it, not what actual
 | **State** | Ball zone → last-$k$ actions → full tracking history | Determines which actions are visible |
 | **Estimation** | Dynamic programming vs supervised learning vs Bayesian process model | Determines interpretability, cost, and whether the martingale property holds |
 | **Data** | [[event-stream-data\|Event stream]] vs [[optical-tracking-data\|tracking]] | Determines availability and off-ball coverage |
+| **Credit decay** | Hard action-count window vs time-decayed | Determines how sharply value attribution cuts off before a goal |
 
 The horizon choice is the sharpest. A strictly possession-bounded model (xT) *cannot* value how an action changes the chance of conceding, because conceding happens after the possession ends. [[vaep]] deliberately breaks the possession boundary — looking $k=10$ actions ahead regardless of turnovers — precisely to capture that risk. This is why VAEP is classified as *action-based* rather than *possession-based* despite sharing the same underlying equation.
+
+The credit-decay row is a subtler variant of the same question. A hard $k$-action window makes the $k$-th previous action fully in scope and the $(k{+}1)$-th fully out; [[football-performance-time-series|Mendes-Neves et al.]] replace this with a time-decayed label, capped at one minute and floored for the last five actions, making the boundary continuous.
 
 ## Use Cases
 
 - **Player rating** — sum action values per 90 minutes. The dominant application, and where the frameworks diverge most in their conclusions.
-- **Playing style characterisation** — decompose value by action type to distinguish a dribbler from a passer.
+- **Playing style characterisation** — decompose value by action type to distinguish a dribbler from a passer. Tracked *over time*, this reveals style change — see [[player-rating-time-series]].
 - **Scouting** — identify players creating value invisible to goals and assists.
 - **Tactical analysis** — locate where on the pitch a team gains or loses value.
 - **Live broadcast** — the basketball model's stock-ticker curve is designed for exactly this.
@@ -97,5 +102,7 @@ Shared across every implementation:
 - [[martingale-epv]]
 - [[expected-threat]]
 - [[vaep]]
+- [[intent-vs-outcome-valuation]]
+- [[player-rating-time-series]]
 - [[markov-game]]
 - [[value-iteration]]
