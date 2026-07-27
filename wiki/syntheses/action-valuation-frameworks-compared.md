@@ -1,8 +1,8 @@
 ---
 title: "Football Modelling Tasks Compared"
 type: synthesis
-tags: [sports-analytics, action-valuation, player-evaluation, evaluation, counterfactual, clustering, event-prediction, reliability, predictive-validity, time-series, volatility, player-development, recruitment]
-sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md, raw/papers/multiresolution-stochastic-process-model-nba-possessions.md, raw/papers/transformer-point-process-football-event-modelling.md, raw/papers/understanding_football_posessions_using_path_signatures.md, raw/papers/football-event-sequences-spatiotemporal-point-process-mixture-model.md, raw/papers/scoutgpt-generative-transformer-football-player-valuation.md, raw/papers/football-performance-time-series.md]
+tags: [sports-analytics, action-valuation, player-evaluation, evaluation, counterfactual, clustering, event-prediction, reliability, predictive-validity, time-series, volatility, player-development, recruitment, transfer-prediction, duel-analysis, discounting, selection-bias]
+sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md, raw/papers/multiresolution-stochastic-process-model-nba-possessions.md, raw/papers/transformer-point-process-football-event-modelling.md, raw/papers/understanding_football_posessions_using_path_signatures.md, raw/papers/football-event-sequences-spatiotemporal-point-process-mixture-model.md, raw/papers/scoutgpt-generative-transformer-football-player-valuation.md, raw/papers/football-performance-time-series.md, raw/papers/epv_control_and_duel_skills_football.md]
 confidence: 0.85
 provenance:
   extracted: 50%
@@ -23,10 +23,10 @@ The vault's football-analytics sources are easily mistaken for variations on one
 
 | Task | Question | Unit | Needs outcome labels? | Examples |
 |---|---|---|---|---|
-| **Valuation** | How good was that action? | Action → player | Yes | [[expected-goals\|xG]], [[expected-threat\|xT]], [[vaep]], [[martingale-epv]] |
+| **Valuation** | How good was that action? | Action → player | Yes | [[expected-goals\|xG]], [[expected-threat\|xT]], [[vaep]], [[martingale-epv]], [[pass-carry-reward\|PCR]] |
 | **Forecasting** | What happens next? | Event | No | [[seq2event]], [[nmstpp]], [[sig-model]] |
 | **Clustering** | What kind of sequence is this? | Possession | No | [[football-event-sequences-point-process-mixture\|Mixture model]] |
-| **Counterfactual simulation** | What if this player joined? | Episode, given a lineup | No (uses value as target) | [[scoutgpt]] |
+| **Counterfactual / transfer** | What if this player joined? | Episode or season | No (uses value as target) | [[scoutgpt]], [[transfer-performance-prediction\|Shelopugin regression]] |
 
 Forecasting models spawn valuation metrics downstream ([[hpus]] from NMSTPP, [[lpv]] from Sig-Model), which is why the two are often conflated — but the modelling target genuinely differs.
 
@@ -34,24 +34,28 @@ Forecasting models spawn valuation metrics downstream ([[hpus]] from NMSTPP, [[l
 
 ## Task 1: Valuation
 
-All four valuation frameworks instantiate one equation:
+All valuation frameworks instantiate one equation:
 
 $$V(a_i) = Q(S_i) - Q(S_{i-1})$$
 
 differing only in what $S$ contains and how $Q$ is computed.
 
-| | [[expected-goals\|xG]] | [[expected-threat\|xT]] | [[vaep]] | [[martingale-epv\|Martingale EPV]] |
-|---|---|---|---|---|
-| **Data** | [[event-stream-data\|Event]] | Event | Event | [[optical-tracking-data\|Tracking]] |
-| **State $S$** | Shot features | Ball's zone | Last 3 actions + context | Full tracking history |
-| **Estimation** | Classifier | [[value-iteration]] | [[gradient-boosting]] | Bayesian [[multiresolution-modelling\|multiresolution]] |
-| **Models risk** | No | No | Yes | Implicitly |
-| **[[martingale]] guarantee** | — | No | No | **Yes** |
-| **[[interpretability]]** | Moderate | **High** | Low | Low |
-| **[[split-half-reliability\|Reliability]]** | — | **ρ = 0.89** | ρ = 0.25 | Not reported |
-| **Cost** | Trivial | Trivial | Modest | 461 processors |
+| | [[expected-goals\|xG]] | [[expected-threat\|xT]] | [[vaep]] | [[martingale-epv\|Martingale EPV]] | [[pass-carry-reward\|Shelopugin / PCR]] |
+|---|---|---|---|---|---|
+| **Data** | [[event-stream-data\|Event]] | Event | Event | [[optical-tracking-data\|Tracking]] | Event |
+| **State $S$** | Shot features | Ball's zone | Last 3 actions + context | Full tracking history | Action + preceding action + duel skill |
+| **Estimation** | Classifier | [[value-iteration]] | [[gradient-boosting]] | Bayesian [[multiresolution-modelling\|multiresolution]] | [[gradient-boosting\|Gradient boosting]] ×9 |
+| **Models risk** | No | No | Yes (10 actions) | Implicitly | **Yes (unbounded)** |
+| **Credit decay** | — | — | Hard window | — | **Geometric in time** |
+| **Values duels** | No | No | No | No | **Yes** |
+| **[[martingale]] guarantee** | — | No | No | **Yes** | No |
+| **[[interpretability]]** | Moderate | **High** | Low | Low | Low |
+| **[[split-half-reliability\|Reliability]]** | — | **ρ = 0.89** | ρ = 0.25 | Not reported | **Not reported** |
+| **Cost** | Trivial | Trivial | Modest | 461 processors | Modest |
 
 **The central trade-off:** richer state representations buy sensitivity and pay in stability, interpretability, and cost. [[on-ball-actions-football-xt-vs-vaep|Van Roy et al.]] show the reliability gap is not merely about scope — restricting VAEP to xT's action set only recovers $\rho = 0.25 \to 0.59$, so the richer representation *itself* introduces variance.
+
+PCR sits firmly on the rich end of that trade-off — more state, unbounded risk horizon, more models — and its reliability is unreported. Given the pattern above, the prior should be that it inherits VAEP-like instability rather than xT-like stability, and that matters because its intended application is [[recruitment]], where reliability dominates.
 
 Player-level disagreements trace directly to design: Agüero ranks 19th by VAEP and 109th by xT (elite finisher; xT gives no credit for shooting); Sánchez 7th by xT and 106th by VAEP (creates threat without finishing). Van Dijk ranks 81st and 142nd — **both frameworks structurally favour attackers.**
 
@@ -67,6 +71,29 @@ The table above compares frameworks on state richness, but there is an orthogona
 | **I-VAEP / O-VAEP** | **Explicitly separated** |
 
 Seen this way, several apparent disagreements dissolve. Agüero ranking 19th by VAEP and 109th by xT is not really a dispute about player quality — it is xT measuring intent and VAEP measuring intent-plus-execution, on a player whose value is concentrated in execution. [[intent-vs-outcome-valuation]] makes the axis explicit and cheap to implement.
+
+### A Second Missing Axis: Attributable Possession
+
+Every framework except Shelopugin's assumes it is known **whose** prospects $Q$ describes. That assumption silently excludes aerial and ground duels, where two opposing players contest a ball neither holds — and duels are precisely where physical mismatch decides outcomes.
+
+[[symmetrical-duel-valuation]] closes the gap by valuing a duel via the control action that follows it, and by conditioning the *passer's* reward on the receiver's [[duel-skill-rating|duel ability]]. The [[epv-control-duel-skills-football|Donnarumma case]] quantifies the cost of ignoring it: a duel-blind model values two tactically identical long passes at 0.00075 and 0.00077, while the duel-aware model separates them roughly two-fold.
+
+There is a striking corollary. Van Dijk ranks 81st by VAEP and 142nd by xT, yet tops **both** of Shelopugin's duel-rating tables. The information distinguishing an elite centre-back is present in ordinary event data; the valuation paradigm simply does not use it. That reframes the offensive-bias problem — it is not solely a definitional consequence of valuing proximity to scoring, but partly a choice about which events get modelled.
+
+### Credit Assignment Over Time
+
+A third axis, and the one with the clearest direction of travel:
+
+| Approach | Boundary | Framework |
+|---|---|---|
+| Whole possession, undecayed | Turnover | Early EPV / xT |
+| Fixed $k$-action window | Action count ($k = 10$) | [[vaep]] |
+| Capped time decay | 1 min, floored at 5 actions | [[football-performance-time-series\|Mendes-Neves et al.]] |
+| Geometric time decay | None — weight → 0 | [[temporal-discounting\|Shelopugin]] |
+
+The progression is from counting actions to measuring elapsed time, on the reasoning that ten one-touch passes and ten recycling passes span very different intervals and should not attract equal credit. The endpoint is notable: once decay is geometric, **the horizon question disappears** — [[possession-risk|risk]] can be summed over unboundedly many subsequent possessions because distant ones contribute nothing. The same argument that licenses discounting in infinite-horizon [[reinforcement-learning]], arrived at from the credit-assignment side.
+
+The cost is a free parameter. $\gamma = 0.95$ per second is asserted and framed as a stylistic choice (0.9 for direct attacking, 0.99 for *tiki-taka*), with no sensitivity analysis. Since $0.9^{30} = 0.04$ against $0.99^{30} = 0.74$, rankings are almost certainly sensitive to it.
 
 ## Task 2: Forecasting
 
@@ -89,11 +116,28 @@ The [[feature-engineering]] row records a finding that generalises: Seq2Event de
 
 This needs no outcome labels and no notion of value. Validation is by [[adjusted-rand-index|ARI]] on simulated data with known ground truth, plus interpretability of the recovered clusters against known tactical vocabulary.
 
-## Task 4: Counterfactual Simulation
+## Task 4: Counterfactual and Transfer
 
-[[scoutgpt]] conditions generation on an explicit lineup, so replacing one player and re-generating estimates how that player would perform in a new tactical context. This is the only task here that addresses **distribution shift** — every other approach extrapolates from observed behaviour in the observed context.
+This task now holds two structurally different approaches, and they are complementary rather than competing.
 
-The requirements are strict: generative, long enough horizon to compute value over a whole episode, and *surgical* entity conditioning. ScoutGPT achieves the last by never generating player identity, resolving it deterministically from the lineup.
+| | [[scoutgpt\|Generative simulation]] | [[transfer-performance-prediction\|Regression on context]] |
+|---|---|---|
+| Object modelled | Event sequence | Season aggregate |
+| Destination encoded as | Explicit lineup | [[league-strength-rating\|Club/league strength ratings]] |
+| Captures tactical interaction | **Yes** | No |
+| Handles role change | Implicitly | **No** — acknowledged failure |
+| Data required | Full event streams for destination squad | Season aggregates + match results |
+| Scales to a market | No | **Yes** |
+| Addresses [[selection-bias\|selection]] | Not addressed | Explicitly, heuristically |
+| Cost | Substantial | Modest |
+
+[[scoutgpt]] conditions generation on an explicit lineup, so replacing one player and re-generating estimates how that player would perform in a new tactical context. Its requirements are strict: generative, long enough horizon to compute value over a whole episode, and *surgical* entity conditioning — achieved by never generating player identity, resolving it deterministically from the lineup.
+
+Shelopugin's regression asks the same question without generating anything, predicting next-season [[pass-carry-reward|PCR]] from ~600 features including destination club and league ratings, mean opponent rating, league style, and the player's *share* of team output.
+
+The practical reading is sequential: **regression to narrow a market, simulation to discriminate among survivors.** See [[recruitment]].
+
+One asymmetry is worth flagging. The generative papers do not address the fact that observed transfers were **chosen** by clubs forecasting the same quantity — a [[positive-unlabeled-learning|presence-only]] structure that biases training data in a direction no amount of destination conditioning corrects. Shelopugin addresses it, if only with a heuristic shrinkage he describes as inadequate.
 
 ## Time as a Cross-Cutting Axis
 
@@ -108,7 +152,9 @@ Every task above produces a number that is implicitly **an average over a period
 
 **This creates a genuine unresolved conflict with the reliability critique.** [[split-half-reliability]] treats within-season variation as noise and marks VAEP down for it. [[performance-volatility|Volatility analysis]] treats the same variation as signal about the player. Both cannot be wholly right.
 
-The decisive experiment is unrun: does short-term deviation from a player's long-term level **predict** next-match contribution beyond the long-term average? The [[predictive-validity]] table below tests metrics at the team-match level and so does not settle it.
+The decisive experiment is unrun: does short-term deviation from a player's long-term level **predict** next-match contribution beyond the long-term average?
+
+There is also a denominator question that runs underneath all of this. Per-90 rates assume clock minutes measure opportunity, and they do not — [[effective-playing-time|effective playing time]] varies by team, scoreline and league, so per-90 silently favours players at high-tempo sides. Only Shelopugin normalises on it, and only he discounts over it, which matters because dead time is causally inert and should not dilute credit.
 
 ## Metrics Beat Outcomes at Predicting Outcomes
 
@@ -121,6 +167,16 @@ The most striking cross-paper result, spanning tasks:
 
 Both possession-value metrics predict a team's next match better than xG or goals do — and **goals are the worst predictor of future goals**. A scoreline is a small, noisy sample of an underlying process; a possession metric aggregates hundreds of actions and estimates that process directly. See [[predictive-validity]].
 
+### The Player-Level Gap, Narrowed
+
+This vault has previously flagged that the table above is a **team-match** result and does not license player-level conclusions. Shelopugin supplies the first player-level evidence: predicting next-season PCR against a persistence baseline, RMSE 0.053 → 0.033 overall, and 0.061 → 0.037 for players changing both club and league.
+
+The useful finding is in the stratification. **Persistence degrades monotonically with movement** — last season's number predicts worst for exactly the population recruitment cares about — while the model's advantage holds across all five strata.
+
+But the gap is narrowed, not closed. Hirnschall & Bajons predict an *independent* outcome; Shelopugin predicts **the metric's own future value**. Self-prediction establishes that a metric captures something persistent, not that the persistent thing is skill. A metric measuring tactical role rather than quality would score just as well.
+
+The author concedes this directly: no mathematical demonstration that EPV-based metrics track ability is available, and the two proposed alternatives — expert review, and checking shortlists against actual elite-club transfers — are not executed.
+
 ## How Each Task Is Validated
 
 With no ground truth for "correct" action values, validation strategies differ by task — and this is where the tasks diverge most sharply:
@@ -131,39 +187,44 @@ With no ground truth for "correct" action values, validation strategies differ b
 | Forecasting | Held-out likelihood, Brier, [[kl-divergence]] against empirical zone-conditioned distributions |
 | Clustering | [[adjusted-rand-index]] on simulated data; BIC; interpretability against tactical vocabulary |
 | Counterfactual | Self-to-self reconstruction; out-of-sample transfer prediction against actual next-season performance |
+| Transfer regression | RMSE/MAE against a persistence baseline, **stratified by whether the player moved** |
 | *Time-series derivatives* | *Weakest — face validity and agreement with prior peak-age estimates only* |
 
-The last row is a real gap. [[performance-volatility|Volatility]] and the [[player-development-curve|PDC]] are validated by looking reasonable and by agreeing with one independent study on peak age. Neither is tested against anything they should predict.
+The stratification in the fifth row should be standard practice and currently is not. ScoutGPT reports an aggregate MAE against a naive baseline without separating movers from stayers, so it is unknown whether its improvement comes from genuine context modelling or from the stay-put majority of its evaluation set.
 
 ## A Terminology Warning
 
-"Expected possession value" means two things: in **basketball**, [[martingale-epv|Cervone et al.'s]] specific martingale construction; in **soccer**, a *category label* for possession-based Markov models including xT. See [[expected-possession-value]].
+"Expected possession value" now means **three** things: in **basketball**, [[martingale-epv|Cervone et al.'s]] specific martingale construction; in **soccer**, a *category label* for possession-based Markov models including xT; and, in Shelopugin, a supervised event-data model targeting accumulated future xG. See [[expected-possession-value]].
 
-## Limitations Shared Across All Four
+## Limitations Shared Across All Tasks
 
-1. **Offensive bias.** Value is defined by proximity to scoring, so defenders are systematically undervalued — and the forecasting and simulation models mostly represent only the possessing team. Partly a *data* problem: [[event-stream-data|event data]] lacks the context to judge tackles and interceptions at all.
+1. **Offensive bias.** Value is defined by proximity to scoring, so defenders are systematically undervalued — and the forecasting and simulation models mostly represent only the possessing team. Partly a *data* problem, but the van Dijk duel-rating result shows it is also partly a modelling choice about which events are represented at all.
 2. **On-ball only**, except partially for tracking-based models. Pressing, marking, and off-ball movement are invisible.
-3. **No ground truth**, which is why reliability and predictive validity have become the substitute tests.
-4. **Context dependence.** Accumulating value is easier in a weaker league or stronger team — the problem counterfactual simulation is the first to attack directly.
-5. **[[selection-bias]] throughout.** Every minutes threshold and games-played filter selects on a performance-correlated variable, and the excluded players — young, fringe, newly transferred — are exactly those recruitment most needs to assess.
+3. **No ground truth**, which is why reliability and predictive validity have become the substitute tests — and why self-prediction keeps getting mistaken for validation.
+4. **Context dependence.** Accumulating value is easier in a weaker league or stronger team — the problem Task 4 attacks directly, from two directions.
+5. **[[selection-bias]] throughout.** Every minutes threshold and games-played filter selects on a performance-correlated variable, and the excluded players — young, fringe, newly transferred — are exactly those recruitment most needs to assess. The transfer literature adds a sharper version: observed moves were *chosen* by people forecasting the same quantity.
+6. **Price is absent everywhere.** No source models fee or wages, so none of this yields value for money.
 
 ## Practical Guidance
 
-- **Season-long recruitment** → xT for stability; [[scoutgpt|counterfactual simulation]] if assessing fit at a specific club; [[player-development-curve|PDC]] position to distinguish appreciating from depreciating assets.
+- **Season-long recruitment** → xT for stability; [[transfer-performance-prediction|regression on club/league strength]] to shortlist a market; [[scoutgpt|counterfactual simulation]] to assess fit at a specific club; [[player-development-curve|PDC]] position to distinguish appreciating from depreciating assets.
 - **Separating decision quality from finishing** → [[intent-vs-outcome-valuation|I-VAEP against O-VAEP]].
 - **Assessing squad risk rather than mean output** → [[performance-volatility|volatility metrics]], residualised against rating.
+- **Evaluating aerial or physical targets** → [[duel-skill-rating]], the only framework in the vault that rates them properly.
 - **Analysing passages of play** → VAEP's context sensitivity.
 - **Team-level possession quality** → [[lpv]] (interpretable units) or [[hpus]] (if timing matters).
 - **Opponent scouting / training design** → [[football-event-sequences-point-process-mixture|possession clustering]].
 - **Forecasting the next action** → Sig-Model if location matters, NMSTPP if timing does.
 - **Tactical and off-ball analysis with tracking data** → martingale-EPV-style models.
-- **Shot quality alone** → xG, a *component* of xT, VAEP and LPV rather than a competitor.
+- **Shot quality alone** → xG, a *component* of xT, VAEP, LPV and PCR rather than a competitor.
 
 ## See Also
 
 - [[action-valuation]] · [[expected-possession-value]] · [[counterfactual-simulation]]
-- [[expected-threat]] · [[vaep]] · [[martingale-epv]] · [[expected-goals]]
+- [[expected-threat]] · [[vaep]] · [[martingale-epv]] · [[expected-goals]] · [[pass-carry-reward]]
 - [[hpus]] · [[lpv]] · [[sig-model]] · [[nmstpp]] · [[seq2event]] · [[scoutgpt]]
+- [[symmetrical-duel-valuation]] · [[duel-skill-rating]] · [[possession-risk]] · [[temporal-discounting]] · [[effective-playing-time]]
+- [[transfer-performance-prediction]] · [[league-strength-rating]] · [[recruitment]]
 - [[large-event-model]] · [[mixture-model]]
 - [[player-rating-time-series]] · [[performance-volatility]] · [[player-development-curve]] · [[intent-vs-outcome-valuation]]
-- [[split-half-reliability]] · [[predictive-validity]] · [[feature-engineering]] · [[selection-bias]]
+- [[split-half-reliability]] · [[predictive-validity]] · [[feature-engineering]] · [[selection-bias]] · [[positive-unlabeled-learning]]

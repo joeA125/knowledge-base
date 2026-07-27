@@ -46,6 +46,8 @@ here first with a brief description.
 - `normalization` — normalisation techniques (layer norm, batch norm, etc.)
 - `regularization` — techniques to prevent overfitting (dropout, label smoothing, etc.)
 - `training-technique` — optimiser schedules, training tricks, and procedures
+- `sample-weighting` — reweighting a loss function to correct uneven representation of groups in the training data
+- `paired-comparison` — models of pairwise contest outcomes from which latent strengths are inferred (Bradley-Terry, Thurstone)
 - `ranking-system` — skill rating and ranking algorithms (Elo, TrueSkill, etc.)
 - `matchmaking` — pairing players/teams for fair competition
 - `gaming` — online gaming, game design, esports
@@ -58,6 +60,7 @@ here first with a brief description.
 - `point-process` — models of discrete event occurrences in time/space via intensity or conditional density (Poisson, Hawkes, NTPP)
 - `path-signature` — iterated-integral feature maps for paths, from rough path theory
 - `dynamic-programming` — solving problems via recursive decomposition and value propagation (value iteration, Bellman equations)
+- `discounting` — geometric decay applied to rewards by temporal distance; discount factors and temporal credit assignment
 - `spatiotemporal` — joint modelling of variation across both space and time
 - `gaussian-process` — distributions over functions used as nonparametric priors
 - `survival-analysis` — time-to-event modelling via hazards (competing risks, Cox models)
@@ -108,8 +111,9 @@ here first with a brief description.
 - `reliability` — consistency of a measurement across repeated or split samples (split-half, test-retest)
 - `predictive-validity` — whether a metric forecasts future outcomes it should, used where ground truth is unavailable
 - `selection-bias` — systematic non-representativeness of a sample relative to the population it is meant to describe
+- `positive-unlabeled-learning` — learning where only positive and unlabelled instances are observed (presence-only data)
 - `interpretability` — the degree to which a model's outputs can be explained in human terms
-- `gradient-boosting` — ensemble methods building additive trees via boosting (XGBoost, CatBoost, etc.)
+- `gradient-boosting` — ensemble methods building additive trees via boosting (XGBoost, CatBoost, LightGBM, etc.)
 - `probabilistic-classification` — classifiers that output calibrated probabilities rather than hard labels
 - `calibration` — alignment of predicted probabilities with observed frequencies (Brier score, reliability)
 - `uncertainty-quantification` — estimating and calibrating model confidence and uncertainty
@@ -117,11 +121,13 @@ here first with a brief description.
 - `reasoning` — logical, abstract, or multi-step reasoning capabilities
 - `sports-analytics` — computer vision and data analysis applied to sports
 - `action-valuation` — assigning value to individual game actions via change in game-state quality
+- `duel-analysis` — valuing and rating contested 50/50 events where ball possession is ambiguous
 - `event-stream-data` — time-stamped, located event annotations of a game (passes, shots, etc.)
 - `optical-tracking-data` — continuous high-frequency positional tracking of all players and the ball
 - `player-evaluation` — quantifying individual player contribution, value, and playing style
 - `player-development` — how player performance evolves over age, experience, and career stage
 - `recruitment` — scouting, transfer, and squad-building decision support
+- `transfer-prediction` — forecasting a player's future performance conditioned on a move to a new club or league
 - `multi-object-tracking` — tracking multiple objects across video frames with consistent identities
 - `camera-calibration` — estimating camera parameters to map image to world coordinates
 - `object-detection` — locating and classifying objects in images (YOLO, Faster R-CNN, etc.)
@@ -131,6 +137,8 @@ here first with a brief description.
 
 - `person` — an individual (researcher, engineer, etc.)
 - `researcher` — academic or industry researcher
+- `independent-researcher` — a researcher working without institutional affiliation
+- `practitioner` — an industry analyst or consultant whose work influences research
 - `organisation` — company, lab, institution
 - `university` — academic institution
 - `research-institute` — non-university research laboratory or institute

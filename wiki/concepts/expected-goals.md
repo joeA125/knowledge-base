@@ -1,8 +1,8 @@
 ---
 title: "Expected Goals (xG)"
 type: concept
-tags: [sports-analytics, statistics, machine-learning, evaluation, action-valuation, player-evaluation, time-series, volatility]
-sources: [raw/papers/evaluating-football-player-actions.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/transformer-point-process-football-event-modelling.md, raw/papers/football-performance-time-series.md]
+tags: [sports-analytics, statistics, machine-learning, evaluation, action-valuation, player-evaluation, time-series, volatility, sample-weighting, gradient-boosting]
+sources: [raw/papers/evaluating-football-player-actions.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/transformer-point-process-football-event-modelling.md, raw/papers/football-performance-time-series.md, raw/papers/epv_control_and_duel_skills_football.md]
 confidence: 0.9
 provenance:
   extracted: 65%
@@ -17,7 +17,7 @@ updated: 2026-07-27
 
 Expected Goals (xG) is a statistical metric that estimates the probability of a shot resulting in a goal, based on features of the shot opportunity (location, angle, body part, preceding action, defensive pressure, etc.).
 
-Originally proposed for ice hockey (Macdonald, 2012) and subsequently adapted to football (Eggels, van Elk & Pechenizkiy, 2016). [[football-performance-time-series|Mendes-Neves et al.]] trace the idea further back, to Pollard, Ensum & Taylor (2004) on estimating goal probability from distance, angle and space.
+Originally proposed for ice hockey (Macdonald, 2012) and subsequently adapted to football (Eggels, van Elk & Pechenizkiy, 2016). [[football-performance-time-series|Mendes-Neves et al.]] trace the idea further back, to Pollard, Ensum & Taylor (2004) on estimating goal probability from distance, angle and space — a lineage [[epv-control-duel-skills-football|Shelopugin]] cites identically.
 
 ## How It Works
 
@@ -30,6 +30,20 @@ xG is defined over the situation *at the moment of the shot* — where it was ta
 This makes it the clearest existing instance of [[intent-vs-outcome-valuation|intent-based valuation]], and explains the metric's most familiar debate. "Is he a good finisher or is he just getting good chances?" is precisely the intent/outcome question: goals minus xG is an outcome-versus-intent residual.
 
 The I-VAEP/O-VAEP construction generalises the same split from shots to all 21 [[spadl]] action types. Where xG asks it only of finishing, an intent/outcome pair asks it of passing, dribbling, and every other action — with the outcome-encoding features (including shot placement relative to post and bar) as the switch.
+
+## Keeping the Model Player-Agnostic
+
+If xG is meant to describe the *situation*, the model must not learn who is shooting. This is harder than it sounds, and Shelopugin's implementation makes the two necessary precautions explicit — both worth borrowing.
+
+**Deliberate feature exclusion.** Current score, competition, and shooting team are omitted *because they correlate with player skill*. A model given "Manchester City, 2023/24" has been handed a proxy for shot quality that has nothing to do with the geometry of the chance.
+
+**[[sample-weighting|Frequency-weighted loss]].** Shots are not evenly distributed across players — elite attackers take vastly more of them. An unweighted fit therefore partly learns the finishing tendencies of the best-represented shooters and reports them as chance quality. Dividing each instance's log-loss by the player's frequency in the training set equalises players rather than events:
+
+$$\ell_i = \frac{1}{|\,p_i \in D\,|}\left[y_i \log p_i + (1-y_i)\log(1-p_i)\right]$$
+
+The cost is variance: a player with three shots now carries the weight of one with three hundred. This is the usual bias-variance shape of inverse-frequency weighting, and no vault source tests intermediate weightings.
+
+**Separate set-piece and open-play models.** Set-piece xG is fit independently, on the reasoning that a penalty or free kick should depend only on the current situation, whereas open-play xG legitimately depends on preceding actions (an aerial duel, a cutback, a through ball).
 
 ## Limitations
 
@@ -49,8 +63,11 @@ xG is not merely superseded by broader frameworks; it is a *component* of them.
 
 - In [[vaep]], xG is a special case: computing the xG of a shot is equivalent to estimating $P_{scores}$ at the game state immediately before the shot. VAEP generalises this to all 21 [[spadl]] action types.
 - In [[expected-threat|xT]], xG appears explicitly inside the value recursion: $xT(z) = s_z \cdot xG(z) + m_z \sum_{z'} T_{z \to z'} xT(z')$. The term $s_z \cdot xG(z)$ is the immediate reward for shooting from zone $z$, and the whole model is built on top of it.
+- In [[expected-possession-value|Shelopugin's EPV]], accumulated future xG *is* the training target. The binary "did this possession end in a goal" label is rejected explicitly on the grounds that goals are too rare and would cause overfitting — so xG serves as a denser, lower-variance surrogate for the outcome itself.
 
-So a zone is "threatening" in xT precisely because shots taken from it, or reachable from it, have high xG. Improving the underlying xG model improves both.
+The third use is the most interesting, because it inverts the usual complaint. xG is normally criticised for being defined on too few events; here its role is precisely to *supply density* where raw goals cannot. A model targeting goals directly sees roughly 2.6 positive events per match; one targeting accumulated xG sees a real-valued signal at every shot.
+
+So a zone is "threatening" in xT precisely because shots taken from it, or reachable from it, have high xG. Improving the underlying xG model improves both — and, via the target-surrogate role, improves possession-value models too.
 
 ## Can Team Performance Be Assessed Without It?
 
@@ -64,14 +81,13 @@ Despite its limitations, xG has become the most widely used advanced metric in f
 
 ## See Also
 
-- [[action-valuation]]
+- [[action-valuation]] · [[expected-possession-value]]
 - [[intent-vs-outcome-valuation]]
-- [[vaep]]
-- [[expected-threat]]
-- [[hpus]]
-- [[spadl]]
-- [[performance-volatility]]
+- [[vaep]] · [[expected-threat]] · [[hpus]] · [[pass-carry-reward]]
+- [[spadl]] · [[performance-volatility]]
+- [[sample-weighting]] · [[possession-risk]] · [[gradient-boosting]]
 - [[action-valuation-frameworks-compared]]
 - [[evaluating-football-player-actions|VAEP Source Summary]]
 - [[on-ball-actions-football-xt-vs-vaep|xT/VAEP Comparison Summary]]
 - [[football-performance-time-series|Valuing Players Over Time Summary]]
+- [[epv-control-duel-skills-football|EPV Control and Duel Summary]]

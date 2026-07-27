@@ -726,3 +726,46 @@ ACTION FOR HUMAN: recovering the original PDF would likely resolve the contradic
 
 TOOL STATUS: read_taxonomy still returns "No tags file found" after the reported server-side fix. The file reads fine directly, so the running MCP server is likely still holding pre-fix code — suggest restarting it and re-testing.
 
+## [2026-07-27 19:19] ingest | Shelopugin — EPV of Control and Duel Actions
+Source: raw/papers/epv_control_and_duel_skills_football.md — Shelopugin, "Expected Possession Value of Control and Duel Actions for Soccer Player's Skills Estimation" (preprint, sole-authored, data to 1 June 2024). Sole unprocessed source found; all five raw subfolders listed separately and compared against the index.
+
+NOTE: list_unprocessed_sources returned [] and missed this file. Detection was by manual index comparison, confirmed via search_notes. The tool appears to be under-reporting — worth investigating before relying on it.
+
+Pages created: 17, Pages updated: 10 (+ taxonomy, index)
+
+CREATED — summary (1):
+- wiki/summaries/epv-control-duel-skills-football
+
+CREATED — concepts (11):
+- pass-carry-reward, symmetrical-duel-valuation, duel-skill-rating
+- temporal-discounting, possession-risk, effective-playing-time
+- bradley-terry-model, league-strength-rating
+- transfer-performance-prediction, positive-unlabeled-learning, sample-weighting
+
+CREATED — entities (5):
+- andrei-shelopugin, alexander-sirotkin (author + prior-work co-author)
+- mark-glickman, garry-gelade, javier-fernandez
+
+Two entity pages close pre-existing gaps rather than deriving from this source: bradley-terry-model was the missing ancestor of the Elo/Glicko/TrueSkill cluster, and javier-fernandez had been cited on expected-possession-value since that page was written while both co-authors already had pages.
+
+UPDATED (10):
+- _schema/taxonomy.md — 8 new tags (discounting, paired-comparison, positive-unlabeled-learning, duel-analysis, sample-weighting, transfer-prediction, independent-researcher, practitioner); gradient-boosting amended to include LightGBM
+- glicko-rating-system — was a thin draft; now covers Glicko-2, the advantage-term modification for asymmetric contests, and both football applications
+- elo-rating-system — Bradley-Terry linked as the logistic variant; football context-feature use
+- expected-possession-value — two new divergence axes (time base, contested events), the contested-event blind spot, third sense of the term
+- action-valuation — possession-attributability axis; credit-assignment progression; van Dijk duel-rating corollary
+- recruitment — the "will it transfer?" row was marked "thin — only ScoutGPT"; now has a second, cheaper approach
+- selection-bias — the transfer/presence-only instance; distinction between reweighting (composition) and modelling absence
+- expected-goals — frequency-weighted loss, set-piece/open-play split, deliberate feature exclusion, xG-as-target-surrogate
+- gradient-boosting — LightGBM, custom objectives, the nine-model decomposition
+- predictive-validity — first player-level result in the vault, with the caveat that self-prediction is a weaker test than external-criterion prediction
+- counterfactual-simulation — regression-on-context as the cheaper alternative; stratification-by-mover as missing standard practice
+- action-valuation-frameworks-compared (synthesis) — PCR added to the valuation table; Task 4 broadened to "counterfactual and transfer"; two new comparison axes; player-level predictive-validity section
+
+OPEN QUESTIONS / FOLLOW-UPS:
+- PCR has no reported split-half reliability. Given it sits on the rich end of the state-richness trade-off (VAEP family, not xT family), and its intended use is recruitment where reliability dominates, this is the single most useful missing number.
+- The paper validates the forecasting model, not the metric. No construct validation of PCR exists.
+- gamma = 0.95 asserted with no sensitivity analysis; rankings likely sensitive.
+- Fernández, Bornn & Cervone (2021) soccer EPV framework is cited across three vault pages but is not held in raw/. Worth acquiring — most-cited football EPV reference the vault lacks.
+- Neither generative transfer paper (ScoutGPT, EventGPT) stratifies results by whether the player moved, nor addresses selection in observed transfers. Flagged on both synthesis and counterfactual-simulation.
+

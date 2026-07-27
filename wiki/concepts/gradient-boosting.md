@@ -1,8 +1,8 @@
 ---
 title: "Gradient Boosting"
 type: concept
-tags: [machine-learning, gradient-boosting, statistics, random-forest, regression, probabilistic-classification]
-sources: [raw/papers/evaluating-football-player-actions.md, raw/papers/football-performance-time-series.md]
+tags: [machine-learning, gradient-boosting, statistics, random-forest, regression, probabilistic-classification, sample-weighting, training-technique]
+sources: [raw/papers/evaluating-football-player-actions.md, raw/papers/football-performance-time-series.md, raw/papers/epv_control_and_duel_skills_football.md]
 confidence: 0.85
 provenance:
   extracted: 55%
@@ -30,6 +30,19 @@ Over many iterations, the ensemble incrementally corrects its own mistakes. Grad
 
 - **XGBoost** (Chen & Guestrin, 2016): Scalable, regularised gradient boosting. Uses one-hot encoding for categorical features.
 - **CatBoost** (Prokhorenkova et al., 2018): Handles categorical features natively via ordered target statistics, avoiding one-hot encoding. Also mitigates target leakage through ordered boosting.
+- **LightGBM** (Ke et al., 2017): Histogram-based split finding with leaf-wise (rather than level-wise) tree growth, giving substantially faster training on large datasets. Grows deeper, more irregular trees for a given leaf count, so it is more prone to overfitting on small data and is usually constrained by an explicit depth or leaf limit.
+
+The three are close in accuracy on most tabular problems, and the choice tends to be driven by dataset size, categorical handling, and training budget rather than by predictive ceiling.
+
+## Custom Objectives
+
+All three implementations expose the loss function as a user-supplied `objective`, which matters more in practice than it usually gets credit for. Gradient boosting only needs the gradient and Hessian of the loss with respect to the current prediction, so any twice-differentiable loss can be substituted.
+
+[[epv-control-duel-skills-football|Shelopugin]] uses this to implement [[sample-weighting|frequency-weighted]] variants of log-loss and squared error, dividing each instance's loss by the number of times that player appears in the training set:
+
+$$\text{custom-logloss}_i = \frac{1}{|\,p_i \in D\,|}\left[y_i \log p_i + (1-y_i)\log(1-p_i)\right]$$
+
+The purpose is to stop heavily-represented players dominating the fit of models that are meant to describe *situations* rather than people — see [[expected-goals]] and [[duel-skill-rating]]. This is a good illustration of the general point: the modelling choice that matters is often in the objective, not the architecture.
 
 ## Contrast with Random Forest
 
@@ -53,21 +66,39 @@ The trade-off is training time: CatBoost took ~100 minutes per model versus ~16 
 
 **A later variant went the other way.** [[football-performance-time-series|Mendes-Neves et al.]] use a plain Random Forest regressor for their [[intent-vs-outcome-valuation|I-VAEP/O-VAEP]] models. The choice is defensible because their target is a single continuous value rather than two probabilities to be differenced — which removes the calibration pressure that pushed Decroos toward boosting. See [[random-forest]].
 
+## Use in Possession-Value Modelling
+
+Shelopugin trains **nine** boosted models for one valuation system, which is a useful illustration of how these pipelines actually decompose:
+
+| Purpose | Count | Type |
+|---|---|---|
+| [[expected-goals\|xG]] — open play, set pieces | 2 | Classification |
+| Duel context (advantage term for [[duel-skill-rating]]) | 1 | Classification |
+| [[expected-possession-value\|EPV]] — open play, set pieces | 2 | Regression |
+| $EPV^{avg}_{duel}$ — aerial, ground | 2 | Regression |
+| $EPV^{ind}_{duel}$ — aerial, ground | 2 | Regression |
+
+LightGBM is used throughout, chosen over CatBoost on measured accuracy for these particular targets — the opposite result to the VAEP paper's comparison. Taken together, the two findings suggest the boosting-library choice is genuinely dataset-dependent rather than settled, and worth testing rather than inheriting.
+
+The split into average-player and individual-player duel models is not a modelling convenience but a correctness requirement: using the skill-aware model to set a duellist's own baseline would penalise him for being good. See [[symmetrical-duel-valuation]].
+
 ## Why It Suits This Task
 
 - **Heterogeneous features:** VAEP mixes categorical (action type, body part) and real-valued (locations, time, distances) features — a natural fit for tree ensembles.
 - **[[probability-calibration|Well-calibrated probabilities]]:** Gradient boosting can produce well-calibrated probability estimates, which is essential because VAEP sums and subtracts these probabilities to derive action values.
 - **No feature scaling required:** Unlike Logistic Regression, tree-based methods are invariant to monotonic feature transformations.
+- **Custom objectives are cheap**, which makes bias corrections like frequency weighting practical to apply.
 
 ## Relation to Other Vault Methods
 
 Gradient boosting is a non-neural alternative to the deep-learning models dominant elsewhere in the vault. Where the [[transformer]] and [[lstm]] excel at sequential/unstructured data, gradient-boosted trees remain state-of-the-art for tabular, heterogeneous-feature problems like event-stream analytics.
 
+That divide is now contested within football specifically. [[nmstpp]], [[sig-model]], [[eventgpt]] and [[scoutgpt]] all model event streams as *sequences* with neural architectures, while the valuation line ([[vaep]], Shelopugin) keeps treating each action as a tabular row. The two families are converging on the same data from opposite directions.
+
 ## See Also
 
-- [[vaep]]
-- [[random-forest]]
-- [[probability-calibration]]
-- [[probabilistic-classification]]
-- [[event-stream-data]]
-- [[intent-vs-outcome-valuation]]
+- [[vaep]] · [[expected-possession-value]] · [[expected-goals]]
+- [[random-forest]] · [[probability-calibration]] · [[probabilistic-classification]]
+- [[sample-weighting]] · [[duel-skill-rating]] · [[symmetrical-duel-valuation]]
+- [[event-stream-data]] · [[intent-vs-outcome-valuation]]
+- [[epv-control-duel-skills-football|EPV Control and Duel Summary]]

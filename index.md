@@ -18,6 +18,7 @@ A catalog of all wiki pages, organised by type.
 - [[ralf-herbrich]] — Researcher, co-author of TrueSkill paper
 - [[tom-minka]] — Researcher, creator of Expectation Propagation, co-author of TrueSkill paper
 - [[thore-graepel]] — Researcher, co-author of TrueSkill paper
+- [[mark-glickman]] — Statistician, creator of the Glicko and Glicko-2 rating systems
 - [[dzmitry-bahdanau]] — Researcher, first author of Bahdanau attention paper
 - [[kyunghyun-cho]] — Researcher, developer of GRU, co-author of Bahdanau attention paper
 - [[yoshua-bengio]] — Professor, deep learning pioneer, co-author of Bahdanau attention paper
@@ -50,10 +51,12 @@ A catalog of all wiki pages, organised by type.
 - [[maaike-van-roy]] — Researcher, lead author of the xT vs VAEP critical comparison (AAAI 2020)
 - [[pieter-robberechts]] — Researcher, co-author of the xT vs VAEP comparison; win probability modelling
 - [[karun-singh]] — Creator of expected threat (xT)
+- [[garry-gelade]] — Practitioner; Bradley-Terry model of 1v1 duel ability
 - [[daniel-cervone]] — Researcher, lead author of the NBA martingale EPV paper
 - [[alex-damour]] — Researcher, co-author of the NBA martingale EPV paper
 - [[luke-bornn]] — Professor, co-author of the NBA EPV paper and spatial sports analytics
 - [[kirk-goldsberry]] — Geographer, co-author of the NBA EPV paper; basketball spatial analysis
+- [[javier-fernandez]] — Lead author of the deep-learning soccer EPV framework; FC Barcelona analytics
 - [[calvin-yeung]] — Researcher, lead author of NMSTPP and the HPUS metric
 - [[tony-sit]] — Statistician, co-author of NMSTPP
 - [[keisuke-fujii]] — Researcher, senior author of NMSTPP; sports trajectory and defensive valuation
@@ -74,6 +77,8 @@ A catalog of all wiki pages, organised by type.
 - [[tiago-mendes-neves]] — Lead author of Valuing Players Over Time and the Large Event Model line of work
 - [[luis-meireles]] — Researcher, co-author of Valuing Players Over Time; affiliated with FC Porto
 - [[joao-mendes-moreira]] — Senior author of Valuing Players Over Time and the LEM papers
+- [[andrei-shelopugin]] — Independent researcher; EPV of control and duel actions, PCR metric
+- [[alexander-sirotkin]] — Co-author of the Glicko-2 duel-rating and league-rating papers
 - [[openai]] — AI research organisation (GPT, InstructGPT, Scaling Laws, VLAE)
 - [[google-brain]] — AI research team at Google
 - [[google-deepmind]] — AI research lab (London), developed NTMs
@@ -131,16 +136,20 @@ A catalog of all wiki pages, organised by type.
 - [[inla]] — Deterministic approximate Bayesian inference for latent Gaussian models
 - [[multiresolution-modelling]] — Composing coarse and fine process models for tractable expectations
 - [[value-iteration]] — Dynamic-programming backup converging to a Markov value function
+- [[temporal-discounting]] — Geometric decay of reward by temporal distance; discount factors and credit assignment
 - [[smoothing]] — Recovering trend from noisy series; moving averages, window choice, robustness
 - [[selection-bias]] — When what you observe depends on what you are measuring
+- [[positive-unlabeled-learning]] — Learning where only positives and unlabelled cases are observed (presence-only data)
+- [[sample-weighting]] — Reweighting a loss to correct uneven group representation in training data
 - [[random-forest]] — Bagged, feature-subsampled tree ensembles; variance reduction
-- [[gradient-boosting]] — Ensemble of additive trees via boosting (XGBoost, CatBoost)
+- [[gradient-boosting]] — Ensemble of additive trees via boosting (XGBoost, CatBoost, LightGBM)
 - [[feature-engineering]] — Constructing input representations; when handcrafted features help and when they hurt
 - [[tokenization]] — Converting raw data into discrete units for sequence models (BPE, WordPiece, event tokens)
 - [[constrained-decoding]] — Masking invalid tokens during generation to enforce validity rules
 - [[teacher-forcing]] — Training autoregressive models on ground-truth history, and the exposure bias it creates
 - [[multi-task-learning]] — Jointly optimising several objectives over a shared representation
 - [[counterfactual-simulation]] — Generating outcomes under hypothetical, unobserved conditions
+- [[transfer-performance-prediction]] — Forecasting a player's output at a specified destination club
 - [[player-embedding]] — Learned player representations; static vs conditioned, and why position emerges unsupervised
 - [[split-half-reliability]] — Consistency of a metric across disjoint halves of the same data
 - [[predictive-validity]] — Whether a metric forecasts future outcomes, used where ground truth is absent
@@ -152,8 +161,13 @@ A catalog of all wiki pages, organised by type.
 - [[intent-vs-outcome-valuation]] — Separating decision quality from execution quality (I-VAEP / O-VAEP)
 - [[expected-possession-value]] — Umbrella concept: a possession's current worth; covers both the basketball model and the soccer category
 - [[martingale-epv]] — Cervone et al.'s specific basketball EPV construction with martingale guarantee
+- [[possession-risk]] — The downside half of action valuation; horizon choice and time-decayed conceding risk
+- [[effective-playing-time]] — Ball-in-play time as the basis for normalisation and temporal decay
+- [[symmetrical-duel-valuation]] — Valuing contested 50/50 events where possession is not attributable
+- [[duel-skill-rating]] — Rating individual aerial and ground duel ability via modified Glicko-2
 - [[expected-threat]] — Zonal Markov model valuing ball progression in soccer (xT)
 - [[vaep]] — Valuing Actions by Estimating Probabilities for soccer player evaluation
+- [[pass-carry-reward]] — Shelopugin's season metric: decayed EPV over passes and carries per 60 effective minutes
 - [[on-ball-value]] — StatsBomb's possession-bounded action value; and residual OBV as a forward-looking target
 - [[large-event-model]] — Football-as-language paradigm; foundation models for event streams
 - [[nmstpp]] — Transformer point-process model forecasting event time, zone, and action jointly
@@ -194,9 +208,11 @@ A catalog of all wiki pages, organised by type.
 - [[variational-lossy-autoencoder]] — VAE with controlled lossy compression via autoregressive decoder
 - [[variational-autoencoder]] — Latent variable generative model trained via variational inference
 - [[autoregressive-model]] — Models factorising distributions via chain rule
+- [[bradley-terry-model]] — Foundational paired-comparison model; logistic ancestor of the Elo family
 - [[trueskill]] — Bayesian skill rating system generalising Elo
 - [[elo-rating-system]] — Classical statistical rating system for two-player games
-- [[glicko-rating-system]] — Bayesian extension of Elo with uncertainty tracking
+- [[glicko-rating-system]] — Bayesian extension of Elo with uncertainty tracking; Glicko-2 and its modifications
+- [[league-strength-rating]] — Rating clubs and competitions to make player metrics cross-league comparable
 - [[factor-graph]] — Bipartite graphical model for factorised distributions
 - [[approximate-message-passing]] — Approximate inference via message passing on factor graphs
 - [[expectation-propagation]] — Approximate inference via iterative moment matching
@@ -214,11 +230,9 @@ A catalog of all wiki pages, organised by type.
 
 ## Syntheses
 
-- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the four distinct tasks (valuation, forecasting, clustering, counterfactual simulation), how each is validated, why possession metrics outpredict goals, and time as a cross-cutting axis
+- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the four distinct tasks (valuation, forecasting, clustering, counterfactual/transfer), how each is validated, why possession metrics outpredict goals, the attributable-possession and credit-assignment axes, and time as a cross-cutting dimension
 
 ## Conversations
-
-
 
 ## Source Summaries
 
@@ -265,3 +279,4 @@ A catalog of all wiki pages, organised by type.
 - [[eventgpt-player-impact-team-action-sequences]] — Summary of "EventGPT: Capturing Player Impact from Team Action Sequences Using GPT-Based Framework" (Lee, Hong et al., 2025)
 - [[scoutgpt-counterfactual-player-valuation]] — Summary of "Modeling Matches as Language: A Generative Transformer Approach for Counterfactual Player Valuation in Football" (Hong et al., 2026)
 - [[football-performance-time-series]] — Summary of "Valuing Players Over Time" (Mendes-Neves, Meireles & Mendes-Moreira)
+- [[epv-control-duel-skills-football]] — Summary of "Expected Possession Value of Control and Duel Actions for Soccer Player's Skills Estimation" (Shelopugin, preprint)

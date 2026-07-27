@@ -1,9 +1,9 @@
 ---
 title: "Selection Bias"
 type: concept
-tags: [statistics, selection-bias, evaluation, machine-learning, sports-analytics, player-development, model-selection]
-sources: [raw/papers/football-performance-time-series.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md]
-confidence: 0.8
+tags: [statistics, selection-bias, positive-unlabeled-learning, evaluation, machine-learning, sports-analytics, player-development, model-selection, sample-weighting]
+sources: [raw/papers/football-performance-time-series.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md, raw/papers/epv_control_and_duel_skills_football.md]
+confidence: 0.85
 provenance:
   extracted: 40%
   inferred: 55%
@@ -39,11 +39,25 @@ The measured curve therefore describes *who survived at each age*, not *how a pl
 
 [[football-performance-time-series|Mendes-Neves et al.]] correct it by assuming a uniform true age distribution and discounting each age band by $1 - (\text{relative number of players at that age})$: sparser age bands are more selectively sampled, so their observed averages are discounted harder. The direction is right; the specific form is a heuristic rather than a derived estimator.
 
+## The Transfer Case
+
+[[epv-control-duel-skills-football|Shelopugin]] identifies a structurally different instance, in which the selecting agent is **forecasting the same quantity the model is trying to predict**.
+
+Transfers are decisions. A player moving to a stronger club moved because the buying club judged him capable of the step up; a player moving down usually moved because of decline or falling out of favour. A model trained on observed transfers therefore learns from a sample in which *direction of movement already encodes a scouting judgement*, and its predictions are optimistic for step-ups and pessimistic for step-downs.
+
+This is the [[positive-unlabeled-learning|presence-only data]] structure: transfers that were considered and rejected — the informative negatives — are simply absent. Adding features about the destination club does not help, because they tell the model that a transfer occurred, not that it was selected.
+
+The paper's remedy is a shrinkage toward the mean scaled by the size of the league jump, and the author describes it as inadequate and defers a principled treatment. The pattern is worth noting: like the age-curve correction above, it is **right in direction, heuristic in form, and unvalidated**.
+
 ## Other Instances in This Vault
 
 **Restriction of range in reliability estimates.** [[split-half-reliability]] is computed on players with enough minutes to rate. Since playing time is awarded partly on the basis of performance, the sample is truncated on a variable correlated with the metric. Correlations computed on a restricted range are attenuated relative to the full population, so reported reliability figures are conservative for the population of all players — though the comparison *between* metrics on the same sample remains fair.
 
-**Minutes thresholds throughout.** Almost every [[player-rating-time-series|rating time series]] filters on games played (>60 minutes per game, ≥20 games for a long-term window). Every such filter selects on a performance-correlated variable. The consequence is that **the players hardest to evaluate are the ones systematically excluded** — young, fringe, and newly transferred players, exactly the recruitment targets where information is most valuable.
+**Minutes thresholds throughout.** Almost every [[player-rating-time-series|rating time series]] filters on games played (>60 minutes per game, ≥20 games for a long-term window; ≥100 minutes in *both* seasons for Shelopugin's transfer model). Every such filter selects on a performance-correlated variable. The consequence is that **the players hardest to evaluate are the ones systematically excluded** — young, fringe, and newly transferred players, exactly the [[recruitment]] targets where information is most valuable.
+
+Shelopugin's handling of this is instructive: since next-season minutes are unknowable in advance, a *second* model predicts the probability of clearing the threshold, using contract length among its features. The layering is honest, but each patch is itself fit on a selected population, and none is validated separately.
+
+**Uneven representation within the data.** Distinct from missing units: even a complete census can over-represent some players, since elite attackers generate far more shots than anyone else. This is the tractable case, addressed by [[sample-weighting]] — and worth distinguishing carefully, because **reweighting fixes composition, not absence.**
 
 **Event data availability.** [[event-stream-data|Event]] and [[optical-tracking-data|tracking]] data exist for wealthy leagues and top divisions. Findings about action value are findings about elite football, and generalise to lower levels only by assumption.
 
@@ -60,8 +74,8 @@ Selection bias is a *cause* of distribution shift, and the two are often conflat
 
 ## Remedies
 
-- **Model the selection process explicitly** (Heckman correction, truncated regression) — principled, but needs an instrument affecting selection but not outcome, rarely available.
-- **Reweight toward a known target distribution** — requires knowing the target, which is the assumption doing the work in the PDC correction.
+- **Model the selection process explicitly** (Heckman correction, truncated regression, EM over the labelling mechanism) — principled, but needs an instrument affecting selection but not outcome, rarely available.
+- **Reweight toward a known target distribution** — requires knowing the target, which is the assumption doing the work in the PDC correction. See [[sample-weighting]].
 - **Find data on the unselected units** — the real fix where possible. For age curves this means lower divisions, academies, and released players.
 - **Report the restriction honestly** and describe the estimand as "among players who met the threshold" rather than "among players".
 
@@ -73,10 +87,9 @@ The last is underrated. Most selection bias in applied sports analytics is not c
 
 ## See Also
 
-- [[player-development-curve]]
-- [[player-rating-time-series]]
-- [[split-half-reliability]]
-- [[predictive-validity]]
-- [[counterfactual-simulation]]
+- [[positive-unlabeled-learning]] · [[sample-weighting]]
+- [[player-development-curve]] · [[player-rating-time-series]]
+- [[split-half-reliability]] · [[predictive-validity]]
+- [[counterfactual-simulation]] · [[transfer-performance-prediction]] · [[recruitment]]
 - [[event-stream-data]]
-- [[football-performance-time-series|Source Summary]]
+- [[football-performance-time-series|Source Summary]] · [[epv-control-duel-skills-football|EPV Control and Duel Summary]]

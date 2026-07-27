@@ -1,16 +1,16 @@
 ---
 title: "Counterfactual Simulation"
 type: concept
-tags: [counterfactual, generative-model, sports-analytics, player-evaluation, evaluation, machine-learning, entity-embedding]
-sources: [raw/papers/scoutgpt-generative-transformer-football-player-valuation.md, raw/papers/eventgpt-player-impact-from-team-action-sequences.md]
+tags: [counterfactual, generative-model, sports-analytics, player-evaluation, evaluation, machine-learning, entity-embedding, transfer-prediction, recruitment]
+sources: [raw/papers/scoutgpt-generative-transformer-football-player-valuation.md, raw/papers/eventgpt-player-impact-from-team-action-sequences.md, raw/papers/epv_control_and_duel_skills_football.md]
 confidence: 0.85
 provenance:
-  extracted: 65%
-  inferred: 30%
+  extracted: 60%
+  inferred: 35%
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-07-24
-updated: 2026-07-24
+updated: 2026-07-27
 ---
 
 # Counterfactual Simulation
@@ -46,6 +46,24 @@ Re-scoring is the weaker counterfactual but the safer estimate. Re-generation as
 
 The third is achieved in both models by the same trick, established in [[eventgpt]]: **player identity conditions the prediction but is never itself predicted.** Substituting the identity token therefore cannot be silently overruled by the model regenerating the player it expected.
 
+## The Cheaper Alternative: Regression on Context
+
+Simulation is not the only way to ask a counterfactual question, and it is worth being clear about what the expensive machinery actually buys.
+
+[[transfer-performance-prediction|Shelopugin's regression approach]] asks the same question — what will this player produce at that club? — without generating anything. The destination enters as features: [[league-strength-rating|Glicko-2 ratings]] of the target club and league, the difference between old and new league ratings, mean opponent rating, and league style.
+
+| | Generative simulation | Regression on context |
+|---|---|---|
+| Destination represented as | The actual squad | A strength scalar |
+| Captures tactical interaction | **Yes** | No |
+| Data required | Full event streams for the destination | Season aggregates + match results |
+| Scales to a whole market | No | **Yes** |
+| Addresses [[selection-bias\|selection]] in observed transfers | Not addressed | Explicitly, if heuristically |
+
+The comparison is not flattering to either in isolation. Regression cannot tell you that a player suits *these* teammates — its model of a club is a single number, so two clubs of equal strength and different style are interchangeable to it. Simulation can, but needs data most clubs do not hold for most destinations, and — notably — **neither generative paper addresses the selection problem at all**, despite training on exactly the same non-randomly-assigned transfer data.
+
+The practical reading is sequential rather than competitive: regression to narrow a market to a shortlist, simulation to discriminate among the survivors. See [[recruitment]].
+
 ## Estimation by Monte Carlo
 
 Generation is stochastic, so a single rollout is a sample rather than an estimate. Counterfactual quantities are computed by averaging over many sampled continuations, and [[scoutgpt]]'s self-to-self reconstruction error falls monotonically with sample count ($1.9 \to 1.5 \times 10^{-3}$ from 1 to 20 samples). **A single rollout is not a counterfactual estimate.**
@@ -60,6 +78,8 @@ It also fails informatively. EventGPT's simulated rOBV for Saka (18.59) *exceeds
 
 **Out-of-sample intervention.** The stronger test: simulate the entity into a genuinely new context and compare against what actually happened there. ScoutGPT's transfer prediction (MAE 1.25 vs 1.88 naive) is this, though against a weak baseline.
 
+The baseline weakness is worth dwelling on, because the regression line offers a calibration point. Shelopugin stratifies his results by whether the player changed club, league, both, or neither — showing that the naive persistence baseline degrades sharply for movers (0.050 → 0.061 RMSE) while his model holds. Neither generative paper stratifies this way, so it is unknown whether their improvements come from genuine context modelling or from the stay-put majority of their evaluation set. **Reporting movers separately should be standard here and currently is not.**
+
 ## Sanity Checks Worth Borrowing
 
 EventGPT's case studies include two checks that generalise to any counterfactual system:
@@ -67,11 +87,15 @@ EventGPT's case studies include two checks that generalise to any counterfactual
 - **Does the intervention produce differentiated effects?** Substituting strikers into different tactical contexts *reverses* their ranking — Haaland's predicted value falls from 2.71 in Manchester City's structured build-up to 1.37 in a transition-heavy context. A model that produced the same ranking everywhere would not be modelling context at all.
 - **Does it degrade where it should?** Substituting a striker into defensive contexts collapses his projected value. Critically, the model has **no positional labels**, so it cannot be penalising him for being "out of position" — the decline comes purely from contextual demands. This is a genuine falsification test, and it passes.
 
+Shelopugin's model fails an analogous check and says so: it mispredicts when a centre-forward is deployed as a winger, because the target is unconditional on role. That the generative models handle role implicitly while the regression cannot is one of the clearer arguments for the expensive approach.
+
 ## Causal Caveats
 
 The language is borrowed from causal inference, and the borrowing is loose. A generative model trained on observational data learns the *observational* distribution; intervening and regenerating gives the correct causal answer only if the model captured the right dependency structure and there is no unmeasured confounding.
 
-In football, observed performance is confounded with team quality, tactical system, and opposition. Conditioning on lineup absorbs some of this, but nothing guarantees the learned association is the causal effect. Both papers also note **training-window sensitivity**: an unusually poor observed season propagates into the baseline against which substitutions are compared. The transfer results are evidence the simulation is *useful*, not proof it is causally valid.
+In football, observed performance is confounded with team quality, tactical system, and opposition. Conditioning on lineup absorbs some of this, but nothing guarantees the learned association is the causal effect. A further confounder that neither generative paper addresses: the transfers in the training data were **chosen** by clubs forecasting the same quantity, so the observed sample of moves is filtered by scouting judgement. See [[positive-unlabeled-learning]].
+
+Both papers also note **training-window sensitivity**: an unusually poor observed season propagates into the baseline against which substitutions are compared. The transfer results are evidence the simulation is *useful*, not proof it is causally valid.
 
 ## Beyond Sport
 
@@ -79,10 +103,10 @@ The pattern generalises wherever a generative model can be conditioned on an int
 
 ## See Also
 
-- [[eventgpt]] · [[scoutgpt]]
-- [[on-ball-value]]
-- [[player-embedding]]
-- [[teacher-forcing]]
-- [[action-valuation]]
+- [[eventgpt]] · [[scoutgpt]] · [[on-ball-value]]
+- [[transfer-performance-prediction]] · [[league-strength-rating]] · [[recruitment]]
+- [[selection-bias]] · [[positive-unlabeled-learning]]
+- [[player-embedding]] · [[teacher-forcing]] · [[action-valuation]]
 - [[scoutgpt-counterfactual-player-valuation|ScoutGPT Summary]]
 - [[eventgpt-player-impact-team-action-sequences|EventGPT Summary]]
+- [[epv-control-duel-skills-football|EPV Control and Duel Summary]]
