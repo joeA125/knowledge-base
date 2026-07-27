@@ -16,6 +16,7 @@ here first with a brief description.
 - `information-theory` — entropy, divergence, and coding-theoretic measures (KL, cross-entropy, mutual information)
 - `dimensionality-reduction` — compressing data into low-dimensional representations (PCA, NMF, functional bases)
 - `feature-engineering` — constructing, selecting, or learning input representations for a model
+- `feature-attribution` — per-feature explanation of a model's output (SHAP, LIME, permutation importance)
 - `tokenization` — converting raw data into discrete units for sequence models (BPE, WordPiece, event tokens)
 - `entity-embedding` — learned dense representations of discrete entities (players, users, items)
 - `clustering` — unsupervised partitioning of data into groups
@@ -23,12 +24,15 @@ here first with a brief description.
 - `expectation-maximization` — iterative maximum-likelihood estimation with latent variables (EM, GEM)
 - `identifiability` — whether model parameters are uniquely determined by the distribution they induce
 - `model-selection` — choosing model complexity via penalised likelihood or validation (BIC, AIC)
+- `model-decomposition` — estimating a joint expectation by fitting and recombining separate subcomponents
 - `counterfactual` — reasoning about outcomes under hypothetical, unobserved conditions
 - `multi-task-learning` — jointly optimising several objectives so they share representation
 - `constrained-decoding` — restricting generation to outputs satisfying validity rules
 - `teacher-forcing` — training autoregressive models on ground-truth history, and the exposure bias it creates
 - `regression` — predicting continuous-valued targets rather than discrete classes
 - `random-forest` — bagged ensembles of decorrelated decision trees
+- `class-imbalance` — training and evaluating when one label is far rarer than the other
+- `proxy-target` — predicting a frequent correlate when the outcome of interest is too rare to learn from
 - `RAG` — retrieval augmented generation
 - `MCP` — model context protocol
 - `transformer` — Transformer architecture and variants
@@ -47,6 +51,7 @@ here first with a brief description.
 - `regularization` — techniques to prevent overfitting (dropout, label smoothing, etc.)
 - `training-technique` — optimiser schedules, training tricks, and procedures
 - `sample-weighting` — reweighting a loss function to correct uneven representation of groups in the training data
+- `weak-supervision` — learning from incomplete, indirect, or single-point labels rather than full ground truth
 - `paired-comparison` — models of pairwise contest outcomes from which latent strengths are inferred (Bradley-Terry, Thurstone)
 - `ranking-system` — skill rating and ranking algorithms (Elo, TrueSkill, etc.)
 - `matchmaking` — pairing players/teams for fair competition
@@ -56,12 +61,15 @@ here first with a brief description.
 - `inference` — computing posteriors or marginals from models and data
 - `probabilistic-graphical-model` — graphical models (factor graphs, Bayesian networks, MRFs)
 - `markov-model` — stochastic processes with the Markov property (Markov chains, MDPs, Markov games)
+- `policy-modelling` — modelling the behavioural policy actually observed, rather than solving for an optimal one
 - `stochastic-process` — random processes indexed by time (martingales, point processes, diffusions)
 - `point-process` — models of discrete event occurrences in time/space via intensity or conditional density (Poisson, Hawkes, NTPP)
 - `path-signature` — iterated-integral feature maps for paths, from rough path theory
 - `dynamic-programming` — solving problems via recursive decomposition and value propagation (value iteration, Bellman equations)
 - `discounting` — geometric decay applied to rewards by temporal distance; discount factors and temporal credit assignment
 - `spatiotemporal` — joint modelling of variation across both space and time
+- `probability-surface` — predicting a value at every location on a field or image rather than at observed points
+- `pitch-control` — spatial models of which team can reach or control each location
 - `gaussian-process` — distributions over functions used as nonparametric priors
 - `survival-analysis` — time-to-event modelling via hazards (competing risks, Cox models)
 - `hierarchical-model` — multilevel models sharing information across units via partial pooling
@@ -115,12 +123,15 @@ here first with a brief description.
 - `interpretability` — the degree to which a model's outputs can be explained in human terms
 - `gradient-boosting` — ensemble methods building additive trees via boosting (XGBoost, CatBoost, LightGBM, etc.)
 - `probabilistic-classification` — classifiers that output calibrated probabilities rather than hard labels
-- `calibration` — alignment of predicted probabilities with observed frequencies (Brier score, reliability)
+- `calibration` — alignment of predicted probabilities with observed frequencies (Brier score, ECE, temperature scaling)
 - `uncertainty-quantification` — estimating and calibrating model confidence and uncertainty
 - `fact-checking` — verifying factual claims against evidence sources
 - `reasoning` — logical, abstract, or multi-step reasoning capabilities
 - `sports-analytics` — computer vision and data analysis applied to sports
 - `action-valuation` — assigning value to individual game actions via change in game-state quality
+- `defensive-valuation` — quantifying defensive contribution, by team or player
+- `off-ball` — valuing or analysing players who are not in possession of the ball
+- `tactical-analysis` — team shape, formation, pressing structure, and opposition analysis
 - `duel-analysis` — valuing and rating contested 50/50 events where ball possession is ambiguous
 - `event-stream-data` — time-stamped, located event annotations of a game (passes, shots, etc.)
 - `optical-tracking-data` — continuous high-frequency positional tracking of all players and the ball
@@ -142,6 +153,7 @@ here first with a brief description.
 - `organisation` — company, lab, institution
 - `university` — academic institution
 - `research-institute` — non-university research laboratory or institute
+- `data-provider` — vendor supplying event or tracking data to clubs and researchers
 - `sports-club` — a professional sporting club or its corporate arm
 - `ai-research` — entity or work focused on AI research
 - `google` — Google and its divisions

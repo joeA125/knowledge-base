@@ -52,14 +52,17 @@ A catalog of all wiki pages, organised by type.
 - [[pieter-robberechts]] — Researcher, co-author of the xT vs VAEP comparison; win probability modelling
 - [[karun-singh]] — Creator of expected threat (xT)
 - [[garry-gelade]] — Practitioner; Bradley-Terry model of 1v1 duel ability
-- [[daniel-cervone]] — Researcher, lead author of the NBA martingale EPV paper
+- [[daniel-cervone]] — Researcher, lead author of the NBA martingale EPV paper; co-author of the soccer EPV framework
 - [[alex-damour]] — Researcher, co-author of the NBA martingale EPV paper
-- [[luke-bornn]] — Professor, co-author of the NBA EPV paper and spatial sports analytics
+- [[luke-bornn]] — Professor, co-author of the NBA EPV paper, pitch control, and the soccer EPV framework
 - [[kirk-goldsberry]] — Geographer, co-author of the NBA EPV paper; basketball spatial analysis
-- [[javier-fernandez]] — Lead author of the deep-learning soccer EPV framework; FC Barcelona analytics
+- [[javier-fernandez]] — Lead author of the deep-learning soccer EPV framework, SoccerMap, and pitch control
+- [[keisuke-fujii]] — Senior author of VDEP and NMSTPP; leads a defensive-valuation programme
+- [[kosuke-toda]] — Lead author of VDEP, the vault's first defensive valuation framework
+- [[masakiyo-teranishi]] — Co-author of VDEP; trajectory-based defensive evaluation
+- [[keisuke-kushiro]] — Co-author of VDEP (supervision)
 - [[calvin-yeung]] — Researcher, lead author of NMSTPP and the HPUS metric
 - [[tony-sit]] — Statistician, co-author of NMSTPP
-- [[keisuke-fujii]] — Researcher, senior author of NMSTPP; sports trajectory and defensive valuation
 - [[ian-simpson]] — Lead author of Seq2Event and the poss-util metric
 - [[david-hirnschall]] — Researcher, joint first author of the path-signature possession paper
 - [[robert-bajons]] — Researcher, joint first author of the path-signature possession paper
@@ -88,8 +91,13 @@ A catalog of all wiki pages, organised by type.
 - [[jacobs-university-bremen]] — Research university in Bremen, Germany
 - [[universite-de-montreal]] — Canadian university, home of MILA
 - [[universidade-do-porto]] — Portuguese university; base of the Porto football-analytics group
+- [[nagoya-university]] — Japanese university; base of the Fujii sports-analytics group
+- [[kyoto-university]] — Japanese university; home department of the VDEP lead author
 - [[inesc-tec]] — Portuguese research institute (LIAAD), joint affiliation of the Porto group
 - [[fc-porto]] — Professional football club; co-author affiliation on Valuing Players Over Time
+- [[fc-barcelona]] — Professional football club; analytics base for the soccer EPV framework
+- [[stats-perform]] — Sports data provider (STATS LLC / Opta); tracking and event data
+- [[data-stadium]] — Japanese sports data provider; J-League event and tracking data
 
 ## Concepts
 
@@ -115,8 +123,14 @@ A catalog of all wiki pages, organised by type.
 - [[batch-normalization]] — Normalisation across mini-batch for each feature
 - [[layer-normalization]] — Feature-wise normalisation within a single example
 - [[label-smoothing]] — Regularisation technique softening target distributions
+- [[convolution]] — Sliding-kernel operation underlying CNNs
 - [[dilated-convolution]] — Convolution with dilation factor for exponential receptive field growth
+- [[fully-convolutional-network]] — All-convolutional architecture producing spatial output maps for dense prediction
 - [[semantic-segmentation]] — Per-pixel image classification into semantic categories
+- [[feature-pyramid-network]] — Multi-scale feature fusion for detecting objects at different sizes
+- [[soccermap]] — Fully convolutional architecture mapping tracking snapshots to full-pitch surfaces
+- [[probability-surface]] — Predicting a value at every location rather than only where observed
+- [[single-pixel-supervision]] — Learning a full surface from one ground-truth location per example
 - [[eigenvector]] — Directions preserved under linear transformation; eigenvalues measure scaling
 - [[non-negative-matrix-factorization]] — Additive parts-based low-rank factorisation of non-negative data
 - [[jaccard-index]] — Set similarity as intersection over union; underlies IoU and JaC
@@ -135,14 +149,20 @@ A catalog of all wiki pages, organised by type.
 - [[car-prior]] — Hierarchical prior shrinking units toward their neighbours
 - [[inla]] — Deterministic approximate Bayesian inference for latent Gaussian models
 - [[multiresolution-modelling]] — Composing coarse and fine process models for tractable expectations
+- [[structured-model-decomposition]] — Estimating a quantity by fitting and recombining separate subcomponents
 - [[value-iteration]] — Dynamic-programming backup converging to a Markov value function
+- [[policy-modelling]] — Estimating the policy agents actually follow rather than solving for the optimal one
 - [[temporal-discounting]] — Geometric decay of reward by temporal distance; discount factors and credit assignment
 - [[smoothing]] — Recovering trend from noisy series; moving averages, window choice, robustness
 - [[selection-bias]] — When what you observe depends on what you are measuring
 - [[positive-unlabeled-learning]] — Learning where only positives and unlabelled cases are observed (presence-only data)
 - [[sample-weighting]] — Reweighting a loss to correct uneven group representation in training data
+- [[class-imbalance-evaluation]] — Choosing metrics when one label is far rarer than the other
+- [[rare-event-proxy-targets]] — Predicting a frequent correlate when the outcome of interest is too rare to learn
 - [[random-forest]] — Bagged, feature-subsampled tree ensembles; variance reduction
 - [[gradient-boosting]] — Ensemble of additive trees via boosting (XGBoost, CatBoost, LightGBM)
+- [[shap]] — Shapley-value attribution of a prediction to its input features
+- [[interpretability]] — The four senses in which a model can be explainable, and what each is for
 - [[feature-engineering]] — Constructing input representations; when handcrafted features help and when they hurt
 - [[tokenization]] — Converting raw data into discrete units for sequence models (BPE, WordPiece, event tokens)
 - [[constrained-decoding]] — Masking invalid tokens during generation to enforce validity rules
@@ -158,15 +178,21 @@ A catalog of all wiki pages, organised by type.
 - [[player-development-curve]] — Expected performance against age, with selection-bias correction
 - [[recruitment]] — The signing decision, and what it requires that other tasks do not
 - [[action-valuation]] — Valuing individual actions via change in game-state quality
+- [[defensive-valuation]] — Quantifying the contribution of preventing goals rather than creating them
 - [[intent-vs-outcome-valuation]] — Separating decision quality from execution quality (I-VAEP / O-VAEP)
-- [[expected-possession-value]] — Umbrella concept: a possession's current worth; covers both the basketball model and the soccer category
+- [[expected-possession-value]] — Umbrella concept: a possession's current worth, and the four things the term now means
 - [[martingale-epv]] — Cervone et al.'s specific basketball EPV construction with martingale guarantee
 - [[possession-risk]] — The downside half of action valuation; horizon choice and time-decayed conceding risk
 - [[effective-playing-time]] — Ball-in-play time as the basis for normalisation and temporal decay
 - [[symmetrical-duel-valuation]] — Valuing contested 50/50 events where possession is not attributable
 - [[duel-skill-rating]] — Rating individual aerial and ground duel ability via modified Glicko-2
+- [[off-ball-value]] — Valuing players not in possession; positional value from pass surfaces
+- [[pitch-control]] — Probability of controlling the ball at each location; pitch influence and pressure
+- [[dynamic-pressure-lines]] — Team shape as clustered formation bands, recomputed continuously
+- [[tactical-analysis]] — Team shape, pressing structure, and opposition analysis
 - [[expected-threat]] — Zonal Markov model valuing ball progression in soccer (xT)
 - [[vaep]] — Valuing Actions by Estimating Probabilities for soccer player evaluation
+- [[vdep]] — Valuing Defense by Estimating Probabilities; team defensive value from frequent proxies
 - [[pass-carry-reward]] — Shelopugin's season metric: decayed EPV over passes and carries per 60 effective minutes
 - [[on-ball-value]] — StatsBomb's possession-bounded action value; and residual OBV as a forward-looking target
 - [[large-event-model]] — Football-as-language paradigm; foundation models for event streams
@@ -182,7 +208,7 @@ A catalog of all wiki pages, organised by type.
 - [[markov-game]] — Multi-agent stochastic-game framework underpinning action valuation
 - [[event-stream-data]] — Time-stamped, located event annotations of a game (passes, shots, etc.)
 - [[optical-tracking-data]] — Continuous high-frequency positions of all players and the ball
-- [[probability-calibration]] — Aligning predicted probabilities with observed frequencies (Brier score)
+- [[probability-calibration]] — Aligning predicted probabilities with observed frequencies (Brier, ECE, temperature scaling)
 - [[game-state-reconstruction]] — End-to-end athlete tracking, identification, and pitch localisation from broadcast video
 - [[camera-calibration]] — Estimating camera parameters from broadcast sports video using field geometry
 - [[homography]] — 3×3 projective transformation mapping points between planes
@@ -192,7 +218,6 @@ A catalog of all wiki pages, organised by type.
 - [[optical-flow]] — Motion estimation between consecutive frames (Lucas-Kanade, pyramidal)
 - [[enhanced-correlation-coefficient]] — Photometric-invariant iterative image alignment for camera tracking
 - [[conditional-gan]] — GAN conditioned on input for image-to-image translation (Pix2Pix)
-- [[feature-pyramid-network]] — Multi-scale feature fusion for detecting objects at different sizes
 - [[ai-agent]] — Autonomous LLM system that plans, uses tools, and acts iteratively toward goals
 - [[tool-use]] — LLM function calling and interaction with external tools/APIs
 - [[agent-memory]] — Short-term and long-term state management for agent systems
@@ -220,7 +245,6 @@ A catalog of all wiki pages, organised by type.
 - [[bayes-theorem]] — Fundamental rule relating conditional and marginal probabilities
 - [[feed-forward-network]] — Position-wise feed-forward sub-layer in the Transformer
 - [[recurrence]] — Sequential hidden-state processing underlying RNNs
-- [[convolution]] — Sliding-kernel operation underlying CNNs
 - [[adam-optimizer]] — Adaptive-moment gradient optimiser with warmup schedule in the Transformer
 - [[combinatorial-optimisation]] — Learning approximate solutions to discrete optimisation problems
 - [[gaussian-density-filtering]] — Online Gaussian approximate inference (ADF) used by TrueSkill
@@ -230,7 +254,7 @@ A catalog of all wiki pages, organised by type.
 
 ## Syntheses
 
-- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the four distinct tasks (valuation, forecasting, clustering, counterfactual/transfer), how each is validated, why possession metrics outpredict goals, the attributable-possession and credit-assignment axes, and time as a cross-cutting dimension
+- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the five distinct tasks (valuation, forecasting, clustering, counterfactual/transfer, tactical), how each is validated, why possession metrics outpredict goals, the realised-vs-available and attributable-possession axes, and time as a cross-cutting dimension
 
 ## Conversations
 
@@ -280,3 +304,5 @@ A catalog of all wiki pages, organised by type.
 - [[scoutgpt-counterfactual-player-valuation]] — Summary of "Modeling Matches as Language: A Generative Transformer Approach for Counterfactual Player Valuation in Football" (Hong et al., 2026)
 - [[football-performance-time-series]] — Summary of "Valuing Players Over Time" (Mendes-Neves, Meireles & Mendes-Moreira)
 - [[epv-control-duel-skills-football]] — Summary of "Expected Possession Value of Control and Duel Actions for Soccer Player's Skills Estimation" (Shelopugin, preprint)
+- [[expected-value-possession-framework]] — Summary of "A Framework for the Fine-Grained Evaluation of the Instantaneous Expected Value of Soccer Possessions" (Fernández, Bornn & Cervone, 2020)
+- [[football-defence-evaluation-vdep]] — Summary of "Evaluation of Soccer Team Defense Based on Prediction Models of Ball Recovery and Being Attacked" (Toda, Teranishi, Kushiro & Fujii, PLOS ONE 2022)

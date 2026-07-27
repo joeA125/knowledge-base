@@ -769,3 +769,231 @@ OPEN QUESTIONS / FOLLOW-UPS:
 - Fernández, Bornn & Cervone (2021) soccer EPV framework is cited across three vault pages but is not held in raw/. Worth acquiring — most-cited football EPV reference the vault lacks.
 - Neither generative transfer paper (ScoutGPT, EventGPT) stratifies results by whether the player moved, nor addresses selection in observed transfers. Flagged on both synthesis and counterfactual-simulation.
 
+## [2026-07-27 19:48] ingest | Fernández, Bornn &amp; Cervone — Soccer EPV Framework
+Source: raw/papers/expected_value_possession_framework.md — Fernández, Bornn & Cervone, "A framework for the fine-grained evaluation of the instantaneous expected value of soccer possessions" (arXiv:2011.09426v1, 18 Nov 2020). Sole unprocessed source; all five raw subfolders listed separately and compared against the index.
+
+This is the paper flagged as a follow-up in the previous run — the most-cited football EPV reference the vault lacked, previously described only second-hand across three pages.
+
+NOTE: list_unprocessed_sources returned [] again, second consecutive miss. Detection was by manual index comparison, confirmed via search_notes (zero hits). The tool should not be relied on.
+
+DATING RESOLVED: prior vault notes carried uncertainty between 2019 and 2021. With the primary source held, the sequence is 2019 MIT Sloan conference ("Decomposing the immeasurable sport") -> 2020 arXiv preprint (this document) -> 2021 Machine Learning 110(6), 1389-1427. Same work at increasing length. Corrected on expected-possession-value and javier-fernandez.
+
+Pages created: 13, Pages updated: 4 (+ taxonomy, index)
+
+CREATED - summary (1):
+- wiki/summaries/expected-value-possession-framework
+
+CREATED - concepts (10):
+- structured-model-decomposition, probability-surface, single-pixel-supervision
+- soccermap, fully-convolutional-network
+- pitch-control, dynamic-pressure-lines, off-ball-value
+- policy-modelling, tactical-analysis
+
+CREATED - entities (2):
+- fc-barcelona, stats-perform (STATS LLC / Opta)
+
+UPDATED (4 + infrastructure):
+- _schema/taxonomy.md - 10 new tags (model-decomposition, weak-supervision, probability-surface, pitch-control, off-ball, tactical-analysis, policy-modelling, data-provider); calibration amended for ECE/temperature scaling
+- expected-possession-value - MAJOR. Term now documented as meaning four things; new target-comparison table; two new divergence axes (output granularity, time base); realised-vs-available section; blind-spots-closed table
+- javier-fernandez - upgraded from citation-only stub to primary-source page; three-paper line of work; dating resolved
+- action-valuation-frameworks-compared (synthesis) - MAJOR. Task list expanded from four to FIVE (tactical analysis added as its own task); Fernandez column added to valuation table; credit-assignment table now four positions; calibration added to validation table; cross-framework benchmarking gap flagged
+
+KEY FINDINGS FOR THE VAULT:
+- First source here that values OFF-BALL positioning. Every other framework lists "on-ball only" as a shared limitation. Obtained free from the pass surface rather than by modelling off-ball behaviour - so it is positional value, not full off-ball contribution (no credit for creating space, no movement over time, no defensive off-ball work).
+- First framework to value UNREALISED OPTIONS. Surfaces make the gap between realised (0.032) and best-available (0.112) EPV computable. That gap is the coaching output.
+- Only framework attacking the interpretability/richness trade-off rather than picking a side - via decomposition along axes coaches already use.
+- Produces NO player rating and no reliability figure, so it is the most sophisticated valuation framework in the vault and the least usable for recruitment.
+
+OPEN QUESTIONS / FOLLOW-UPS:
+- OUTSTANDING UPDATES from this run, not completed: probability-calibration (ECE, temperature scaling, calibration-under-composition), martingale-epv (its soccer descendant), luke-bornn and daniel-cervone (both now have a second co-authored source), expected-goals (tracking-based xG with interceptability/goalkeeper features; XGBoost event baseline), markov-game (MDP framing with average rather than optimal policy), semantic-segmentation (FCN lineage), action-valuation (off-ball axis, 15s cutoff). These should be the first task next run.
+- epsilon = 15s is asserted with no sensitivity analysis - same criticism the vault makes of Shelopugin's gamma. Neither source tests it.
+- NO CROSS-FRAMEWORK BENCHMARKING anywhere in the football literature held here. Every source reports losses against its own baseline or none at all. Now flagged on the synthesis as the field's largest methodological gap.
+- Tension unresolved: Sig-Model finds handcrafted geometry HARMFUL; Fernandez et al. hand-engineer extensively with club analysts. Argued as different objectives (accuracy vs communicability), but neither tests the other's claim.
+- Tactical analysis has no validation strategy at all and its output is unusually persuasive (heatmaps read as evidence). Flagged on both tactical-analysis and the synthesis.
+- Still open across every framework: defensive off-ball work (pressing, screening, marking), which suppresses the opponent's value rather than generating one's own.
+
+## [2026-07-27 19:59] writeback | Completion of outstanding updates — Soccer EPV Framework ingest
+Completion of the eight update targets flagged as outstanding in the previous log entry for the Fernández, Bornn & Cervone ingest. No new source read; no new pages created; index unchanged (all pages already listed).
+
+Pages updated: 8
+
+- probability-calibration — ECE formula and its advantage over Brier (isolates calibration where Brier conflates it with discrimination); reliability curves; temperature scaling and why monotonicity makes it free; Guo et al. on neural overconfidence. New section on CALIBRATION UNDER COMPOSITION: why a decomposed model's joint estimate stays calibrated (probability-weighted sum of conditional expectations, so errors average rather than accumulate) and the condition under which it would NOT (systematic same-direction bias compounds). Added the limit that surface calibration is only verifiable along observed destinations.
+
+- martingale-epv — new section "The Soccer Descendant, and What It Gave Up", with a design-comparison table. Documents that the 2016 paper argues supervised regression of features onto outcomes CANNOT produce an interpretable value curve, and the 2020 framework is structurally that, with Cervone on both. Framed as a considered revision of what interpretability means (mathematical property of the estimator -> structural property of the model) rather than a contradiction. Notes this is the clearest evidence in the vault that the martingale property is a COST as well as a virtue.
+
+- luke-bornn — four-paper table (2016 EPV, 2018 pitch control, 2020 SoccerMap, 2020/21 soccer EPV); identified as the connective figure across the basketball-to-soccer transfer; unifying pattern is "turn tracking data into a spatial field, reason over the field not over events". Fixed unlinked "Javier Fernández" reference.
+
+- daniel-cervone — same two-model tension, from the author side; dating note corrected.
+
+- expected-goals — new section on tracking-based xG features (3m pressure count, blockage count via shooter-to-posts triangle, three goalkeeper-geometry features). New section "xG as Its Own Prior": the 117,948-shot event dataset trains a baseline xG that is fed as an INPUT FEATURE to the 13,735-shot tracking model, so the coarse model supplies a calibrated prior the fine model refines. Flagged as a reusable pattern wherever a large coarse dataset coexists with a small rich one. Also noted shot EPV having the worst loss of any component (0.2421) as the same sparsity problem showing up internally.
+
+- markov-game — new section on estimating value under the OBSERVED policy rather than the optimal one; comparison table extended to four frameworks with a new "policy modelled explicitly?" row. Key observation: modelling the policy explicitly and modelling the process faithfully appear to be SUBSTITUTES rather than complements — basketball EPV gets consistency and pays in compute, soccer EPV gets an interrogable policy and pays with the martingale guarantee. Also clarified that every framework here uses single-agent MDP framing despite football being adversarial.
+
+- semantic-segmentation — was a thin 2026-05 draft. Added weakly-supervised variants table placing single-pixel supervision relative to image-level supervision; "Transfer Outside Vision" section on SoccerMap, including the two places the analogy strains (sparser supervision; pitches are not fully translation-invariant, recovered via distance/angle-to-goal input layers). Noted mIoU has no counterpart in the football surface setting.
+
+- action-valuation — credit-assignment axis now a four-position table; new axis "output granularity" (per-action vs per-location); new section "Valuing What Happened vs What Was Available"; new section "What Remains Invisible to Everything" distinguishing positional value from off-ball contribution. Defensive undervaluation now presented as THREE causes with three different remedies (definitional, data, and choice of which events to model) rather than one paradigm limitation.
+
+STATE: the Fernández ingest is now complete. No outstanding updates from either of the last two ingests.
+
+CARRIED FORWARD (unchanged, still open):
+- No cross-framework benchmarking anywhere in the football literature held here.
+- epsilon = 15s and gamma = 0.95 both asserted without sensitivity analysis.
+- PCR has no reported split-half reliability.
+- Sig-Model vs Fernández tension on handcrafted features, argued as different objectives but untested either way.
+- Tactical analysis has no validation strategy at all.
+- Defensive off-ball work invisible to every framework.
+- list_unprocessed_sources has now missed two consecutive sources; treat as non-functional.
+
+## [2026-07-27 20:43] lint | Tool diagnostic — read_taxonomy fixed, list_unprocessed_sources undetermined
+Diagnostic re-test of the two tools previously recorded as faulty. Corrects two claims in earlier entries.
+
+CORRECTION 1 — read_taxonomy is FIXED. Earlier entries (2026-07-27 10:06 ingest, 2026-07-27 12:17 lint) record it returning "No tags file found" due to a hardcoded pre-rename _schema/tags.md path, and still failing after a reported server-side fix. It now returns the current _schema/taxonomy.md correctly, including all tags added in the two most recent ingests. The running server therefore holds current code.
+
+CORRECTION 2 — list_unprocessed_sources false negatives were THREE, not two. Previous entry said "two consecutive". The 2026-07-27 10:06 ingest (Valuing Players Over Time) also recorded a false negative. All three confirmed independently: manual five-folder comparison against the index found the source, and search_notes returned zero hits for it.
+
+CURRENT STATUS — UNDETERMINED, not "non-functional". The previous entry's verdict was overstated and is withdrawn.
+- All three known false negatives predate the read_taxonomy fix.
+- Every call since has returned [] at a time when [] is the CORRECT answer, since every source in raw/ is now referenced by a wiki page.
+- The earlier hypothesis (same stale-path defect class, server holding pre-fix code) is weakened: the sibling bug is fixed while this one's behaviour is unchanged. Either they are unrelated defects, or this tool is now working and simply has nothing to report.
+
+DECISIVE TEST, NOT YET RUN: the tool can only be distinguished from a working one when an unreferenced source actually exists. Two routes — (a) place a placeholder file in raw/other/ and re-run, which requires a human decision since Law 1 makes raw/ immutable, or (b) wait and test it naturally on the next real ingest. Recommend (b) unless a definitive answer is wanted sooner.
+
+INTERIM PRACTICE UNCHANGED: continue detecting unprocessed sources by listing all five raw subfolders separately and comparing against the index. This has caught every source to date.
+
+SEPARATE ISSUE — DUPLICATE LOG ENTRY. The Valuing Players Over Time ingest is logged TWICE at the identical timestamp [2026-07-27 10:06], with near-identical but not byte-identical wording. Consistent with append_log appearing to fail, being retried, and both writes landing. Suggests intermittent write-acknowledgement flakiness distinct from the two bugs above. One of the two entries should be deleted by hand.
+
+## [2026-07-27 20:47] lint | list_unprocessed_sources — root cause found, now over-reporting
+Follow-up to the previous lint entry. Root cause found and partially fixed.
+
+ROOT CAUSE OF THE FALSE NEGATIVES: the tool was scanning vault/"sources" — a directory that does not exist in this vault — instead of vault/"raw". Finding no source files, it correctly reported no unprocessed ones. This explains all three documented false negatives and is a configuration error, not a code defect. Corrected by the human; app and MCP server reloaded.
+
+NEW BEHAVIOUR — FALSE POSITIVES. The tool now finds the raw files but returns ALL 46 of them, including every source that already has a summary page. The reference check is matching nothing.
+
+LIKELY CAUSE: path separator mismatch. The tool returns Windows-style paths (raw\papers\foo.md) while every sources: field in wiki frontmatter uses POSIX separators (raw/papers/foo.md). A direct string comparison between the two never matches, so every source is classified unreferenced. Suggested fix: normalise separators on both sides before comparing. Note list_files exhibits the same backslash output, so the normalisation may belong at the server's path layer rather than in this tool alone.
+
+ASSESSMENT: still unusable as a filter, but the failure mode is now SAFE. Over-reporting is recoverable by manual comparison; silently missing a source was not. This is a meaningful improvement even though the tool is not yet correct.
+
+INTERIM PRACTICE UNCHANGED: continue detecting unprocessed sources by listing all five raw subfolders separately and comparing against the index.
+
+DETECTION THIS RUN: one genuinely unprocessed source identified by comparing the tool's 46-item output against the index — raw/papers/football_defence_evaluation.md (57,990 bytes). Proceeding to ingest.
+
+## [2026-07-27 21:02] ingest | Toda, Teranishi, Kushiro &amp; Fujii — VDEP: defensive valuation
+Source: raw/papers/football_defence_evaluation.md — Toda, Teranishi, Kushiro & Fujii, "Evaluation of soccer team defense based on prediction models of ball recovery and being attacked: A pilot study" (PLOS ONE 17(1): e0263051, 27 Jan 2022). Open access.
+
+DETECTION: list_unprocessed_sources now finds the raw directory (path corrected by human from vault/"sources" to vault/"raw") but returned ALL 46 sources, including every processed one. The single genuinely unprocessed file was identified by comparing that output against the index. See the preceding lint entry for the separator-mismatch diagnosis.
+
+This paper directly addresses the gap flagged as open in the last three log entries: defensive off-ball work, invisible to every framework in the vault.
+
+Pages created: 13, Pages updated: 3 (+ taxonomy, index)
+
+CREATED — summary (1):
+- wiki/summaries/football-defence-evaluation-vdep
+
+CREATED — concepts (6):
+- vdep — the method; two departures from VAEP (frequent targets, off-ball state)
+- defensive-valuation — the umbrella problem, why it is structurally harder, four approaches, what no framework does
+- rare-event-proxy-targets — CROSS-CUTTING. The general move of predicting a frequent correlate when the target is too rare. Appears independently in VDEP, HPUS, Shelopugin and xG-as-target but had never been named. Includes the three conditions for a good proxy and the medical surrogate-endpoint cautionary parallel.
+- class-imbalance-evaluation — why Brier/AUC/accuracy mislead under extreme imbalance, with the VDEP/VAEP metric inversion as worked example
+- shap — Shapley attribution; local-then-global; the caveat that attribution explains the model, not the world
+- interpretability — CLOSES A KNOWN DEAD LINK (listed as an unresolved tag-name link since the 2026-07-27 lint). Distinguishes FOUR senses the football sources conflate: structural simplicity, attribution, compositional, behavioural guarantee.
+
+CREATED — entities (6):
+- kosuke-toda, masakiyo-teranishi, keisuke-kushiro
+- nagoya-university, kyoto-university, data-stadium
+
+UPDATED (3 + infrastructure):
+- _schema/taxonomy.md — 4 new tags (defensive-valuation, class-imbalance, proxy-target, feature-attribution)
+- keisuke-fujii — was written from NMSTPP citations only and already listed "Toda et al. 2022" as related work; now has a second primary source. Added the group's methodological signature (prediction first, metric derived downstream — distinguishing it from the Leuven and Barcelona lines) and mapped the four-paper defensive programme, three of which are NOT held in raw/.
+- action-valuation — two new axes (perspective: attacking vs defending; target rarity). "Common Structural Bias" reworked from three causes to FOUR, adding the statistical cause. "What Remains Invisible" corrected — it previously stated defensive off-ball work was invisible to every framework, which is no longer accurate at team level.
+
+KEY FINDINGS:
+1. VAEP's conceding classifier scores F1 = 0.000 on this 45-match dataset — it identifies NO true positives at all, having learned to predict "no goal" always (right 99.2% of the time). The defensive half of the vault's most-cited valuation framework is empirically inert at this data scale. This is a measured version of a limitation the rest of the literature states only qualitatively.
+2. METRIC INVERSION: VAEP scores BETTER on Brier, VDEP better on AUC and overwhelmingly on F1 (0.522/0.484 vs 0.201/0.000). VAEP wins on Brier precisely BECAUSE its target is rarer — squared error against a near-zero base rate is small. Reading that comparison by Brier alone reverses the correct conclusion.
+3. VAEP has essentially no correlation with goals conceded (r = -0.098 season, -0.040 match) despite being built from a conceding classifier. Coherent given finding 1.
+4. STABILITY: VDEP's match-level and season-level correlations are similar (0.464, 0.397) where VAEP's diverge sharply (0.830 -> 0.177). Evidence VDEP measures a persistent team property rather than reproducing a scoreline.
+5. SHAP puts off-ball features top for both classifiers (nearest-defender distance; nearest-attacker x-position), so the extra state representation carries part of the improvement, not just the target change.
+
+OUTSTANDING UPDATES — NOT COMPLETED THIS RUN, first task next time:
+- action-valuation-frameworks-compared (synthesis) — needs the VDEP column in the valuation table, the attacking/defending perspective axis, the F1=0.000 finding, and reconsideration of whether defensive valuation is a sixth task or an axis across existing ones. This is the largest outstanding item.
+- vaep — the F1=0.000 result belongs on its own page, with the caveat below
+- probability-calibration — F1, precision-recall AUC, and the point that a base-rate predictor is perfectly calibrated and useless
+- off-ball-value — VDEP is the defensive counterpart; currently the page is attacking-only
+- expected-goals, hpus, gradient-boosting (XGBoost + SHAP), predictive-validity — all have smaller additions pending
+
+DEAD LINKS INTRODUCED THIS RUN, to fix: [[evaluation]] and [[probabilistic-classification]] in class-imbalance-evaluation; [[feature-attribution]] in interpretability. All are tag names without pages, same class as the pre-existing list. Either create the pages or de-link.
+
+CAVEATS ON THE HEADLINE FINDING: the VAEP comparison is not like-for-like — VDEP uses k=5, VAEP k=10, predicting different events on a dataset far smaller than VAEP's original. The authors say so. It weakens "VDEP beats VAEP" while leaving intact the real claim, that goal-prediction classifiers fail at this data scale.
+
+CARRIED FORWARD:
+- INDIVIDUAL defensive valuation remains completely open. VDEP is team-level only, stated by its authors as the main limitation. Their proposed next step — compute the change in VDEP when a player moves differently — is unimplemented and would be the natural route.
+- Three Fujii-group defensive papers are cited but not held in raw/ (Teranishi 2020 trajectory-based, Teranishi 2022 space creation, Umemoto 2022 EURO). The trajectory line is the one that could deliver individual credit. Worth acquiring.
+- C = 3.9 and k = 5 both asserted without sensitivity analysis, joining epsilon = 15s and gamma = 0.95. Four frameworks, four unjustified horizon/weighting parameters, zero sensitivity analyses.
+- Still no cross-framework benchmarking anywhere in this literature.
+
+## [2026-07-27 21:15] writeback | Completion of outstanding updates — VDEP ingest
+Completion of the six update targets flagged as outstanding in the VDEP ingest entry. No new source read; no new pages created; index unchanged (all pages already listed).
+
+TOOL RE-TEST — STILL BROKEN, now DECISIVELY. list_unprocessed_sources returned all 47 sources, INCLUDING football_defence_evaluation.md, which now has wiki/summaries/football-defence-evaluation-vdep.md carrying that exact path in its sources: frontmatter. Count went 46 -> 47, simply tracking the raw file total. So it is not filtering at all: the path fix let it see raw/, but the reference check matches nothing. Separator mismatch (raw\papers\foo.md from the tool vs raw/papers/foo.md in frontmatter) remains the best explanation and is now well evidenced. Previous lint entry's diagnosis stands; the "safe failure mode" assessment also stands.
+
+Pages updated: 6
+
+- action-valuation-frameworks-compared (synthesis) — MAJOR. Resolved the question flagged last entry: defensive valuation is NOT a sixth task. VDEP instantiates the same V(a) = Q(S_i) - Q(S_{i-1}) equation, differing in perspective and target choice, both of which are axes within Task 1. Treating it as a separate task would obscure that the machinery is identical. Task 1 restructured around FIVE named axes (perspective, target rarity, intent/outcome, attributable possession, realised vs available). Valuation table extended to six frameworks with four new rows. Credit-assignment table now six positions. Added: the four-causes-four-remedies table for offensive bias; the observation that THREE of six frameworks produce no player rating at all, for three different reasons; VDEP's cross-horizon consistency as a validation check nobody else reports; and the note that four frameworks now carry unjustified free parameters (gamma, epsilon, k, C) with zero sensitivity analyses between them.
+
+- vaep — new flagged section "The Defensive Half Does Not Work", with the F1 = 0.000 result, why Brier/AUC hid it, and the resolution of a previously unexplained vault fact (VAEP correlates ~0 with goals conceded despite being built from a conceding model). IMPORTANT SCOPE CAVEAT recorded: Decroos et al. trained on 8.5M actions where absolute conceding counts are far higher, so the honest claim is that the classifier fails at the data scale most researchers and clubs actually have. Its F1 on the original corpus is unreported and would be cheap to measure. Also noted that the reliability failure and the F1 failure are two symptoms of ONE cause — goal rarity.
+
+- off-ball-value — restructured around TWO routes rather than one: attacking (read a value surface at player positions, individuates naturally) and defending (put all 22 positions in the model state, does not individuate). Added a comparison table making the asymmetry explicit and explaining WHY VDEP is team-level: 22 positions into one classifier gives one number per configuration with no principled way to split it. Flagged the combination of the two routes — a value function over player positions, targeting defence — as the clearest open opportunity in the vault's football coverage.
+
+- probability-calibration — new flagged section "Calibration Is Not Sufficient", using VAEP's conceding classifier as the concrete case: best Brier in its comparison (0.003) alongside F1 = 0.000. Added that cross-model comparison on Brier is actively misleading, since a rarer target scores better for that reason alone.
+
+- class-imbalance-evaluation, interpretability — DEAD LINKS FIXED. Removed [[evaluation]], [[probabilistic-classification]] and [[feature-attribution]], all tag names without pages, introduced by me last run and flagged then. Replaced with existing pages.
+
+STATE: the VDEP ingest is now complete. No outstanding updates from any of the last three ingests.
+
+NOT DONE, judged low value rather than skipped for budget: expected-goals, hpus, gradient-boosting and predictive-validity were listed last entry as having "smaller additions pending". On review the substance is already carried by the new concept pages (rare-event-proxy-targets, class-imbalance-evaluation) and by the synthesis, and adding it to those four would duplicate rather than extend. Recording the decision rather than leaving them on the list indefinitely.
+
+CARRIED FORWARD (still open):
+- INDIVIDUAL defensive valuation. VDEP is team-level by design. Authors' proposed next step (change in VDEP when a player moves differently) unimplemented.
+- Three Fujii-group defensive papers cited but not in raw/ (Teranishi 2020 trajectory, Teranishi 2022 space creation, Umemoto 2022 EURO). The trajectory line is the one that could deliver individual credit.
+- Four frameworks, four unjustified horizon/weighting parameters, zero sensitivity analyses.
+- No cross-framework benchmarking anywhere in this literature. VDEP is the closest attempt and is not like-for-like.
+- PCR has no reported split-half reliability.
+- VAEP's conceding-classifier F1 on the original 8.5M-action corpus is unreported.
+- Sig-Model vs handcrafted-features tension, untested either way.
+- Tactical analysis has no validation strategy.
+- Pre-existing dead links to tag names remain (markov-model, reinforcement-learning, player-evaluation, probabilistic-classification, stochastic-process, spatiotemporal, rnn, clustering, model-selection, multi-object-tracking, representation-learning, survival-analysis). interpretability was closed this run.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-07-27 21:35] writeback | Correction — individual defensive credit is addressed in the literature
+Correction of a factual error I introduced across several pages during the VDEP ingest, discovered by searching for the Fujii-group papers the human could not locate.
+
+THE ERROR: defensive-valuation, off-ball-value and action-valuation all stated that individual defensive credit was unaddressed anywhere, and off-ball-value described combining the spatial and defensive routes as "the clearest open opportunity in this vault's football coverage" with nobody having attempted it.
+
+This was inferred from VDEP's own limitations section — its authors state it is team-level and propose the counterfactual as future work — without checking whether the follow-up literature had done it. It had. This is precisely the failure other pages here warn about when treating citations as a substitute for primary sources, committed in the reverse direction: treating one paper's stated limitation as the field's state.
+
+GENERAL LESSON, recorded on action-valuation: a gap in the vault is not a gap in the field, and inferring the second from the first is unsafe.
+
+WHAT ACTUALLY EXISTS (bibliographic details verified against citation lists and the author's own overview article; METHOD AND CAPABILITY CLAIMS UNVERIFIED — none of these is held in raw/):
+- Umemoto & Fujii (2023). "Evaluation of team defense positioning by computing counterfactuals using StatsBomb 360 data." StatsBomb Conference. INDIVIDUAL defender evaluation via counterfactual positioning: identify the highest-OBSO location, select the nearest defender and his grid cell, search which cell would most reduce OBSO. Output is the positioning that "reduced the threat the most". This is the method VDEP's authors proposed and did not build.
+- Umemoto, Tsutsui & Fujii (2022). "Location analysis of players in UEFA EURO 2020 and 2022 using generalized valuation of defense by estimating probabilities." arXiv:2212.00021. GVDEP — generalises VDEP to player-location level.
+- Teranishi, Tsutsui, Takeda & Fujii (2022/23). "Evaluation of creating scoring opportunities for teammates in soccer via trajectory prediction." MLSA / Springer, pp. 53-73. Credits movement SACRIFICED for a teammate.
+- Teranishi, Fujii & Takeda (2020). "Trajectory prediction with imitation learning reflecting defensive evaluation in team sports." IEEE GCCE, pp. 124-125. Two-page abstract.
+
+SECOND ERROR CORRECTED: keisuke-fujii listed these works under paraphrased DESCRIPTIONS rather than titles, omitted Kazushi Tsutsui from two author lists, and missed the 2023 paper entirely. The paraphrases made the papers effectively unfindable by search, which is how this surfaced. Citation-derived entries must record titles verbatim.
+
+NEW CONNECTION: both Fujii counterfactual lines build on OBSO (off-ball scoring opportunities, Spearman 2018) rather than event classification, placing the group's off-ball work closer to Fernandez et al.'s value surfaces than to VDEP's classifiers despite shared authorship. Spearman (2018) is now a notable gap in raw/ — it appears as substrate for two separate lines.
+
+Pages updated: 4
+- defensive-valuation — new "Beyond VDEP: The Follow-Up Literature" section with a provenance warning and a held/not-held column; "What No Framework Does" replaced by "What Remains Genuinely Open", narrower and honest; counterfactual positioning added as a fifth approach; confidence 0.8 -> 0.75, ambiguous 5% -> 20%, tagged needs-review
+- off-ball-value — "The Obvious Next Step, Unimplemented" replaced by "The Third Route: Counterfactual Positioning"; explicit correction note; remaining gaps re-scoped to "the sources actually read here"
+- action-valuation — "What Remains Invisible" corrected with the distinction between held frameworks and the literature; general lesson recorded
+- keisuke-fujii — verbatim titles, corrected author lists, the missing 2023 paper, the two-routes framing, the OBSO substrate note, and an acquisition-priority section
+
+STILL TO DO: action-valuation-frameworks-compared (synthesis) limitation 6 still reads "Individual defensive credit is completely open. VDEP is team-level by design." Same correction needed. Not done this run.
+
+ACQUISITION PRIORITY (all fetchable now):
+- arXiv:2212.00021 (GVDEP) — closest follow-up to the paper just ingested
+- arXiv:2102.07545 — Fujii's survey, reference [3] in VDEP, maps the whole programme
+- arXiv:2305.17886 — action valuation of on- AND off-ball players via multi-agent deep RL
+- Spearman (2018), "Beyond expected goals", MIT Sloan — OBSO, substrate for two Fujii lines and cited by Fernandez et al.
+The 2023 counterfactual positioning work is the highest-value target for the individual-defender gap but was a conference presentation rather than a preprint, so availability is uncertain.
+
