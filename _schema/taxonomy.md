@@ -37,8 +37,10 @@ here first with a brief description.
 - `MCP` — model context protocol
 - `transformer` — Transformer architecture and variants
 - `attention` — attention mechanisms in neural networks
+- `graph-neural-network` — neural networks operating on graph-structured data via message passing
 - `machine-translation` — translating text between languages with ML
 - `sequence-modelling` — modelling sequential data (text, time series, etc.)
+- `trajectory-prediction` — forecasting future positions of one or more interacting agents
 - `time-series` — observations indexed by time, and the extraction of trend, form, and volatility from them
 - `smoothing` — recovering trend from noisy series (moving averages, exponential smoothing, windowing)
 - `volatility` — variability of a measurement around its own trend or long-run level
@@ -74,7 +76,7 @@ here first with a brief description.
 - `survival-analysis` — time-to-event modelling via hazards (competing risks, Cox models)
 - `hierarchical-model` — multilevel models sharing information across units via partial pooling
 - `approximation` — approximate inference and computation methods
-- `rnn` — recurrent neural networks (vanilla, LSTM, GRU, BiRNN)
+- `rnn` — recurrent neural networks (vanilla, LSTM, GRU, BiRNN, VRNN)
 - `encoder-decoder-bottleneck` — fixed-length vector bottleneck in seq2seq models
 - `alignment` — word/phrase alignment in MT; also AI alignment (training models to follow human intent)
 - `pointer-mechanism` — using attention as a pointer to select input elements as output
@@ -93,7 +95,7 @@ here first with a brief description.
 - `scaling-laws` — power-law relationships between performance and scale (model size, data, compute)
 - `generative-model` — models that learn to generate data (VAEs, GANs, autoregressive, diffusion)
 - `gan` — generative adversarial networks and variants (cGAN, Pix2Pix, CycleGAN, etc.)
-- `vae` — variational autoencoders and related latent variable models
+- `vae` — variational autoencoders and related latent variable models (VAE, VRNN, GVRNN)
 - `autoregressive-model` — models that factorise distributions via chain rule (PixelCNN, RNN LMs, Transformers)
 - `representation-learning` — learning useful data representations for downstream tasks
 - `density-estimation` — estimating probability distributions from data
@@ -112,6 +114,7 @@ here first with a brief description.
 - `chain-of-thought` — prompting LLMs to produce intermediate reasoning steps
 - `instruction-tuning` — fine-tuning LMs on instruction-formatted data for better task generalisation
 - `reinforcement-learning` — learning policies via reward signals (includes RLHF for LLM alignment)
+- `imitation-learning` — learning a policy by mimicking observed behaviour rather than optimising a reward
 - `ai-agent` — autonomous systems that plan, use tools, and act iteratively toward goals
 - `tool-use` — LLM function calling and interaction with external tools/APIs
 - `cognitive-science` — models of human cognition, psychometrics, and cognitive ability
@@ -131,6 +134,7 @@ here first with a brief description.
 - `action-valuation` — assigning value to individual game actions via change in game-state quality
 - `defensive-valuation` — quantifying defensive contribution, by team or player
 - `off-ball` — valuing or analysing players who are not in possession of the ball
+- `space-creation` — off-ball movement that generates opportunity for a teammate rather than oneself
 - `tactical-analysis` — team shape, formation, pressing structure, and opposition analysis
 - `duel-analysis` — valuing and rating contested 50/50 events where ball possession is ambiguous
 - `event-stream-data` — time-stamped, located event annotations of a game (passes, shots, etc.)

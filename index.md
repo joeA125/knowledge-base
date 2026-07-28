@@ -52,14 +52,17 @@ A catalog of all wiki pages, organised by type.
 - [[pieter-robberechts]] — Researcher, co-author of the xT vs VAEP comparison; win probability modelling
 - [[karun-singh]] — Creator of expected threat (xT)
 - [[garry-gelade]] — Practitioner; Bradley-Terry model of 1v1 duel ability
+- [[william-spearman]] — Creator of OBSO and physics-based pitch control; highest-priority missing source
 - [[daniel-cervone]] — Researcher, lead author of the NBA martingale EPV paper; co-author of the soccer EPV framework
 - [[alex-damour]] — Researcher, co-author of the NBA martingale EPV paper
 - [[luke-bornn]] — Professor, co-author of the NBA EPV paper, pitch control, and the soccer EPV framework
 - [[kirk-goldsberry]] — Geographer, co-author of the NBA EPV paper; basketball spatial analysis
 - [[javier-fernandez]] — Lead author of the deep-learning soccer EPV framework, SoccerMap, and pitch control
-- [[keisuke-fujii]] — Senior author of VDEP and NMSTPP; leads a defensive-valuation programme
+- [[keisuke-fujii]] — Senior author of VDEP, C-OBSO and NMSTPP; leads a defensive and off-ball valuation programme
 - [[kosuke-toda]] — Lead author of VDEP, the vault's first defensive valuation framework
-- [[masakiyo-teranishi]] — Co-author of VDEP; trajectory-based defensive evaluation
+- [[masakiyo-teranishi]] — Lead author of C-OBSO; the Fujii group's trajectory-modelling line
+- [[kazushi-tsutsui]] — Co-author of C-OBSO and GVDEP; junction of the two counterfactual lines
+- [[kazuya-takeda]] — Co-author of C-OBSO and the 2020 trajectory-prediction work
 - [[keisuke-kushiro]] — Co-author of VDEP (supervision)
 - [[calvin-yeung]] — Researcher, lead author of NMSTPP and the HPUS metric
 - [[tony-sit]] — Statistician, co-author of NMSTPP
@@ -108,6 +111,7 @@ A catalog of all wiki pages, organised by type.
 - [[multi-head-attention]] — Parallel attention over multiple subspaces
 - [[pointer-network]] — Attention as a pointer to input elements for variable-size output
 - [[read-process-write]] — Permutation-invariant architecture for input sets (Read, Process, Write)
+- [[graph-neural-network]] — Message passing over graph-structured data; permutation equivariance
 - [[neural-turing-machine]] — Neural network with differentiable external memory for learning algorithms
 - [[positional-encoding]] — Injecting sequence order into the Transformer
 - [[encoder-decoder]] — General architecture pattern for sequence transduction
@@ -131,6 +135,7 @@ A catalog of all wiki pages, organised by type.
 - [[soccermap]] — Fully convolutional architecture mapping tracking snapshots to full-pitch surfaces
 - [[probability-surface]] — Predicting a value at every location rather than only where observed
 - [[single-pixel-supervision]] — Learning a full surface from one ground-truth location per example
+- [[trajectory-prediction]] — Forecasting positions of interacting agents; VRNN, GVRNN, and prediction-as-reference
 - [[eigenvector]] — Directions preserved under linear transformation; eigenvalues measure scaling
 - [[non-negative-matrix-factorization]] — Additive parts-based low-rank factorisation of non-negative data
 - [[jaccard-index]] — Set similarity as intersection over union; underlies IoU and JaC
@@ -152,6 +157,7 @@ A catalog of all wiki pages, organised by type.
 - [[structured-model-decomposition]] — Estimating a quantity by fitting and recombining separate subcomponents
 - [[value-iteration]] — Dynamic-programming backup converging to a Markov value function
 - [[policy-modelling]] — Estimating the policy agents actually follow rather than solving for the optimal one
+- [[counterfactual-baseline]] — Evaluating an agent by deviation from a predicted reference
 - [[temporal-discounting]] — Geometric decay of reward by temporal distance; discount factors and credit assignment
 - [[smoothing]] — Recovering trend from noisy series; moving averages, window choice, robustness
 - [[selection-bias]] — When what you observe depends on what you are measuring
@@ -186,7 +192,9 @@ A catalog of all wiki pages, organised by type.
 - [[effective-playing-time]] — Ball-in-play time as the basis for normalisation and temporal decay
 - [[symmetrical-duel-valuation]] — Valuing contested 50/50 events where possession is not attributable
 - [[duel-skill-rating]] — Rating individual aerial and ground duel ability via modified Glicko-2
-- [[off-ball-value]] — Valuing players not in possession; positional value from pass surfaces
+- [[off-ball-value]] — Valuing players not in possession; three routes and what each captures
+- [[obso]] — Spearman's off-ball scoring opportunity; control × transition × score
+- [[c-obso]] — Creating off-ball scoring opportunity; credit for space made for a teammate
 - [[pitch-control]] — Probability of controlling the ball at each location; pitch influence and pressure
 - [[dynamic-pressure-lines]] — Team shape as clustered formation bands, recomputed continuously
 - [[tactical-analysis]] — Team shape, pressing structure, and opposition analysis
@@ -306,3 +314,4 @@ A catalog of all wiki pages, organised by type.
 - [[epv-control-duel-skills-football]] — Summary of "Expected Possession Value of Control and Duel Actions for Soccer Player's Skills Estimation" (Shelopugin, preprint)
 - [[expected-value-possession-framework]] — Summary of "A Framework for the Fine-Grained Evaluation of the Instantaneous Expected Value of Soccer Possessions" (Fernández, Bornn & Cervone, 2020)
 - [[football-defence-evaluation-vdep]] — Summary of "Evaluation of Soccer Team Defense Based on Prediction Models of Ball Recovery and Being Attacked" (Toda, Teranishi, Kushiro & Fujii, PLOS ONE 2022)
+- [[creating-scoring-opportunities-trajectory-prediction]] — Summary of "Evaluation of Creating Scoring Opportunities for Teammates in Soccer via Trajectory Prediction" (Teranishi, Tsutsui, Takeda & Fujii, MLSA 2022/23)

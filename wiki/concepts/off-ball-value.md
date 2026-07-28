@@ -1,13 +1,13 @@
 ---
 title: "Off-Ball Value"
 type: concept
-tags: [off-ball, sports-analytics, action-valuation, defensive-valuation, player-evaluation, optical-tracking-data, probability-surface, pitch-control, counterfactual, evaluation]
-sources: [raw/papers/expected_value_possession_framework.md, raw/papers/football_defence_evaluation.md]
-confidence: 0.8
+tags: [off-ball, space-creation, sports-analytics, action-valuation, defensive-valuation, player-evaluation, optical-tracking-data, probability-surface, pitch-control, counterfactual, evaluation]
+sources: [raw/papers/expected_value_possession_framework.md, raw/papers/football_defence_evaluation.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md]
+confidence: 0.85
 provenance:
-  extracted: 50%
-  inferred: 40%
-  ambiguous: 10%
+  extracted: 60%
+  inferred: 35%
+  ambiguous: 5%
 lifecycle: reviewed
 created: 2026-07-27
 updated: 2026-07-27
@@ -17,104 +17,104 @@ updated: 2026-07-27
 
 Quantifying the contribution of players who do not have the ball — the runs that stretch a defence, the positioning that opens a passing lane, the shape a defence holds to deny space.
 
-Long the **largest acknowledged gap** in this vault's football coverage; [[action-valuation-frameworks-compared|every modelling task]] lists "on-ball only" among its shared limitations. Two held sources now address it from opposite sides of the ball, and a third line — cited but not held — goes further than either.
+The framing statistic: **a player has the ball for roughly 3 of 90 minutes.** Everything else is off-ball, continuous, and — until recently — invisible to this vault's frameworks.
+
+Long the largest acknowledged gap here. **Three held sources now address it**, by three different mechanisms.
 
 ## Why Event Data Cannot See It
 
-An [[event-stream-data|event stream]] records actions. Off-ball contribution is, by definition, the absence of an action — a player who makes a decisive run and never receives the ball generates **no event at all**.
+An [[event-stream-data|event stream]] records actions. Off-ball contribution is by definition the absence of an action — a player who makes a decisive run and never receives the ball generates **no event at all**.
 
 No modelling sophistication recovers this from event data. It is a data limitation, fixable only with [[optical-tracking-data|tracking]].
 
-## Two Routes In the Held Sources
+## Three Routes
 
-### Attacking: read a value surface at player positions
+### 1. Read a value surface at player positions — attacking, the receiver
 
-[[expected-value-possession-framework|Fernández, Bornn & Cervone]] obtain off-ball value almost for free, as a by-product of the [[probability-surface|pass EPV surface]].
+[[expected-value-possession-framework|Fernández, Bornn & Cervone]] obtain off-ball value as a by-product of the [[probability-surface|pass EPV surface]]. If the surface gives the EPV of a pass to every location, the value of a player *standing* somewhere is immediately available.
 
-If the surface gives the EPV resulting from a pass to *every* location, the value of a player **standing** at a location is immediately available. Aggregating positive potential EPV added maps where a team generates off-ball advantage.
+[[obso|Spearman's OBSO]] is the same move with a different surface — control × transition × score, read at the receiver's position.
 
-No model of off-ball behaviour is required. The framework never predicts runs or assigns credit for movement — it computes what every location is worth and reads off who is standing somewhere valuable.
+No model of off-ball behaviour is required. Neither predicts runs nor credits movement; both compute what locations are worth and read off who occupies them.
 
-### Defending: put all 22 positions in the state
+### 2. Put all 22 positions in the model state — defending, the team
 
-[[football-defence-evaluation-vdep|Toda et al.]] take the other route. [[vdep]]'s state $s_i = [a_i, o_i]$ appends all 22 players' coordinates plus each player's distance from the ball, **sorted by proximity**.
+[[football-defence-evaluation-vdep|Toda et al.]]'s [[vdep]] appends all 22 coordinates plus each player's distance from the ball, **sorted by proximity** — a cheap permutation-invariance trick that gives "the nearest defender" a fixed feature slot. [[shap]] confirms these dominate both classifiers.
 
-The sort is the enabling trick — it makes the representation permutation-invariant, so "the nearest defender" occupies a fixed feature slot regardless of identity, which is what lets a tree ensemble use it.
+### 3. Compare against a predicted reference — attacking, the *creator*
 
-[[shap]] confirms these features carry the signal: the top contributor to $P_{recoveries}$ is the **nearest defender's distance from the ball**; to $P_{attacked}$, the **nearest attacker's $x$-position**.
+[[creating-scoring-opportunities-trajectory-prediction|Teranishi, Tsutsui, Takeda & Fujii]]'s [[c-obso]] credits an off-ball player with the improvement in *someone else's* [[obso|OBSO]] attributable to his deviating from a predicted "league average" trajectory:
 
-### The two compared
+$$V_i = V^k_{OBSO} - V'^k_{OBSO}$$
 
-| | Attacking (surface) | Defending (state) |
-|---|---|---|
-| Mechanism | Read value surface at a location | Include positions as model input |
-| Output unit | **Player** | **Team only** |
-| Requires a spatial model | Yes — [[soccermap]] | No |
-| Cost | Substantial | Modest |
-| What it measures | Positional value if the ball arrives | Contribution to recovery / preventing penetration |
+This is the only framework here that assigns value **relationally** — from the mover to the beneficiary.
 
-The asymmetry in output unit is structural, not an oversight. A surface is read *at a player's position*, so it individuates naturally. Putting 22 positions into one classifier produces one number for the configuration, with no principled way to split it — which is why VDEP is team-level and its authors say so.
+### The three compared
 
-## The Third Route: Counterfactual Positioning
+| | Surface at position | 22 positions in state | Predicted reference |
+|---|---|---|---|
+| Values | The **receiver** | The **defence** | The **creator** |
+| Output unit | Player | **Team only** | Player |
+| Mechanism | Read a surface | Model input | [[counterfactual-baseline\|Counterfactual difference]] |
+| Cost | Substantial | Modest | Substantial |
+| Example | EPV surface, [[obso\|OBSO]] | [[vdep]] | [[c-obso]] |
 
-> **Provenance warning.** This section is built from **citation lists and an author's own overview article**, not from primary sources. None of these papers is held in `raw/`. Capability claims are the authors' own and are unverified here.
+**The individuating ingredient is the counterfactual, not the data.** VDEP and C-OBSO use comparable tracking data; VDEP puts everything into one classifier and gets one number for the configuration with no principled way to split it, while C-OBSO intervenes on one named player and gets his number. Once you ask "what if *this* player had moved differently", credit is unambiguous.
 
-**Correction, 2026-07-27.** This page previously described combining the spatial and defensive routes as "the clearest open opportunity in this vault's football coverage" and stated that nobody had attempted it. That was wrong, and was inferred from VDEP's limitations section without checking the follow-up literature.
+## What Is Now Covered
 
-**Umemoto & Fujii (2023)**, *Evaluation of team defense positioning by computing counterfactuals using StatsBomb 360 data* (StatsBomb Conference), does approximately this. As described by Fujii: identify the location with the highest **OBSO** (off-ball scoring opportunity — Spearman, 2018), select the closest defender and his grid cell, then search which cell he could have occupied to reduce OBSO most. The output is the positioning that "reduced the threat the most".
+**Correction, 2026-07-27.** This page previously listed "credit for creating space someone else exploits" among the things no framework captures, and described combining the spatial and defensive routes as an unattempted opportunity. Both claims are now superseded by held sources.
 
-Three things make it the missing piece:
+| Capability | Status |
+|---|---|
+| Positional value if the ball arrives | **Covered** — EPV surface, OBSO |
+| Team defensive contribution | **Covered** — [[vdep]] |
+| **Credit for creating space for a teammate** | **Covered** — [[c-obso]] |
+| Individual defensive credit | Cited only — Umemoto & Fujii (2023), not held |
+| Movement over time | Partial — C-OBSO uses 4 s windows |
+| Errors of omission | Open |
 
-- **It individuates.** The intervention is on one named defender's location, so the credit is his.
-- **It is a value surface, not a classifier.** The whole Fujii off-ball line builds on OBSO, which puts it closer to [[probability-surface|Fernández et al.'s]] machinery than to VDEP's event classification.
-- **It answers "what should he have done?"** rather than "how good was the defence?" — the same realised-versus-available shift that [[policy-modelling|pass surfaces]] make on the attacking side.
+## What Remains Open
 
-A companion line attacks the attacking-side omission below. **Teranishi, Tsutsui, Takeda & Fujii (2022/23)** evaluate movement by the difference between a player's actual trajectory and a predicted one, explicitly crediting **movement sacrificed for a teammate** — space creation. Fujii reports that this required enormous computation to evaluate all 22 players, since it needs a separate trajectory prediction per player.
+- **Individual defensive credit** is addressed in the literature (Umemoto & Fujii, 2023, counterfactual positioning) but not in `raw/`, so unverified here. See [[defensive-valuation]].
+- **Scale.** C-OBSO predicts three of 22 players, for computational reasons; Fujii describes the full-squad version as prohibitively expensive. A method whose appeal is modelling interaction is restricted in practice to the smallest interacting subset.
+- **Errors of omission** — a defender who fails to press generates no event and occupies no notably bad position.
+- **Interpretable units.** C-OBSO values sit in the 0.001–0.01 range on no meaningful scale, which its authors name as future work.
+- **Negative values.** C-OBSO clips them to zero, so it cannot penalise poor movement.
+- **No [[split-half-reliability|reliability]] figure** for any off-ball metric here.
 
-## What the Held Sources Still Do Not Capture
+## What the Evidence Shows
 
-Narrowed by the above, but real for the frameworks actually read here:
+The strongest single result is C-OBSO's, because of what it is compared against. On the same 15 players:
 
-**Credit for creating the space.** If a striker's run drags a centre-back away and a midfielder exploits the gap, the surface rewards the midfielder's location. The Teranishi trajectory work targets exactly this; the held sources do not.
+| Metric | ρ with annual salary |
+|---|---|
+| **C-OBSO** (space created for others) | **0.45** (p = 0.046) |
+| [[obso\|OBSO]] (own scoring opportunity) | −0.28 (ns) |
+| Goals | −0.23 (ns) |
 
-**Movement over time.** Value is read frame by frame. Arriving in a good position through a clever run and standing there passively score identically.
+Neither a player's own off-ball opportunity nor his goal tally relates to what his club pays him; the space he creates for others does. Salary is heavily confounded — by age, position, nationality, contract timing and reputation — but being the only positive result among three tested on one sample makes it harder to dismiss.
 
-**Individual defensive credit.** VDEP measures the defence collectively. Addressed by Umemoto & Fujii, unverified here.
+## Applications
 
-**Errors of omission.** A defender who fails to press generates no event. Counterfactual positioning may cover this in principle — a better available cell implies the actual one was worse — but whether it does in practice is unverified.
+**Pressing analysis.** Off-ball advantage heatmaps per opponent formation — see [[tactical-analysis]].
 
-So for the sources this vault has actually read: **positional value on the attacking side, collective value on the defending side.** The literature has moved further than that; the vault has not.
+**Pairwise relationships.** On-ball and off-ball EPV between David Silva and each teammate, split by direction, distinguishing those who *create space for* him from those who *benefit from* his passing. C-OBSO formalises exactly this relational quantity as a metric.
 
-## Applications in the Held Sources
+**Defensive style profiling.** Recovery rate against being-attacked rate.
 
-**Pressing analysis.** Off-ball advantage heatmaps for the formations most used against Liverpool's buildup. See [[tactical-analysis]].
-
-**Pairwise relationships.** On-ball and off-ball EPV between David Silva and each Manchester City teammate, split by direction — distinguishing teammates who *create space for* Silva from those who *benefit from* his passing. The sharpest use of the off-ball component, isolating a relational quantity no aggregate rating could express.
-
-**Defensive style profiling.** Recovery rate against being-attacked rate separates high-press-high-risk from solid-and-contained.
-
-Notably, neither held source produces a season-long off-ball player rating. Doing so runs into the credit-attribution problems above.
+**Player valuation.** C-OBSO is the only off-ball metric here shown to relate to an external measure of player worth.
 
 ## Relation to Other Approaches
 
-| Approach | Off-ball handling |
-|---|---|
-| [[expected-threat\|xT]], [[vaep]], [[pass-carry-reward\|PCR]] | None — on-ball events only |
-| [[martingale-epv\|Martingale EPV]] | Implicit; tracking state includes all players, no per-player credit |
-| **Pass EPV surface** | **Positional value, attacking, per player** |
-| **[[vdep]]** | **Defensive contribution, team level** |
-| **Umemoto & Fujii (2023)** | **Defensive positioning, per player** — cited, not held |
-| [[pitch-control]] | Values *space*, not the value of receiving there |
-| Spearman (2018), OBSO | Physics-based; the foundation the Fujii off-ball line builds on |
-
 [[pitch-control]] and off-ball value are complementary and often confused. Control asks *who would win the ball here*; off-ball value asks *what would this possession be worth if the ball arrived here*. A player can control empty space of no value, or occupy a dangerous position he would probably lose a contest for.
 
-Note that OBSO now appears twice in this vault under different framings — as "the closest external comparison" on this page's earlier revision, and as the actual substrate of the Fujii group's off-ball and defensive work. Acquiring Spearman (2018) would be worthwhile.
+Note the vault now holds **two pitch-control traditions** — Spearman's arrival-time Poisson model (inside OBSO) and Fernández & Bornn's Gaussian influence model — used as inputs to different value models and never compared. See [[william-spearman]].
 
 ## See Also
 
-- [[probability-surface]] · [[pitch-control]] · [[expected-possession-value]] · [[vdep]]
-- [[defensive-valuation]] · [[action-valuation]] · [[counterfactual-simulation]] · [[shap]]
-- [[keisuke-fujii]] · [[optical-tracking-data]] · [[event-stream-data]] · [[tactical-analysis]]
-- [[action-valuation-frameworks-compared]]
-- [[expected-value-possession-framework|Soccer EPV Framework Summary]] · [[football-defence-evaluation-vdep|VDEP Summary]]
+- [[c-obso]] · [[obso]] · [[counterfactual-baseline]] · [[trajectory-prediction]]
+- [[probability-surface]] · [[pitch-control]] · [[vdep]] · [[defensive-valuation]]
+- [[action-valuation]] · [[shap]] · [[tactical-analysis]] · [[optical-tracking-data]]
+- [[william-spearman]] · [[keisuke-fujii]] · [[masakiyo-teranishi]]
+- [[expected-value-possession-framework|Soccer EPV Summary]] · [[football-defence-evaluation-vdep|VDEP Summary]] · [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]]

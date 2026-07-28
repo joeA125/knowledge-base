@@ -997,3 +997,91 @@ ACQUISITION PRIORITY (all fetchable now):
 - Spearman (2018), "Beyond expected goals", MIT Sloan — OBSO, substrate for two Fujii lines and cited by Fernandez et al.
 The 2023 counterfactual positioning work is the highest-value target for the individual-defender gap but was a conference presentation rather than a preprint, so availability is uncertain.
 
+## [2026-07-27 22:00] ingest | Teranishi, Tsutsui, Takeda &amp; Fujii — C-OBSO: valuing space creation
+Source: raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md — Teranishi, Tsutsui, Takeda & Fujii, "Evaluation of creating scoring opportunities for teammates in soccer via trajectory prediction", MLSA / Springer pp. 53-73 (cited as 2022 workshop / 2023 proceedings). Code at github.com/keisuke198619/C-OBSO.
+
+TOOL STATUS — FIXED AND VERIFIED. list_unprocessed_sources returned exactly one file, the genuinely unprocessed one, with no false positives. Confirms both the path correction (vault/"sources" -> vault/"raw") and the reference-matching fix. Three sessions of manual five-folder comparison can now be replaced by the tool, though the manual check remains cheap insurance.
+
+Acquired following the previous correction entry, which identified this paper as cited-but-not-held. It closes a gap listed as open on three pages: credit for creating space that a teammate exploits.
+
+Pages created: 9, Pages updated: 2 (+ taxonomy, index)
+
+CREATED — summary (1):
+- wiki/summaries/creating-scoring-opportunities-trajectory-prediction
+
+CREATED — concepts (5):
+- obso — FIRST PRIMARY ACCOUNT in the vault of Spearman's off-ball scoring opportunity, including the control x transition x score factorisation and the PPCF Poisson formulation. Previously cited as a dependency of two lines with no description held.
+- c-obso — the metric; the relational credit construction; the odd property that it is identically zero under perfect prediction
+- counterfactual-baseline — CROSS-CUTTING. Evaluating an agent by deviation from a predicted reference. Names a pattern appearing independently in EPVA, C-OBSO, Umemoto & Fujii, and Fernandez et al.'s realised-vs-available gap. Includes the observation that the reference TYPE (population average / predicted behaviour / optimum) changes the question being asked, and these are not interchangeable.
+- trajectory-prediction — the task, the RNN -> VRNN -> GVRNN stack, horizon and agent-count constraints, and prediction-as-reference rather than as forecast
+- graph-neural-network — CLOSES A VAULT GAP. Message passing, permutation equivariance, and a comparison table of the three solutions the vault holds to the ordering problem (graph structure / sorting by key / attention over a set)
+
+CREATED — entities (3):
+- william-spearman — creator of OBSO and physics-based pitch control. Flagged as the HIGHEST-PRIORITY MISSING SOURCE: a dependency of at least four held pages and substrate for two research lines, known entirely second-hand.
+- kazushi-tsutsui — appears on BOTH Fujii counterfactual papers (C-OBSO and GVDEP)
+- kazuya-takeda — on both ends of the trajectory line (2020 GCCE and C-OBSO)
+
+UPDATED (2 + infrastructure):
+- _schema/taxonomy.md — 5 new tags (trajectory-prediction, graph-neural-network, space-creation, imitation-learning; rnn/vae amended for VRNN/GVRNN)
+- masakiyo-teranishi — was a citation-only stub; now lead author of a held primary source. Line of work table with held/not-held column; the two portable ideas (prediction-as-reference; defender-aware score model).
+- off-ball-value — MAJOR. Restructured around THREE routes rather than two. Explicit correction: "credit for creating space someone else exploits" was listed as uncaptured and is now covered by a held source. Added a capability status table and the C-OBSO salary comparison.
+
+KEY FINDINGS:
+1. THE INDIVIDUATING INGREDIENT IS THE COUNTERFACTUAL, NOT THE DATA. VDEP and C-OBSO use comparable tracking data. VDEP puts everything into one classifier and gets one number per configuration with no way to split it (hence team-level); C-OBSO intervenes on one named player and gets his number. Recorded on counterfactual-baseline and off-ball-value — it generalises to any domain where collective data resists per-agent attribution.
+2. C-OBSO IS IDENTICALLY ZERO UNDER PERFECT PREDICTION. The metric requires its own reference model to be wrong. Consequences: values are not portable across predictors, improving the predictor shrinks the signal, and predictor error masquerades as player behaviour — which is why negative values are clipped to zero.
+3. THE SALARY COMPARISON is the strongest result: on the same 15 players, C-OBSO correlates 0.45 (p=0.046) while OBSO (-0.28) and goals (-0.23) do not. Neither a player's own off-ball opportunity nor his goal tally relates to what his club pays him; the space he creates for others does.
+4. THE EXPERT-RATINGS TABLE reads against the paper's framing. Goals predict ratings strongly for every player; C-OBSO only for the season MVP, with seven others null. Either the metric captures something raters miss, or one in eight is chance. Recorded both readings on c-obso; the evidence does not settle it.
+5. TWO PITCH-CONTROL TRADITIONS now held and NEVER COMPARED — Spearman's arrival-time Poisson model (inside OBSO) and Fernandez & Bornn's Gaussian influence model. Both feed downstream value models, so a difference propagates silently. Flagged on william-spearman and off-ball-value.
+
+OUTSTANDING — NOT COMPLETED THIS RUN:
+- action-valuation-frameworks-compared (synthesis) — needs C-OBSO in the valuation table, counterfactual-baseline as a mechanism, and limitation 6 still reads "Individual defensive credit is completely open" (carried from the previous entry, still uncorrected)
+- defensive-valuation — its provenance warning says none of the four Fujii follow-ups is held; one now is
+- action-valuation — "credit for creating space someone else exploits" still listed as invisible
+- pitch-control — should record the Spearman PPCF alternative and that the two traditions are uncompared
+- counterfactual-simulation, martingale-epv — should link counterfactual-baseline (EPVA is an instance)
+
+ERRORS TO FIX:
+- masakiyo-teranishi frontmatter lists a non-existent source path (raw/papers/creating-scoring-opportunities-trajectory-prediction.md) alongside the correct one. Harmless to the fixed tool but wrong; remove.
+- Dead links introduced: [[space-creation]] in the C-OBSO summary, [[generative-model]] and [[event-prediction]] in trajectory-prediction, [[imitation-learning]] in kazuya-takeda. All tag names without pages.
+
+ACQUISITION PRIORITY, REVISED:
+1. Spearman (2018), "Beyond expected goals", MIT Sloan — now the single highest-value missing source. Four held pages depend on it.
+2. Spearman et al. (2017), "Physics-based modeling of pass probabilities" — supplies the PPCF parameters used unchanged here.
+3. Umemoto & Fujii (2023) counterfactual defensive positioning — would close the individual-defender gap.
+4. arXiv:2212.00021 (GVDEP), arXiv:2102.07545 (Fujii survey), arXiv:2305.17886 — all fetchable.
+
+## [2026-07-28 21:01] writeback | Completion of outstanding updates — C-OBSO ingest
+Completion of the outstanding items from the C-OBSO ingest entry. No new source read; no new pages created; index unchanged (all pages already listed).
+
+Pages updated: 5
+
+- action-valuation-frameworks-compared (synthesis) — MAJOR. C-OBSO added to the valuation table with two new rows (whose value; on/off ball). Task 1 restructured around SIX named axes, adding "Axis 3: Whose value — actor or beneficiary", which had no place in the previous structure. New standalone section "Off-Ball Valuation: Three Mechanisms". Forecasting table extended with GVRNN and the observation that forecasting has acquired a second output type (continuous trajectories), whose main use here is NOT forecasting but supplying a counterfactual reference. Validation section gained external-criterion validation as a category. Limitation 6 CORRECTED — it had read "Individual defensive credit is completely open", carried uncorrected through two entries; now states the literature position with the not-held caveat. Credit-assignment table now FIVE unjustified free parameters (gamma, epsilon, k=5, C=3.9, 4s) with zero sensitivity analyses between them.
+
+- defensive-valuation — provenance warning corrected: it stated none of the four Fujii follow-ups was held, and C-OBSO now is. Approaches table gained a held/not-held column. New section on what C-OBSO confirms from a primary source: it validates the MECHANISM the unread defensive work depends on, which makes the claim that counterfactual positioning individuates defensive credit mechanically plausible even though that paper is unread. Also records that the mechanism's weakness is inherited — any such metric measures deviation from a particular model's expectation.
+
+- action-valuation — "credit for creating space someone else exploits" removed from the invisible list; now covered by a held source. Added a fourth valuation STYLE (counterfactual) alongside count/possession/action-based, since C-OBSO fits none of the existing three. New "Whose value: actor or beneficiary" section. Retained and strengthened the general lesson, which has now caught two errors: a gap in the vault is not a gap in the field.
+
+- pitch-control — MAJOR. Restructured around the TWO TRADITIONS the vault now holds: Fernandez & Bornn's Gaussian influence model and Spearman's arrival-time PPCF Poisson model, with the full differential equation and parameters. Comparison table plus the substantive difference — summing Gaussian influences OVERSTATES control where coverage overlaps, since two defenders in one zone contribute independently, whereas PPCF's shared-probability bracket makes control zero-sum by construction. The two are therefore unlikely to agree in congested areas, which are the areas that matter. Both feed downstream value models whose outputs get compared, so the difference propagates silently. NOBODY HAS COMPARED THEM.
+
+- masakiyo-teranishi — ERROR FIXED. Frontmatter had listed a non-existent source path (raw/papers/creating-scoring-opportunities-trajectory-prediction.md) alongside the correct one. Removed.
+
+STATE: the C-OBSO ingest is now complete. No outstanding updates from any of the last four ingests.
+
+NOT DONE — dead links introduced during the C-OBSO run, still present:
+- [[space-creation]] in creating-scoring-opportunities-trajectory-prediction
+- [[generative-model]] and [[event-prediction]] in trajectory-prediction
+- [[imitation-learning]] in kazuya-takeda
+All are tag names without pages, the same class as the ~12 pre-existing ones. Cosmetic (Obsidian shows unresolved, not broken) but self-inflicted. Fix by de-linking or by creating the pages.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Spearman (2018) "Beyond expected goals", MIT Sloan. Now depended on by five held pages (obso, c-obso, off-ball-value, pitch-control, defensive-valuation) and known entirely second-hand. Spearman et al. (2017) "Physics-based modeling of pass probabilities" supplies the PPCF parameters used unchanged.
+- Umemoto & Fujii (2023) counterfactual defensive positioning would close the individual-defender gap.
+- arXiv:2212.00021 (GVDEP), arXiv:2102.07545 (Fujii survey), arXiv:2305.17886 — all fetchable.
+- Five frameworks, five unjustified horizon/weighting parameters, zero sensitivity analyses.
+- No cross-framework benchmarking anywhere in this literature.
+- Two pitch-control traditions, never compared, feeding models that ARE compared.
+- PCR has no reported split-half reliability; nor does any off-ball or defensive metric.
+- VAEP's conceding-classifier F1 on the original 8.5M-action corpus is unreported.
+- Tactical analysis has no validation strategy.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
