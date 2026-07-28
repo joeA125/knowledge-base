@@ -1085,3 +1085,41 @@ CARRIED FORWARD:
 - Tactical analysis has no validation strategy.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-28 21:20] writeback | Created four concept pages; all self-inflicted dead links resolved
+Created the four concept pages for dead links introduced during the C-OBSO ingest, and wired them into the graph. No new source read.
+
+Pages created: 4, Pages updated: 2 (+ index)
+
+CREATED — concepts (4):
+- space-creation — off-ball movement generating opportunity for a TEAMMATE rather than oneself. Distinguishes the two measurement traditions: space as a QUANTITY (Fernandez & Bornn's Wide Open Spaces, area opened) versus space as VALUE TRANSFERRED (C-OBSO, improvement in someone else's chance). Argues the second is more useful for player evaluation because space in an irrelevant part of the pitch is worth nothing, and more fragile because it inherits the reference model's errors. Frames the recruitment angle: the players hardest to value are those whose contribution is structural rather than terminal.
+- generative-model — the three families (autoregressive / latent-variable / adversarial) with their likelihood tractability, and THREE derived capabilities that matter more than sampling itself: counterfactuals, reference behaviour, and multimodality. Includes the evaluation problem (likelihood and sample quality can be traded against each other; for sports applications the model is a MEANS so held-out likelihood cannot validate the counterfactuals) and the causal caveat — "generative" is not "causal", the most common error in this literature.
+- event-prediction — the four forecasting frameworks and what each commits to (type/location/time/actor), each an objection to the last. Central point: forecasting PRODUCES METRICS AS A BY-PRODUCT, and those metrics need no outcome labels, so the goal-sparsity problem never arises. HPUS uses no goal data at all yet correlates 0.92 with season xG. Same escape route as proxy targets, reached from a different direction. Cost: value becomes an interpretation of the forecast rather than a modelled quantity.
+- imitation-learning — mimicking observed behaviour rather than optimising reward. Explains WHY sports took this route: sparse reward, unobservable intent, no faithful simulator. Best section is "Imitation as a Measuring Instrument" — a learned average-behaviour policy used not as a prediction but as the instrument, which inverts the objective (a forecaster wants minimal error, a measuring instrument wants a well-calibrated notion of NORMAL) and means perfection destroys the measurement. Also links the sequential setting's compounding error to teacher-forcing's exposure bias under a different name.
+
+UPDATED (2 + index):
+- generative-model — self-corrected within the same run. First version introduced a NEW dead link ([[density-estimation]], another tag without a page). Removed rather than repeating the mistake that prompted this task.
+- trajectory-prediction — added inbound links to imitation-learning and space-creation. The page already discussed ghosting and reference trajectories without linking either concept; now does. Also linked teacher-forcing where horizon decay is discussed, since it is the same compounding-error problem.
+
+REFERENCING CHECK — all four now have at least two inbound links, so none is an orphan:
+- space-creation <- C-OBSO summary, imitation-learning, trajectory-prediction, generative-model (4)
+- generative-model <- trajectory-prediction, event-prediction, imitation-learning (3)
+- event-prediction <- trajectory-prediction, generative-model (2)
+- imitation-learning <- kazuya-takeda, trajectory-prediction, generative-model (3)
+
+All four added to the index under Concepts. The generative-model family pages (autoregressive-model, variational-autoencoder, variational-lossy-autoencoder, conditional-gan) were regrouped beside it in the index listing for legibility.
+
+STATE: all four dead links introduced during the C-OBSO ingest are now resolved. No self-inflicted dead links remain.
+
+OPPORTUNITY NOT TAKEN: the four new pages would each benefit from inbound links from their specific instances — generative-model from eventgpt/scoutgpt/large-event-model/variational-autoencoder, event-prediction from nmstpp/sig-model/seq2event/hpus/lpv, imitation-learning from policy-modelling, space-creation from off-ball-value/c-obso. Each would need a full page rewrite for one link, so deferred rather than skipped. Worth doing opportunistically whenever those pages are next touched for other reasons.
+
+PRE-EXISTING DEAD LINKS still open (tag names without pages, predating this session): markov-model, reinforcement-learning, player-evaluation, probabilistic-classification, stochastic-process, spatiotemporal, rnn, clustering, model-selection, multi-object-tracking, representation-learning, survival-analysis, density-estimation. Note that reinforcement-learning and density-estimation are both linked from several pages and would be the highest-value of these to create.
+
+CARRIED FORWARD (unchanged):
+- ACQUISITION PRIORITY 1: Spearman (2018) "Beyond expected goals" — five held pages depend on it, known entirely second-hand.
+- Umemoto & Fujii (2023) would close the individual-defender gap.
+- Five frameworks, five unjustified horizon/weighting parameters, zero sensitivity analyses.
+- No cross-framework benchmarking anywhere in this literature.
+- Two pitch-control traditions, never compared, feeding models that ARE compared.
+- No off-ball or defensive metric has a reported split-half reliability.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+

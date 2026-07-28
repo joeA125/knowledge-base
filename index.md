@@ -135,7 +135,14 @@ A catalog of all wiki pages, organised by type.
 - [[soccermap]] — Fully convolutional architecture mapping tracking snapshots to full-pitch surfaces
 - [[probability-surface]] — Predicting a value at every location rather than only where observed
 - [[single-pixel-supervision]] — Learning a full surface from one ground-truth location per example
+- [[generative-model]] — Models of the data distribution itself; families, uses, and the causal caveat
+- [[autoregressive-model]] — Models factorising distributions via chain rule
+- [[variational-autoencoder]] — Latent variable generative model trained via variational inference
+- [[variational-lossy-autoencoder]] — VAE with controlled lossy compression via autoregressive decoder
+- [[conditional-gan]] — GAN conditioned on input for image-to-image translation (Pix2Pix)
 - [[trajectory-prediction]] — Forecasting positions of interacting agents; VRNN, GVRNN, and prediction-as-reference
+- [[event-prediction]] — Forecasting the next event; and how forecasting models yield valuation metrics
+- [[imitation-learning]] — Learning a policy by mimicking behaviour; and imitation as a measuring instrument
 - [[eigenvector]] — Directions preserved under linear transformation; eigenvalues measure scaling
 - [[non-negative-matrix-factorization]] — Additive parts-based low-rank factorisation of non-negative data
 - [[jaccard-index]] — Set similarity as intersection over union; underlies IoU and JaC
@@ -193,9 +200,10 @@ A catalog of all wiki pages, organised by type.
 - [[symmetrical-duel-valuation]] — Valuing contested 50/50 events where possession is not attributable
 - [[duel-skill-rating]] — Rating individual aerial and ground duel ability via modified Glicko-2
 - [[off-ball-value]] — Valuing players not in possession; three routes and what each captures
+- [[space-creation]] — Off-ball movement that generates opportunity for a teammate rather than oneself
 - [[obso]] — Spearman's off-ball scoring opportunity; control × transition × score
 - [[c-obso]] — Creating off-ball scoring opportunity; credit for space made for a teammate
-- [[pitch-control]] — Probability of controlling the ball at each location; pitch influence and pressure
+- [[pitch-control]] — Probability of controlling the ball at each location; two uncompared traditions
 - [[dynamic-pressure-lines]] — Team shape as clustered formation bands, recomputed continuously
 - [[tactical-analysis]] — Team shape, pressing structure, and opposition analysis
 - [[expected-threat]] — Zonal Markov model valuing ball progression in soccer (xT)
@@ -225,7 +233,6 @@ A catalog of all wiki pages, organised by type.
 - [[siamese-network]] — Twin-branch architecture for metric learning and similarity retrieval
 - [[optical-flow]] — Motion estimation between consecutive frames (Lucas-Kanade, pyramidal)
 - [[enhanced-correlation-coefficient]] — Photometric-invariant iterative image alignment for camera tracking
-- [[conditional-gan]] — GAN conditioned on input for image-to-image translation (Pix2Pix)
 - [[ai-agent]] — Autonomous LLM system that plans, uses tools, and acts iteratively toward goals
 - [[tool-use]] — LLM function calling and interaction with external tools/APIs
 - [[agent-memory]] — Short-term and long-term state management for agent systems
@@ -238,9 +245,6 @@ A catalog of all wiki pages, organised by type.
 - [[rlhf]] — Aligning LLMs with human intent via reward modelling and policy optimisation
 - [[scaling-laws]] — Power-law relationships between performance and scale
 - [[retrieval-augmented-generation]] — Enhancing LMs with external knowledge retrieval
-- [[variational-lossy-autoencoder]] — VAE with controlled lossy compression via autoregressive decoder
-- [[variational-autoencoder]] — Latent variable generative model trained via variational inference
-- [[autoregressive-model]] — Models factorising distributions via chain rule
 - [[bradley-terry-model]] — Foundational paired-comparison model; logistic ancestor of the Elo family
 - [[trueskill]] — Bayesian skill rating system generalising Elo
 - [[elo-rating-system]] — Classical statistical rating system for two-player games
@@ -262,7 +266,7 @@ A catalog of all wiki pages, organised by type.
 
 ## Syntheses
 
-- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the five distinct tasks (valuation, forecasting, clustering, counterfactual/transfer, tactical), how each is validated, why possession metrics outpredict goals, the realised-vs-available and attributable-possession axes, and time as a cross-cutting dimension
+- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the five distinct tasks (valuation, forecasting, clustering, counterfactual/transfer, tactical), how each is validated, why possession metrics outpredict goals, the six axes of valuation design, and time as a cross-cutting dimension
 
 ## Conversations
 
