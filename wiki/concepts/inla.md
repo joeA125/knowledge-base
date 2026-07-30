@@ -1,7 +1,7 @@
 ---
 title: "INLA (Integrated Nested Laplace Approximation)"
 type: concept
-tags: [bayesian, inference, approximation, statistics, gaussian-process, hierarchical-model]
+tags: [bayesian, inference, approximation, statistics, gaussian-process, hierarchical-model, spatiotemporal]
 sources: [raw/papers/multiresolution-stochastic-process-model-nba-possessions.md]
 confidence: 0.8
 provenance:
@@ -10,7 +10,7 @@ provenance:
   ambiguous: 10%
 lifecycle: reviewed
 created: 2026-07-23
-updated: 2026-07-23
+updated: 2026-07-27
 ---
 
 # INLA (Integrated Nested Laplace Approximation)
@@ -24,7 +24,7 @@ INLA applies when a model has three levels:
 2. A latent Gaussian field $\mathbf{x} \sim \mathcal{N}(\mathbf{0}, \boldsymbol{\Sigma}(\boldsymbol{\theta}))$ — often a Gaussian Markov random field with sparse precision.
 3. A small number of hyperparameters $\boldsymbol{\theta}$.
 
-This covers a very wide class: generalised linear mixed models, spatial and [[spatiotemporal]] models, [[gaussian-process]] regression with GMRF representations, and [[car-prior|CAR]]-structured hierarchical models.
+This covers a very wide class: generalised linear mixed models, spatial and spatio-temporal models, [[gaussian-process]] regression with GMRF representations, and [[car-prior|CAR]]-structured hierarchical models.
 
 ## How It Works
 
@@ -61,7 +61,7 @@ INLA joins a family of deterministic alternatives to sampling:
 | [[approximate-message-passing]] | Message passing on a [[factor-graph]] |
 | [[gaussian-density-filtering]] | Single forward pass of Gaussian moment matching |
 
-All four replace exact posteriors with tractable Gaussian-family surrogates; they differ in how the approximation is constructed and whether it is refined iteratively.
+All four replace exact posteriors with tractable Gaussian-family surrogates; they differ in how the approximation is constructed and whether it is refined iteratively. See [[message-passing]] for what the last two have in common.
 
 ## Partial Likelihood Caveat
 
@@ -69,9 +69,6 @@ The paper factorises the full likelihood and discards one term ($L_{\text{rem}}$
 
 ## See Also
 
-- [[gaussian-process]]
-- [[car-prior]]
-- [[competing-risks]]
-- [[expectation-propagation]]
-- [[bayesian-inference]]
+- [[gaussian-process]] · [[car-prior]] · [[competing-risks]] · [[survival-analysis]]
+- [[expectation-propagation]] · [[message-passing]] · [[bayesian-inference]] · [[stochastic-process]]
 - [[multiresolution-stochastic-process-nba-possessions|Source Summary]]

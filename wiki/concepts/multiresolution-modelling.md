@@ -10,7 +10,7 @@ provenance:
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-07-23
-updated: 2026-07-23
+updated: 2026-07-27
 ---
 
 # Multiresolution Modelling
@@ -22,7 +22,7 @@ Multiresolution modelling represents the same process at two or more levels of g
 Modelling a continuous-time process at a single resolution forces an unhappy choice:
 
 - **Fully continuous models** preserve all information but make long-horizon expectations intractable — integrating over every possible future path of a 24-second possession at 25 Hz is hopeless.
-- **Coarsened [[markov-model|Markov chain]] models** make expectations trivial (linear algebra on a transition matrix) but require discretising away the spatial detail that motivated collecting the data.
+- **Coarsened [[markov-game|Markov chain]] models** make expectations trivial (linear algebra on a transition matrix) but require discretising away the spatial detail that motivated collecting the data.
 
 The insight is that this is a false dichotomy: the two can be composed.
 
@@ -39,15 +39,19 @@ $$\nu_t = \sum_{c \in \mathcal{C}} \underbrace{\mathbb{E}[X \mid C_{\delta_t} = 
 
 The coarse factor is computed once from the transition matrix. The fine factor conditions on complete spatial detail but only needs forecasting to the *next* decoupling event — a horizon of a second or two rather than the whole possession.
 
+This is a decomposition by **time scale**, and is worth comparing with [[structured-model-decomposition]], which decomposes the same kind of expectation by *action type* instead. Both apply the law of total expectation; they differ in the axis chosen, and the axis is what determines whether the parts are individually interpretable.
+
 ## Why the Decoupling Assumption Is Plausible
 
 (A2) asserts that a structural transition resets the informational state. In basketball, when a player passes or shoots, all ten players react to that event; what they were doing beforehand stops mattering for what happens after. Given the pass recipient, their court region, and defensive pressure, prior history adds little. The assumption is domain-motivated rather than mathematically convenient.
 
-Its main failure mode is scripted sequences — pre-set plays that deliberately chain actions together, violating the memorylessness the coarsening assumes.
+Its main failure mode is scripted sequences — pre-set plays that deliberately chain actions together, violating the memorylessness the coarsening assumes. See [[stochastic-process]] on semi-Markov processes.
 
 ## Rao-Blackwellisation of the Coarse Chain
 
 A neat consequence: transition counts for the coarse chain need not be tallied from observations. Expected counts can instead be computed by integrating the fitted fine-resolution hazards, giving unbiased lower-variance estimates. This matters for rare states — DeAndre Jordan attempted no three-pointers in 2013–14, yet EPV still requires transition probabilities from those states.
+
+The hazards themselves are [[competing-risks|cause-specific]]; see [[survival-analysis]] for the general framing.
 
 ## Generality
 
@@ -64,11 +68,11 @@ The authors present basketball as a case study for a broader pattern applicable 
 
 The simpler soccer models in the [[expected-possession-value]] family sit in the second row — they buy tractability by discretising the pitch into zones and accept the resulting loss of detail.
 
+Note that the same authors later abandoned this construction entirely for soccer, choosing nine supervised components over one process model — the top row of the table, which this one was built to avoid. See [[martingale-epv]] for that trade.
+
 ## See Also
 
-- [[martingale-epv]]
-- [[expected-possession-value]]
-- [[markov-game]]
-- [[martingale]]
-- [[gaussian-process]]
+- [[martingale-epv]] · [[expected-possession-value]] · [[markov-game]] · [[martingale]]
+- [[stochastic-process]] · [[structured-model-decomposition]] · [[competing-risks]] · [[survival-analysis]]
+- [[gaussian-process]] · [[inla]]
 - [[multiresolution-stochastic-process-nba-possessions|Source Summary]]

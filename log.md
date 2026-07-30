@@ -1212,3 +1212,39 @@ CARRIED FORWARD:
 - Remaining instance-to-umbrella inbound links: eventgpt and autoregressive-model -> generative-model; sig-model, seq2event, hpus, lpv -> event-prediction.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-30 15:17] lint | Retargeting and de-linking — 7 of 10 pages done
+Retargeting and de-linking pass following the previous lint entry. No new source read; no new pages created; index unchanged (no page names changed).
+
+Pages updated: 7 of 10 identified
+
+COMPLETED — spatiotemporal de-linked (2 of 2):
+- inla — [[spatiotemporal]] -> plain text "spatio-temporal"; tag added to frontmatter. Also gained links to message-passing, stochastic-process and survival-analysis, which now exist.
+- luke-bornn — [[spatiotemporal]] -> plain text in both occurrences; tag already present. Added the Wide Open Spaces / space-creation connection: it is the vault's OTHER route into space creation, measuring space as AREA OPENED where C-OBSO measures it as value transferred.
+
+COMPLETED — player-evaluation de-linked (2 of 2):
+- robert-bajons — [[player-evaluation]] -> plain text; tag added. Expanded the Bajons & Hornik plus-minus note, which was a bare mention: plus-minus attributes team outcomes to players on the pitch rather than to individual actions, sidestepping the action-valuation attribution problem entirely at the cost of far coarser resolution. Not held in raw/.
+- space-creation — [[player-evaluation]] -> "player valuation" as plain text; tag already present.
+
+COMPLETED — markov-model retargeted to markov-game (3 of 4):
+- value-iteration — [[markov-model|MDPs]] -> [[markov-game|MDPs]]. Also added that xT performs EVALUATION not optimisation is the field's standard position rather than a limitation, linking policy-modelling and reinforcement-learning.
+- multiresolution-modelling — [[markov-model|Markov chain]] -> [[markov-game|Markov chain]]. Added that this is a decomposition by TIME SCALE, worth comparing with structured-model-decomposition's decomposition by ACTION TYPE — both apply the law of total expectation, and the axis chosen is what determines whether the parts are individually interpretable. Also noted the same authors later abandoned this construction for the top row of its own comparison table.
+- action-valuation — [[markov-model|Markov models]] -> [[markov-game|Markov models]]. Also folded in the five-unjustified-parameters point with a link to the new model-selection page.
+
+NOT DONE — 3 pages remaining:
+- expected-threat — contains [[markov-model]]; retarget to markov-game
+- neural-temporal-point-process — contains [[rnn]]; retarget to recurrence
+- path-signature — contains [[rnn]]; retarget to recurrence
+
+The rnn -> recurrence retarget is therefore entirely outstanding (0 of 2), and markov-model is 3 of 4. Both are single-token edits in each file; they need a read before the full-file rewrite that write_note requires, which is what ran the budget out. First task next session.
+
+INCIDENTAL: several of the retargeted pages gained links to the ten concept pages created in the previous entry (stochastic-process, message-passing, survival-analysis, model-selection, reinforcement-learning, policy-modelling), which were previously unreachable from them. Worth noting as a general pattern — creating an umbrella page does not connect it; the instance pages have to be revisited, and revisiting for one reason is the cheapest time to do it.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Spearman (2018) "Beyond expected goals" — five held pages depend on it, known entirely second-hand.
+- Umemoto & Fujii (2023) would close the individual-defender gap.
+- find_mentioned_but_missing has a pipe-escape parsing bug producing ~60 false positives from wikilinks inside markdown tables; it also scans raw/, log.md and CLAUDE.md. See the previous lint entry for the fix.
+- Remaining instance-to-umbrella inbound links: eventgpt and autoregressive-model -> generative-model; sig-model, seq2event, hpus, lpv -> event-prediction.
+- No cross-framework benchmarking anywhere in this literature.
+- Two pitch-control traditions, never compared, feeding models that ARE compared.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+

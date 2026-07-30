@@ -23,17 +23,17 @@ Assigning a numeric value to each action a player performs, reflecting how much 
 
 $$V(a_i) = Q(S_i) - Q(S_{i-1})$$
 
-An action is worth the change in game-state quality it produces. Frameworks differ only in **how they represent $S$** and **how they compute $Q$**. Deliberately reminiscent of [[reinforcement-learning]]: $Q$ is a state-value function, $V(a_i)$ an advantage.
+An action is worth the change in game-state quality it produces. Frameworks differ only in **how they represent $S$** and **how they compute $Q$**. Deliberately reminiscent of [[reinforcement-learning]]: $Q$ is a state-value function, $V(a_i)$ an advantage — though almost none of this work is reinforcement learning, since nobody is learning a policy.
 
 ## Three Styles
 
 **Count-based** — weight each action type, sum counts. McHale & Scarf (2007); PlayeRank (2019); Hollinger's PER. *No regard for context.*
 
-**Possession-based** — value ball-progressing actions by how they change the goal chance *within a possession*. Mostly [[markov-model|Markov models]] over discretised state. Rudd (2011); [[expected-threat|xT]] (2019). *Stops at the turnover, so cannot model risk.*
+**Possession-based** — value ball-progressing actions by how they change the goal chance *within a possession*. Mostly [[markov-game|Markov models]] over discretised state, solved by [[value-iteration]]. Rudd (2011); [[expected-threat|xT]] (2019). *Stops at the turnover, so cannot model risk.*
 
 **Action-based** — rich features of action and context, framed as supervised learning. [[vaep]]; [[pass-carry-reward|Shelopugin]]; [[expected-value-possession-framework|Fernández et al.]]; [[vdep]]. *Loses [[interpretability]]; less stable.*
 
-A fourth style has emerged that fits none of these: **counterfactual**, which values an action or position by comparison against a predicted reference rather than by a learned value function. [[c-obso]] and Umemoto & Fujii's defensive positioning are its instances. See [[counterfactual-baseline]].
+A fourth style fits none of these: **counterfactual**, valuing an action or position by comparison against a predicted reference rather than a learned value function. [[c-obso]] and Umemoto & Fujii's defensive positioning are its instances. See [[counterfactual-baseline]].
 
 ## What Distinguishes the Approaches
 
@@ -53,13 +53,26 @@ A fourth style has emerged that fits none of these: **counterfactual**, which va
 
 The first four are classical; the rest are recent.
 
-**Credit assignment** now has five positions ([[vaep]]'s $k=10$ actions; a capped time decay; Fernández's $\epsilon = 15$s; [[vdep]]'s $k=5$ events; [[c-obso]]'s 4 s window; [[temporal-discounting|Shelopugin's]] geometric decay). **Not one source reports a sensitivity analysis** for its chosen parameter — the clearest shared methodological weakness here.
+**Outcome visibility.** Most frameworks conflate *good decision* with *well executed*. Partitioning features on post-commitment information separates them — see [[intent-vs-outcome-valuation]].
+
+**Credit assignment** now has four positions:
+
+| Approach | Boundary | Framework |
+|---|---|---|
+| Fixed $k$-action window | Action count ($k=10$) | [[vaep]] |
+| Capped time decay | 1 min, floored at 5 actions | [[football-performance-time-series\|Mendes-Neves et al.]] |
+| Hard time cutoff | $\epsilon = 15$s, then zero | [[expected-value-possession-framework\|Fernández et al.]] |
+| Geometric time decay | None — weight → 0 | [[temporal-discounting\|Shelopugin]] |
+
+Direction of travel: from counting actions to measuring elapsed time. Every time-based approach carries a free parameter that **no source subjects to sensitivity analysis** — as does [[vdep]]'s $k=5$ and $C=3.9$, and [[c-obso]]'s 4-second window. Five frameworks, five asserted parameters. See [[model-selection]].
 
 ## Perspective: Attacking or Defending
 
-Every framework except [[vdep]] measures attacking success and treats defence as its negative. [[football-defence-evaluation-vdep|Toda et al.]] measure the cost: **VAEP's conceding classifier achieves F1 = 0.000** on 45 matches — no true positives at all. The defensive half of the vault's most-cited framework is empirically inert at that data scale.
+Every framework above except [[vdep]] measures **attacking** success and treats defence as its negative.
 
-The fix is to change the target, not the model: predicting ball recovery and being attacked (~90× and ~35× more frequent) raises F1 to 0.522 and 0.484. See [[rare-event-proxy-targets]].
+[[football-defence-evaluation-vdep|Toda et al.]] measure this assumption's cost directly. On a 45-match dataset, **VAEP's conceding classifier achieves F1 = 0.000** — no true positives whatsoever, having learned to predict "no goal" always, which is right 99.2% of the time. The defensive half of the vault's most-cited valuation framework is empirically inert at this data scale.
+
+The fix is to change the target rather than the model: predicting **ball recovery** and **being attacked** — roughly 90× and 35× more frequent than goals — raises F1 to 0.522 and 0.484. See [[rare-event-proxy-targets]] and [[defensive-valuation]].
 
 Note the metric trap: VAEP scores *better* on Brier precisely because its target is rarer. Comparing frameworks with different target frequencies on true-negative-sensitive metrics inverts the correct conclusion. See [[class-imbalance-evaluation]].
 
@@ -67,7 +80,7 @@ Note the metric trap: VAEP scores *better* on Brier precisely because its target
 
 Every framework above except [[c-obso]] credits the player **performing** the valued act. C-OBSO credits the player whose movement improved *someone else's* chance — the improvement in the shooter's [[obso|OBSO]] attributable to the mover deviating from predicted movement.
 
-This is relational credit, and no other framework here expresses it. The evidence that it captures something real: on the same 15 players, C-OBSO correlates 0.45 with annual salary while OBSO (−0.28) and goals (−0.23) do not.
+This is relational credit, and no other framework here expresses it. The evidence that it captures something real: on the same 15 players, C-OBSO correlates 0.45 with annual salary while OBSO (−0.28) and goals (−0.23) do not. See [[space-creation]].
 
 ## The Possession-Attributability Assumption
 
@@ -100,9 +113,7 @@ Every attacking-perspective framework rewards offensive actions more richly. Van
 
 ## What Remains Invisible
 
-**Correction, 2026-07-27.** This section previously listed *credit for creating space someone else exploits* as invisible to every framework. That is no longer true: [[c-obso]] addresses it directly, from a held primary source, at individual-player level.
-
-Three gaps have now closed. [[off-ball-value|Off-ball positioning]] is readable from pass surfaces; [[vdep]] makes **team** defensive contribution measurable; [[c-obso]] credits space creation for teammates.
+Three gaps have closed. [[off-ball-value|Off-ball positioning]] is readable from pass surfaces; [[vdep]] makes **team** defensive contribution measurable; [[c-obso]] credits [[space-creation|space created for teammates]].
 
 Still open:
 
@@ -116,11 +127,11 @@ The general lesson, worth keeping separate from the specifics: **a gap in the va
 ## See Also
 
 - [[expected-possession-value]] · [[expected-threat]] · [[vaep]] · [[vdep]] · [[c-obso]] · [[obso]] · [[martingale-epv]] · [[pass-carry-reward]]
-- [[defensive-valuation]] · [[off-ball-value]] · [[counterfactual-baseline]] · [[rare-event-proxy-targets]] · [[class-imbalance-evaluation]]
-- [[expected-goals]] · [[intent-vs-outcome-valuation]] · [[player-rating-time-series]]
+- [[defensive-valuation]] · [[off-ball-value]] · [[space-creation]] · [[counterfactual-baseline]] · [[rare-event-proxy-targets]] · [[class-imbalance-evaluation]]
+- [[expected-goals]] · [[intent-vs-outcome-valuation]] · [[player-rating-time-series]] · [[model-selection]]
 - [[temporal-discounting]] · [[possession-risk]] · [[effective-playing-time]] · [[symmetrical-duel-valuation]] · [[duel-skill-rating]]
 - [[probability-surface]] · [[policy-modelling]] · [[structured-model-decomposition]] · [[counterfactual-simulation]]
-- [[markov-game]] · [[action-valuation-frameworks-compared]]
+- [[markov-game]] · [[reinforcement-learning]] · [[action-valuation-frameworks-compared]]
 - [[on-ball-actions-football-xt-vs-vaep|xT/VAEP Summary]] · [[football-performance-time-series|Valuing Players Over Time Summary]]
 - [[epv-control-duel-skills-football|EPV Control and Duel Summary]] · [[expected-value-possession-framework|Soccer EPV Summary]]
 - [[football-defence-evaluation-vdep|VDEP Summary]] · [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]]

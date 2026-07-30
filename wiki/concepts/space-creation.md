@@ -31,7 +31,7 @@ Three problems compound, and they are why this was the last major gap in the vau
 
 ## Two Ways to Measure It
 
-**Space as a quantity.** Fernández & Bornn's *Wide Open Spaces* (2018) measures space generated directly, from [[pitch-control|pitch control]] surfaces — how much controllable area a movement opens. This says a player created space without saying whether the space mattered.
+**Space as a quantity.** [[luke-bornn|Fernández & Bornn's]] *Wide Open Spaces* (2018) measures space generated directly, from [[pitch-control]] surfaces — how much controllable area a movement opens. This says a player created space without saying whether the space mattered.
 
 **Space as value transferred.** [[c-obso|C-OBSO]] measures the improvement in a *teammate's* scoring chance attributable to the mover deviating from predicted movement:
 
@@ -39,7 +39,7 @@ $$V_i = V^k_{OBSO} - V'^k_{OBSO}$$
 
 where $k$ is the eventual shooter and the primed term uses a [[trajectory-prediction|predicted reference trajectory]] for player $i$. This says nothing about area — only about whether someone else's chance improved.
 
-The second is the more useful framing for [[player-evaluation]], because space in an irrelevant part of the pitch is worth nothing. It is also the more fragile: it inherits the reference model's errors, and is identically zero under perfect prediction.
+The second is the more useful framing for player valuation, because space in an irrelevant part of the pitch is worth nothing. It is also the more fragile: it inherits the reference model's errors, and is identically zero under perfect prediction.
 
 ## The Evidence That It Is Real
 
@@ -59,7 +59,7 @@ Salary is heavily confounded — by age, position, nationality, contract timing,
 
 Space creation is the clearest instance of a general recruitment problem: **the players hardest to value are the ones whose contribution is structural rather than terminal.** A target man who occupies two centre-backs, a midfielder whose rotation unlocks a build-up pattern, a winger who holds width to stretch a block — all raise their team's output without appearing in it.
 
-Traditional metrics rate these players by what they do with the ball, which is precisely the part of their game that matters least. That is a market inefficiency in the same family as the [[player-development-curve|age-curve]] one: a systematic mispricing that a club willing to measure differently could exploit.
+Traditional metrics rate these players by what they do with the ball, which is precisely the part of their game that matters least. That is a market inefficiency in the same family as the [[player-development-curve|age-curve]] one: a systematic mispricing that a club willing to measure differently could exploit. See [[recruitment]].
 
 ## Limitations of Current Measurement
 
@@ -67,12 +67,12 @@ Traditional metrics rate these players by what they do with the ball, which is p
 - **Shot-ending sequences only.** Movement that creates chances not converted into shots is invisible.
 - **Negative values clipped.** C-OBSO cannot penalise movement that *destroys* space, because negatives are treated as predictor error.
 - **No interpretable scale.** Values sit in the 0.001–0.01 range.
-- **Defensive space denial is unaddressed** — the mirror-image concept, where a player closes space for the opposition, has no equivalent metric here.
+- **Defensive space denial is unaddressed** — the mirror-image concept, where a player closes space for the opposition, has no equivalent metric here. See [[defensive-valuation]].
 
 ## See Also
 
 - [[c-obso]] · [[obso]] · [[off-ball-value]] · [[counterfactual-baseline]]
-- [[pitch-control]] · [[trajectory-prediction]] · [[probability-surface]]
-- [[action-valuation]] · [[recruitment]] · [[tactical-analysis]]
-- [[masakiyo-teranishi]] · [[william-spearman]] · [[javier-fernandez]]
+- [[pitch-control]] · [[trajectory-prediction]] · [[probability-surface]] · [[imitation-learning]]
+- [[action-valuation]] · [[recruitment]] · [[tactical-analysis]] · [[defensive-valuation]]
+- [[masakiyo-teranishi]] · [[william-spearman]] · [[javier-fernandez]] · [[luke-bornn]]
 - [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]]

@@ -10,7 +10,7 @@ provenance:
   ambiguous: 10%
 lifecycle: reviewed
 created: 2026-07-23
-updated: 2026-07-23
+updated: 2026-07-27
 ---
 
 # Value Iteration
@@ -23,7 +23,7 @@ Each sweep propagates value one step further backward through the state space, s
 
 ## Convergence
 
-Under a discount factor $\gamma < 1$ (or with absorbing states reached with probability 1), the Bellman operator is a contraction mapping, so iteration converges to a unique fixed point regardless of initialisation. Convergence is geometric, at rate $\gamma$.
+Under a discount factor $\gamma < 1$ (or with absorbing states reached with probability 1), the Bellman operator is a contraction mapping, so iteration converges to a unique fixed point regardless of initialisation. Convergence is geometric, at rate $\gamma$. See [[temporal-discounting]] for the two quite different reasons a discount factor appears in this literature.
 
 ## Use in Expected Threat
 
@@ -43,9 +43,11 @@ This is the standard estimation route for the possession-based family of [[expec
 
 ## Relation to Policy Iteration
 
-Value iteration and policy iteration are the two classical dynamic-programming methods for [[markov-model|MDPs]]. Policy iteration alternates full policy evaluation with policy improvement; value iteration collapses these into a single backup per sweep. Value iteration typically needs more sweeps but each is far cheaper.
+Value iteration and policy iteration are the two classical dynamic-programming methods for [[markov-game|MDPs]]. Policy iteration alternates full policy evaluation with policy improvement; value iteration collapses these into a single backup per sweep. Value iteration typically needs more sweeps but each is far cheaper.
 
 Note that xT performs *evaluation*, not *optimisation* — the transition probabilities are estimated from observed play, so xT computes the value of how teams actually behave rather than of optimal play. There is no $\max$ over actions in the recursion.
+
+That is not a limitation so much as the field's standard position: see [[policy-modelling]], where estimating value under the observed policy is argued for explicitly, and [[reinforcement-learning]] for why the control objective is generally unavailable here.
 
 ## Contrast with Supervised Estimation
 
@@ -66,9 +68,6 @@ Value iteration underpins classical [[reinforcement-learning]] and, in approxima
 
 ## See Also
 
-- [[expected-threat]]
-- [[expected-possession-value]]
-- [[markov-game]]
-- [[reinforcement-learning]]
-- [[martingale-epv]]
+- [[expected-threat]] · [[expected-possession-value]] · [[markov-game]] · [[absorbing-markov-chain]]
+- [[reinforcement-learning]] · [[policy-modelling]] · [[temporal-discounting]] · [[martingale-epv]]
 - [[on-ball-actions-football-xt-vs-vaep|Source Summary]]
