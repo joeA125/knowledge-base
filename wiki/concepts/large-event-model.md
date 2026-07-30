@@ -15,7 +15,7 @@ updated: 2026-07-27
 
 # Large Event Model (LEM)
 
-A Large Event Model ([[tiago-mendes-neves|Mendes-Neves]], [[luis-meireles|Meireles]] & [[joao-mendes-moreira|Mendes-Moreira]], 2024) applies the large-language-model recipe to sports event streams: decompose each event into attributes, tokenise, and train a [[transformer]] on next-token prediction over whole matches. The ambition is a **foundation model for football** — one generative model supporting many downstream tasks rather than a bespoke model per task.
+A Large Event Model ([[tiago-mendes-neves|Mendes-Neves]], [[luis-meireles|Meireles]] & [[joao-mendes-moreira|Mendes-Moreira]], 2024) applies the large-language-model recipe to sports event streams: decompose each event into attributes, tokenise, and train a [[transformer]] on next-token prediction over whole matches. The ambition is a **foundation model for football** — one [[generative-model|generative model]] supporting many downstream tasks rather than a bespoke model per task.
 
 > **Provenance note:** vault knowledge of the LEM papers themselves comes from citations in [[scoutgpt-counterfactual-player-valuation|Hong et al. (2026)]], not the primary sources. The group's *earlier* work is held directly — see below.
 
@@ -38,19 +38,19 @@ Notably, the earlier paper's derived quantities — [[performance-volatility|vol
 
 The analogy predates LEMs — [[seq2event]] framed its contribution as "learning the language of soccer" — and rests on a genuine structural parallel: both domains are sequences of discrete symbols with long-range dependencies, hierarchical structure, and meaning that depends on context.
 
-What LEMs add is the **scale and generality** of the LLM playbook: train one autoregressive model on everything, then use it for whatever you need. Related efforts include RisingBaller ("a player is a token, a match is a sentence") and Baron et al.'s "foundation model for soccer".
+What LEMs add is the **scale and generality** of the LLM playbook: train one [[autoregressive-model|autoregressive]] model on everything, then use it for whatever you need. Related efforts include RisingBaller ("a player is a token, a match is a sentence") and Baron et al.'s "foundation model for soccer".
 
 ## Where the Analogy Holds and Breaks
 
 **Holds:**
 - Discrete symbol sequences with context-dependent meaning.
 - Long-range dependency — early build-up shapes later options.
-- Next-token prediction as a self-supervised objective needing no labels.
+- Next-token prediction as a self-supervised objective needing no labels — the property that makes [[event-prediction]] models useful even where outcome labels are unavailable.
 
 **Breaks:**
 - **Events are structured tuples, not atomic symbols.** A word is one token; a football event has actor, action, location, time, and outcome. Hence the multi-token-per-event schemes in [[tokenization]].
 - **Hard validity constraints.** Ungrammatical text is merely odd; a physically impossible event sequence is wrong. This motivates [[constrained-decoding]], which has no real equivalent in open-ended text generation.
-- **Value is not likelihood.** A plain next-token objective favours frequent actions — mostly passes — regardless of tactical consequence. [[scoutgpt]] adds explicit value supervision precisely because likelihood is the wrong target. See [[multi-task-learning]].
+- **Value is not likelihood.** A plain next-token objective favours frequent actions — mostly passes — regardless of tactical consequence. [[scoutgpt]] adds explicit value supervision precisely because likelihood is the wrong target. See [[multi-task-learning]], and the evaluation discussion on [[generative-model]] for the general version of this problem.
 - **Data is scarce.** Text corpora run to trillions of tokens; the K League dataset behind ScoutGPT has 222,940 episodes across five seasons. [[scaling-laws]] suggest this constrains what the paradigm can reach.
 
 ## The Lineage in This Vault
@@ -63,7 +63,7 @@ What LEMs add is the **scale and generality** of the LLM playbook: train one aut
 | [[sig-model]] | 2025 | Rejects fixed windows; [[path-signature]] encoding |
 | [[scoutgpt]] | 2026 | Lineup conditioning enables [[counterfactual-simulation]] |
 
-The consistent direction of travel is toward **richer conditioning and longer generation** — from predicting the next action type, to predicting when it happens, to generating whole possessions under hypothetical lineups.
+The consistent direction of travel is toward **richer conditioning and longer generation** — from predicting the next action type, to predicting when it happens, to generating whole possessions under hypothetical lineups. See [[event-prediction]] for what each framework commits to, and for the observation that these models yield valuation metrics as a by-product.
 
 ## The Foundation-Model Question
 
@@ -75,13 +75,10 @@ The same group's earlier Random-Forest-based work is a further data point for th
 
 ## See Also
 
-- [[scoutgpt]]
-- [[seq2event]]
-- [[nmstpp]]
-- [[sig-model]]
-- [[tokenization]]
-- [[constrained-decoding]]
-- [[player-rating-time-series]]
+- [[generative-model]] · [[event-prediction]] · [[autoregressive-model]]
+- [[scoutgpt]] · [[seq2event]] · [[nmstpp]] · [[sig-model]] · [[eventgpt]]
+- [[tokenization]] · [[constrained-decoding]] · [[transformer]] · [[scaling-laws]]
+- [[player-rating-time-series]] · [[counterfactual-simulation]]
 - [[tiago-mendes-neves]] · [[luis-meireles]] · [[joao-mendes-moreira]]
 - [[scoutgpt-counterfactual-player-valuation|Source Summary]]
 - [[football-performance-time-series|Valuing Players Over Time Summary]]

@@ -1,7 +1,7 @@
 ---
 title: "Policy Modelling"
 type: concept
-tags: [policy-modelling, reinforcement-learning, markov-model, sports-analytics, action-valuation, machine-learning, evaluation]
+tags: [policy-modelling, imitation-learning, markov-model, sports-analytics, action-valuation, machine-learning, evaluation, counterfactual]
 sources: [raw/papers/expected_value_possession_framework.md]
 confidence: 0.75
 provenance:
@@ -15,13 +15,13 @@ updated: 2026-07-27
 
 # Policy Modelling
 
-Estimating the policy that agents **actually follow**, rather than solving for the one they should. In an MDP framing, learning $\pi(s,a) = \mathbb{P}(A = a \mid s)$ from observed behaviour and treating it as a quantity of interest in its own right.
+Estimating the policy agents **actually follow**, rather than solving for the one they should. In an MDP framing, learning $\pi(s,a) = \mathbb{P}(A = a \mid s)$ from observed behaviour and treating it as a quantity of interest in its own right.
 
 ## The Inversion
 
 [[expected-value-possession-framework|Fernández, Bornn & Cervone]] frame possession value as a Markov decision process and then state the departure plainly: the aim is not to find the optimal policy $\pi$, but to estimate value **under the average policy learned from historical data**.
 
-This inverts the usual objective. Reinforcement learning normally treats the behaviour policy as a means to an end — something to improve, or to correct for via importance weighting. Here it is the estimand.
+This inverts the usual objective. Reinforcement learning normally treats the behaviour policy as a means to an end — something to improve, or to correct for via importance weighting. Here it is the estimand. It is the same move [[imitation-learning]] makes, arrived at from the valuation side rather than the control side.
 
 Two reasons, and both generalise beyond football.
 
@@ -35,8 +35,8 @@ Two policy components appear in the [[structured-model-decomposition|EPV decompo
 
 | Component | Question | Output |
 |---|---|---|
-| Action selection $\mathbb{P}(A|T_t)$ | Pass, drive, or shoot? | 3-way softmax |
-| Pass selection $\mathbb{P}(D_t|A=\rho, T_t)$ | Pass *where*? | [[probability-surface\|Surface summing to 1]] |
+| Action selection $\mathbb{P}(A\|T_t)$ | Pass, drive, or shoot? | 3-way softmax |
+| Pass selection $\mathbb{P}(D_t\|A=\rho, T_t)$ | Pass *where*? | [[probability-surface\|Surface summing to 1]] |
 
 Both act as **weights** on the corresponding value estimates. EPV is the value of each option weighted by how likely it is to be taken — an expectation over the behaviour policy, not a maximum over options.
 
@@ -48,17 +48,17 @@ The framework reports both, and the difference is the deliverable. In the worked
 
 The first says what this possession is worth given how footballers behave. The second says what it is worth to someone who spots the best option. Neither alone tells a coach anything actionable; **the gap between them does** — it is the value being left on the pitch by ordinary decision-making.
 
-This is the same structure as the advantage function in RL, $A(s,a) = Q(s,a) - V(s)$, repurposed as an interpretive device rather than a training signal.
+This is the same structure as the advantage function in reinforcement learning, $A(s,a) = Q(s,a) - V(s)$, repurposed as an interpretive device rather than a training signal. It is also structurally a [[counterfactual-baseline]]: the reference here is the *optimum* rather than a predicted behaviour, which asks a different question — how far from best, rather than how far from normal.
 
 ## Caveats
 
-- **The policy is a population average.** It describes how Premier League players behave, not how *this* player behaves. Conditioning on player identity would give individual policies and is not attempted here — though it is precisely what [[eventgpt]] and [[scoutgpt]] do with player-conditioned generation.
-- **Behaviour encodes coaching, not just judgement.** A player may pass backwards because instructed to. The policy conflates individual decision-making with team instruction, and nothing separates them.
+- **The policy is a population average.** It describes how Premier League players behave, not how *this* player behaves. Conditioning on player identity would give individual policies and is not attempted here — though that is precisely what [[eventgpt]] and [[scoutgpt]] do with player-conditioned generation.
+- **Behaviour encodes coaching, not just judgement.** A player may pass backwards because instructed to. The policy conflates individual decision-making with team instruction, and nothing separates them. The same objection applies to any [[imitation-learning|imitated]] policy.
 - **Circularity risk.** If the value model is trained on outcomes generated under this policy, then "the policy is suboptimal by the value model's lights" is a claim about internal consistency, not about football. The observed-behaviour gap is suggestive rather than proof that the alternative would have worked.
 
 ## See Also
 
-- [[markov-game]] · [[reinforcement-learning]] · [[value-iteration]]
+- [[imitation-learning]] · [[counterfactual-baseline]] · [[markov-game]] · [[value-iteration]]
 - [[structured-model-decomposition]] · [[probability-surface]] · [[expected-possession-value]]
-- [[counterfactual-simulation]] · [[eventgpt]] · [[scoutgpt]]
+- [[counterfactual-simulation]] · [[eventgpt]] · [[scoutgpt]] · [[generative-model]]
 - [[expected-value-possession-framework|Source Summary]]

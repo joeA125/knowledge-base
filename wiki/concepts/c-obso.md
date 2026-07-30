@@ -15,7 +15,7 @@ updated: 2026-07-27
 
 # C-OBSO (Creating Off-Ball Scoring Opportunity)
 
-[[creating-scoring-opportunities-trajectory-prediction|Teranishi, Tsutsui, Takeda & Fujii's]] metric for the player whose **movement improves someone else's** scoring chance. The vault's only framework that assigns value *relationally* — from the mover to the beneficiary.
+[[creating-scoring-opportunities-trajectory-prediction|Teranishi, Tsutsui, Takeda & Fujii's]] metric for the player whose **movement improves someone else's** scoring chance. The vault's only framework that assigns value *relationally* — from the mover to the beneficiary — and its only quantitative treatment of [[space-creation]].
 
 ## The Construction
 
@@ -28,13 +28,13 @@ $$V_i = V^k_{OBSO} - V'^k_{OBSO}$$
 
 So $i$ is credited with *the improvement in $k$'s scoring chance attributable to $i$ deviating from expected movement.* In the worked example, A1 drags his marker further than predicted, opening space for shooter A2; C-OBSO is positive.
 
-Three ingredients: a [[obso|modified OBSO]] with a defender-aware score model, a GVRNN trajectory predictor trained on opponent data to generate "league average" reference movement, and the difference between them.
+Three ingredients: a [[obso|modified OBSO]] with a defender-aware score model, a GVRNN trajectory predictor trained on opponent data via [[imitation-learning]] to generate "league average" reference movement, and the difference between them.
 
 ## The Odd Property at Its Centre
 
 **If prediction were perfect, C-OBSO would be identically zero.** The authors state this outright.
 
-The metric measures deviation from a *particular model's* expectation, so it depends on that model being imperfect. Improving the trajectory predictor shrinks the metric. That is an uncomfortable dependency, and it makes C-OBSO less a measurement of a player property than a measurement of *how far a player departs from a learned norm* — which is a coherent thing to want, but not the same thing.
+The metric measures deviation from a *particular model's* expectation, so it depends on that model being imperfect. Improving the trajectory predictor shrinks the metric. That is an uncomfortable dependency, and it makes C-OBSO less a measurement of a player property than a measurement of *how far a player departs from a learned norm* — a coherent thing to want, but not the same thing.
 
 It also means values are not portable. A C-OBSO computed with a different predictor is a different quantity, and cross-study comparison would be meaningless without fixing the reference model.
 
@@ -62,12 +62,12 @@ Two players well above the trend both won individual awards that season and rece
 
 **Goals predict expert match ratings strongly for everyone; C-OBSO predicts them only for the MVP.** Seven further players show no correlation.
 
-The generous reading is that ratings are largely goal-driven and C-OBSO measures something raters mostly ignore — except for one player whose reputation rested on more than finishing. The sceptical reading is that one significant result in eight is what chance produces. The paper reports both the positive and the null results without over-claiming, which is to its credit; the evidence does not settle it.
+The generous reading is that ratings are largely goal-driven and C-OBSO measures something raters mostly ignore — except for one player whose reputation rested on more than finishing. The sceptical reading is that one significant result in eight is what chance produces. The paper reports both the positive and null results without over-claiming; the evidence does not settle it.
 
 ## Limitations
 
 - **Negative values are clipped to zero.** Justified because the *predicted defender* often fails to take a sensible position, so negatives reflect predictor error rather than player error. But the metric therefore cannot penalise bad movement, and every player's mean is inflated by a floor.
-- **Three of 22 players predicted**, for computational reasons — one off-ball attacker and two nearest defenders. Fujii has described the full-squad version as prohibitively expensive.
+- **Three of 22 players predicted**, for computational reasons. Fujii has described the full-squad version as prohibitively expensive.
 - **Values are tiny** (0.001–0.01) and on no interpretable scale. Named as future work.
 - **One team, 34 games, one season.**
 - **Salary is heavily confounded** by age, position, nationality, contract timing and reputation.
@@ -83,11 +83,11 @@ The generous reading is that ratings are largely goal-driven and C-OBSO measures
 | Perspective | Attack | **Attack** | Defence | Attack |
 | Mechanism | Surface read at position | **Counterfactual difference** | Classifier on 22 positions | Surface read at position |
 
-C-OBSO and [[vdep]] are the two Fujii-group answers to off-ball valuation, and they take opposite routes — VDEP puts everything in the model state and gets a team number; C-OBSO intervenes on one player and gets an individual number. The individuating ingredient in both cases is **the counterfactual**, not the data. See [[counterfactual-baseline]].
+C-OBSO and [[vdep]] are the two Fujii-group answers to off-ball valuation, taking opposite routes — VDEP puts everything in the model state and gets a team number; C-OBSO intervenes on one player and gets an individual number. The individuating ingredient in both cases is **the counterfactual**, not the data. See [[counterfactual-baseline]].
 
 ## See Also
 
-- [[obso]] · [[counterfactual-baseline]] · [[trajectory-prediction]] · [[off-ball-value]]
-- [[vdep]] · [[defensive-valuation]] · [[pitch-control]] · [[action-valuation]]
+- [[obso]] · [[space-creation]] · [[counterfactual-baseline]] · [[trajectory-prediction]] · [[imitation-learning]]
+- [[off-ball-value]] · [[vdep]] · [[defensive-valuation]] · [[pitch-control]] · [[action-valuation]]
 - [[masakiyo-teranishi]] · [[keisuke-fujii]] · [[william-spearman]]
 - [[creating-scoring-opportunities-trajectory-prediction|Source Summary]]

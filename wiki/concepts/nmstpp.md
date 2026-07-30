@@ -10,14 +10,14 @@ provenance:
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-07-23
-updated: 2026-07-23
+updated: 2026-07-27
 ---
 
 # NMSTPP
 
 The Transformer-Based Neural Marked Spatio Temporal Point Process model ([[transformer-point-process-football-event-modelling|Yeung, Sit & Fujii, 2023]]) forecasts the **time, location, and action type** of the next football event jointly and dependently, treating match [[event-stream-data]] as a marked spatio-temporal [[point-process]].
 
-Its distinguishing claim is temporal: previous football event models predict *what* happens next and *where*, but not *when*.
+Its distinguishing claim is temporal: previous [[event-prediction|event-forecasting]] models predict *what* happens next and *where*, but not *when*.
 
 ## The Dependent Factorisation
 
@@ -70,20 +70,21 @@ NMSTPP is doing something different from the [[action-valuation]] cluster. Where
 
 [[martingale-epv|The basketball EPV model]] is the closest relative — it too forecasts continuously and models event timing via [[competing-risks]] hazards — but it works from [[optical-tracking-data]] rather than cheap event streams, at vastly greater computational cost.
 
+The forecasting route has an advantage worth stating separately: **it needs no outcome labels.** Every event is a training example, so the goal-sparsity problem that cripples direct valuation never arises — which is how [[hpus]] recovers most of xG's signal while using no goal data at any stage. See [[event-prediction]] and [[rare-event-proxy-targets]].
+
 ## Limitations
 
 - Trained on ~5% of the available data for compute reasons; the authors expect gains from full training.
-- Only the possessing team's on-ball events are modelled — defensive actions are entirely absent.
+- Only the possessing team's on-ball events are modelled — **defensive actions are entirely absent.** The same group later addressed this directly with [[vdep]], which changes the target rather than the architecture.
 - Five action classes discard substantial detail.
-- No player-level attribution; analysis is at possession and team level only.
+- **No player-level attribution**; analysis is at possession and team level only. Also later addressed by the same group, via [[c-obso]]'s counterfactual construction.
+
+The last two are worth reading together: both limitations were resolved not by improving this model but by asking a different question of the same data. See [[keisuke-fujii]] for the group's programme.
 
 ## See Also
 
-- [[point-process]]
-- [[neural-temporal-point-process]]
-- [[hpus]]
-- [[seq2event]]
-- [[transformer]]
-- [[expected-threat]]
-- [[vaep]]
+- [[event-prediction]] · [[point-process]] · [[neural-temporal-point-process]] · [[hpus]]
+- [[seq2event]] · [[sig-model]] · [[large-event-model]] · [[transformer]]
+- [[vdep]] · [[c-obso]] · [[rare-event-proxy-targets]] · [[keisuke-fujii]]
+- [[expected-threat]] · [[vaep]] · [[action-valuation]]
 - [[transformer-point-process-football-event-modelling|Source Summary]]

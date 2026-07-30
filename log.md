@@ -1123,3 +1123,42 @@ CARRIED FORWARD (unchanged):
 - No off-ball or defensive metric has a reported split-half reliability.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-30 14:13] writeback | Inbound links from instance pages to the four umbrella concepts
+Added inbound links to the four new umbrella concept pages from their specific instances, following the deferred item in the previous entry. No new source read; no new pages created; index unchanged.
+
+Pages updated: 6
+
+- c-obso — links space-creation (its subject matter, previously unlinked) and imitation-learning (the GVRNN reference model is trained by imitation).
+- policy-modelling — links imitation-learning and generative-model. Added the observation that policy modelling and imitation learning are the same move reached from opposite directions: valuation-side versus control-side. Also framed the realised-vs-optimal gap as structurally a counterfactual-baseline whose reference is the OPTIMUM rather than a predicted behaviour — a different question (how far from best, not how far from normal).
+- large-event-model — links generative-model, event-prediction and autoregressive-model. Highest-value single edit since it covers two umbrellas. Connected the "value is not likelihood" objection to the general evaluation problem on generative-model.
+- scoutgpt — links generative-model and event-prediction. Added the framing that it is the vault's clearest case of a generative model built for something OTHER than generation. Generalised design requirement 2 (entity conditioning must not be silently overridable) as the property that makes surgical intervention possible at all. Also added two limitations carried from later ingests: the transfer result is not stratified by whether the player moved (unlike Shelopugin's regression), and selection in the transfer data is unaddressed.
+- nmstpp — links event-prediction, and adds the label-free advantage of the forecasting route (every event is a training example, so goal sparsity never arises). Its two stated limitations — no defensive actions, no player-level attribution — now carry forward pointers to VDEP and C-OBSO respectively, both from the SAME GROUP. Worth reading together: both were resolved not by improving this model but by asking a different question of the same data.
+- variational-autoencoder — was a thin 2026-05 draft (3 sentences plus a stub See Also). Substantially expanded: the generative-family trade table, VLAE's posterior collapse reframed as a DESIGN LEVER rather than a failure, the VRNN/GVRNN sequential variants with the multimodality argument, and the C-OBSO use of a generative model as a measuring instrument.
+
+REFERENCING STATUS after this run:
+- generative-model <- trajectory-prediction, event-prediction, imitation-learning, policy-modelling, large-event-model, scoutgpt, variational-autoencoder (7)
+- event-prediction <- trajectory-prediction, generative-model, large-event-model, scoutgpt, nmstpp (5)
+- imitation-learning <- kazuya-takeda, trajectory-prediction, generative-model, c-obso, policy-modelling (5)
+- space-creation <- C-OBSO summary, imitation-learning, trajectory-prediction, generative-model, c-obso (5)
+
+All four are now well-connected rather than technically-non-orphaned.
+
+REMAINING INSTANCE LINKS NOT ADDED, in rough priority order:
+- generative-model <- eventgpt, autoregressive-model, conditional-gan, variational-lossy-autoencoder
+- event-prediction <- sig-model, seq2event, hpus, lpv, point-process, neural-temporal-point-process
+- imitation-learning <- teacher-forcing, rlhf, markov-game
+- space-creation <- off-ball-value, pitch-control
+Each needs a full page rewrite for one or two links. Deferred rather than skipped; worth doing opportunistically when those pages are next touched. autoregressive-model and eventgpt are the two most valuable remaining.
+
+INCIDENTAL IMPROVEMENT: variational-autoencoder was one of the vault's thinnest pages and is now proportionate to its importance. Other May-era drafts may be in similar condition and worth an audit — find_stale_pages would surface them.
+
+CARRIED FORWARD (unchanged):
+- ACQUISITION PRIORITY 1: Spearman (2018) "Beyond expected goals" — five held pages depend on it, known entirely second-hand.
+- Umemoto & Fujii (2023) would close the individual-defender gap.
+- Five frameworks, five unjustified horizon/weighting parameters, zero sensitivity analyses.
+- No cross-framework benchmarking anywhere in this literature.
+- Two pitch-control traditions, never compared, feeding models that ARE compared.
+- No off-ball or defensive metric has a reported split-half reliability.
+- Pre-existing tag-name dead links remain; reinforcement-learning and density-estimation are the highest-value to create.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
