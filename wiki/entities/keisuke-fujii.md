@@ -1,13 +1,13 @@
 ---
 title: "Keisuke Fujii"
 type: entity
-tags: [person, researcher, ai-research, university, sports-analytics, defensive-valuation, off-ball, event-prediction, optical-tracking-data, counterfactual]
-sources: [raw/papers/transformer-point-process-football-event-modelling.md, raw/papers/football_defence_evaluation.md]
-confidence: 0.85
+tags: [person, researcher, ai-research, university, sports-analytics, defensive-valuation, off-ball, event-prediction, game-theory, proxy-target, optical-tracking-data]
+sources: [raw/papers/transformer-point-process-football-event-modelling.md, raw/papers/football_defence_evaluation.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/optimal_football_decisions_shot_taking_situations.md]
+confidence: 0.9
 provenance:
-  extracted: 55%
-  inferred: 35%
-  ambiguous: 10%
+  extracted: 70%
+  inferred: 25%
+  ambiguous: 5%
 lifecycle: reviewed
 created: 2026-07-23
 updated: 2026-07-27
@@ -15,61 +15,72 @@ updated: 2026-07-27
 
 # Keisuke Fujii
 
-Researcher at the Graduate School of Informatics, [[nagoya-university]], with affiliations at the RIKEN Center for Advanced Intelligence Project (Fukuoka) and JST PRESTO. Senior author on both of the vault's Japanese football-analytics sources, and lead of the most sustained **defensive and off-ball valuation** programme in this literature.
+Researcher at the Graduate School of Informatics, [[nagoya-university]], with affiliations at the RIKEN Center for Advanced Intelligence Project (Osaka/Fukuoka) and JST PRESTO. **Senior author on four held sources** — more than anyone else in this vault.
 
-## Two Primary Sources Here
+## Four Primary Sources
 
-| Year | Work | Contribution |
+| Year | Work | Lead author | Contribution |
+|---|---|---|---|
+| 2022 | [[football-defence-evaluation-vdep\|VDEP]] | [[kosuke-toda\|Toda]] | [[vdep]] — team defensive value from frequent proxies |
+| 2022/23 | [[creating-scoring-opportunities-trajectory-prediction\|C-OBSO]] | [[masakiyo-teranishi\|Teranishi]] | [[c-obso]] — credit for [[space-creation\|space created]] for a teammate |
+| 2023 | [[transformer-point-process-football-event-modelling\|NMSTPP]] | [[calvin-yeung\|Yeung]] | [[nmstpp]] and [[hpus]] |
+| 2024 | [[optimal-decisions-shot-taking-situations\|SPC framework]] | Yeung | [[game-theory\|Game-theoretic]] shot decisions; [[xsot\|xSOT]] |
+
+## The Signature: Change the Target, Not the Model
+
+The group's defining move, visible in three of the four and stated explicitly in each: **goals are too rare to model, so model something else on the causal path.**
+
+| Work | Rare target abandoned | Proxy adopted |
 |---|---|---|
-| 2022 | [[football-defence-evaluation-vdep\|VDEP]] (Toda, Teranishi, Kushiro & Fujii) | [[vdep]] — team defensive value from frequent-proxy prediction |
-| 2023 | [[transformer-point-process-football-event-modelling\|NMSTPP]] (Yeung, Sit & Fujii) | [[nmstpp]] and [[hpus]] |
+| [[vdep]] | Goals conceded (227 in 97,335 events) | Ball recovery, effective attack |
+| [[hpus]] | Goals | Possession dynamics — **no goal data at any stage** |
+| [[xsot]] | Goal | Shot on target — "the minimum requirement" |
 
-## The Methodological Signature
+That is not three applications of a trick; it is a research programme organised around one diagnosis. See [[rare-event-proxy-targets]].
 
-Fujii's group comes at football through **prediction rather than valuation**. Neither held source defines value directly; both fit a predictive model and derive a metric downstream:
+The diagnosis is empirically justified from inside the group's own work: VDEP measures [[vaep|VAEP's]] conceding classifier at **F1 = 0.000** — a goal-targeted model identifying no true positives at all. Having demonstrated that direct goal modelling fails at realistic data scale, substituting a proxy stops being a convenience and becomes the correct response.
 
-- VDEP predicts ball recovery and being attacked, then combines the two probabilities.
-- NMSTPP predicts the next event's time, zone and action, and [[hpus]] falls out of the forecasts.
+## Two Routes to the Off-Ball Problem
 
-This distinguishes the group from the Leuven line ([[vaep]], value as a probability difference) and the Barcelona line ([[expected-value-possession-framework|EPV]], value as a conditional expectation, decomposed). The practical payoff is that both metrics sidestep goal sparsity — HPUS uses **no goal data at any stage**, and VDEP abandons the goal target explicitly. See [[rare-event-proxy-targets]].
+The group attacks the blind spot shared by [[vaep]], [[expected-threat|xT]] and [[nmstpp]] itself from two directions:
 
-## The Defensive and Off-Ball Programme
+**Outcome-proxy prediction** — [[vdep]] and GVDEP. Predict frequent events on the causal path to conceding. Cheap, event-data-friendly, and **team-level only**.
 
-> **Provenance warning.** None of the four works below is held in `raw/`. Bibliographic details were verified against citation lists and the author's own overview article; **method descriptions and capability claims are as stated by the authors and are unverified here.**
+**Trajectory and positional counterfactuals** — the Teranishi and Umemoto lines. Predict where players would have been, and value the difference. **Individuates naturally**, because the intervention is on one named player.
 
-| Year | Work | Contribution |
-|---|---|---|
-| 2020 | Teranishi, Fujii & Takeda — *Trajectory prediction with imitation learning reflecting defensive evaluation in team sports*, IEEE GCCE, pp. 124–125 | Earliest of the line; trajectory-based defensive evaluation. A two-page abstract. |
-| 2022 | Umemoto, **Tsutsui** & Fujii — *Location analysis of players in UEFA EURO 2020 and 2022 using generalized valuation of defense by estimating probabilities*, arXiv:2212.00021 | **GVDEP** — generalises [[vdep]] to player-location level |
-| 2022/23 | Teranishi, **Tsutsui**, Takeda & Fujii — *Evaluation of creating scoring opportunities for teammates in soccer via trajectory prediction*, MLSA / Springer, pp. 53–73 | Credits **movement sacrificed for a teammate** — space creation |
-| 2023 | **Umemoto & Fujii** — *Evaluation of team defense positioning by computing counterfactuals using StatsBomb 360 data*, StatsBomb Conference | **Individual defender evaluation** via counterfactual positioning |
+The second route is what makes individual credit possible, and the reason is general: [[counterfactual-baseline|intervention, not information, is what individuates]]. VDEP and C-OBSO use comparable data; only the one that intervenes on a named player produces a per-player number.
 
-**Correction, 2026-07-27.** This page previously listed these works under paraphrased descriptions rather than titles, omitted Kazushi Tsutsui from two author lists, and missed the 2023 counterfactual positioning paper entirely. The paraphrases made the papers effectively unfindable by search — a reminder that citation-derived entries should record titles verbatim.
+Both counterfactual lines build on [[obso|OBSO]] rather than event classification, placing that work closer to [[william-spearman|Spearman's]] physical tradition than to VDEP's classifiers despite the shared authorship.
 
-### Two routes, converging
+## Methodological Range
 
-The programme runs on two distinct mechanisms aimed at the same target — valuing players who never touch the ball:
+Unusually broad for one group, and the range is itself informative about the problem:
 
-**Outcome-proxy prediction** — VDEP and GVDEP. Predict frequent events on the causal path to conceding. Cheap, event-data-friendly, and in VDEP's case team-level only.
+| Approach | Work |
+|---|---|
+| Supervised classification on engineered state | [[vdep]] |
+| [[transformer]] [[point-process\|point process]] | [[nmstpp]] |
+| [[graph-neural-network\|Graph]] [[variational-autoencoder\|VAE]] trajectory prediction | [[c-obso]] |
+| [[theory-based-modelling\|Theory-based]] geometry + MLP + [[game-theory\|game theory]] | [[xsot]] |
 
-**Trajectory and positional counterfactuals** — the Teranishi and Umemoto lines. Predict where players would have been, and value the difference. Individuates naturally, because the intervention is on one named player.
+No single architecture recurs. What recurs is **prediction first, metric derived downstream** — none of the four defines value directly. That distinguishes the group from the Leuven line ([[vaep]], value as a probability difference) and the Barcelona line ([[expected-value-possession-framework|EPV]], value as a decomposed conditional expectation).
 
-Fujii describes combining the two as a framework covering the movements of almost all players. He also reports the binding constraint: the trajectory method needed **enormous computation to evaluate all 22 players**, requiring a separate trajectory prediction per player evaluated — the same cost wall that put [[martingale-epv|Cervone et al.]] on 461 processors.
+## The Defensive Programme
 
-### The OBSO substrate
+> **Provenance.** [[vdep]] and [[c-obso]] are held. The two below are **cited only** — bibliographic details verified, capability claims unverified here.
 
-Both counterfactual lines build on **OBSO** (off-ball scoring opportunities, Spearman 2018) rather than on event classification. That places the group's off-ball work closer in spirit to [[probability-surface|Fernández et al.'s]] value surfaces than to VDEP's classifiers, despite the shared authorship — and makes Spearman (2018) a notable gap in `raw/`.
+- **Teranishi, Fujii & Takeda (2020)**, IEEE GCCE pp. 124–125 — earliest of the trajectory line.
+- **Umemoto, Tsutsui & Fujii (2022)**, arXiv:2212.00021 — **GVDEP**, generalising VDEP to player-location level.
+- **Umemoto & Fujii (2023)**, StatsBomb Conference — **individual defender evaluation** via counterfactual positioning. Remains the vault's top acquisition target, since individual defensive credit is the last major uncovered capability.
 
-## Acquisition Priority
-
-The three arXiv-available works — GVDEP (2212.00021), the multi-agent RL action valuation paper (2305.17886), and Fujii's survey *Data-Driven Analysis for Understanding Team Sports Behaviors* (2102.07545, J. Robot. Mechatron. 33(3)) — are fetchable now. The survey is reference [3] in the VDEP paper and maps the whole programme.
-
-The 2023 counterfactual positioning work is the highest-value target for closing the vault's individual-defender gap, but was presented at a conference rather than published as a preprint, so availability is uncertain.
+Fujii reports the binding constraint on the trajectory route: **enormous computation to evaluate all 22 players**, one prediction per player. [[c-obso]] confirms it — only three of 22 are predicted.
 
 ## See Also
 
-- [[vdep]] · [[defensive-valuation]] · [[off-ball-value]] · [[rare-event-proxy-targets]]
-- [[nmstpp]] · [[hpus]] · [[action-valuation]] · [[counterfactual-simulation]] · [[probability-surface]]
-- [[kosuke-toda]] · [[masakiyo-teranishi]] · [[keisuke-kushiro]] · [[calvin-yeung]] · [[tony-sit]]
-- [[nagoya-university]] · [[kyoto-university]]
-- [[football-defence-evaluation-vdep|VDEP Summary]] · [[transformer-point-process-football-event-modelling|NMSTPP Summary]]
+- [[vdep]] · [[c-obso]] · [[nmstpp]] · [[xsot]] · [[hpus]]
+- [[rare-event-proxy-targets]] · [[defensive-valuation]] · [[off-ball-value]] · [[space-creation]]
+- [[game-theory]] · [[theory-based-modelling]] · [[counterfactual-baseline]] · [[obso]]
+- [[calvin-yeung]] · [[kosuke-toda]] · [[masakiyo-teranishi]] · [[kazushi-tsutsui]] · [[kazuya-takeda]] · [[keisuke-kushiro]] · [[tony-sit]]
+- [[nagoya-university]] · [[kyoto-university]] · [[william-spearman]]
+- [[football-defence-evaluation-vdep|VDEP Summary]] · [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]]
+- [[transformer-point-process-football-event-modelling|NMSTPP Summary]] · [[optimal-decisions-shot-taking-situations|SPC Summary]]

@@ -1,8 +1,8 @@
 ---
 title: "Value Iteration"
 type: concept
-tags: [dynamic-programming, reinforcement-learning, markov-model, machine-learning, approximation]
-sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md]
+tags: [dynamic-programming, reinforcement-learning, markov-model, machine-learning, approximation, policy-modelling, game-theory]
+sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/optimal_football_decisions_shot_taking_situations.md]
 confidence: 0.85
 provenance:
   extracted: 50%
@@ -37,21 +37,37 @@ The correspondence to the general form is direct:
 - **Transitions** = $m_z \cdot T_{z \to z'}$, moving the ball elsewhere
 - **Absorption** = a shot or a turnover ends the possession, so no discount factor is needed
 
-Initialising all $xT(z) = 0$ gives a clean interpretation: **after iteration $i$, $xT(z)$ is the probability of scoring within the next $i$ actions.** Each iteration literally looks one action further ahead. [[on-ball-actions-football-xt-vs-vaep|Van Roy et al. (2020)]] report convergence after 6 iterations on a $16 \times 12$ grid — meaning goal-scoring threat in soccer effectively propagates about six actions.
+Initialising all $xT(z) = 0$ gives a clean interpretation: **after iteration $i$, $xT(z)$ is the probability of scoring within the next $i$ actions.** [[on-ball-actions-football-xt-vs-vaep|Van Roy et al. (2020)]] report convergence after 6 iterations on a $16 \times 12$ grid — meaning goal-scoring threat in soccer effectively propagates about six actions.
 
 This is the standard estimation route for the possession-based family of [[expected-possession-value]] models in soccer.
+
+## Evaluation, Not Optimisation
+
+Note that xT performs *evaluation*, not *optimisation* — the transition probabilities are estimated from observed play, so it computes the value of how teams actually behave. **There is no $\max$ over actions in the recursion.**
+
+That is the standard position in this literature rather than an oversight; see [[policy-modelling]].
+
+**Correction, 2026-07-27.** An earlier revision of this page implied optimisation was unavailable in football analytics generally. [[optimal-decisions-shot-taking-situations|Yeung & Fujii (2024)]] compute an optimal policy, though by a different route — [[game-theory|game theory]] over a two-action strategy space rather than dynamic programming over pitch zones.
+
+The contrast is instructive about what each method needs:
+
+| | Value iteration (xT) | Game-theoretic solution |
+|---|---|---|
+| State/strategy space | 192 zones, enumerable | 2 × 2 profiles, enumerable |
+| Requires | Transition matrix over states | Payoff for **every** profile |
+| Unobserved cases | Handled by the recursion | Must be **estimated counterfactually** |
+| Models the opponent | No — folded into transitions | **Yes, as an agent** |
+| Output | Value of observed behaviour | **Equilibrium** |
+
+Both need an enumerable space. The difference is that value iteration derives unobserved values by propagation through the transition structure, whereas a game solution needs each payoff supplied independently — which is why the strategy space must be far smaller.
 
 ## Relation to Policy Iteration
 
 Value iteration and policy iteration are the two classical dynamic-programming methods for [[markov-game|MDPs]]. Policy iteration alternates full policy evaluation with policy improvement; value iteration collapses these into a single backup per sweep. Value iteration typically needs more sweeps but each is far cheaper.
 
-Note that xT performs *evaluation*, not *optimisation* — the transition probabilities are estimated from observed play, so xT computes the value of how teams actually behave rather than of optimal play. There is no $\max$ over actions in the recursion.
-
-That is not a limitation so much as the field's standard position: see [[policy-modelling]], where estimating value under the observed policy is argued for explicitly, and [[reinforcement-learning]] for why the control objective is generally unavailable here.
-
 ## Contrast with Supervised Estimation
 
-The alternative to solving a recursion is to learn state values directly from labelled outcomes, as [[vaep]] does with [[gradient-boosting]] classifiers. The trade-off:
+The alternative to solving a recursion is to learn state values directly from labelled outcomes, as [[vaep]] does with [[gradient-boosting]] classifiers:
 
 | | Value iteration (xT) | Supervised (VAEP) |
 |---|---|---|
@@ -69,5 +85,5 @@ Value iteration underpins classical [[reinforcement-learning]] and, in approxima
 ## See Also
 
 - [[expected-threat]] · [[expected-possession-value]] · [[markov-game]] · [[absorbing-markov-chain]]
-- [[reinforcement-learning]] · [[policy-modelling]] · [[temporal-discounting]] · [[martingale-epv]]
-- [[on-ball-actions-football-xt-vs-vaep|Source Summary]]
+- [[reinforcement-learning]] · [[game-theory]] · [[policy-modelling]] · [[temporal-discounting]] · [[martingale-epv]]
+- [[on-ball-actions-football-xt-vs-vaep|Source Summary]] · [[optimal-decisions-shot-taking-situations|Yeung & Fujii Summary]]

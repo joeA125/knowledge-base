@@ -1378,3 +1378,113 @@ CARRIED FORWARD unchanged:
 - Remaining instance-to-umbrella inbound links: eventgpt and autoregressive-model -> generative-model; sig-model, seq2event, hpus, lpv -> event-prediction.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-30 17:11] ingest | Yeung &amp; Fujii — game-theoretic shot decisions; optimal-policy correction
+Source: raw/papers/optimal_football_decisions_shot_taking_situations.md — Calvin Yeung & Keisuke Fujii, "A strategic framework for optimal decisions in football 1-vs-1 shot-taking situations: an integrated approach of machine learning, theory-based modeling, and game theory", Complex & Intelligent Systems, Springer, published 27 May 2024. Open access. StatsBomb open data: EURO 2020 (51 matches) + World Cup 2022 (64), 2,575 shots. Code public.
+
+TOOL: list_unprocessed_sources returned exactly one file, correctly. Third clean run.
+
+Pages created: 4, Pages updated: 2 (+ taxonomy, index)
+
+CREATED — summary (1):
+- wiki/summaries/optimal-decisions-shot-taking-situations
+
+CREATED — concepts (3):
+- game-theory — MAJOR GAP CLOSED. The vault's first game-theoretic framework. Strategy profiles, payoffs, Nash equilibrium, zero-sum. Includes the RL/game-theory comparison table and the general recipe: WHERE PAYOFFS ARE UNOBSERVABLE, LEARN THEM, THEN SOLVE THE GAME ON THE LEARNED PAYOFFS. Notes that the hard part is rarely solving the game but obtaining payoffs for strategy profiles nobody chose.
+- xsot — xSOT and xOSOT. Includes the observation that these are not primarily player-rating metrics: they exist to fill a payoff table INCLUDING ITS COUNTERFACTUAL CELLS, which makes a metric designed to be evaluated under interventions a different object from one designed to summarise a season.
+- theory-based-modelling — CROSS-CUTTING. Encoding domain structure as a MODEL (not features) whose output feeds a learned model. Two independent vault instances: Yeung & Fujii's geometric shot-block model into an MLP, and Fernandez et al.'s event-data xG into a tracking-data xG.
+
+MAJOR CORRECTION:
+- policy-modelling — the page (and reinforcement-learning, value-iteration) stated that this literature does NOT solve for optimal policy, because the counterfactual would be unfounded. That is now too strong. Yeung & Fujii compute one. The mechanism shows exactly when the objection bites: they restrict to a TWO-ACTION game where payoffs for unobserved profiles are ESTIMABLE (re-run the models with the closest defender removed) rather than extrapolated. Corrected statement: optimal-policy analysis is available exactly where the strategy space can be coarsened enough to enumerate, and COARSENING IS THE PRICE.
+
+KEY FINDINGS:
+
+1. NASH EQUILIBRIUM IS (PASS, BLOCK). Payoffs across 1,468 World Cup 2022 situations: Shoot/Block 0.0866, Shoot/NotBlock 0.2508, Pass/Block 0.2456, Pass/NotBlock 0.2481. This contradicts the "Liverpool" coaching argument that declining to block long shots is smart — the paper's stated motivation.
+
+2. SHOOTERS SHOOT TOO MUCH. Against a blocking defender, passing is worth 0.2456 and shooting 0.0866 — a gap of 0.159. A claim about SYSTEMATIC DECISION ERROR, which no other held source makes. Note this converges with Fernandez et al.'s realised-vs-available gap (0.032 vs 0.112) from a completely different method. Two independent frameworks, one surface-based and one game-theoretic, both finding observed behaviour diverges systematically from optimal. Recorded on policy-modelling as the closest thing this literature has to a prescriptive finding.
+
+3. THE HYBRID ABLATION. Shot-block CEL: MLP + theory feature 0.4876; ElasticNet 0.5417; MLP basic features 0.5545; MLP RAW PLAYER COORDINATES 0.5684; historical 0.5783; XGBoost 0.6354; CatBoost 0.7096; theory alone 0.9220. Two separate findings — the hybrid beats both components, AND handing the network raw coordinates is WORSE THAN GIVING IT NOTHING. With 2,575 shots a 93-dimensional player vector is noise; the theory model does dimensionality reduction the data cannot support learning.
+
+4. TREE ENSEMBLES PERFORM WORST HERE, inverting the VAEP result where CatBoost beat everything. Sample size is the difference: 8.5M actions there, 2,575 shots here. gradient-boosting should record this.
+
+5. xSOT TRACKS GOALS BETTER THAN xG (0.58 vs 0.46 against average goals, 32 World Cup teams). Same pattern as HPUS, OBSO and VDEP — a metric built on a denser proxy outperforming one built on the outcome itself.
+
+6. CHANGING THE TARGET CHANGED THE MODEL. Because the payoff is shot-on-target rather than goal, a save still counts as success, so THE GOALKEEPER DROPS OUT of the shot-block model entirely. A clean illustration of how target choice propagates into model structure.
+
+RECONCILIATION RECORDED on theory-based-modelling: this sits against the Sig-Model finding that handcrafted geometry HURTS. Both are right — "encode structure the representation cannot recover AND the data cannot support learning; encode nothing else." Sig-Model's path signature recovers geometry by construction, so adding it is redundant; a small MLP on 2,575 examples cannot recover occlusion geometry, so adding it is informative. The disagreement is about which regime you are in.
+
+NOT DONE — outstanding updates:
+- reinforcement-learning and value-iteration carry the same too-strong optimal-policy claim now corrected on policy-modelling
+- rare-event-proxy-targets — xSOT is a third explicit instance
+- expected-goals — xSOT outperforming xG on goal correlation
+- gradient-boosting — the tree-overfitting inversion (finding 4)
+- obso and c-obso — the four stated improvements to C-OBSO's shot block model
+- pitch-control — PPCF integrated to finite T rather than infinity, which is a genuine improvement for passing-option use
+- keisuke-fujii — a fourth held source; the group's proxy-substitution signature now spans VDEP, NMSTPP/HPUS and xSOT
+- action-valuation-frameworks-compared (synthesis) — needs game theory as a mechanism, xSOT in the valuation table, and the convergent "systematic decision error" finding
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning — individual defensive credit remains the last major uncovered capability.
+- Spearman et al. (2017) supplies the PPCF priors, cited-only.
+- Two pitch-control traditions, never compared.
+- No cross-framework benchmarking anywhere; this paper compares against no decision-making baseline either.
+- 8 genuine orphan pages from the last lint run remain unlinked; six are lead authors whose summaries do not link them.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-07-30 17:22] writeback | Optimal-policy correction propagated; synthesis gains a sixth task
+Completion of outstanding updates from the Yeung & Fujii ingest. No new source read; no new pages created; index unchanged.
+
+Pages updated: 6 of 9 identified
+
+COMPLETED — the optimal-policy correction, now consistent across all three pages:
+- reinforcement-learning — new section "Where Optimal Policy IS Recovered". Corrected claim, plus the RL/game-theory comparison table. General lesson recorded: THE BARRIER TO OPTIMAL-POLICY ANALYSIS IS THE SIZE OF THE ACTION SPACE, NOT THE OBSERVATIONAL NATURE OF THE DATA.
+- value-iteration — correction recorded, plus a comparison table of what value iteration and a game-theoretic solution each require. Both need an enumerable space; the difference is that value iteration DERIVES unobserved values by propagation through the transition structure, whereas a game solution needs each payoff supplied independently — which is why the strategy space must be far smaller. That contrast was not obvious before writing it out.
+- policy-modelling — corrected in the previous entry.
+
+COMPLETED — other updates:
+- rare-event-proxy-targets — xSOT added as a fifth instance. New section "What a Proxy Change Does to the Model", built on the observation that C-OBSO weights the goalkeeper DOUBLE while Yeung & Fujii remove him ENTIRELY, purely because the target moved from goal to shot-on-target. Same sport, same geometry, opposite treatment of one player. A proxy is not a neutral substitution; it reorganises the model around itself.
+- gradient-boosting — new flagged section on SAMPLE-SIZE DEPENDENCE. Three vault comparisons now disagree: CatBoost best on VAEP's 8.5M actions, LightGBM best for Shelopugin, and BOTH TREE ENSEMBLES WORST on Yeung & Fujii's 2,575 shots, losing to a constant baseline. Reconciled by capacity: boosted ensembles need data to constrain them. Practical warning added against reaching for gradient boosting because it won on someone else's tabular problem.
+- c-obso — new subsection on Yeung & Fujii's four revisions to its shot-block model. Two are corrections on C-OBSO's own terms (an untruncated normal gives unbounded reach; independent defenders can jointly exceed unit probability); two follow from the changed target.
+- action-valuation-frameworks-compared (synthesis) — MAJOR. Task list expanded from five to SIX: PRESCRIPTION added as a genuinely distinct task, since solving for what a player SHOULD do is a different epistemic object from valuing what they did. Valuation table extended to nine frameworks with a target row. New Axis 4 (observed vs optimal policy). New section on the CONVERGENT PRESCRIPTIVE FINDING. Handcrafted-features question marked resolved.
+
+THE CONVERGENT FINDING, recorded on the synthesis and on reinforcement-learning:
+Fernandez et al. (pass-value surface): realised 0.032 vs best available 0.112, gap 0.080.
+Yeung & Fujii (game-theoretic payoffs): shoot 0.0866 vs pass 0.2456, gap 0.159.
+Two frameworks with nothing methodologically in common, both finding observed behaviour diverges SYSTEMATICALLY from optimal, both locating it in the same place — players take the shot or the safe option when a better one exists. NEITHER PAPER CITES THE OTHER. This is the strongest prescriptive signal the literature has produced and deserves a direct test nobody has run.
+
+NOT DONE — 3 pages remaining:
+- keisuke-fujii — needs the fourth held source; the group's proxy-substitution signature now spans VDEP, NMSTPP/HPUS and xSOT
+- expected-goals — xSOT outperforming xG on goal correlation (0.58 vs 0.46)
+- pitch-control — PPCF integrated to finite T rather than infinity, a genuine improvement for passing-option use
+All three are additive rather than corrective; nothing currently on them is wrong.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- Spearman et al. (2017) supplies the PPCF priors, cited-only.
+- Two pitch-control traditions, never compared.
+- No cross-framework benchmarking anywhere.
+- 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-07-30 19:02] writeback | Final three updates — Yeung &amp; Fujii ingest complete
+Final three outstanding updates from the Yeung & Fujii ingest. No new source read; no new pages created; index unchanged.
+
+Pages updated: 3. The Yeung & Fujii ingest is now complete — 9 of 9 identified updates done, plus the 4 pages created at ingest.
+
+- keisuke-fujii — now FOUR held sources, more than any other person in the vault. Restructured around the group's signature rather than a work list: CHANGE THE TARGET, NOT THE MODEL, visible in three of four (VDEP recoveries, HPUS possession dynamics, xSOT shot-on-target). Added the observation that the diagnosis is empirically justified from INSIDE the group's own work — VDEP measures VAEP's conceding classifier at F1 = 0.000, so having demonstrated that direct goal modelling fails at realistic data scale, proxy substitution stops being a convenience and becomes the correct response. Also added the methodological-range table (four works, four unrelated architectures, one constant: prediction first, metric derived downstream).
+
+- expected-goals — new section "Three Formulations, Never Benchmarked": event-data learned, tracking-augmented learned, and the ANGULAR-GEOMETRIC model inside OBSO and C-OBSO, which is an xG model though not usually recognised as one, and is fitted with a handful of parameters rather than learned. New section "Being Outperformed by Denser Proxies" collecting three results in one table. The xSOT case is the sharpest because it is the SAME KIND OF OBJECT — a per-shot expectation — differing only in target, and substituting shot-on-target for goal raises correlation with actual goals by 0.12. Also recorded that xG is itself an early instance of the proxy logic (it exists because goals are too rare to rate a player on), and later work simply pushes the same move further down the causal chain.
+
+- pitch-control — new section "The Integration Horizon", the most substantive of the three. PPCF is a differential equation in T and must be integrated to some limit. Spearman uses T -> infinity: who would EVENTUALLY control this location. Yeung & Fujii integrate only to the ball's TRAVEL TIME, reasoning that control arriving after the ball would have arrived is worthless. This is a genuine improvement for any use of PPCF as a PASSING-OPTION model rather than a general control surface — the infinite-horizon version systematically OVER-VALUES distant or contested options by crediting control the passer could never exploit. Generalised: the correction applies wherever a control surface is read as "could I play the ball here now" rather than "who owns this space". Also noted this compounds with StatsBomb 360 supplying no velocities, degrading the intercept-time estimate PPCF depends on.
+
+STATE: no outstanding updates from any of the last six ingests.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning. Individual defensive credit is the last major uncovered capability, and the entity page now records it as the group's own open thread.
+- Spearman et al. (2017) "Physics-based modeling of pass probabilities" supplies the PPCF priors, cited-only.
+- TWO PITCH-CONTROL TRADITIONS, NEVER COMPARED, now differing on THREE counts — additivity, ball travel time, and attack/defence asymmetry — while feeding value models whose outputs ARE compared. This has been carried for four entries and is the most actionable open methodological question in the vault: it could be settled by computing both surfaces on one dataset and correlating them.
+- THREE xG FORMULATIONS, NEVER BENCHMARKED (event-learned, tracking-learned, angular-geometric).
+- The convergent prescriptive finding (Fernandez et al. 0.032 vs 0.112; Yeung & Fujii 0.0866 vs 0.2456) deserves a direct test nobody has run.
+- No cross-framework benchmarking anywhere in this literature.
+- 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them. The consistent repair is one convention applied retrospectively to the CV and NLP material.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+

@@ -35,13 +35,14 @@ A catalog of all wiki pages, organised by type.
 - [[daniel-cervone]] · [[alex-damour]] · [[kirk-goldsberry]] — the NBA martingale EPV paper
 - [[luke-bornn]] — NBA EPV, pitch control, and the soccer EPV framework
 - [[javier-fernandez]] — Soccer EPV framework, SoccerMap, and pitch control
-- [[keisuke-fujii]] — Senior author of VDEP, C-OBSO and NMSTPP; defensive and off-ball valuation programme
+- [[keisuke-fujii]] — Senior author of VDEP, C-OBSO, NMSTPP and the SPC framework
+- [[calvin-yeung]] — Lead author of NMSTPP and the game-theoretic SPC framework
 - [[kosuke-toda]] — Lead author of VDEP
 - [[masakiyo-teranishi]] — Lead author of C-OBSO; the trajectory-modelling line
 - [[kazushi-tsutsui]] — Co-author of C-OBSO and GVDEP
 - [[kazuya-takeda]] — Co-author of C-OBSO and the 2020 trajectory work
 - [[keisuke-kushiro]] — Co-author of VDEP (supervision)
-- [[calvin-yeung]] · [[tony-sit]] — NMSTPP and the HPUS metric
+- [[tony-sit]] — Statistician, co-author of NMSTPP
 - [[ian-simpson]] — Seq2Event and the poss-util metric
 - [[david-hirnschall]] · [[robert-bajons]] — the path-signature possession paper
 - [[koffi-amezouwui]] · [[brigitte-gelein]] · [[matthieu-marbac]] · [[anthony-sorel]] — possession mixture-model clustering
@@ -75,6 +76,7 @@ A catalog of all wiki pages, organised by type.
 - [[dropout]] · [[dropout-for-rnns]] · [[recurrent-dropout]] · [[label-smoothing]] · [[regularization]]
 - [[adam-optimizer]] · [[teacher-forcing]] · [[multi-task-learning]] · [[constrained-decoding]]
 - [[representation-learning]] — Learning what to feed a model rather than hand-specifying it
+- [[theory-based-modelling]] — Encoding domain structure as a model, often to feed a learned one
 - [[feature-engineering]] · [[tokenization]] · [[player-embedding]] · [[pre-train-then-fine-tune]]
 
 ### Generative and Sequence Models
@@ -91,11 +93,12 @@ A catalog of all wiki pages, organised by type.
 - [[stochastic-process]] — Umbrella for the process family and what the process view buys
 - [[martingale]] · [[point-process]] · [[neural-temporal-point-process]] · [[gaussian-process]]
 - [[absorbing-markov-chain]] · [[markov-game]] · [[value-iteration]] · [[multiresolution-modelling]]
+- [[game-theory]] — Strategic interaction, Nash equilibrium, and learned payoffs
 - [[survival-analysis]] — Time-to-event modelling via hazards; censoring
 - [[competing-risks]] · [[car-prior]] · [[inla]] · [[bayesian-inference]] · [[bayes-theorem]]
 - [[factor-graph]] · [[approximate-message-passing]] · [[expectation-propagation]] · [[gaussian-density-filtering]]
 - [[mixture-model]] · [[expectation-maximization]] · [[identifiability]] · [[clustering]]
-- [[model-selection]] — Choosing complexity; and the vault's five unjustified free parameters
+- [[model-selection]] — Choosing complexity; and the vault's unjustified free parameters
 - [[policy-modelling]] · [[counterfactual-baseline]] · [[counterfactual-simulation]] · [[temporal-discounting]]
 - [[kl-divergence]] · [[non-negative-matrix-factorization]] · [[eigenvector]] · [[path-signature]] · [[smoothing]]
 
@@ -111,6 +114,7 @@ A catalog of all wiki pages, organised by type.
 - [[action-valuation]] — Valuing individual actions via change in game-state quality
 - [[expected-possession-value]] — Umbrella: a possession's worth, and the four things the term means
 - [[expected-goals]] · [[expected-threat]] · [[vaep]] · [[martingale-epv]] · [[pass-carry-reward]] · [[on-ball-value]]
+- [[xsot]] — Expected shot on target, and its off-ball counterpart; game-theoretic payoffs
 - [[defensive-valuation]] · [[vdep]] · [[duel-skill-rating]] · [[symmetrical-duel-valuation]]
 - [[off-ball-value]] · [[space-creation]] · [[obso]] · [[c-obso]] · [[pitch-control]]
 - [[possession-risk]] · [[effective-playing-time]] · [[intent-vs-outcome-valuation]]
@@ -184,3 +188,4 @@ A catalog of all wiki pages, organised by type.
 - [[football-defence-evaluation-vdep]] — "Evaluation of Soccer Team Defense Based on Prediction Models of Ball Recovery and Being Attacked" (Toda et al., PLOS ONE 2022)
 - [[creating-scoring-opportunities-trajectory-prediction]] — "Evaluation of Creating Scoring Opportunities for Teammates in Soccer via Trajectory Prediction" (Teranishi et al., MLSA 2022/23)
 - [[beyond-expected-goals]] — "Beyond Expected Goals" (Spearman, MIT Sloan 2018) — OBSO and the potential pitch control field
+- [[optimal-decisions-shot-taking-situations]] — "A Strategic Framework for Optimal Decisions in Football 1-vs-1 Shot-Taking Situations" (Yeung & Fujii, Complex & Intelligent Systems 2024) — game theory, xSOT
