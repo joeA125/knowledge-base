@@ -1162,3 +1162,53 @@ CARRIED FORWARD (unchanged):
 - Pre-existing tag-name dead links remain; reinforcement-learning and density-estimation are the highest-value to create.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-30 14:22] lint | Knowledge base lint run
+Vault has grown to ~160 concept pages (large football/sports-analytics cluster added). Orphans: 0. Stale: 3 (dashboards, cosmetic mtime only). Unprocessed sources: 0. Dead-link report dominated by a linter false-positive class: wikilinks with escaped pipes in Markdown tables ([[page\|alias]]) are misparsed as targets ending in backslash; verified via find_wikilinks that plain [[page]] forms resolve and the targets exist. Genuine gaps identified: probabilistic-classification, stochastic-process, markov-model, clustering, model-selection, player-evaluation, survival-analysis, spatiotemporal (no page). Tag-as-link dead links: message-passing, multi-object-tracking, reinforcement-learning, representation-learning, rnn, uncertainty-quantification (tags wikilinked as pages). No fixes applied; report only.
+
+## [2026-07-30 14:54] lint | Dead links resolved — 10 created, 4 judged retarget/unlink
+Resolution of the fourteen dead links flagged by lint. Ten created; four judged better retargeted or unlinked and NOT yet actioned.
+
+TOOL FINDING — find_mentioned_but_missing HAS A PIPE-ESCAPE PARSING BUG generating roughly 60 false positives. Entries with a trailing backslash ("expected-threat\\" with 15 refs, "obso\\" with 6, "probabilistic-classification\\") come from markdown TABLES, where a wikilink is written [[expected-threat\|xT]] to escape the pipe so it does not break the table. The tool treats the backslash as part of the page name, so EVERY WIKILINK INSIDE A TABLE is reported missing even when the page exists. Fix: strip a trailing backslash from the captured name, or handle \| as an escaped alias separator.
+
+Three further noise sources in the same output:
+- It scans raw/, so citation numbers and tensor dimensions from PDF-converted papers appear as pages ("11", "104x68x1", "CrossRef", "PubMed").
+- It scans log.md, so my own log entries DESCRIBING dead links are counted as dead links ("evaluation", "density-estimation", "feature-attribution").
+- It scans CLAUDE.md and _schema/conventions.md, so documentation examples appear ("wikilinks", "page-name", "source-a").
+Restricting the scan to wiki/ would remove all three classes.
+
+TRUE REFERENCE COUNTS (wiki/ only, backslash artefacts excluded), which reorder the priority the lint summary implied:
+reinforcement-learning 8 | markov-model 4 | probabilistic-classification 3 | stochastic-process 3 | spatiotemporal 3 | clustering 2 | model-selection 2 | player-evaluation 2 | rnn 2 | message-passing 1 | representation-learning 1 | uncertainty-quantification 1 | multi-object-tracking 1 | survival-analysis 1
+
+CREATED (10):
+- reinforcement-learning — most-referenced. Central point: the vault uses RL VOCABULARY throughout for work that is mostly NOT reinforcement learning. Table separating what sports valuation borrows (value functions, advantage, discounting) from what it discards (the control objective), with the three practical reasons: no simulator, sparse reward, unfounded counterfactual. Also flags that gamma is borrowed for ATTRIBUTION DECAY rather than impatience, and conflating the two misreads a football discount factor as a claim about preferring earlier goals.
+- probabilistic-classification — three independent properties (discrimination, calibration, sharpness) with the VAEP conceding classifier as the worked case where they DISAGREE: best Brier in its comparison, F1 of 0.000. Any single-metric reading of that table is wrong.
+- stochastic-process — umbrella making the family legible: martingale, Markov chain, semi-Markov, point process, Gaussian process. Two organising distinctions (discrete vs continuous time; random values vs random arrivals) and what the process view buys — guarantees, closed-form quantities, composition across scales — against its cost, with the 461-processor case as the caution.
+- clustering — heuristic vs model-based as the organising split, and the observation that in BOTH vault instances clustering is infrastructure rather than deliverable, which changes what counts as good. Notes that no source validates clusters against an external outcome.
+- message-passing — unifies two traditions the vault never discusses together: factor-graph inference (TrueSkill) and GNN representation learning (GVRNN). Shared locality, permutation invariance, and approximation-on-loops. Includes that self-attention IS message passing on a fully-connected graph.
+- model-selection — BIC/AIC and held-out validation, then THE VAULT'S RECURRING FAILURE: five frameworks, five asserted free parameters (gamma, epsilon, k, C, 4s), zero sensitivity analyses. Proposes the unused alternative — fit the parameter by maximising the resulting metric's reliability or predictive validity rather than asserting it.
+- uncertainty-quantification — aleatoric/epistemic split; where the vault handles epistemic well (Glicko, TrueSkill) and where it DISCARDS it (both Glicko-2 football applications feed point estimates downstream, dropping exactly the information a recruitment model should propagate).
+- representation-learning — built around the Seq2Event/Sig-Model contradiction on handcrafted features and its resolution. Three routes (mathematical, architectural, learned end-to-end) with the first two underrated. General form of the ScoutGPT masking result: a representation learns what it is not given for free.
+- survival-analysis — parent of the existing competing-risks page. Argues three vault topics are one topic: competing risks, point-process intensities, and hazard models. Notes Shelopugin's attrition classifier is a censoring problem approached as classification, and the age-curve survivorship problem is selection on an unmodelled hazard.
+- multi-object-tracking — why football is close to a worst case (uniform kit destroys the appearance cue). Key point for the vault: EVERY tracking-based valuation framework takes player positions as given, they are a tracker's output with identity switches baked in, and NO SOURCE PROPAGATES TRACKING UNCERTAINTY into downstream value estimates. Commercial providers report no MOTA/IDF1/HOTA at all.
+
+NOT CREATED — judged better retargeted or unlinked, WITH REASONING. NONE OF THESE IS ACTIONED YET; each needs edits to the referring pages listed.
+
+RETARGET markov-model -> markov-game (4 pages: action-valuation, expected-threat, multiresolution-modelling, value-iteration). markov-game already contains the chain/MDP/game taxonomy in its "Relation to MDPs and Markov Chains" section. A separate page would duplicate it.
+
+RETARGET rnn -> recurrence (2 pages: neural-temporal-point-process, path-signature). The recurrence page IS the RNN page.
+
+UNLINK spatiotemporal (3 refs: inla, luke-bornn x2). This is a PROPERTY, not a concept — "varies across space and time" describes point processes, Gaussian processes and surfaces without adding anything each does not say better itself. Creating it would produce a page that only points elsewhere.
+
+UNLINK player-evaluation (2 refs: space-creation, robert-bajons). This is the DOMAIN of half the vault. A page would duplicate recruitment and the synthesis, both of which already decompose the question properly. Better to point those two links at recruitment or action-valuation depending on context.
+
+If you disagree with either unlink judgement, say so and I will create them instead — the argument is about page quality, not effort.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Spearman (2018) "Beyond expected goals" — five held pages depend on it, known entirely second-hand.
+- Umemoto & Fujii (2023) would close the individual-defender gap.
+- No cross-framework benchmarking anywhere in this literature.
+- Two pitch-control traditions, never compared, feeding models that ARE compared.
+- No off-ball or defensive metric has a reported split-half reliability.
+- Remaining instance-to-umbrella inbound links: eventgpt and autoregressive-model -> generative-model; sig-model, seq2event, hpus, lpv -> event-prediction.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
