@@ -1,13 +1,13 @@
 ---
 title: "Football Modelling Tasks Compared"
 type: synthesis
-tags: [sports-analytics, action-valuation, defensive-valuation, off-ball, space-creation, player-evaluation, evaluation, counterfactual, clustering, event-prediction, reliability, predictive-validity, time-series, volatility, player-development, recruitment, transfer-prediction, duel-analysis, discounting, selection-bias, probability-surface, tactical-analysis, model-decomposition, proxy-target, class-imbalance, trajectory-prediction]
-sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md, raw/papers/multiresolution-stochastic-process-model-nba-possessions.md, raw/papers/transformer-point-process-football-event-modelling.md, raw/papers/understanding_football_posessions_using_path_signatures.md, raw/papers/football-event-sequences-spatiotemporal-point-process-mixture-model.md, raw/papers/scoutgpt-generative-transformer-football-player-valuation.md, raw/papers/football-performance-time-series.md, raw/papers/epv_control_and_duel_skills_football.md, raw/papers/expected_value_possession_framework.md, raw/papers/football_defence_evaluation.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md]
+tags: [sports-analytics, action-valuation, defensive-valuation, off-ball, space-creation, player-evaluation, evaluation, counterfactual, clustering, event-prediction, reliability, predictive-validity, time-series, volatility, player-development, recruitment, transfer-prediction, duel-analysis, discounting, selection-bias, probability-surface, tactical-analysis, model-decomposition, proxy-target, class-imbalance, trajectory-prediction, pitch-control]
+sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md, raw/papers/multiresolution-stochastic-process-model-nba-possessions.md, raw/papers/transformer-point-process-football-event-modelling.md, raw/papers/understanding_football_posessions_using_path_signatures.md, raw/papers/football-event-sequences-spatiotemporal-point-process-mixture-model.md, raw/papers/scoutgpt-generative-transformer-football-player-valuation.md, raw/papers/football-performance-time-series.md, raw/papers/epv_control_and_duel_skills_football.md, raw/papers/expected_value_possession_framework.md, raw/papers/football_defence_evaluation.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/beyond_expected_goals.md]
 confidence: 0.9
 provenance:
-  extracted: 50%
-  inferred: 45%
-  ambiguous: 5%
+  extracted: 55%
+  inferred: 42%
+  ambiguous: 3%
 lifecycle: reviewed
 created: 2026-07-23
 updated: 2026-07-27
@@ -31,8 +31,6 @@ The vault's football-analytics sources are easily mistaken for variations on one
 
 **Defensive valuation is not a sixth task.** [[vdep]] instantiates the same equation, differing in *perspective* and *target choice* — both axes within Task 1.
 
-Note that forecasting has quietly acquired a second output type. [[trajectory-prediction]] forecasts continuous positions rather than discrete events, and its main use here is not forecasting at all but supplying a [[counterfactual-baseline|reference]] for valuation.
-
 ## Task 1: Valuation
 
 All frameworks instantiate one equation:
@@ -41,27 +39,29 @@ $$V(a_i) = Q(S_i) - Q(S_{i-1})$$
 
 differing in what $S$ contains and how $Q$ is computed.
 
-| | [[expected-threat\|xT]] | [[vaep]] | [[martingale-epv\|Mart. EPV]] | [[pass-carry-reward\|Shelopugin]] | [[expected-value-possession-framework\|Fernández]] | [[vdep]] | [[c-obso]] |
-|---|---|---|---|---|---|---|---|
-| **Perspective** | Attack | Attack | Attack | Attack | Attack | **Defence** | Attack |
-| **Whose value** | Actor | Actor | Actor | Actor | Actor | Team | **A teammate's** |
-| **Data** | Event | Event | Tracking | Event | Tracking | Event+tracking | Tracking |
-| **Target frequency** | Rare | **Very rare** | Rare | Dense (xG) | Rare | **Frequent** | Rare |
-| **On/off ball** | On | On | On | On | **Both** | **Off (team)** | **Off** |
-| **Mechanism** | DP | Boosting | Bayesian process | Boosting ×9 | Neural ×9 | XGBoost ×2 | **Counterfactual** |
-| **[[interpretability]]** | **High** | Low | Low | Low | Moderate | Moderate | Moderate |
-| **[[split-half-reliability\|Reliability]]** | **0.89** | 0.25 | — | — | N/A | N/A | — |
-| **Output unit** | Player | Player | Player | Player | Situation | **Team** | Player |
+| | [[expected-threat\|xT]] | [[vaep]] | [[martingale-epv\|Mart. EPV]] | [[pass-carry-reward\|Shelopugin]] | [[expected-value-possession-framework\|Fernández]] | [[vdep]] | [[obso]] | [[c-obso]] |
+|---|---|---|---|---|---|---|---|---|
+| **Perspective** | Attack | Attack | Attack | Attack | Attack | **Defence** | Attack | Attack |
+| **Whose value** | Actor | Actor | Actor | Actor | Actor | Team | Receiver | **A teammate's** |
+| **On/off ball** | On | On | On | On | Both | Off (team) | **Off** | **Off** |
+| **Data** | Event | Event | Tracking | Event | Tracking | Both | Tracking | Tracking |
+| **Mechanism** | DP | Boosting | Bayesian process | Boosting ×9 | Neural ×9 | XGBoost ×2 | **Physical** | **Counterfactual** |
+| **[[interpretability]]** | **High** | Low | Low | Low | Moderate | Moderate | **High** | Moderate |
+| **[[split-half-reliability\|Reliability]]** | **0.89** | 0.25 | — | — | N/A | N/A | — | — |
+| **Output unit** | Player | Player | Player | Player | Situation | **Team** | Player | Player |
+| **Cost** | Trivial | Modest | **461 CPUs** | Modest | Modest | Modest | **Low** | High |
 
-**The central trade-off:** richer state buys sensitivity and pays in stability, interpretability and cost. Restricting VAEP to xT's action set only lifts reliability from 0.25 to 0.59, so the richer *representation* itself introduces variance.
+**The central trade-off** — richer state buys sensitivity and pays in stability, interpretability and cost — holds across most of the table. Restricting VAEP to xT's action set only lifts reliability from 0.25 to 0.59, so the richer *representation* itself introduces variance.
 
-**Four of seven produce no usable player season rating** — Fernández values situations, VDEP aggregates to teams, martingale EPV needs EPVA to escape its zero-mean property, and C-OBSO is defined only on shot-ending sequences. The frameworks most often called state-of-the-art are the least usable for [[recruitment]].
+[[obso|OBSO]] is the notable exception. It is tracking-based, off-ball, and highly interpretable, at low cost — because it is **physical rather than learned**. Arrival times come from acceleration limits, ball flight from aerodynamic drag, control from a Poisson process. Parameters have units, so priors come from measurement and five training matches suffice.
+
+**Four of eight produce no usable player season rating** — Fernández values situations, VDEP aggregates to teams, martingale EPV needs EPVA to escape its zero-mean property, C-OBSO is defined only on shot-ending sequences.
 
 ### Axis 1: Perspective — attacking or defending
 
-Every framework except [[vdep]] measures attacking success and treats defence as its negative. [[football-defence-evaluation-vdep|Toda et al.]] measure the cost: **VAEP's conceding classifier scores F1 = 0.000** on 45 matches — no true positives at all, having learned to predict "no goal" always (right 99.2% of the time). The defensive half of the vault's most-cited framework is empirically inert at that data scale.
+Every framework except [[vdep]] measures attacking success and treats defence as its negative. [[football-defence-evaluation-vdep|Toda et al.]] measure the cost: **VAEP's conceding classifier scores F1 = 0.000** on 45 matches — no true positives at all, having learned to predict "no goal" always (right 99.2% of the time).
 
-Offensive bias therefore has **four causes with four remedies**:
+Offensive bias has **four causes with four remedies**:
 
 | Cause | Remedy | Status |
 |---|---|---|
@@ -70,29 +70,27 @@ Offensive bias therefore has **four causes with four remedies**:
 | Modelling choice — duel information exists, unmodelled | Model those events | [[duel-skill-rating]] |
 | **Statistical — 227 positives cannot train a classifier** | **Frequent proxy** | **[[vdep]]** |
 
-Van Dijk ranking 81st by VAEP and 142nd by xT while topping *both* of Shelopugin's duel tables is the clearest illustration that this is not one problem.
-
 ### Axis 2: Target rarity
 
-See [[rare-event-proxy-targets]]. [[vdep]] swaps goals conceded for ball recovery and effective attack (~90× and ~35× more frequent); [[pass-carry-reward|Shelopugin]] swaps binary goal for accumulated xG; [[hpus]] uses **no goal data at all** and still correlates 0.92 with season xG.
+See [[rare-event-proxy-targets]]. [[vdep]] swaps goals conceded for recovery and effective attack (~90× and ~35× more frequent); [[hpus]] uses **no goal data at all** and still correlates 0.92 with season xG. The cost: **the proxy becomes the definition.**
 
-The cost: **the proxy becomes the definition.** VDEP measures recovery-and-penetration performance, which is a *hypothesis about* defensive quality.
+### Axis 3: Whose value — actor, receiver, or beneficiary
 
-### Axis 3: Whose value — actor or beneficiary
+Three distinct answers now, where the vault long had one:
 
-New, and the vault's newest capability. Every framework above except [[c-obso]] credits the player **performing** the valued act. C-OBSO credits the player whose movement improved *someone else's* chance:
+- **The actor** — every on-ball framework. Credits the player performing the valued act.
+- **The receiver** — [[obso|OBSO]]. Credits the player whose *position* would be valuable if the ball arrived.
+- **The beneficiary's creator** — [[c-obso]]. Credits the player whose movement improved *someone else's* chance.
 
-$$V_i = V^k_{OBSO} - V'^k_{OBSO}$$
-
-This is relational credit, and no other framework here expresses it. It is why C-OBSO correlates with salary (ρ = 0.45) on players where [[obso|OBSO]] (−0.28) and goals (−0.23) do not — the space a player makes for others tracks what clubs pay him; his own opportunities and finishing do not.
+The progression matters because each step credits someone the previous one could not see. C-OBSO correlates 0.45 with salary on players where OBSO (−0.28) and goals (−0.23) do not. See [[space-creation]].
 
 ### Axis 4: Intent vs outcome
 
-Whether the model sees how the action turned out. xT and xG are effectively pure intent; VAEP conflates; I-VAEP/O-VAEP separates. Agüero's VAEP/xT gap is not a dispute about quality but xT measuring intent and VAEP measuring intent-plus-execution. See [[intent-vs-outcome-valuation]].
+Whether the model sees how the action turned out. xT and xG are effectively pure intent; VAEP conflates; I-VAEP/O-VAEP separates. See [[intent-vs-outcome-valuation]].
 
 ### Axis 5: Attributable possession
 
-Undefined for an aerial duel, where two opposing players contest a ball neither holds. Every framework except Shelopugin's resolves this by exclusion. [[symmetrical-duel-valuation]] closes it.
+Undefined for an aerial duel. Every framework except Shelopugin's resolves this by exclusion. [[symmetrical-duel-valuation]] closes it.
 
 ### Axis 6: Realised vs available
 
@@ -108,43 +106,42 @@ A full [[probability-surface|pass surface]] values every option, making the gap 
 | Fixed event window | $k = 5$ events | [[vdep]] |
 | Fixed time window | 4 s prediction horizon | [[c-obso]] |
 | Geometric time decay | None — weight → 0 | [[temporal-discounting\|Shelopugin]] |
+| **Next on-ball event only** | **One step** | **[[obso]]** |
 
-**Five frameworks now carry an unjustified free parameter** — $\gamma = 0.95$, $\epsilon = 15$s, $k = 5$, $C = 3.9$, 4 s — and **not one reports a sensitivity analysis.** The clearest shared methodological weakness in this literature.
+**Five frameworks carry an unjustified free parameter** — $\gamma$, $\epsilon$, $k$, $C$, 4 s — and none reports a sensitivity analysis. See [[model-selection]].
 
-## Off-Ball Valuation: Three Mechanisms
+[[obso|Spearman]] is the exception, and instructive: all six of his parameters are MAP-fitted with stated priors and stated justifications, which is possible *because* they have physical units. Where a parameter means "seconds of temporal uncertainty", a prior can come from a previous measurement; where it means "stylistic preference for vertical attacking", it cannot.
 
-Now substantial enough to treat separately. A player has the ball for roughly **3 of 90 minutes**; everything else was invisible to this vault until recently.
+## Off-Ball Valuation: Four Mechanisms
 
-| | Surface at position | 22 positions in state | Predicted reference |
-|---|---|---|---|
-| Values | The **receiver** | The **defence** | The **creator** |
-| Output unit | Player | **Team only** | Player |
-| Example | EPV surface, [[obso]] | [[vdep]] | [[c-obso]] |
+A player has the ball for roughly **3 of 90 minutes**. Until recently everything else was invisible here.
 
-**The individuating ingredient is the counterfactual, not the data.** VDEP and C-OBSO use comparable tracking data. VDEP puts everything into one classifier and gets one number per configuration with no principled way to split it; C-OBSO intervenes on one *named* player and gets his number. Wherever collective data resists per-agent attribution, a counterfactual on one agent is the route out. See [[counterfactual-baseline]].
+| | Surface at position | 22 positions in state | Predicted reference | Physical surface |
+|---|---|---|---|---|
+| Values | The receiver | The defence | The creator | The receiver |
+| Output unit | Player | **Team only** | Player | Player |
+| Example | EPV surface | [[vdep]] | [[c-obso]] | [[obso]] |
 
-That pattern — evaluate by deviation from a predicted reference — also underlies EPVA (league-average player), Umemoto & Fujii's defensive positioning (best alternative cell), and Fernández's realised-vs-available gap. The **reference type** changes the question: deviating from expectation is not exceeding the average, and neither is approaching optimal.
+**The individuating ingredient is the counterfactual, not the data.** VDEP and C-OBSO use comparable tracking data; VDEP produces one number per configuration with no way to split it, C-OBSO intervenes on one *named* player. See [[counterfactual-baseline]].
 
-Its weakness is shared too. [[c-obso]] is **identically zero under perfect prediction** — the metric requires its own reference model to be wrong, so values are not portable across predictors and improving the predictor shrinks the signal.
+That pattern's weakness is shared: [[c-obso]] is **identically zero under perfect prediction**, so the metric requires its own reference model to be wrong.
 
 ## Task 2: Forecasting
 
 | | [[seq2event]] | [[nmstpp]] | [[sig-model]] | [[scoutgpt]] | [[trajectory-prediction\|GVRNN]] |
 |---|---|---|---|---|---|
-| Predicts | Next event | Event + time | Event + exact $(x,y)$ | Event + lineup | **Positions of all agents** |
+| Predicts | Next event | Event + time | Event + exact $(x,y)$ | Event + lineup | **All agents' positions** |
 | Encoder | [[transformer]] | Transformer | [[path-signature]] | GPT-2 | **[[graph-neural-network\|GNN]] + VAE** |
 | Handcrafted features | **Required** | Used | **Harmful** | Minimal | None |
 | Derived metric | poss-util | [[hpus]] | [[lpv]] | Simulated VAEP | **[[c-obso]]** |
 
-The [[feature-engineering]] row records a finding that generalises: Seq2Event degrades without handcrafted geometry, Sig-Model degrades *with* it.
+The [[feature-engineering]] row records a finding that generalises: Seq2Event degrades *without* handcrafted geometry, Sig-Model degrades *with* it. Engineered features are a crutch for a representation that cannot recover the geometry itself. See [[representation-learning]].
 
-**A genuine tension.** Fernández et al. hand-engineer extensively ([[pitch-control]], [[dynamic-pressure-lines]]); VDEP hand-engineers a sorted off-ball state that [[shap]] confirms matters. By Sig-Model's finding this should hurt. The resolution is that they optimise different things — accuracy versus communicability — but neither side tests the other's claim.
-
-GVRNN's margin over its own ablation is the largest in the vault: 0.608 m endpoint error against VRNN's 5.952 m at 4 seconds. Nearly an order of magnitude from adding relational structure — though the comparison also confounds centralised against per-player optimisation.
+**Forecasting produces metrics as a by-product**, and those metrics need no outcome labels — so goal sparsity never bites. See [[event-prediction]].
 
 ## Task 3: Clustering
 
-[[football-event-sequences-point-process-mixture|Amezouwui et al.]] cluster whole possessions into tactical types via a [[mixture-model]] of [[point-process|marked spatio-temporal point processes]]. No outcome labels, no notion of value. Validated by [[adjusted-rand-index|ARI]] on simulated data, BIC, and interpretability.
+[[football-event-sequences-point-process-mixture|Amezouwui et al.]] cluster possessions into tactical types via a [[mixture-model]] of [[point-process|marked spatio-temporal point processes]]. Validated by [[adjusted-rand-index|ARI]] on simulated data, BIC, and interpretability. See [[clustering]].
 
 ## Task 4: Counterfactual and Transfer
 
@@ -152,87 +149,92 @@ GVRNN's margin over its own ablation is the largest in the vault: 0.608 m endpoi
 |---|---|---|
 | Destination encoded as | Explicit lineup | [[league-strength-rating\|Club/league strength]] |
 | Captures tactical interaction | **Yes** | No |
-| Handles role change | Implicitly | **No** |
 | Scales to a market | No | **Yes** |
 | Addresses [[selection-bias\|selection]] | Not addressed | Explicitly, heuristically |
 
-**Regression to narrow a market, simulation to discriminate among survivors.** See [[recruitment]].
-
-Distinguish this from [[counterfactual-baseline]]: simulation substitutes an *entity*; a baseline substitutes *predicted behaviour* for the same entity. Simulation answers recruitment questions, baselines answer valuation questions.
+**Regression to narrow a market, simulation to discriminate among survivors.** Distinguish from [[counterfactual-baseline]]: simulation substitutes an *entity*; a baseline substitutes *predicted behaviour* for the same entity.
 
 ## Task 5: Tactical Analysis
 
-The task coaches ask about most and analytics has served worst, because a tactic is a *relationship among positions over time* and event streams discard exactly that.
-
 - **Value surfaces conditioned on shape** — [[expected-value-possession-framework|Fernández et al.]], concluding 4-3-3 against Liverpool unless wing-backs can press wide receptions.
 - **Possession clustering** — what a team does, with no notion of value.
-- **Defensive style profiling** — [[vdep]] plots recovery rate against being-attacked rate, separating high-press-high-risk from solid-and-contained.
+- **Defensive style profiling** — [[vdep]] separates high-press-high-risk from solid-and-contained.
+- **Player-specific danger maps** — [[obso|OBSO]] maps stay stable across matches while shots and goals fluctuate, identifying where a specific opponent creates threat.
 
-**Weakest validation in the vault, structurally.** "4-3-3 is the better press" is a causal counterfactual about a formation that was not used, on observational data where formations were chosen for reasons. Worth flagging because tactical output is unusually *persuasive* — heatmaps read as evidence in a way a correlation table does not.
+**Weakest validation in the vault, structurally.** These are causal counterfactuals about configurations that were not used, on observational data where they were chosen for reasons. Worth flagging because tactical output is unusually *persuasive* — heatmaps read as evidence in a way a correlation table does not.
 
 ## Time as a Cross-Cutting Axis
 
-Every task produces a number that is implicitly an average over a period. [[player-rating-time-series|Treating it as a series]] yields form, [[performance-volatility|volatility]], style change, and [[player-development-curve|career trajectory]] — none of which an average can express.
+Every task produces a number implicitly averaged over a period. [[player-rating-time-series|Treating it as a series]] yields form, [[performance-volatility|volatility]], style change and [[player-development-curve|career trajectory]].
 
-**An unresolved conflict.** [[split-half-reliability]] treats within-season variation as noise and marks VAEP down; volatility analysis treats it as signal. Both cannot be wholly right, and the decisive experiment is unrun.
+**An unresolved conflict.** [[split-half-reliability]] treats within-season variation as noise; volatility analysis treats it as signal. Both cannot be wholly right, and the decisive experiment is unrun.
 
-Underneath sits a denominator question: per-90 assumes clock minutes measure opportunity, and [[effective-playing-time|effective playing time]] varies by team, scoreline and league. Only Shelopugin normalises on it.
+Underneath sits a denominator question: per-90 assumes clock minutes measure opportunity, and [[effective-playing-time|effective playing time]] varies by team, scoreline and league.
 
 ## Metrics Beat Outcomes at Predicting Outcomes
+
+The vault's most robust empirical finding, now established at **both levels by independent sources seven years apart.**
+
+**Player level** ([[beyond-expected-goals|Spearman, 2018]]), match $i$ → match $i{+}1$ across 53 matches:
+
+| Predictor | Next-match goals |
+|---|---|
+| **[[obso\|OBSO]]** | **0.26** |
+| Shots | 0.17 |
+| Goals | 0.12 |
+
+**Team level** ([[understanding-football-possessions-path-signatures|Hirnschall & Bajons, 2025]]):
 
 | | poss-util | [[hpus]] | [[lpv]] | xG | goals |
 |---|---|---|---|---|---|
 | vs next-match xG | 0.15 | 0.27 | **0.32** | 0.21 | 0.19 |
 | vs next-match goals | 0.17 | 0.26 | **0.28** | 0.17 | 0.11 |
 
-**Goals are the worst predictor of future goals.** A scoreline is a small, noisy sample of an underlying process. See [[predictive-validity]].
+**Goals are the worst predictor of future goals in both** — 0.12 and 0.11, arrived at independently. A scoreline is a small, noisy sample of an underlying process; a possession-value metric aggregates hundreds of actions and estimates that process directly. **Measuring the process beats measuring the outcome when the outcome is sparse.**
 
-**Player-level.** [[epv-control-duel-skills-football|Shelopugin]] predicts next-season PCR against persistence: RMSE 0.053 → 0.033, and 0.061 → 0.037 for players changing both club and league. But it predicts *the metric's own future value* — self-prediction shows persistence, not validity.
+Spearman's is the stronger of the two, and the strongest result in the vault. It clears three bars simultaneously: **player-level**, against an **independent outcome**, and **beating the outcome's own lagged value**. He states the objective outright — a leading indicator less stochastic than scoring itself.
 
-**Cross-horizon consistency.** [[vdep]]'s match- and season-level correlations are similar (0.464, 0.397) while VAEP's diverge sharply (0.830 → 0.177). A metric that tracks the match it measures but not the season is reproducing the scoreline. This check is nearly free and nobody else reports it.
+Contrast [[epv-control-duel-skills-football|Shelopugin]], whose next-season PCR forecast (RMSE 0.053 → 0.033) predicts **the metric's own future value**. Self-prediction shows persistence, not validity: a metric tracking tactical role rather than quality would score just as well.
 
-**External-criterion validation.** [[c-obso]] against annual salary is the vault's only attempt to validate against a measure originating entirely outside the modelling pipeline. Heavily confounded — by age, position, nationality, contract timing — but structurally the strongest available test, and the comparison against OBSO and goals on the same players is what carries it.
+[[vdep]] adds a third check nobody else reports — **cross-horizon consistency**. Its match- and season-level correlations are similar (0.464, 0.397) while VAEP's diverge sharply (0.830 → 0.177). A metric that tracks the match it measures but not the season is reproducing the scoreline.
+
+And [[c-obso]] adds a fourth — **external criterion**. Against annual salary, C-OBSO correlates 0.45 where OBSO and goals do not. Heavily confounded, but the only validation here against a measure originating entirely outside the modelling pipeline.
 
 ## How Each Task Is Validated
 
 | Task | Validation |
 |---|---|
-| Valuation | Concurrent correlation; [[split-half-reliability]]; [[predictive-validity]]; [[probability-calibration\|calibration]]; [[class-imbalance-evaluation\|F1 under imbalance]]; external criteria (salary, expert ratings) |
+| Valuation | Concurrent correlation; [[split-half-reliability]]; [[predictive-validity]]; [[probability-calibration\|calibration]]; [[class-imbalance-evaluation\|F1 under imbalance]]; external criteria |
 | Forecasting | Held-out likelihood, Brier, [[kl-divergence]]; endpoint error for trajectories |
 | Clustering | [[adjusted-rand-index]] on simulated data; BIC; interpretability |
 | Counterfactual | Self-to-self reconstruction; out-of-sample transfer prediction |
 | Transfer regression | RMSE against persistence, **stratified by whether the player moved** |
 | Tactical | *None — illustrative only* |
 
-Calibration and F1-under-imbalance each come from a single source. They are orthogonal and both needed: a model predicting the base rate every time is *perfectly calibrated* and finds nothing. Under football's imbalance, Brier and AUC are inflated by true negatives — **VAEP scores better than VDEP on Brier while scoring 0.000 on F1.**
+Calibration and F1-under-imbalance are orthogonal and both needed: a model predicting the base rate every time is *perfectly calibrated* and finds nothing. **VAEP scores better than VDEP on Brier while scoring 0.000 on F1.**
 
-**Nothing here has ever been benchmarked against anything else on a shared task.** VDEP is the closest attempt and is not like-for-like. This remains the field's largest methodological gap, and is why the tables above compare design characteristics rather than results.
-
-## A Terminology Warning
-
-"Expected possession value" means at least **four** things. See [[expected-possession-value]].
+**Nothing here has ever been benchmarked against anything else on a shared task.** VDEP is the closest attempt and is not like-for-like; Spearman compares against nothing at all. This remains the field's largest methodological gap, and is why the tables above compare design characteristics rather than results.
 
 ## Limitations Shared Across Tasks
 
-1. **Offensive bias** — four causes, four remedies, as above.
-2. **On-ball bias, now substantially narrowed.** Three mechanisms cover receiver value, team defensive contribution, and space creation for teammates. Still uncovered: **errors of omission** (a defender who fails to press generates no event), and movement over time beyond short windows.
-3. **Individual defensive credit** — *not* held here, but addressed in the literature by Umemoto & Fujii (2023) via counterfactual positioning. See [[defensive-valuation]]. *(Corrected 2026-07-27; previously stated as completely open.)*
-4. **No ground truth**, which is why reliability, predictive validity, calibration, imbalance-robust metrics and external criteria have all become substitute tests — and why self-prediction keeps getting mistaken for validation.
+1. **Offensive bias** — four causes, four remedies.
+2. **On-ball bias, substantially narrowed.** Four mechanisms now cover receiver value, team defensive contribution, space creation, and physical off-ball opportunity. Still uncovered: **errors of omission**, and movement over time beyond short windows.
+3. **Individual defensive credit** — addressed in the literature (Umemoto & Fujii, 2023) but not held here.
+4. **No ground truth**, which is why reliability, predictive validity, calibration, imbalance-robust metrics and external criteria have all become substitute tests.
 5. **Context dependence.** Value accumulates more easily in a weaker league or stronger team.
 6. **[[selection-bias]] throughout** — minutes thresholds; transfers chosen by people forecasting the same quantity; [[single-pixel-supervision|pass surfaces]] best-constrained where passes are already plausible.
-7. **Scale limits on interaction models.** [[c-obso]] predicts 3 of 22 players for computational reasons; the full-squad version is described as prohibitively expensive. A method whose appeal is modelling interaction is restricted to the smallest interacting subset.
-8. **Two uncompared pitch-control traditions** — Spearman's arrival-time Poisson model and Fernández & Bornn's Gaussian influence model — feeding different value models, so a difference propagates silently.
+7. **Scale limits on interaction models.** [[c-obso]] predicts 3 of 22 players; full-squad is prohibitively expensive.
+8. **Two uncompared [[pitch-control]] traditions** — Spearman's arrival-time Poisson model and Fernández & Bornn's Gaussian influence model. They differ on **additivity** (summed Gaussians over-count overlapping coverage) and on **ball travel time** (modelled with drag in one, instantaneous in the other), so they are least likely to agree in congested areas near goal. Both feed value models whose outputs *are* compared.
 9. **Price is absent everywhere.**
 10. **No cross-framework benchmarking.**
 
 ## Practical Guidance
 
 - **Season-long recruitment** → xT for stability; [[transfer-performance-prediction|regression on club/league strength]] to shortlist; [[scoutgpt|simulation]] for fit; [[player-development-curve|PDC]] for trajectory.
-- **Valuing a player who does not score** → [[c-obso]], the only metric here shown to track an external measure of worth where goals do not.
+- **Identifying an attacker whose output understates him** → [[obso|OBSO]] for positioning, [[c-obso]] for space created. The two metrics here with external validation.
 - **Assessing a defence** → [[vdep]] (team level only).
-- **Live or post-match decision support** → [[expected-value-possession-framework|Fernández et al.]], the only real-time framework.
+- **Live or post-match decision support** → [[expected-value-possession-framework|Fernández et al.]]; [[obso|OBSO]] for ranking moments for video review at far lower cost.
 - **Valuing what was available rather than what happened** → [[probability-surface|pass surfaces]].
-- **Off-ball and positional analysis** → surfaces plus [[pitch-control]]; C-OBSO for space creation.
 - **Opposition and pressing analysis** → [[tactical-analysis]], with the validation caveat.
 - **Separating decision quality from finishing** → [[intent-vs-outcome-valuation|I-VAEP vs O-VAEP]].
 - **Squad risk rather than mean output** → [[performance-volatility|volatility]], residualised against rating.
@@ -243,14 +245,14 @@ Calibration and F1-under-imbalance each come from a single source. They are orth
 ## See Also
 
 - [[action-valuation]] · [[defensive-valuation]] · [[off-ball-value]] · [[expected-possession-value]] · [[tactical-analysis]]
-- [[obso]] · [[c-obso]] · [[counterfactual-baseline]] · [[trajectory-prediction]] · [[graph-neural-network]]
+- [[obso]] · [[c-obso]] · [[space-creation]] · [[counterfactual-baseline]] · [[trajectory-prediction]] · [[pitch-control]]
 - [[expected-threat]] · [[vaep]] · [[vdep]] · [[martingale-epv]] · [[expected-goals]] · [[pass-carry-reward]]
-- [[rare-event-proxy-targets]] · [[class-imbalance-evaluation]] · [[probability-calibration]]
-- [[soccermap]] · [[probability-surface]] · [[single-pixel-supervision]] · [[pitch-control]] · [[dynamic-pressure-lines]]
-- [[structured-model-decomposition]] · [[policy-modelling]] · [[interpretability]] · [[shap]]
-- [[hpus]] · [[lpv]] · [[sig-model]] · [[nmstpp]] · [[seq2event]] · [[scoutgpt]] · [[eventgpt]]
+- [[rare-event-proxy-targets]] · [[class-imbalance-evaluation]] · [[probability-calibration]] · [[model-selection]]
+- [[soccermap]] · [[probability-surface]] · [[single-pixel-supervision]] · [[dynamic-pressure-lines]]
+- [[structured-model-decomposition]] · [[policy-modelling]] · [[interpretability]] · [[representation-learning]]
+- [[hpus]] · [[lpv]] · [[sig-model]] · [[nmstpp]] · [[seq2event]] · [[scoutgpt]] · [[eventgpt]] · [[event-prediction]]
 - [[symmetrical-duel-valuation]] · [[duel-skill-rating]] · [[possession-risk]] · [[temporal-discounting]] · [[effective-playing-time]]
 - [[transfer-performance-prediction]] · [[league-strength-rating]] · [[recruitment]]
 - [[player-rating-time-series]] · [[performance-volatility]] · [[player-development-curve]] · [[intent-vs-outcome-valuation]]
-- [[split-half-reliability]] · [[predictive-validity]] · [[feature-engineering]] · [[selection-bias]] · [[positive-unlabeled-learning]]
-- [[william-spearman]] · [[keisuke-fujii]]
+- [[split-half-reliability]] · [[predictive-validity]] · [[selection-bias]] · [[positive-unlabeled-learning]]
+- [[william-spearman]] · [[keisuke-fujii]] · [[javier-fernandez]]

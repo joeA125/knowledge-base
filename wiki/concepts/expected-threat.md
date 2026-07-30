@@ -10,12 +10,12 @@ provenance:
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-07-23
-updated: 2026-07-23
+updated: 2026-07-27
 ---
 
 # Expected Threat (xT)
 
-Expected Threat (xT; [[karun-singh|Karun Singh]], 2019) is a possession-based [[markov-model|Markov model]] for [[action-valuation|valuing on-the-ball actions]] in soccer. It assigns each zone of the pitch a value representing how dangerous a team is when in possession there, then values an action by the change in zone value it produces.
+Expected Threat (xT; [[karun-singh|Karun Singh]], 2019) is a possession-based [[markov-game|Markov model]] for [[action-valuation|valuing on-the-ball actions]] in soccer. It assigns each zone of the pitch a value representing how dangerous a team is when in possession there, then values an action by the change in zone value it produces.
 
 It is the canonical example of the possession-based [[expected-possession-value]] family in soccer.
 
@@ -43,6 +43,8 @@ Solved by [[value-iteration]] from an all-zero initialisation. After iteration $
 
 Note that [[expected-goals|xG]] appears *inside* the recursion — xT is built on top of a shot-quality model rather than replacing it.
 
+The transition probabilities are estimated from observed play, so xT computes value under the **behaviour** policy rather than an optimal one. There is no $\max$ over actions in the recursion. That is the standard position in this literature rather than an oversight — see [[policy-modelling]] and [[reinforcement-learning]].
+
 ## Strengths
 
 **[[interpretability]].** The entire model is $M \cdot N$ numbers, one per zone, directly visualisable as a heatmap. Any valuation can be explained by pointing at two cells. This is the sharpest contrast with [[vaep]], which needs a [[gradient-boosting|gradient-boosted ensemble]] over dozens of interacting features.
@@ -57,11 +59,13 @@ Note that [[expected-goals|xG]] appears *inside* the recursion — xT is built o
 
 **Zone granularity discards detail.** Many forward dribbles inside the penalty box receive a value of exactly zero because they do not cross a cell boundary — even though near goal, a metre of displacement materially changes scoring odds.
 
-**No risk modelling.** xT is possession-based: it estimates the chance of a goal *within the current possession* and stops at a turnover. So it cannot value how an action changes the chance of *conceding*. A risky square pass in midfield that invites a counterattack is not penalised.
+**No risk modelling.** xT is possession-based: it estimates the chance of a goal *within the current possession* and stops at a turnover. So it cannot value how an action changes the chance of *conceding*. A risky square pass in midfield that invites a counterattack is not penalised. See [[possession-risk]].
 
 **No context.** No score difference, no time remaining, no information about the preceding actions. A shot after a through ball and a shot after beating two defenders are valued identically if they come from the same zone.
 
 **No credit for finishing.** Shots are not valued directly, so a clinical finisher gains nothing. Sergio Agüero ranks 19th by VAEP but 109th by xT for exactly this reason.
+
+**On-ball only.** Shared with the whole family, and the gap that [[obso|OBSO]], [[off-ball-value]] and [[c-obso]] address from three different directions.
 
 ## A Note on Naming
 
@@ -69,12 +73,8 @@ xT belongs to what the soccer literature calls "expected possession value (EPV) 
 
 ## See Also
 
-- [[action-valuation]]
-- [[expected-possession-value]]
-- [[vaep]]
-- [[expected-goals]]
-- [[value-iteration]]
-- [[split-half-reliability]]
-- [[markov-game]]
+- [[action-valuation]] · [[expected-possession-value]] · [[vaep]] · [[expected-goals]]
+- [[value-iteration]] · [[markov-game]] · [[policy-modelling]] · [[possession-risk]]
+- [[split-half-reliability]] · [[interpretability]] · [[off-ball-value]]
 - [[action-valuation-frameworks-compared]]
 - [[on-ball-actions-football-xt-vs-vaep|Source Summary]]

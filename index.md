@@ -31,7 +31,7 @@ A catalog of all wiki pages, organised by type.
 - [[maaike-van-roy]] · [[pieter-robberechts]] — the xT vs VAEP critical comparison
 - [[karun-singh]] — Creator of expected threat (xT)
 - [[garry-gelade]] — Practitioner; Bradley-Terry model of 1v1 duel ability
-- [[william-spearman]] — Creator of OBSO and physics-based pitch control; highest-priority missing source
+- [[william-spearman]] — Hudl; creator of OBSO and physics-based pitch control
 - [[daniel-cervone]] · [[alex-damour]] · [[kirk-goldsberry]] — the NBA martingale EPV paper
 - [[luke-bornn]] — NBA EPV, pitch control, and the soccer EPV framework
 - [[javier-fernandez]] — Soccer EPV framework, SoccerMap, and pitch control
@@ -64,7 +64,7 @@ A catalog of all wiki pages, organised by type.
 ### Architectures and Deep Learning
 - [[transformer]] — Attention-only sequence transduction architecture
 - [[attention-mechanism]] · [[additive-attention]] · [[scaled-dot-product-attention]] · [[multi-head-attention]]
-- [[pointer-network]] · [[read-process-write]] · [[neural-turing-machine]] · [[external-memory|memory-augmented models]]
+- [[pointer-network]] · [[read-process-write]] · [[neural-turing-machine]]
 - [[positional-encoding]] · [[encoder-decoder]] · [[encoder-decoder-bottleneck]] · [[feed-forward-network]]
 - [[recurrence]] — Sequential hidden-state processing underlying RNNs
 - [[lstm]] · [[gated-recurrent-unit]] · [[bidirectional-rnn]]
@@ -183,3 +183,4 @@ A catalog of all wiki pages, organised by type.
 - [[expected-value-possession-framework]] — "A Framework for the Fine-Grained Evaluation of the Instantaneous Expected Value of Soccer Possessions" (Fernández, Bornn & Cervone, 2020)
 - [[football-defence-evaluation-vdep]] — "Evaluation of Soccer Team Defense Based on Prediction Models of Ball Recovery and Being Attacked" (Toda et al., PLOS ONE 2022)
 - [[creating-scoring-opportunities-trajectory-prediction]] — "Evaluation of Creating Scoring Opportunities for Teammates in Soccer via Trajectory Prediction" (Teranishi et al., MLSA 2022/23)
+- [[beyond-expected-goals]] — "Beyond Expected Goals" (Spearman, MIT Sloan 2018) — OBSO and the potential pitch control field

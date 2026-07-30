@@ -1,88 +1,111 @@
 ---
 title: "OBSO (Off-Ball Scoring Opportunity)"
 type: concept
-tags: [off-ball, sports-analytics, pitch-control, probability-surface, optical-tracking-data, player-evaluation, action-valuation, spatiotemporal]
-sources: [raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md]
-confidence: 0.85
+tags: [off-ball, sports-analytics, pitch-control, probability-surface, optical-tracking-data, player-evaluation, action-valuation, model-decomposition, predictive-validity]
+sources: [raw/papers/beyond_expected_goals.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md]
+confidence: 0.9
 provenance:
-  extracted: 75%
-  inferred: 20%
-  ambiguous: 5%
-lifecycle: draft
+  extracted: 80%
+  inferred: 17%
+  ambiguous: 3%
+lifecycle: reviewed
 created: 2026-07-27
 updated: 2026-07-27
 ---
 
 # OBSO (Off-Ball Scoring Opportunity)
 
-[[william-spearman|Spearman's]] (2018) metric for valuing a player who does not have the ball, by asking: **if the next on-ball event happened at this location, how likely is a goal?**
+[[william-spearman|Spearman's]] (2018) metric for valuing a player who does not have the ball, by asking: **if the next on-ball event happened here, how likely is a goal?**
 
-The vault has cited OBSO as a dependency of two separate lines — the [[keisuke-fujii|Fujii group's]] off-ball and defensive work, and Spearman's own — without holding a description of it. [[creating-scoring-opportunities-trajectory-prediction|Teranishi et al.]] supply the first primary account here, including the equations.
+*(Rewritten from the [[beyond-expected-goals|primary source]]. The earlier revision was built from citations in Teranishi et al. and contained four errors, listed at the foot of this page.)*
 
 ## The Factorisation
 
-OBSO is a sum over pitch locations of a joint probability, which under an independence assumption factorises into three interpretable terms:
+$$P(G|D) = \sum_{r} P(S_r \mid C_r, T_r, D)\; P(C_r \mid T_r, D)\; P(T_r \mid D)$$
 
-$$P(G|D) = \sum_{r \in R \times R} P(S_r|D)\, P(C_r|D)\, P(T_r|D)$$
+$D$ is the instantaneous game state — all player positions and velocities.
 
-where $D$ is the instantaneous game state — all player positions and velocities.
+This is the **chain rule, exact by construction.** No independence is assumed between the three terms; each conditions on the ones after it. Simplification enters only when the score term drops its dependence on $D$, justified on the grounds that defensive positioning is already proxied through the control term.
 
 | Term | Question | Model |
 |---|---|---|
-| $P(T_r\|D)$ | Will the next event happen *here*? | 2-D Gaussian centred on the ball, σ = 14 m (the average distance to the next event) |
-| $P(C_r\|D)$ | Would the attacking team *control* it here? | **PPCF** — potential pitch control field |
-| $P(S_r\|D)$ | Would a goal follow from here? | Decreasing function of distance to goal |
+| $T_r$ **Transition** | Where will the next on-ball event occur? | Gaussian **× PPCF$^\alpha$**, normalised |
+| $C_r$ **Control** | Would the attacking team control it there? | PPCF — see [[pitch-control]] |
+| $S_r$ **Score** | Would a goal follow from there? | Distance-only, fitted exponent $\beta$ |
 
-The structure is worth noting: it is a [[structured-model-decomposition|decomposition]] in the same spirit as [[expected-value-possession-framework|Fernández et al.'s]], reached independently and earlier, and far simpler — three rule-based or lightly-fitted terms rather than nine trained networks.
+Spearman states interpretability as a design goal: each component *answers a specific soccer question* and is independently reusable. This is the same argument [[structured-model-decomposition|Fernández et al.]] make two years later, reached independently and far more cheaply — three rule-based or lightly-fitted terms against nine trained networks.
 
-## PPCF: Control as a Poisson Process
+## The Transition Term Is a Decision Model
 
-The control term is the substantive piece, and it is a physical model rather than a learned one.
+The part most often misdescribed, including previously here.
 
-The idea: a player's ability to make a controlled touch is a **Poisson point process** — the longer they are near the ball uncontested, the more likely control becomes. For player $j$ at location $r$:
+Displacements between consecutive on-ball events are approximately Gaussian in aggregate — the ball moves by collision with players, so its motion resembles 2-D Brownian motion. But passers *choose*, and they prefer passes that will not be intercepted. So the Gaussian is multiplied by attacking pitch control:
 
-$$\frac{d\,PPCF_j}{dT} = \Big(1 - \sum_k PPCF_k\Big) f_j(t, r, T|s)\, \lambda_j$$
+$$T(t,\vec r \mid \sigma,\alpha) = N(\vec r, \vec r_b(t), \sigma) \cdot \Big[\sum_{k \in A} PPCF_k(t,\vec r)\Big]^{\alpha}$$
 
-$f_j$ is the probability player $j$ can *reach* $r$ within time $T$ — a logistic function of $T$ minus expected intercept time, with temporal uncertainty $s = 0.45$ s. $\lambda_j = 4.3$ is the control rate. The leading bracket is the crucial coupling: **control probability is shared, so one player gaining it removes it from everyone else.**
+with $\alpha = 1.04$ fitted — essentially proportional to control. So the *same* PPCF surface appears twice in the model, once as the control term and once inside the transition term. That coupling is easy to miss and is what makes the two terms non-independent.
 
-Integrating over $T$ and summing across the attacking team gives $P(C_r|D)$.
+Spearman flags the conspicuous omission himself: **no term prefers passes that move the ball toward goal.** Chances a coach would read as clear are therefore liable to be under-estimated.
 
-This is the same conceptual object as [[pitch-control|Fernández & Bornn's pitch control]], arrived at differently. Spearman models an **arrival-time contest** from physics; Fernández & Bornn model **influence as a Gaussian density**. Spearman's is more principled about the mechanism; Fernández & Bornn's is cheaper and smoother. The vault holds both, and no source compares them.
+## The Score Term Is the Weak One
 
-## The Weak Term, and Its Repair
+$S(\vec r|\beta) = [S_d(|\vec r - \vec r_g|)]^{\beta}$, where $S_d$ is a data-derived scoring curve against distance and $\beta = 0.48$ is fitted.
 
-$P(S_r|D)$ — distance to goal alone — is by far the crudest of the three. It ignores angle, defenders, and the goalkeeper.
+It ignores **angle, defenders and the goalkeeper entirely.** Spearman calls $\beta$ "a fudge factor to ensure that the resultant model can be integrated to give expected scoring" and proposes replacing it with a proper score model.
 
-[[creating-scoring-opportunities-trajectory-prediction|Teranishi et al.]] replace it with a **potential score model**: shot value computed per-degree across the shooting angle, discounted by a shot-blocking distribution built from Gaussians on each goal-side defender (variance widening with distance, goalkeepers weighted double).
+He also names a bias in the underlying curve: it is the average scoring chance given *an on-ball event* at that distance, not given a *shot*. An unpressured player is more likely to shoot from 20 m than the average player touching the ball at 20 m — so shot-selection bias is baked in.
 
-Validated on 494 shots: RMSE **0.309** against **0.324** ($p < 10^{-10}$). A modest gain, but the qualitative difference is sharper — two shots from equal distance score identically under the original model and 0.0489 vs 0.1202 under the replacement, according to defender congestion.
+This is exactly the term [[c-obso|Teranishi et al.]] replace, with a per-degree angular integration discounted by a Gaussian shot-blocking distribution over goal-side defenders. RMSE 0.309 against 0.324 — a modest improvement, but the qualitative gain is larger, separating shots from equal distance by defender congestion.
 
-Note what this makes OBSO's score term into: essentially a geometric [[expected-goals|xG]] model. The vault now holds three xG formulations — logistic on shot features, tracking-augmented with blockage counts, and this angular-integration one — none benchmarked against the others.
+## What It Values, and What It Excludes
 
-## What OBSO Values, and What It Does Not
+**Values:** the player who would *receive* the ball, at the position they occupy.
 
-**Values:** the player who would *receive* the ball, at the location they occupy. A striker drifting into a dangerous pocket scores highly.
+**Excludes the current ball carrier**, deliberately. His scoring chance was counted at the previous moment, before the ball reached him — so OBSO is strictly about players waiting, not the player deciding.
 
-**Does not value:** the player whose movement *created* that pocket for someone else. OBSO is egocentric — it asks what your position is worth to you.
+**Does not value** the player whose movement *created* the space for someone else. OBSO is egocentric: what is your position worth *to you*. That gap is what [[c-obso]] fills, and it is why C-OBSO correlates 0.45 with salary on players where plain OBSO correlates −0.28.
 
-This is precisely the gap [[c-obso]] fills, and it is why C-OBSO's correlation with salary (ρ = 0.45) while plain OBSO's is negative and non-significant (ρ = −0.28) is the headline result of that paper.
+## Validation
+
+Per-player, match $i$ against match $i{+}1$ across 53 matches:
+
+| Predictor | Next-match goals |
+|---|---|
+| **OBSO** | **0.26** |
+| Shots | 0.17 |
+| Goals | 0.12 |
+
+**A player's OBSO predicts his next-match goals better than his shots or goals do.** This is the vault's strongest [[predictive-validity]] evidence: player-level, against an independent outcome, and beating the outcome's own lagged value.
+
+Team level: goals/match against opportunity/match, PCC 0.76 across 14 teams.
 
 ## Position in the Vault
 
-| | [[obso\|OBSO]] | [[pitch-control]] | [[probability-surface\|Pass EPV surface]] |
+| | **OBSO** | [[pitch-control]] | [[probability-surface\|Pass EPV surface]] |
 |---|---|---|---|
 | Question | What is a goal worth from here, if the ball arrives? | Who would win the ball here? | What is the possession worth if passed here? |
-| Estimation | Rule-based / physical | Physical or Gaussian | Learned ([[soccermap]]) |
+| Estimation | Physical + lightly fitted (6 parameters) | Physical or Gaussian | Learned ([[soccermap]]) |
 | Whose value | The receiver's | Neither team's, per se | The possessing team's |
-| Cost | Low | Low | High |
+| Cost | Low — ~1,000 frames per match | Low | High |
 
-All three are surfaces over the pitch, and all three are read at player positions to produce off-ball value. They differ in what the surface *means*.
+All three are surfaces read at player positions to produce off-ball value; they differ in what the surface *means*.
 
-OBSO is the substrate for both Fujii-group counterfactual lines — [[c-obso]] for attacking space creation, and the Umemoto & Fujii (2023) defensive positioning work. That makes Spearman (2018) itself a notable remaining gap in `raw/`.
+OBSO is the substrate for both [[keisuke-fujii|Fujii-group]] counterfactual lines — [[c-obso]] for attacking space creation, and Umemoto & Fujii (2023) for defensive positioning — which places that work closer to Spearman's physical tradition than to [[vdep]]'s event classification, despite the shared authorship.
+
+## Corrections to the Earlier Revision
+
+Recorded because the errors were confident and specific, which is the dangerous kind:
+
+- **"Factorises under an independence assumption"** — no; it is the chain rule, exact.
+- **"Transition = 2-D Gaussian, σ = 14 m"** — omitted the PPCF$^\alpha$ decision term entirely, and 14 m was the *prior*, taken from observed displacement spread. The fitted value is **23.9 m**.
+- **"PPCF parameters $s = 0.45$, $\lambda = 4.3$"** — this paper fits **$s = 0.54$, $\lambda = 3.99$**, with priors of 0.5 and 4.2 drawn from Spearman et al. (2017). The previously recorded values came via Teranishi and match neither exactly.
+- **Omitted** the $\kappa = 1.72$ defensive advantage, aerodynamic ball-flight modelling, the offside rule, and the exclusion of the ball carrier.
+
+The general lesson, which the vault has now recorded twice in different forms: **citation-derived pages read as confidently as primary ones and are not.** Provenance warnings help; acquiring the source is the only real fix.
 
 ## See Also
 
-- [[c-obso]] · [[pitch-control]] · [[off-ball-value]] · [[probability-surface]]
-- [[expected-goals]] · [[structured-model-decomposition]] · [[optical-tracking-data]]
-- [[william-spearman]] · [[keisuke-fujii]]
-- [[creating-scoring-opportunities-trajectory-prediction|Source Summary]]
+- [[c-obso]] · [[pitch-control]] · [[off-ball-value]] · [[space-creation]] · [[probability-surface]]
+- [[expected-goals]] · [[structured-model-decomposition]] · [[predictive-validity]] · [[optical-tracking-data]]
+- [[william-spearman]] · [[keisuke-fujii]] · [[javier-fernandez]]
+- [[beyond-expected-goals|Source Summary]] · [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]]

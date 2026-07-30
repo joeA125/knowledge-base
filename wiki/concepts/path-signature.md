@@ -10,7 +10,7 @@ provenance:
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-07-23
-updated: 2026-07-23
+updated: 2026-07-27
 ---
 
 # Path Signature
@@ -61,7 +61,7 @@ Only with appropriate augmentation does the uniqueness-up-to-tree-like-equivalen
 
 ## Applications Beyond Sport
 
-Signatures have been applied across domains with irregular sequential structure: human action and gesture recognition (Yang et al., 2017, 2022; Shi et al., 2025), Alzheimer's diagnosis prediction (Moore et al., 2019), detecting early depressive and manic episodes in bipolar disorder (Kormilitzin et al., 2017), financial modelling and optimal stopping (Cuchiero et al., 2023; Bayer et al., 2023), generative modelling of financial time series with [[variational-autoencoder|VAEs]] (Buehler et al., 2020), and learning neural SDEs by combining log-signatures with [[rnn|RNNs]] (Liao et al., 2019).
+Signatures have been applied across domains with irregular sequential structure: human action and gesture recognition (Yang et al., 2017, 2022; Shi et al., 2025), Alzheimer's diagnosis prediction (Moore et al., 2019), detecting early depressive and manic episodes in bipolar disorder (Kormilitzin et al., 2017), financial modelling and optimal stopping (Cuchiero et al., 2023; Bayer et al., 2023), generative modelling of financial time series with [[variational-autoencoder|VAEs]] (Buehler et al., 2020), and learning neural SDEs by combining log-signatures with [[recurrence|RNNs]] (Liao et al., 2019).
 
 ## Comparison with Learned Sequence Encoders
 
@@ -78,10 +78,10 @@ Signatures and neural sequence encoders solve the same problem — turning a var
 
 The signature's lack of learnable parameters is both its strength (no training cost, no overfitting in the encoder) and its limit (it cannot discard task-irrelevant structure). In [[understanding-football-possessions-path-signatures|Hirnschall & Bajons (2025)]] the tradeoff favours signatures: a plain feedforward network on log-signatures beats a transformer benchmark at ~2.5× lower runtime.
 
+This is the vault's clearest case for the **mathematical** route to [[representation-learning]] over the learned one — and it comes with a corollary. Sig-Model degrades when handcrafted geometric features are added, while [[seq2event]] degrades without them: engineered features are a crutch for a representation that cannot recover the geometry itself.
+
 ## See Also
 
-- [[sig-model]]
-- [[feature-engineering]]
-- [[transformer]]
-- [[neural-temporal-point-process]]
+- [[sig-model]] · [[representation-learning]] · [[feature-engineering]] · [[event-prediction]]
+- [[transformer]] · [[recurrence]] · [[neural-temporal-point-process]] · [[lpv]]
 - [[understanding-football-possessions-path-signatures|Source Summary]]

@@ -1248,3 +1248,133 @@ CARRIED FORWARD:
 - Two pitch-control traditions, never compared, feeding models that ARE compared.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-30 16:07] ingest | Spearman — Beyond Expected Goals (OBSO), and four corrections
+Source: raw/papers/beyond_expected_goals.md — William Spearman, "Beyond Expected Goals", MIT Sloan Sports Analytics Conference 2018 Research Papers Competition. Hudl data, 58 matches from an anonymised 14-team professional league, 2017-18 season (5 training / 53 test).
+
+This was ACQUISITION PRIORITY 1 across four log entries: OBSO and PPCF have been dependencies of five vault pages, described entirely from citations in Teranishi et al. and Fernandez et al. Reading it primary corrects four errors.
+
+TOOL: list_unprocessed_sources returned exactly one file, correctly. Second clean run since the fix.
+
+Pages created: 1, Pages updated: 4 (+ index)
+
+CREATED — summary (1):
+- wiki/summaries/beyond-expected-goals
+
+FOUR CORRECTIONS TO THE VAULT'S SECOND-HAND ACCOUNT:
+
+1. THE CORE EQUATION WAS WRONG. The obso page said the model "factorises under an independence assumption". It does not — it is the CHAIN RULE, exact by construction, with each term conditioning on those after it. Simplification enters only when the score term drops its dependence on D. This is the most serious of the four: an asserted assumption that was never made.
+
+2. THE TRANSITION TERM IS A DECISION MODEL, NOT A GAUSSIAN. The vault described it as "2-D Gaussian centred on the ball, sigma = 14 m". Actually N(r, r_b, sigma) x [sum PPCF]^alpha, normalised — the Gaussian is multiplied by attacking pitch control raised to a fitted power, because passers prefer destinations they can control. So the SAME PPCF surface appears twice in the model, which is what makes the terms non-independent. Also sigma = 14 was the PRIOR (observed displacement spread); the fitted MAP is 23.9 m.
+
+3. PPCF PARAMETERS MISATTRIBUTED. Vault recorded s = 0.45, lambda = 4.3 from Teranishi. This paper fits s = 0.54, lambda = 3.99, with priors of 0.5 and 4.2 explicitly drawn from Spearman et al. (2017). The recorded values match neither exactly — most likely the 2017 published fit, transcribed through a third paper.
+
+4. AFFILIATION WRONG. The william-spearman page said "associated with Liverpool FC's research department", inferred from wider literature with a note that it was unverified. Primary source says HUDL, and the data is Hudl's own. Corrected; the Liverpool association is not asserted anywhere now, since nothing in raw/ supports it.
+
+ALSO ABSENT FROM THE VAULT ENTIRELY: the kappa = 1.72 DEFENSIVE ADVANTAGE parameter (defenders control faster than attackers, since a defender is satisfied with heading clear); AERODYNAMIC BALL-FLIGHT modelling (Asai & Seo 2013), with flight time chosen to be most advantageous to attackers; the OFFSIDE rule (lambda set to zero for offside attackers); and the fact that OBSO EXCLUDES THE CURRENT BALL CARRIER, whose chance was counted at the previous moment.
+
+KEY FINDING — THE VAULT'S STRONGEST PREDICTIVE-VALIDITY EVIDENCE:
+Per-player, match i against match i+1 across 53 matches:
+  OBSO -> next-match goals: 0.26
+  Shots -> next-match goals: 0.17
+  Goals -> next-match goals: 0.12
+A player's off-ball positioning predicts his next-match goals better than his shots or his goals do. This clears three bars nothing else in the vault clears simultaneously: PLAYER-level (not team), against an INDEPENDENT outcome (not the metric's own future value, as Shelopugin's PCR result is), and BEATING THE OUTCOME'S OWN LAGGED VALUE. Spearman states the design objective outright: a leading indicator less stochastic than scoring itself.
+
+Note that "goals are the worst predictor of future goals" now appears in TWO independent sources seven years apart — Spearman 2018 at player level (0.12) and Hirnschall & Bajons 2025 at team level (0.11).
+
+UPDATED (4):
+- obso — rewritten from primary. All four corrections, plus the transition-decision coupling, the score term's admitted weakness (beta called "a fudge factor" by the author; ignores angle, defenders, keeper), shot-selection bias in the scoring curve, and the validation table. Corrections section retained on the page itself, since the errors were confident and specific.
+- william-spearman — affiliation corrected; methodological signature added (models are PHYSICAL rather than statistical, so parameters have units and priors come from measurement); reproducibility-as-design-constraint noted.
+- pitch-control — the Spearman tradition rewritten from primary: logistic chosen for heavy tails deliberately, drag-based flight time, kappa asymmetry, offside. Comparison table extended — the Gaussian tradition models neither ball travel time nor attack/defence asymmetry, so the two are least likely to agree in congested areas near goal, precisely where it matters.
+- predictive-validity — restructured around the new strongest result; four validation strategies rather than three (external criterion added); explicit table distinguishing what external-outcome prediction rules out from what self-prediction rules out.
+
+DESIGN PRINCIPLE WORTH BORROWING: Spearman minimises data requirements deliberately so results transfer across providers — no ball tracking needed, ~1,000 frames per match instead of ~8,000,000, only three event fields. Same category of question as Cervone's 461 processors, at a fraction of the cost. Reproducibility as a modelling constraint rather than an afterthought.
+
+NOT DONE — carried from the previous entry, still outstanding:
+- expected-threat contains [[markov-model]]; retarget to markov-game
+- neural-temporal-point-process and path-signature contain [[rnn]]; retarget to recurrence
+- action-valuation-frameworks-compared (synthesis) should absorb the OBSO predictive-validity result, which is now the strongest entry in its "Metrics Beat Outcomes at Predicting Outcomes" section
+- c-obso, off-ball-value, expected-goals could each use small updates now that OBSO is primary rather than cited
+
+CARRIED FORWARD:
+- Umemoto & Fujii (2023) counterfactual defensive positioning would close the individual-defender gap. Now the top acquisition target, since Spearman is held.
+- Spearman et al. (2017) "Physics-based modeling of pass probabilities" supplies the PPCF priors and is still cited-only.
+- Two pitch-control traditions, never compared, feeding models that ARE compared.
+- No cross-framework benchmarking anywhere in this literature — Spearman compares against nothing either.
+- Five frameworks, five unjustified free parameters. Note Spearman is the EXCEPTION: all six of his parameters are fitted by MAP with stated priors and stated justifications.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-07-30 16:21] writeback | Retargets complete; synthesis absorbs the OBSO result
+Completion of the retargets carried across three entries, plus absorption of the Spearman result into the synthesis. No new source read; no new pages created; index unchanged.
+
+Pages updated: 4
+
+RETARGETS NOW COMPLETE. All four dead-link resolutions from the lint pass are finished.
+- expected-threat — [[markov-model|Markov model]] -> [[markov-game|Markov model]]. markov-model is now fully retargeted (4 of 4).
+- neural-temporal-point-process — [[rnn|RNN]] -> [[recurrence|RNN]] in two places.
+- path-signature — [[rnn|RNNs]] -> [[recurrence|RNNs]].
+rnn is now fully retargeted (2 of 2). No self-inflicted or lint-flagged dead links remain.
+
+SYNTHESIS — "Metrics Beat Outcomes at Predicting Outcomes" restructured around the Spearman result, which is now the section's lead rather than an addendum. The section previously presented only the team-level Hirnschall & Bajons table. It now presents BOTH LEVELS as independent confirmations seven years apart, with goals the worst predictor of future goals in each (0.12 player-level, 0.11 team-level).
+
+Spearman's is identified as the strongest result in the vault because it clears three bars simultaneously — player-level, independent outcome, and beating the outcome's own lagged value — and is explicitly contrasted with Shelopugin's self-prediction. The section now lays out FOUR validation checks in ascending strength: self-prediction (Shelopugin), cross-horizon consistency (VDEP), external outcome (Spearman, Hirnschall & Bajons), external criterion outside the pipeline entirely (C-OBSO vs salary).
+
+Other synthesis changes:
+- Valuation table extended to EIGHT frameworks, adding OBSO and a cost row. OBSO identified as the exception to the central richness/interpretability trade-off: tracking-based, off-ball, highly interpretable, at low cost, BECAUSE it is physical rather than learned.
+- Axis 3 reframed from two answers to THREE — actor, receiver, beneficiary's creator — since OBSO occupies a position between the on-ball frameworks and C-OBSO that the previous framing collapsed.
+- Off-ball section extended from three mechanisms to four.
+- Credit-assignment table gained OBSO's one-step horizon.
+- Model-selection point sharpened: Spearman is the exception to the five-unjustified-parameters problem, and the reason is structural. Parameters with PHYSICAL UNITS admit priors from previous measurement; parameters meaning "stylistic preference for vertical attacking" do not. That is an argument for physical modelling that goes beyond taste.
+- Limitation 8 updated with the second difference between pitch-control traditions: ball travel time (drag-modelled vs instantaneous), alongside additivity.
+- Tactical section gained OBSO player-specific danger maps.
+- Practical guidance gained an entry for identifying attackers whose output understates them — OBSO and C-OBSO are the only two metrics here with external validation.
+
+INCIDENTAL IMPROVEMENTS while the retargeted pages were open:
+- expected-threat — added that transition probabilities are estimated from observed play, so xT computes value under the BEHAVIOUR policy with no max over actions, which is the field's standard position rather than an oversight. Linked policy-modelling and reinforcement-learning. Also added the on-ball-only limitation with pointers to the three frameworks that address it.
+- neural-temporal-point-process — noted that hazard and survival parameterisations are the objects survival-analysis is built on, and a point process's conditional intensity IS a hazard conditioned on history. Two literatures describing one thing in different notation. Also linked Sig-Model as rejecting the fixed-window premise entirely.
+- path-signature — identified as the vault's clearest case for the MATHEMATICAL route to representation-learning over the learned one, with the Seq2Event/Sig-Model handcrafted-features corollary.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1 is now Umemoto & Fujii (2023) counterfactual defensive positioning — would close the individual-defender gap, which is the last major uncovered capability.
+- Spearman et al. (2017) "Physics-based modeling of pass probabilities" supplies the PPCF priors and is still cited-only.
+- Two pitch-control traditions, never compared, differing on additivity AND ball travel time, feeding models that ARE compared.
+- No cross-framework benchmarking anywhere in this literature.
+- No off-ball or defensive metric has a reported split-half reliability.
+- Remaining instance-to-umbrella inbound links: eventgpt and autoregressive-model -> generative-model; sig-model, seq2event, hpus, lpv -> event-prediction.
+- find_mentioned_but_missing pipe-escape bug: fix supplied and confirmed applied to the regex; the wiki/-only scoping fix has been applied to find_orphan_pages but NOT yet to find_mentioned_but_missing, which still scans raw/, log.md and CLAUDE.md. Also worth excluding index.md from find_orphan_pages, or it will report [] permanently.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-07-30 16:33] lint | Scoping fix confirmed complete; first working orphan run
+Correction to the previous entry, plus first successful orphan detection.
+
+CORRECTION: the previous entry stated that "the wiki/-only scoping fix has been applied to find_orphan_pages but NOT yet to find_mentioned_but_missing". That was written from an earlier revision of the lint code. The current version scopes ALL THREE functions to wiki_dir — find_mentioned_but_missing now restricts both its `existing` set and its scan. The claim is withdrawn.
+
+The suggestion to exclude index.md from find_orphan_pages is also withdrawn as unnecessary — see below.
+
+FIRST WORKING ORPHAN RUN. find_orphan_pages returned 9 pages rather than [], which establishes two things: the tool is functional, and index.md sits OUTSIDE wiki/ (were it inside, it links essentially every page and the result would be permanently empty).
+
+Orphans found:
+- alec-radford, jacob-devlin, floriane-magera, james-little, jianhui-chen, marc-van-droogenbroeck (entities)
+- agi-definition (summary)
+- recurrent-dropout (concept)
+- overview (navigation)
+
+THE PATTERN IS THE FINDING. Six of nine are LEAD AUTHORS OF PAPERS WHOSE SUMMARIES EXIST — Radford (GPT), Devlin (BERT), Magera (ProCC), Chen and Little (camera calibration), Van Droogenbroeck (SoccerNet). Their summary pages do not link back to the entity pages.
+
+Every one is in the COMPUTER VISION or NLP material. Not a single football entity appears, because cross-linking authors from summaries has been a working habit throughout the football ingests and was never applied retrospectively to the older domains. The orphan list is therefore measuring the working pattern as much as the vault's structure — worth remembering when reading future runs.
+
+KNOWN FALSE POSITIVE: `overview` is a navigation page, linked from index.md by design. Scoping to wiki/ necessarily makes navigation pages look orphaned. Either exempt them by type or discount them by hand; no code change strictly needed.
+
+NOT FIXED — the 8 genuine orphans remain unlinked. The entity cases are a single consistent repair: each summary page should link its authors, which is the convention the football summaries already follow. agi-definition and recurrent-dropout need judgement about which concept pages should cite them.
+
+REMAINING LINT NOTES, both cosmetic:
+- find_orphan_pages still carries two comments contradicting its code: "Collect every page name that is linked from anywhere in the vault" and "Scan all markdown files because inbound links may come from outside wiki/", directly above a wiki_dir-scoped loop. find_mentioned_but_missing has a milder version ("Scan every markdown file"). This is the same class of hazard as the original `sources_dir = vault / "raw"` under a comment saying "the sources folder" — it invites a future reader to "correct" the code back.
+- WIKILINK_RE matches embeds (![[file.png]]), since the ! sits outside the pattern. Only bites if the vault starts using embeds.
+
+CARRIED FORWARD unchanged:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- Spearman et al. (2017) supplies the PPCF priors and is cited-only.
+- Two pitch-control traditions, never compared, differing on additivity and ball travel time.
+- No cross-framework benchmarking anywhere in this literature.
+- Remaining instance-to-umbrella inbound links: eventgpt and autoregressive-model -> generative-model; sig-model, seq2event, hpus, lpv -> event-prediction.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+

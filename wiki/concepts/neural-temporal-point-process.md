@@ -1,7 +1,7 @@
 ---
 title: "Neural Temporal Point Process (NTPP)"
 type: concept
-tags: [point-process, deep-learning, sequence-modelling, event-prediction, transformer, rnn, machine-learning]
+tags: [point-process, deep-learning, sequence-modelling, event-prediction, transformer, rnn, machine-learning, stochastic-process]
 sources: [raw/papers/transformer-point-process-football-event-modelling.md]
 confidence: 0.85
 provenance:
@@ -10,7 +10,7 @@ provenance:
   ambiguous: 5%
 lifecycle: reviewed
 created: 2026-07-23
-updated: 2026-07-23
+updated: 2026-07-27
 ---
 
 # Neural Temporal Point Process (NTPP)
@@ -25,16 +25,20 @@ The framework prescribes a uniform recipe:
 Embed categorical attributes (event type, location class), concatenate with continuous features (inter-event time, engineered geometry), giving $\vec{y}_i = [t_i, m_i, z_i, \dots]$.
 
 **2. Encode the history into a fixed-size vector.**
-The whole preceding sequence $(\vec{y}_1, \dots, \vec{y}_{i-1})$ is compressed into a single $\vec{h}_i$. Standard choices: [[rnn|RNN]], GRU, [[lstm|LSTM]], or a [[transformer]] encoder.
+The whole preceding sequence $(\vec{y}_1, \dots, \vec{y}_{i-1})$ is compressed into a single $\vec{h}_i$. Standard choices: [[recurrence|RNN]], GRU, [[lstm|LSTM]], or a [[transformer]] encoder.
 
 **3. Predict the next event from $\vec{h}_i$.**
 Any of several parameterisations: probability density, CDF, survival function, hazard function, or cumulative hazard — or, as [[nmstpp]] does, predict the value directly and train on a regression loss.
+
+The hazard and survival parameterisations are the same objects [[survival-analysis]] is built on; a point process's conditional intensity *is* a hazard conditioned on history. The two literatures describe one thing in different notation.
 
 ## Why the History Encoding Step Matters
 
 Feeding raw event sequences into a model is both ineffective (noise) and inefficient (parameter blow-up). Compressing history to a fixed-size vector is the same manoeuvre as the [[encoder-decoder-bottleneck|seq2seq bottleneck]] — and inherits the same tension, since a fixed vector must summarise an arbitrarily long history.
 
 This is precisely where the [[attention-mechanism]] earns its place. Self-attention lets the model weight historical events by relevance rather than compressing them uniformly. In [[transformer-point-process-football-event-modelling|Yeung et al.]], attention weights over a 40-event football history sit between 0.01 and 0.06 with no systematic trend, which the authors read as evidence the window length is appropriate.
+
+[[sig-model|Sig-Model]] rejects the fixed-window premise entirely, encoding the whole possession as a [[path-signature]] instead — a different answer to the same bottleneck problem. See [[event-prediction]].
 
 ## Transformer vs Recurrent Encoders
 
@@ -45,7 +49,7 @@ The empirical picture from the football experiments:
 | Uni-LSTM | 4.51 | 129 min |
 | Transformer | 4.57 | 47 min |
 
-The LSTM is marginally more accurate; the transformer is **2.7× faster to train**. This matches the general finding in the NTPP literature and in [[seq2event]] — recurrent encoders remain competitive on accuracy, but their sequential gradient computation makes them expensive on long sequences, exactly the tradeoff that motivated the [[transformer]] in the first place.
+The LSTM is marginally more accurate; the transformer is **2.7× faster to train**. This matches the general finding in the NTPP literature and in [[seq2event]] — [[recurrence|recurrent]] encoders remain competitive on accuracy, but their sequential gradient computation makes them expensive on long sequences, exactly the tradeoff that motivated the [[transformer]] in the first place.
 
 ## Why Learned Distributions Beat Parametric Ones
 
@@ -59,10 +63,7 @@ Originally developed for general event-sequence domains — Du et al. (2016) on 
 
 ## See Also
 
-- [[point-process]]
-- [[nmstpp]]
-- [[transformer]]
-- [[attention-mechanism]]
-- [[encoder-decoder-bottleneck]]
-- [[seq2event]]
+- [[point-process]] · [[stochastic-process]] · [[survival-analysis]] · [[competing-risks]]
+- [[nmstpp]] · [[event-prediction]] · [[sig-model]] · [[seq2event]]
+- [[transformer]] · [[attention-mechanism]] · [[recurrence]] · [[encoder-decoder-bottleneck]]
 - [[transformer-point-process-football-event-modelling|Source Summary]]
