@@ -637,44 +637,6 @@ UPDATED
 - expected-possession-value — citation correction; credit-decay axis
 - expected-goals — xG reframed as an intent metric
 - gradient-boosting — Random Forest contrast; fixed 2 dead [[calibration]] links (correct page is probability-calibration)
-- action-valuation-frameworks-compared (synthesis) — "Time as a Cross-Cutting Axis" section; intent/outcome axis added to Task 1; validation table row for time-series derivatives
-- _schema/taxonomy.md — 12 new tags added BEFORE any page using them: regression, random-forest, time-series, smoothing, volatility, selection-bias, player-development, recruitment, research-institute, sports-club (+ verified by re-read; nothing lost)
-
-SUBSTANTIVE FINDINGS
-1. CONTRADICTION recorded, not resolved: split-half-reliability treats within-season rating variation as measurement noise; performance-volatility treats the same variation as signal about the player. Both cannot be wholly right. Decisive experiment (does short-term deviation from long-term level predict next-match contribution?) is unrun in all vault sources. Recorded on both pages and in the synthesis.
-2. CITATION CORRECTION: expected-possession-value dated Fernandez-Bornn-Cervone to 2019; journal version is Machine Learning 110(6), 1389-1427 (June 2021). Both dates circulate (2019 MIT Sloan conference version). Noted inline per the supersession convention.
-3. DATA-FIDELITY WARNING on the summary: figure-derived tables in the raw file are visibly corrupted (Messi listed last in an ostensibly sorted volatility table with values identical to Falcao's; several player columns repeat identical values across rows). Prose relationships reliable; digits are not. Flagged for review if exact figures are ever needed.
-4. UNTESTED PREDICTION flagged as inference, not finding: an I-VAEP-style intent model should show higher split-half reliability than O-VAEP, since withholding outcome features removes the rare-goal noise channel that Van Roy et al. identified. No vault source measures this.
-
-TOOL ISSUES ENCOUNTERED
-- list_unprocessed_sources returned [] — FALSE NEGATIVE. The new source was found by manual comparison of the five raw folder listings against the index, and confirmed unreferenced via search_notes. A silent false negative here means sources can be missed entirely; worth fixing server-side.
-- read_taxonomy returned "No tags file found" — still hardcoded to the old _schema/tags.md path. Worked around by reading/writing _schema/taxonomy.md directly.
-
-LINT NOTES
-- find_mentioned_but_missing reports ~25 phantom targets of the form "expected-threat\" etc. These are a PARSER ARTEFACT, not dead links: the escaped pipe in [[page\|alias]] is required inside Obsidian table cells and is endorsed by _schema/conventions.md. Must NOT be "fixed" — doing so would break every table in the vault.
-- Fixed 2 real dead links I had introduced (recruitment, smoothing were linked as pages while existing only as tags) by creating both pages rather than de-linking.
-- Added recurrent-dropout to the index — page existed on disk but was uncatalogued.
-- Remaining pre-existing dead links, all tag-names-without-pages: interpretability, markov-model, reinforcement-learning, player-evaluation, probabilistic-classification, stochastic-process, spatiotemporal, rnn, clustering, model-selection, multi-object-tracking, representation-learning, survival-analysis. Not addressed this run.
-
-## [2026-07-27 10:06] ingest | Valuing Players Over Time (Mendes-Neves, Meireles & Mendes-Moreira)
-Source: raw/papers/football-performance-time-series.md — the only unprocessed source across all five raw subfolders.
-
-Pages created: 14, Pages updated: 10 (plus taxonomy and index).
-
-CREATED
-- Summary: football-performance-time-series
-- Concepts: intent-vs-outcome-valuation, player-rating-time-series, performance-volatility, player-development-curve, selection-bias, random-forest, smoothing, recruitment
-- Entities: luis-meireles, joao-mendes-moreira, universidade-do-porto, inesc-tec, fc-porto
-
-UPDATED
-- tiago-mendes-neves — rewritten; vault's first PRIMARY source by this author, so the "citations only" provenance note was obsolete. Paper predates the LEM work.
-- vaep — new sections on the I-VAEP/O-VAEP variant and on ratings over time
-- action-valuation — two new design axes (outcome visibility, credit assignment); aggregation-step section
-- split-half-reliability — new section on the metric-vs-player interpretation conflict
-- large-event-model — the group's earlier work as precursor and contrast
-- expected-possession-value — citation correction; credit-decay axis
-- expected-goals — xG reframed as an intent metric
-- gradient-boosting — Random Forest contrast; fixed 2 dead [[calibration]] links (correct page is probability-calibration)
 - action-valuation-frameworks-compared (synthesis) — "Time as a Cross-Cutting Axis" section; intent/outcome axis added to Task 1; validation-table row for time-series derivatives
 - _schema/taxonomy.md — 12 new tags added BEFORE any page using them: regression, random-forest, time-series, smoothing, volatility, selection-bias, player-development, recruitment, research-institute, sports-club. Verified by re-read; nothing lost.
 
@@ -1700,6 +1662,73 @@ NOT RETROFITTED THIS RUN. Roughly 200 pages carry frontmatter without the new ke
 CARRIED FORWARD:
 - ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
 - 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them.
+- Conversations section of the index remains empty and has never been used.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-07-31 12:10] writeback | Retrofit items 6 and 7 complete; five remaining listed
+Retrofit items 6 and 7 complete — the question pages no longer contain analysis that contradicts the concept pages. No new source read; no new pages created.
+
+Pages updated: 4
+
+ITEM 6 — RELIABILITY/VOLATILITY IDENTITY:
+- split-half-reliability — MY RETROFIT NOTE WAS WRONG ABOUT THIS PAGE. It already contained the decomposition, the "one variance, two names" framing, AND a sharper test than the question page has: an aggregation-ratio test predicting 0.28 under the i.i.d.-noise null. What it lacked was provenance marking and a link. Added ^[generated] on the framing and the ratio test, ^[imported] on the standard psychometric identity, and cross-links. Also added Test 2 (split-half reliability of volatility itself) with the note that it is RUNNABLE TODAY where the ratio test is blocked by the source's corrupted Fig. 4 table.
+- performance-volatility — this was the page that genuinely needed it. It called the relationship "an open problem" without the identity that makes it decidable. Added the decomposition, the two consequences (volatility and reliability are not independent evidence; the question is narrower than "which is right"), both tests, and the data-fidelity warning. Also added a consequence for its own Practical Use section: all three recommended uses assume volatility is a player property, and IF TEST 1 COMES BACK NEGATIVE NONE OF THEM IS SUPPORTABLE — worth knowing before building a recruitment process on them.
+
+ITEM 7 — F1 THRESHOLDING:
+- class-imbalance-evaluation — added the converse to its own argument. The page correctly argued F1 exposes failures Brier hides; it now also states that F1 CAN MANUFACTURE A FAILURE in a model never thresholded. New general rule table mapping how a model's output is USED (decision / probability / ranking) to the metric family that fits, plus the recommendation that PR-AUC is the fair choice for comparing two models neither of which thresholds. Also expanded the "calibration is not enough" section from two checks to THREE, adding VARIATION — does the output move across inputs, or has it collapsed to a constant? That third check is the one nobody reports and the one that would settle the VAEP question directly.
+- vaep — section retitled from "The Defensive Half Does Not Work" to "Does the Defensive Half Work?" and rewritten. States plainly that the vault's previous reading used the wrong evidence, gives the thresholding argument, then gives what still indicts the model independently (r = -0.098 with goals conceded), then the test that would settle it. Limitation list amended from "empirically inert" to "unestablished — not zero, but unmeasured in the form that matters".
+
+FINDING FROM THE RETROFIT ITSELF: one of the two pages in item 6 was already ahead of the question page that was supposed to be correcting it. The retrofit list was built from memory of what I had written, not from reading the pages. THAT IS THE SAME ERROR CLASS AS THE ORIGINAL PROBLEM — inferring a page's state rather than checking it. Worth applying to the remaining five: read before assuming.
+
+PROVENANCE MARKERS NOW IN USE. First actual application of ^[generated] and ^[imported] since adding them to the schema. Notable that the ^[imported] cases were both benign (standard psychometrics, the Sortino parallel) — the marker earns its place not by catching errors but by making the unverifiable visible.
+
+REMAINING RETROFIT ITEMS — listed for the human, in the order given previously:
+1. "The individuating ingredient is the counterfactual, not the data" — counterfactual-baseline, off-ball-value, defensive-valuation, synthesis. Four pages, never labelled. Widest propagation of any generated claim in the vault.
+2. The handcrafted-features rule — representation-learning, theory-based-modelling. Labelled on the synthesis and its question page; NOT on these two, which state it as fact.
+3. Four-causes-four-remedies decomposition of offensive bias — action-valuation, synthesis, defensive-valuation. No source enumerates these.
+4. "Parameters with physical units admit priors from previous measurement" — model-selection, synthesis. Generated, though close to self-evident.
+5. Pitch-control saturation analysis (sigmoid-on-difference vs shared-mass) — pitch-control and its question page. Generated; the question page labels it, the concept page does not.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- 8 genuine orphan pages remain unlinked.
+- Conversations section of the index remains empty and has never been used.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-07-31 12:42] writeback | Retrofit items 1-5: eight of nine pages marked
+Retrofit items 1-5 — eight of nine pages complete. Provenance markers now applied to every widely-propagated generated claim except on the synthesis. No new source read; no new pages created.
+
+Pages updated: 8
+
+ITEM 1 — "the individuating ingredient is the counterfactual, not the data":
+- counterfactual-baseline — marked as the vault's own diagnosis, flagged as the MOST WIDELY PROPAGATED generated claim here, and given a WHAT WOULD FALSIFY IT section. That section is the substantive addition: the claim predicts that per-agent credit from collective data always comes via intervention, but a Shapley-style decomposition over AGENTS would individuate by attribution alone, and nothing in principle prevents one — shap already does exactly that for features. So the claim may describe what this literature happens to do rather than a necessity. That materially weakens it, and it had been stated flatly on four pages.
+- off-ball-value, defensive-valuation — marked, with pointers to the full statement.
+
+ITEM 2 — the handcrafted-features rule:
+- representation-learning, theory-based-modelling — both stated it as fact. Now marked as a vault construction, with the "not tested against a case it was not built to fit" caveat and the 2x2 showing one cell untested. Both now say "treat it as a working heuristic, not a finding".
+
+ITEM 3 — four-causes-four-remedies:
+- action-valuation, defensive-valuation — marked. Also added that THE FOURTH CAUSE IS THE LEAST SECURE, since its evidence is the F1 figure now under question from item 7's work. That dependency was invisible while the two were on separate pages.
+
+ITEM 4 — "parameters with physical units admit priors from previous measurement":
+- model-selection, theory-based-modelling — marked, with the falsifier stated: a physically-parameterised model whose authors still assert values without priors.
+
+ITEM 5 — pitch-control saturation analysis:
+- pitch-control — marked as derived here from the two published formulations, with the directional prediction explicitly labelled untested.
+
+ALSO MARKED while in these pages: the bias-variance framing on split-half-reliability (done previously), the Sortino parallel on performance-volatility (imported), standard BIC/AIC background on model-selection (imported), the cross-domain parallels on counterfactual-baseline (imported).
+
+THE VALUABLE PART WAS NOT THE LABELLING. Writing "what would falsify this" for item 1 produced a real objection I had not considered — Shapley-style attribution over agents would individuate without intervening, which means the claim is weaker than four pages had been asserting. The marker was the prompt; the reconsideration was the payoff. Recommend the same treatment for other generated claims: stating the falsifier is a cheap way to test whether a claim survives contact.
+
+A SECOND EFFECT: marking item 3 surfaced a DEPENDENCY between generated claims. The fourth cause of offensive bias rests on the F1 evidence that item 7 has just put in doubt. Neither page knew this because the claims lived separately. Generated claims can depend on other generated claims, and nothing currently tracks that.
+
+NOT DONE — 1 page remaining:
+- action-valuation-frameworks-compared (synthesis) carries items 1, 3 and 4 unmarked. It is the vault's most-read page and the largest single file, and the budget ran out before it. FIRST TASK NEXT SESSION. The three claims are already marked at their home pages, so a reader following a link gets the caveat; a reader stopping at the synthesis does not.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- 8 genuine orphan pages remain unlinked.
+- Consider tracking DEPENDENCIES between generated claims, per the observation above.
 - Conversations section of the index remains empty and has never been used.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 

@@ -6,8 +6,10 @@ sources: [raw/papers/football_defence_evaluation.md, raw/papers/evaluation_creat
 confidence: 0.8
 provenance:
   extracted: 45%
-  inferred: 40%
-  ambiguous: 15%
+  inferred: 30%
+  generated: 12%
+  imported: 0%
+  ambiguous: 13%
 lifecycle: reviewed
 created: 2026-07-27
 updated: 2026-07-27
@@ -32,7 +34,7 @@ Quantifying the contribution of preventing goals rather than creating them. Long
 Van Dijk is **81st by [[vaep]], 142nd by [[expected-threat|xT]]**. Two results complicate the reading that this is purely definitional:
 
 - He tops **both** of [[duel-skill-rating|Shelopugin's duel-rating tables]] — the information exists in ordinary event data, unmodelled.
-- [[vdep|VAEP's conceding classifier scores F1 = 0.000]] on 45 matches. The defensive half of the vault's most-cited framework is not merely weak but empirically inert at that data scale.
+- [[vaep]]'s conceding classifier scores F1 = 0.000 on 45 matches. ⚠️ That figure needs care — it is near-guaranteed for any calibrated model at a 0.23% base rate, and VAEP never thresholds. See [[vaep-conceding-classifier]].
 
 ## Five Approaches
 
@@ -54,9 +56,24 @@ Van Dijk is **81st by [[vaep]], 142nd by [[expected-threat|xT]]**. Two results c
 
 What it does not do: **it is team-level only.** Its own proposed next step — compute the change in VDEP when a player moves differently — is not implemented in that paper.
 
+## Offensive Bias Has Four Causes
+
+> ^[generated: this decomposition is constructed here. No source enumerates these four, and the fourth was not identifiable before VDEP measured it. It also appears on [[action-valuation]] and the synthesis.]
+
+Separating them matters because they are not fixed by the same thing:
+
+| Cause | Remedy | Status |
+|---|---|---|
+| **Definitional** — value is proximity to scoring | Change the target | [[vdep]] |
+| **Data** — event streams cannot judge tackles | [[optical-tracking-data\|Tracking]] | Partial |
+| **Modelling choice** — duel information exists, unmodelled | Model those events | [[duel-skill-rating]] |
+| **Statistical** — too few positives to train a classifier | A frequent proxy | [[vdep]] |
+
+The fourth is the one nobody had measured, and it is the least secure of the four given the caveat above about how it was measured.
+
 ## The Follow-Up Literature
 
-> **Provenance.** [[creating-scoring-opportunities-trajectory-prediction|C-OBSO]] is now **held and read**. The other three works below are **cited only** — bibliographic details verified, but method and capability claims are as stated by their authors and unverified here.
+> **Provenance.** [[creating-scoring-opportunities-trajectory-prediction|C-OBSO]] is now **held and read**. The other three are **cited only** — bibliographic details verified, method and capability claims unverified here.
 
 | Work | Contribution | Held? |
 |---|---|---|
@@ -65,42 +82,43 @@ What it does not do: **it is team-level only.** Its own proposed next step — c
 | **Teranishi, Tsutsui, Takeda & Fujii (2022/23), MLSA** | **[[c-obso]]** — credits movement that creates space for a teammate | **Yes** |
 | Umemoto & Fujii (2023), StatsBomb Conference | **Individual defender evaluation** via counterfactual positioning | No |
 
-**Correction, 2026-07-27.** An earlier revision of this page stated individual defensive credit was unaddressed anywhere. That was inferred from VDEP's limitations section without checking the follow-up literature — the mistake other pages here warn about, committed in reverse: treating one paper's stated limitation as the field's state.
+**Correction, 2026-07-27.** An earlier revision stated individual defensive credit was unaddressed anywhere. That was inferred from VDEP's limitations section without checking the follow-up literature.
 
-### What C-OBSO confirms, now from a primary source
+### What C-OBSO confirms
 
-C-OBSO is an *attacking* metric, but it validates the mechanism the defensive work depends on. Its construction — compare the actual world against a predicted reference, attribute the difference to one named agent — is the same [[counterfactual-baseline]] that Umemoto & Fujii apply to defenders.
+C-OBSO is an *attacking* metric, but it validates the mechanism the defensive work depends on. Its construction — compare the actual world against a predicted reference, attribute the difference to one named agent — is the same [[counterfactual-baseline]] Umemoto & Fujii apply to defenders.
 
-**The individuating ingredient is the counterfactual, not the data.** [[vdep]] and [[c-obso]] use comparable tracking data; VDEP produces one number per configuration with no way to split it, C-OBSO produces a per-player number. That difference is intervention, not information — which makes the claim that counterfactual positioning individuates defensive credit *mechanically plausible* even though the paper itself is unread here.
+> ⚠️ **The individuating ingredient is the counterfactual, not the data.**^[generated: the vault's own diagnosis. Neither paper states it; stated in full, with what would falsify it, on [[counterfactual-baseline]].] [[vdep]] and [[c-obso]] use comparable tracking data; VDEP produces one number per configuration, C-OBSO a per-player number. If that reading is right, the claim that counterfactual positioning individuates defensive credit is *mechanically plausible* even though the paper is unread here — but the inference rests on a generated premise and should not be treated as established.
 
-It also inherits the mechanism's weakness: C-OBSO is **identically zero under perfect prediction**, so any such metric measures deviation from a particular model's expectation rather than a player property outright.
+It also inherits the mechanism's weakness: C-OBSO is **identically zero under perfect prediction**, so any such metric measures deviation from a particular model's expectation.
 
 ### The counterfactual positioning method
 
-As described by Fujii in an overview article: identify the highest-[[obso|OBSO]] location, select the closest defender and his grid cell, then search which cell he could have occupied to reduce OBSO most. The output is the positioning that "reduced the threat the most".
+As described by Fujii in an overview article: identify the highest-[[obso|OBSO]] location, select the closest defender and his grid cell, then search which cell he could have occupied to reduce OBSO most.
 
-Both Fujii counterfactual lines build on [[obso|OBSO]] rather than event classification, placing the group's off-ball work closer to [[probability-surface|Fernández et al.'s]] value surfaces than to VDEP's classifiers.
+Both Fujii counterfactual lines build on [[obso|OBSO]] rather than event classification, placing that work closer to [[probability-surface|Fernández et al.'s]] value surfaces than to VDEP's classifiers.
 
 ### Cost
 
-Fujii reports the trajectory method needed **enormous computation to evaluate all 22 players** — one prediction per player evaluated. C-OBSO confirms it: only **three of 22** are predicted. A method whose appeal is modelling interaction is restricted to the smallest interacting subset.
+Fujii reports the trajectory method needed **enormous computation to evaluate all 22 players** — one prediction per player. [[c-obso]] confirms it: only **three of 22** are predicted.
 
 ## What Remains Open
 
 - **Individual defensive credit is unverified here.** Addressed in the literature; not in `raw/`.
-- **No cross-framework comparison.** GVDEP, counterfactual positioning and VDEP have never been benchmarked against one another, nor against [[vaep]]'s defensive half.
-- **Errors of omission** — a defender who fails to press. Counterfactual positioning may cover this in principle, since a better available cell implies the actual one was worse.
-- **Reliability unreported** for every defensive metric here — the criterion that matters most for [[recruitment]].
+- **No cross-framework comparison.** GVDEP, counterfactual positioning and VDEP have never been benchmarked against one another.
+- **Errors of omission** — a defender who fails to press.
+- **Reliability unreported** for every defensive metric here.
 - **Scale.** Full-squad evaluation is prohibitively expensive by the only method that individuates.
 
 ## Beyond Football
 
-The structure recurs wherever the valuable outcome is prevented: fraud not committed, outages avoided, infections not transmitted. Same three problems — the target is an absence, the base rate is tiny, credit is shared across a system. Proxy targets and counterfactual attribution are the two standard responses, and this literature uses both.
+The structure recurs wherever the valuable outcome is prevented: fraud not committed, outages avoided, infections not transmitted.^[imported: these parallels are background knowledge, not from any held source] Same three problems — the target is an absence, the base rate is tiny, credit is shared across a system.
 
 ## See Also
 
 - [[vdep]] · [[c-obso]] · [[counterfactual-baseline]] · [[rare-event-proxy-targets]] · [[class-imbalance-evaluation]]
-- [[action-valuation]] · [[vaep]] · [[duel-skill-rating]] · [[off-ball-value]] · [[obso]]
-- [[pitch-control]] · [[probability-surface]] · [[keisuke-fujii]] · [[optical-tracking-data]]
+- [[vaep-conceding-classifier]] — the open question on the F1 evidence
+- [[action-valuation]] · [[vaep]] · [[duel-skill-rating]] · [[off-ball-value]] · [[obso]] · [[pitch-control]]
+- [[probability-surface]] · [[keisuke-fujii]] · [[optical-tracking-data]] · [[shap]]
 - [[action-valuation-frameworks-compared]]
 - [[football-defence-evaluation-vdep|VDEP Summary]] · [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]]

@@ -5,9 +5,11 @@ tags: [pitch-control, spatiotemporal, sports-analytics, optical-tracking-data, o
 sources: [raw/papers/beyond_expected_goals.md, raw/papers/expected_value_possession_framework.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/optimal_football_decisions_shot_taking_situations.md]
 confidence: 0.9
 provenance:
-  extracted: 75%
-  inferred: 22%
-  ambiguous: 3%
+  extracted: 70%
+  inferred: 15%
+  generated: 10%
+  imported: 0%
+  ambiguous: 5%
 lifecycle: reviewed
 created: 2026-07-27
 updated: 2026-07-27
@@ -17,7 +19,7 @@ updated: 2026-07-27
 
 A surface giving, for each location on the field, the probability that a given team would control the ball there. It turns 22 point positions into a continuous map of spatial dominance.
 
-The vault holds **two independent constructions**, used as inputs to different downstream value models and never compared against each other. See [[pitch-control-traditions-compared]] for where they should be expected to disagree and how to test it.
+The vault holds **two independent constructions**, used as inputs to different downstream value models and never compared against each other. See [[pitch-control-traditions-compared]].
 
 ## Tradition 1: Arrival-Time Contest (Spearman)
 
@@ -33,7 +35,7 @@ The leading bracket makes control **zero-sum**: probability mass gained by one p
 
 **Ball flight time.** Trajectories are simulated with **aerodynamic drag** (Asai & Seo, 2013), and $PPCF_j$ is held at zero until the ball could physically arrive. The flight time selected is the one **most advantageous to the attackers**.
 
-**Defensive advantage.** $\kappa = 1.72$ scales the control rate for defenders, since a defender is satisfied with heading clear while an attacker needs a controlled touch. Unique to this construction.
+**Defensive advantage.** $\kappa = 1.72$ scales the control rate for defenders, since a defender is satisfied with heading clear while an attacker needs a controlled touch.
 
 **Offside.** $\lambda_i$ is set to zero for attackers in offside positions.
 
@@ -49,7 +51,7 @@ $$I_i(p, t) = \frac{f_i(p, t)}{f_i(p_i, t)} \in [0, 1]$$
 
 $$PC(p, t) = \sigma\!\left(\gamma\Big(\lambda_1 \sum_i I_i(p,t) - \lambda_2 \sum_j I_j(p,t)\Big)\right)$$
 
-with $\lambda_1 = \lambda_2 = \gamma = 1$ — no team weighting, no shrinkage, nothing fitted.
+with $\lambda_1 = \lambda_2 = \gamma = 1$ — nothing fitted.
 
 ## The Two Compared
 
@@ -64,25 +66,27 @@ with $\lambda_1 = \lambda_2 = \gamma = 1$ — no team weighting, no shrinkage, n
 | Parameters | Fitted from measured priors | Set to 1 |
 | Used by | [[obso]], [[c-obso]], [[xsot\|xOSOT]] | [[expected-value-possession-framework\|Fernández et al.]] EPV |
 
-The substantive difference is **how they saturate**. Both do, by different mechanisms. F&B saturates through the sigmoid on a *difference* of summed influences, so adding a second defender to an already-dominated zone still moves the value. Spearman saturates on *total* control: once $\sum_k PPCF_k \to 1$, every remaining player's contribution is multiplied by approximately zero.
+> ^[generated: the saturation analysis below is derived here from the two published formulations. Neither source compares them, and the predicted direction of disagreement is untested. Stated in full on [[pitch-control-traditions-compared]].]
 
-The consequence is that **F&B assigns more extreme values in crowded areas**, and the two should disagree in proportion to local player density — worst in the penalty area and around the ball.
+The substantive difference is **how they saturate**. Both do, by different mechanisms. F&B saturates through the sigmoid on a *difference* of summed influences, so adding a second defender to an already-dominated zone still moves the value — $\sigma(2) = 0.88$ against $\sigma(1) = 0.73$. Spearman saturates on *total* control: once $\sum_k PPCF_k \to 1$, every remaining player's contribution is multiplied by approximately zero.
+
+If that reading is right, **F&B assigns more extreme values in crowded areas**, and the two should disagree in proportion to local player density — worst in the penalty area and around the ball.
 
 A second difference is **ball travel time**: PPCF makes a location twenty metres away genuinely harder to reach than one five metres away, *for both teams*. The Gaussian construction treats arrival as instantaneous.
 
-**No source in this vault compares them**, and both feed value models whose outputs *are* compared. See [[pitch-control-traditions-compared]] for the directional predictions and a proposed test — including the step that actually matters, which is whether substituting one surface for the other changes [[obso|OBSO]] player rankings.
+**No source compares them**, and both feed value models whose outputs *are* compared. See [[pitch-control-traditions-compared]] for the directional predictions and the decisive step — whether substituting one surface for the other changes [[obso|OBSO]] player rankings.
 
 ## The Integration Horizon
 
-An easily-missed parameter with real consequences. PPCF is defined as a differential equation in $T$ and must be integrated to some limit.
+PPCF is a differential equation in $T$ and must be integrated to some limit.
 
-[[obso|Spearman]] integrates to $T \to \infty$: the question is who would *eventually* control the ball at that location.
+[[obso|Spearman]] integrates to $T \to \infty$: who would *eventually* control the ball there.
 
-[[xsot|Yeung & Fujii]] integrate only to **finite $T$ — the ball's travel time from the shooter to that attacker.** Their reasoning: even if an attacker gains control *after* the ball would have arrived, they cannot shoot from there. Control that arrives late is worthless.
+[[xsot|Yeung & Fujii]] integrate only to **finite $T$ — the ball's travel time.** Even if an attacker gains control *after* the ball would have arrived, they cannot shoot from there.
 
-This is a genuine improvement for any use of PPCF as a **passing-option** model rather than a general control surface. The infinite-horizon version systematically **over-values** distant or contested options, since it credits control the passer could never actually exploit. The same correction applies wherever a control surface is read as "could I play the ball here *now*" rather than "who owns this space".
+This is a genuine improvement for any use of PPCF as a **passing-option** model rather than a general control surface: the infinite-horizon version systematically **over-values** distant or contested options.
 
-Note this compounds with a data limitation in their case: StatsBomb 360 supplies positions per event and **no velocities**, which are set to zero — degrading the intercept-time estimate that PPCF depends on.
+Note this compounds with a data limitation in their case: StatsBomb 360 supplies no velocities, which are set to zero — degrading the intercept-time estimate PPCF depends on. See [[tracking-error-propagation]].
 
 ## What It Is For
 
@@ -90,9 +94,9 @@ Pitch control is **infrastructure** rather than an end in itself:
 
 - In [[obso|OBSO]] it appears **twice** — as the control term, and inside the transition term raised to a power, since passers prefer destinations they can control.
 - In [[xsot|xOSOT]] it discounts each teammate's shot-on-target probability by their chance of receiving the ball.
-- In [[expected-value-possession-framework|the EPV framework]] it supplies the quantitative definition of *pressure* — an action is "under pressure" when the carrier's control falls below 0.4.
+- In [[expected-value-possession-framework|the EPV framework]] it supplies the quantitative definition of *pressure* — control below 0.4.
 
-More broadly it is one of the few tools here that values **space rather than events**. Every event-data framework is blind to a player who opens a passing lane by dragging a marker away.
+More broadly it is one of the few tools here that values **space rather than events**.
 
 ## Not the Same as Off-Ball Value
 
@@ -103,14 +107,13 @@ Control asks *who would win the ball here*; [[off-ball-value]] asks *what would 
 - **Control is counterfactual everywhere except the ball's location**, and is validated only through downstream model performance.
 - **Influence additivity** over-states control under overlapping coverage (Gaussian tradition only).
 - **Unfitted parameters** in the Gaussian version.
-- **Instantaneous state.** Both use the current snapshot with first-order velocity; neither models where players are *going*. [[trajectory-prediction]] is the natural complement and is not combined with either.
-- **Velocity is sometimes unavailable**, as in the StatsBomb 360 case above, in which case the reachability model degrades to positions alone.
+- **Instantaneous state.** Neither models where players are *going*; [[trajectory-prediction]] is the natural complement and is combined with neither.
+- **Velocity is sometimes unavailable**, in which case reachability degrades to positions alone.
 
 ## See Also
 
-- [[pitch-control-traditions-compared]] — open question: do the two agree?
+- [[pitch-control-traditions-compared]] · [[tracking-error-propagation]] — open questions
 - [[obso]] · [[probability-surface]] · [[off-ball-value]] · [[c-obso]] · [[xsot]] · [[space-creation]]
 - [[expected-possession-value]] · [[soccermap]] · [[trajectory-prediction]] · [[tactical-analysis]] · [[theory-based-modelling]]
-- [[william-spearman]] · [[javier-fernandez]] · [[luke-bornn]] · [[calvin-yeung]]
-- [[optical-tracking-data]] · [[dynamic-pressure-lines]]
+- [[william-spearman]] · [[javier-fernandez]] · [[luke-bornn]] · [[calvin-yeung]] · [[optical-tracking-data]]
 - [[beyond-expected-goals|Spearman Summary]] · [[expected-value-possession-framework|Soccer EPV Summary]] · [[optimal-decisions-shot-taking-situations|Yeung & Fujii Summary]]
