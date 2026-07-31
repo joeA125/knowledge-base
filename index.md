@@ -134,7 +134,13 @@ A catalog of all wiki pages, organised by type.
 
 ## Syntheses
 
-- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the five distinct tasks (valuation, forecasting, clustering, counterfactual/transfer, tactical), how each is validated, why possession metrics outpredict goals, the six axes of valuation design, and time as a cross-cutting dimension
+- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the six distinct tasks (valuation, forecasting, clustering, counterfactual/transfer, tactical, prescription), how each is validated, why possession metrics outpredict goals, the seven axes of valuation design, and the convergent prescriptive finding
+
+## Questions
+
+Open investigations — a question, what can be settled from held sources, and what would settle the rest.
+
+- [[pitch-control-traditions-compared]] — **Do the two pitch-control traditions agree?** Spearman's arrival-time PPCF against Fernández & Bornn's Gaussian influence model, both feeding value models whose outputs *are* compared. Analytically partially resolved: they should disagree in proportion to local player density, with a systematic defensive shift from $\kappa$ and a sharp offside band. Empirically untested; the decisive step is whether substituting one surface for the other changes OBSO player rankings.
 
 ## Conversations
 

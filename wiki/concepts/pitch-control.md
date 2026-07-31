@@ -17,7 +17,7 @@ updated: 2026-07-27
 
 A surface giving, for each location on the field, the probability that a given team would control the ball there. It turns 22 point positions into a continuous map of spatial dominance.
 
-The vault holds **two independent constructions**, used as inputs to different downstream value models and never compared against each other.
+The vault holds **two independent constructions**, used as inputs to different downstream value models and never compared against each other. See [[pitch-control-traditions-compared]] for where they should be expected to disagree and how to test it.
 
 ## Tradition 1: Arrival-Time Contest (Spearman)
 
@@ -57,18 +57,20 @@ with $\lambda_1 = \lambda_2 = \gamma = 1$ — no team weighting, no shrinkage, n
 |---|---|---|
 | Mechanism | Time-to-reach contest | Influence as a density |
 | Grounding | **Physical** — seconds and hertz | Statistical |
-| Competition | **Shared probability mass** | Difference of summed influences |
+| Saturates via | **Shared probability mass** | The sigmoid, on an influence *difference* |
 | Ball travel time | **Modelled, with drag** | Not modelled |
 | Attack/defence asymmetry | **$\kappa = 1.72$** | None |
 | Offside | **Handled** | Not handled |
 | Parameters | Fitted from measured priors | Set to 1 |
 | Used by | [[obso]], [[c-obso]], [[xsot\|xOSOT]] | [[expected-value-possession-framework\|Fernández et al.]] EPV |
 
-The substantive difference is **additivity**. Summing Gaussian influences over-states control where coverage overlaps — two defenders covering one zone contribute independently, when in reality the second adds little. PPCF's shared bracket makes control zero-sum by construction.
+The substantive difference is **how they saturate**. Both do, by different mechanisms. F&B saturates through the sigmoid on a *difference* of summed influences, so adding a second defender to an already-dominated zone still moves the value. Spearman saturates on *total* control: once $\sum_k PPCF_k \to 1$, every remaining player's contribution is multiplied by approximately zero.
 
-A second is **ball travel time**: PPCF makes a location twenty metres away genuinely harder to reach than one five metres away, *for both teams*. The Gaussian construction treats arrival as instantaneous.
+The consequence is that **F&B assigns more extreme values in crowded areas**, and the two should disagree in proportion to local player density — worst in the penalty area and around the ball.
 
-**No source in this vault compares them**, and both feed value models whose outputs *are* compared. Given both differences, they are least likely to agree in congested areas near goal — precisely where it matters.
+A second difference is **ball travel time**: PPCF makes a location twenty metres away genuinely harder to reach than one five metres away, *for both teams*. The Gaussian construction treats arrival as instantaneous.
+
+**No source in this vault compares them**, and both feed value models whose outputs *are* compared. See [[pitch-control-traditions-compared]] for the directional predictions and a proposed test — including the step that actually matters, which is whether substituting one surface for the other changes [[obso|OBSO]] player rankings.
 
 ## The Integration Horizon
 
@@ -106,6 +108,7 @@ Control asks *who would win the ball here*; [[off-ball-value]] asks *what would 
 
 ## See Also
 
+- [[pitch-control-traditions-compared]] — open question: do the two agree?
 - [[obso]] · [[probability-surface]] · [[off-ball-value]] · [[c-obso]] · [[xsot]] · [[space-creation]]
 - [[expected-possession-value]] · [[soccermap]] · [[trajectory-prediction]] · [[tactical-analysis]] · [[theory-based-modelling]]
 - [[william-spearman]] · [[javier-fernandez]] · [[luke-bornn]] · [[calvin-yeung]]

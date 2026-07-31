@@ -1488,3 +1488,62 @@ CARRIED FORWARD:
 - 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them. The consistent repair is one convention applied retrospectively to the CV and NLP material.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-31 10:22] question | Pitch-control traditions — analytical comparison and proposed test
+Acted on the pitch-control comparison question, carried unresolved across five entries. No new source read.
+
+Pages created: 1, Pages updated: 1
+
+CREATED — wiki/questions/pitch-control-traditions-compared.md. FIRST USE OF THE `question` PAGE TYPE, which the schema defines ("filed answer or investigation") and which had never been instantiated. An open, well-specified methodological question with a partial analytical answer is exactly what that type is for; note the index previously had no Questions section.
+
+NOT EMPIRICALLY RESOLVED, and cannot be from here — the vault holds papers, not tracking data. What was done instead is an ANALYTICAL comparison yielding directional predictions, which converts "never compared" into a specific cheap test.
+
+THE ANALYTICAL FINDING — the substantive difference is HOW THE TWO SATURATE, not additivity as previously recorded on pitch-control. Both saturate; the mechanisms differ:
+- Fernandez & Bornn saturate through the SIGMOID, applied to a DIFFERENCE of summed influences. Adding a second defender to an already-dominated zone still moves the value (sigma(2)=0.88 vs sigma(1)=0.73).
+- Spearman saturates through the SHARED BRACKET, on TOTAL control. Once sum_k PPCF_k -> 1, every remaining player's contribution is multiplied by approximately zero.
+The earlier phrasing ("summing Gaussian influences over-states control where coverage overlaps") was roughly right but imprecise — it implied F&B does not saturate at all. Corrected on pitch-control.
+
+DIRECTIONAL PREDICTIONS:
+1. Saturation — F&B assigns more extreme values in crowded areas; disagreement should scale with LOCAL PLAYER DENSITY, worst in the penalty area and around the ball.
+2. kappa = 1.72 — a systematic shift of Spearman's surfaces toward defensive control, roughly uniform. A BIAS not noise, visible as a non-zero mean difference, and removable by refitting rather than redesign.
+3. Offside — disagreement concentrated in a band beyond the last defender, near-zero elsewhere. The one place the two are not approximating the same quantity at all.
+4. Ball travel time — direction NOT predictable analytically; both effects push the same way by different mechanisms, and the sign depends on parameter values.
+
+COMPOSITE PREDICTION, and the reason this matters: the surfaces should agree LEAST WHERE VALUATION DEPENDS ON THEM MOST. A single global correlation would therefore UNDERSTATE the practical disagreement, since most of the pitch is empty and both models agree that empty space near one team belongs to that team. A global r is the wrong summary; the comparison must be stratified.
+
+PROPOSED TEST, six steps, with step 6 the decisive one: recompute OBSO with the Gaussian surface substituted for PPCF and compare PLAYER RANKINGS. Surface disagreement only matters if it changes conclusions. If rankings are stable the question is academic; if not, every cross-framework comparison in the vault needs a caveat — and that outcome is not implausible, since the predicted disagreement is concentrated exactly where those metrics take their largest values.
+
+WHY NOBODY HAS DONE IT, recorded on the question page: the two traditions have no overlapping authors and cite each other only in passing. Fernandez, Bornn & Cervone cite Spearman as related work; the Fujii group adopts PPCF wholesale without comparing alternatives. Nobody has an incentive to test whether their own substrate is the right one. This is the vault-wide benchmarking gap appearing at COMPONENT level rather than framework level, which is a sharper version of the same problem — a shared component that differs silently is worse than two frameworks that differ openly.
+
+UPDATED:
+- pitch-control — saturation description corrected and sharpened; comparison table row changed from "Competition" to "Saturates via"; question page linked from the header, the comparison section and See Also.
+
+FOLLOW-UP: the index needs a Questions section, which it has never had. Not added this run.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- Spearman et al. (2017) supplies the PPCF priors, cited-only.
+- THREE xG FORMULATIONS, NEVER BENCHMARKED — a second component-level instance of the same gap, and a candidate for the same treatment as this question.
+- The convergent prescriptive finding (Fernandez et al. 0.032 vs 0.112; Yeung & Fujii 0.0866 vs 0.2456) deserves a direct test nobody has run.
+- 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-07-31 10:26] lint | Questions section added to the index
+Added a Questions section to the index, closing the follow-up from the previous entry.
+
+INTERPRETATION NOTE: the request said "add questions section to the log". Applied to the INDEX instead, on the reading that this was the intended target — the index is the sectioned catalogue and was what the previous entry flagged as missing a Questions section. The log is chronological and append-only, so it cannot carry sections; its equivalent mechanism is the entry_type field, which already records question-type entries (the previous entry used entry_type="question"). Flagged here rather than silently assumed, in case the log was genuinely meant.
+
+INDEX CHANGES:
+- New "## Questions" section, placed between Syntheses and Conversations. Given a one-line preamble describing what the type is for — a question, what can be settled from held sources, and what would settle the rest — since this is the first use of the type and the convention is not otherwise documented anywhere except _schema.
+- Listed pitch-control-traditions-compared with a summary that states both the analytical partial answer and the decisive untested step, rather than just the question. A reader scanning the index should be able to tell whether an open question is stalled or has progress banked.
+- Synthesis entry updated: it still described FIVE tasks and SIX axes. Now six tasks (prescription added at the Yeung & Fujii ingest) and seven axes, with the convergent prescriptive finding named. That description had been stale for two entries.
+
+OBSERVATION ON THE INDEX AS AN ARTEFACT: the Conversations section remains empty and has been since the vault's creation. Unlike Questions, which was empty because the type had never been instantiated, Conversations appears to be a type that has never had a use case. Worth deciding whether to keep it — an index section that is永 empty is a small ongoing cost to every reader scanning the file. Not acted on.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- Spearman et al. (2017) supplies the PPCF priors, cited-only.
+- THREE xG FORMULATIONS, NEVER BENCHMARKED — the second component-level instance of the benchmarking gap, and the natural candidate for the same question-page treatment now that the pattern exists.
+- The convergent prescriptive finding (Fernandez et al. 0.032 vs 0.112; Yeung & Fujii 0.0866 vs 0.2456) deserves a direct test nobody has run. Also a question-page candidate.
+- 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
