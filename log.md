@@ -1732,3 +1732,38 @@ CARRIED FORWARD:
 - Conversations section of the index remains empty and has never been used.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-31 17:02] writeback | Synthesis marked; retrofit items 1-5 complete
+Synthesis marked. Retrofit items 1-5 now complete across all nine pages. No new source read; no new pages created.
+
+Pages updated: 1 (action-valuation-frameworks-compared)
+
+MARKERS ADDED — five generated claims, each pointing to the concept page carrying the full argument and falsifier:
+- The six-task division itself. Worth marking because it is the page's organising scheme and no source proposes it; a reader could easily take it as the field's own taxonomy.
+- The four-cause decomposition of offensive bias, with the dependency noted inline: the fourth cause rests on the F1 evidence flagged two paragraphs above.
+- "The individuating ingredient is the counterfactual, not the data", with the Shapley objection stated in the marker itself rather than only on counterfactual-baseline.
+- The handcrafted-features rule, labelled a working heuristic.
+- "Parameters with physical units admit priors from previous measurement", with its falsifier.
+
+TWO INLINE CAVEATS ADDED at points of use, both previously only reachable by following a link:
+- The reliability row of the valuation table now carries a warning that split-half reliability and volatility measure the same variance component, so a low rho may report player inconsistency rather than metric failure. That row is read as a straight quality comparison and it is not one.
+- The F1 = 0.000 figure carries its thresholding caveat where it appears.
+
+A PROVENANCE NOTE added to the header, stating the convention: a synthesis generates claims no single source states, the load-bearing ones are marked at point of use, and the fuller argument sits on the linked concept page. Without that, a reader hitting five markers in one document has no framing for what they mean.
+
+FRONTMATTER: generated raised to 15%, the highest of any page in the vault. That is appropriate rather than alarming — a synthesis that generated nothing would not be doing its job — but it is worth being visible, because this is also the vault's most-read page and the one most likely to be quoted without its caveats.
+
+STATE: retrofit complete. Every widely-propagated generated claim identified in the schema pass is now marked at every page carrying it.
+
+WHAT THE RETROFIT PRODUCED BEYOND LABELS, collected:
+1. A real objection to the most-propagated claim (Shapley-style attribution over agents would individuate without intervening), which demoted it from law to tendency across five pages.
+2. A dependency between generated claims — the fourth cause of offensive bias rests on the F1 evidence now under question. Invisible while the claims lived on separate pages.
+3. A discovery that split-half-reliability was already ahead of the question page meant to correct it, because the retrofit list had been built from memory rather than by reading.
+All three came from the act of stating what would falsify a claim, not from the labelling itself.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them. Now the largest outstanding structural task.
+- Consider tracking DEPENDENCIES between generated claims — a marker records that a claim was invented here, not what it was invented on top of. When one is revised there is no mechanism to find what else moves.
+- Conversations section of the index remains empty and has never been used.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
