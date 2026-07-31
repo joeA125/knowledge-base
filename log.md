@@ -1666,3 +1666,40 @@ CARRIED FORWARD:
 - Conversations section of the index remains empty and has never been used.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-31 11:57] lint | Schema: generated and imported provenance categories added
+Added generated/imported provenance categories to _schema/conventions.md. No new source read; no new pages created.
+
+Pages updated: 1 (_schema/conventions.md)
+
+FINDING WHILE READING THE EXISTING CONVENTION: the schema ALREADY HAD a claim-level provenance mechanism — inline markers ^[inferred: reason] and ^[ambiguous: ...] — and I HAVE NEVER USED IT. Every page I have written carries frontmatter percentages and zero inline markers. That is part of why generated claims went unflagged: the mechanism existed, the frontmatter substitute was easier, and a percentage cannot say WHICH claim is risky. Recorded in the convention itself: the percentages say how much, the markers say which.
+
+WHAT WAS ADDED:
+- ^[generated: reason] — a claim constructed here that no source states.
+- ^[imported: reason] — brought from outside the held corpus (model knowledge, web search, background).
+- Both added to the frontmatter proportions, defaulting to 0 so existing pages remain valid.
+
+THE INFERRED/GENERATED BOUNDARY, stated as a test: would an author of a held source recognise the claim as theirs? "VDEP and xT differ on whether risk is modelled" is inferred — both papers would agree. The handcrafted-features rule is generated — invented to reconcile three sources that never addressed each other, and none states it. Boundary case given explicitly: noting that two sources disagree is INFERRED; diagnosing why, or resolving it, is GENERATED.
+
+WHY IMPORTED IS SEPARATE, with the vault's own worked example: the william-spearman page once asserted a Liverpool FC affiliation drawn from background knowledge rather than any held source. It was wrong — the primary source says Hudl. NO AMOUNT OF INTERNAL REVIEW WOULD HAVE CAUGHT IT, because the vault contained nothing to check it against. That is the distinguishing property of imported claims and the reason they need their own marker rather than being folded into generated. Rule recorded: never state an imported claim as fact; mark it or omit it.
+
+LIFECYCLE CONSEQUENCE, added: VERIFIED IS UNAVAILABLE TO A GENERATED CLAIM by definition — no source can confirm what no source states. A page whose central claim is generated should not reach `verified` on the strength of its extracted material. Where a generated claim is testable, a `question` page is its proper home. This connects the new field to the question-page type created earlier today.
+
+RETROFIT PRIORITY — known generated claims currently presented as fact, in rough order of how far they have propagated:
+1. "The individuating ingredient is the counterfactual, not the data" — counterfactual-baseline, off-ball-value, defensive-valuation, synthesis. Mine, four pages, never labelled.
+2. The handcrafted-features rule — representation-learning, theory-based-modelling, synthesis. Now labelled on the synthesis and on its question page; NOT labelled on the other two.
+3. The four-causes-four-remedies decomposition of offensive bias — action-valuation, synthesis, defensive-valuation. Generated; no source enumerates these.
+4. "Parameters with physical units admit priors from previous measurement" — model-selection, synthesis. Generated, though close to self-evident.
+5. The pitch-control saturation analysis (sigmoid-on-difference vs shared-mass) — pitch-control and its question page. Generated.
+6. The reliability/volatility identity — labelled on its question page, NOT on split-half-reliability or performance-volatility, which still present the conflict as unresolved.
+7. The F1-thresholding argument — labelled on its question page, NOT on class-imbalance-evaluation or vaep.
+
+Items 6 and 7 are the most urgent of these, because the question pages now contain analysis that CONTRADICTS what the concept pages say, and only the question pages know it.
+
+NOT RETROFITTED THIS RUN. Roughly 200 pages carry frontmatter without the new keys, which is fine — they default to 0. What is not fine is the seven claims above being presented as extracted. Suggest working the list in order rather than attempting a full-vault pass.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them.
+- Conversations section of the index remains empty and has never been used.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
