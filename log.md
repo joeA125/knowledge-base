@@ -1633,3 +1633,36 @@ CARRIED FORWARD:
 - Conversations section of the index remains empty and has never been used.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-31 11:46] writeback | Synthesis prescriptive section corrected; question pages wired in
+Corrected the over-merged prescriptive phrasing on the synthesis and wired the eight question pages into it. No new source read; no new pages created; index unchanged.
+
+Pages updated: 1
+
+THE CORRECTION. The section "The Convergent Prescriptive Finding" claimed Fernandez et al. and Yeung & Fujii "locate the divergence in the same place." Renamed to "Observed Versus Optimal: What the Two Results Do and Do Not Share" and rewritten to state the distinction:
+- Fernandez et al. measure suboptimal TARGETING WITHIN an action — given a pass, it often does not go to the best destination. Action type not in question.
+- Yeung & Fujii measure suboptimal SELECTION BETWEEN actions — given a shot situation, the shooter shoots when equilibrium says pass. Destination not in question.
+So "shooters shoot too much" is Yeung & Fujii's claim ALONE. The joint support is weaker and still substantial: a large gap under two unrelated methods, different leagues, different data types, different decision granularities. Convergence on the EXISTENCE of a gap, not its cause.
+The three artefact explanations (average-player modelling, unmodelled execution difficulty, assumed-rational opponent) are now stated on the synthesis rather than only on the question page, since a reader of the synthesis should not have to follow a link to learn the finding may be circular.
+
+BEYOND THE CORRECTION — the synthesis is now a HUB rather than a terminus. Eight question pages existed and none was linked from it, which meant the vault's most-read page stated open problems without pointing at the analysis of them. Fixed by:
+- A header note directing to the Questions section of the index.
+- Inline pointers at each point of use: vaep-conceding-classifier at the F1 figure, free-parameters-load-bearing at the credit-assignment table, handcrafted-features-rule at the reconciliation, within-season-variation-noise-or-signal at the validation discussion.
+- Limitation 7 rewritten. It previously listed the two pitch-control traditions alone; it now groups all three COMPONENT-LEVEL divergences (pitch control, shot value, tracking error) under one heading with the shared diagnosis — shared ingredients that differ silently between frameworks whose outputs ARE compared, which is the benchmarking gap one level down and worse there.
+- A closing "Open Questions" section grouping all eight by who could answer them.
+
+TWO INLINE CAVEATS ADDED that were previously stated only elsewhere:
+- The F1 = 0.000 figure now carries a warning at its point of use. It is cited in the synthesis's most prominent axis section, and a reader taking it at face value would be taking the wrong evidence for a possibly-right conclusion.
+- The reliability/volatility relationship is flagged where the four validation checks are listed, because those two were being presented as independent evidence and are not — they measure the same variance component with opposite interpretations.
+
+The handcrafted-features rule is now labelled on the synthesis as "a reconciliation THIS VAULT CONSTRUCTED, not a finding any source states". It had been presented as settled.
+
+STATE: no outstanding corrections. All eight question pages are reachable from the synthesis and the index.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- Spearman et al. (2017) supplies the PPCF priors, cited-only.
+- 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them. This is the only substantial structural task left outstanding.
+- Consider a schema addition distinguishing GENERATED claims from EXTRACTED ones — the provenance field's `inferred` percentage does not separate "reasonable gloss on a source" from "novel claim invented here", and three question pages now test claims of the latter kind.
+- Conversations section of the index remains empty and has never been used.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+

@@ -19,6 +19,8 @@ The vault's football-analytics sources are easily mistaken for variations on one
 
 *(Formerly "Action Valuation Frameworks Compared" — renamed as the vault outgrew the valuation-only framing.)*
 
+> **Eight open questions have their own pages**, listed under Questions in the index. Where this synthesis flags an unresolved problem, the question page carries the analysis. Pointers are given inline below.
+
 ## The Six Tasks
 
 | Task | Question | Unit | Examples |
@@ -30,7 +32,7 @@ The vault's football-analytics sources are easily mistaken for variations on one
 | **Tactical** | How does this team play, and how do we counter it? | Team configuration | [[tactical-analysis\|Pressing analysis]], possession clustering |
 | **Prescription** | What *should* the player have done? | Decision | [[xsot\|Yeung & Fujii]] |
 
-**Prescription is new and is genuinely a sixth task.** Every other framework here describes what happened and assigns it a value. [[game-theory|Yeung & Fujii]] solve for what *ought* to happen, and can defend the claim by pointing at a payoff table. That is a different epistemic object, not a variation on valuation.
+**Prescription is genuinely a sixth task.** Every other framework describes what happened and assigns it a value. [[game-theory|Yeung & Fujii]] solve for what *ought* to happen, and can defend the claim by pointing at a payoff table. That is a different epistemic object, not a variation on valuation.
 
 ## Task 1: Valuation
 
@@ -55,15 +57,13 @@ $$V(a_i) = Q(S_i) - Q(S_{i-1})$$
 
 ### Axis 1: Perspective — attacking or defending
 
-[[football-defence-evaluation-vdep|Toda et al.]] measure the cost of the attacking default: **VAEP's conceding classifier scores F1 = 0.000** on 45 matches. Offensive bias has **four causes with four remedies** — definitional (change the target), data (tracking), modelling choice (model duels), and statistical (a frequent proxy).
+[[football-defence-evaluation-vdep|Toda et al.]] measure the cost of the attacking default: VAEP's conceding classifier scores **F1 = 0.000** on 45 matches. Offensive bias has **four causes with four remedies** — definitional (change the target), data (tracking), modelling choice (model duels), and statistical (a frequent proxy).
 
-Note [[xsot|xSOT]] is the first to model **both agents at once** rather than picking a side.
+⚠️ That F1 figure needs care: it is near-guaranteed for any calibrated model at a 0.23% base rate, and VAEP never thresholds. The conclusion may be right while the diagnostic is wrong — see [[vaep-conceding-classifier]].
 
 ### Axis 2: Target rarity
 
-See [[rare-event-proxy-targets]]. Five frameworks now substitute a denser proxy for goals — recoveries, shot-on-target, accumulated xG, possession dynamics, positional opportunity.
-
-**The proxy is not a neutral substitution; it reorganises the model around itself.** [[c-obso|C-OBSO]] weights the goalkeeper *double* in its shot-block model; [[xsot|Yeung & Fujii]] remove him entirely — because a save still counts as *on target*. Same geometry, opposite treatment of one player, purely because the target moved.
+See [[rare-event-proxy-targets]]. Five frameworks substitute a denser proxy for goals. **The proxy is not a neutral substitution; it reorganises the model around itself** — [[c-obso|C-OBSO]] weights the goalkeeper *double*, [[xsot|Yeung & Fujii]] remove him entirely, because a save still counts as *on target*.
 
 ### Axis 3: Whose value — actor, receiver, or beneficiary
 
@@ -71,34 +71,43 @@ Three distinct answers where the vault long had one. [[c-obso]] correlates 0.45 
 
 ### Axis 4: Observed policy or optimal policy
 
-**New, and the most consequential addition.** Every framework except [[xsot|Yeung & Fujii]] estimates value under the **observed** policy. [[expected-threat|xT]] has no $\max$ in its recursion; [[expected-value-possession-framework|Fernández et al.]] state the aim is value under the *average* policy learned from history.
+Every framework except [[xsot|Yeung & Fujii]] estimates value under the **observed** policy. The stated reason is that the optimal-policy counterfactual is unfounded — no data contains perfect play.
 
-The stated reason is that the optimal-policy counterfactual is unfounded — no data contains perfect play. [[game-theory|Yeung & Fujii]] show when that objection bites and when it does not: restrict to a **two-action game** and payoffs for unobserved profiles become *estimable* rather than extrapolated.
-
-**The barrier is the size of the action space, not the observational nature of the data.** Coarsening is the price — "Pass" collapsing ten recipients into one option is what makes the equilibrium computable and what limits what it means. See [[policy-modelling]].
+[[game-theory|Yeung & Fujii]] show when that objection bites: restrict to a **two-action game** and payoffs for unobserved profiles become *estimable* rather than extrapolated. **The barrier is the size of the action space, not the observational nature of the data.** Coarsening is the price. See [[policy-modelling]].
 
 ### Axes 5–7: intent vs outcome, attributable possession, realised vs available
 
-Whether the model sees how the action turned out ([[intent-vs-outcome-valuation]]); whether contested events are visible ([[symmetrical-duel-valuation]]); whether unrealised options can be valued ([[probability-surface|pass surfaces]], where realised 0.032 against best-available 0.112 makes the gap the coaching output).
+Whether the model sees how the action turned out ([[intent-vs-outcome-valuation]]); whether contested events are visible ([[symmetrical-duel-valuation]]); whether unrealised options can be valued ([[probability-surface|pass surfaces]]).
 
 ### Credit assignment over time
 
 Six positions, from [[vaep]]'s fixed $k=10$ action window through [[expected-value-possession-framework|Fernández et al.'s]] hard 15 s cutoff to [[temporal-discounting|Shelopugin's]] geometric decay and [[obso|OBSO's]] single next-event horizon.
 
-**Five frameworks carry an unjustified free parameter and none reports a sensitivity analysis.** [[obso|Spearman]] is the exception, and the reason is structural: parameters with **physical units** admit priors from previous measurement. See [[model-selection]].
+**Five frameworks carry an asserted free parameter and none reports a sensitivity analysis.** [[obso|Spearman]] is the exception, and the reason is structural: parameters with **physical units** admit priors from previous measurement. Note the five are not the same kind of parameter — horizons are likely self-limiting while $\gamma$ and $C$ are not. See [[free-parameters-load-bearing]] and [[model-selection]].
 
-## The Convergent Prescriptive Finding
+## Observed Versus Optimal: What the Two Results Do and Do Not Share
 
-Two frameworks, entirely different methods, same conclusion:
+Two frameworks with nothing methodologically in common each report a large gap between observed behaviour and their model's optimum.
 
 | Source | Method | Observed | Best available | Gap |
 |---|---|---|---|---|
 | [[expected-value-possession-framework\|Fernández et al.]] | Pass-value surface | 0.032 | 0.112 | 0.080 |
 | [[xsot\|Yeung & Fujii]] | Game-theoretic payoffs | 0.0866 (shoot) | 0.2456 (pass) | 0.159 |
 
-**Both find that observed behaviour diverges systematically from optimal**, and both locate the divergence in the same place — players take the shot or the safe option when a better one exists. Yeung & Fujii state it directly: shooters shoot too much.
+**Correction, 2026-07-27.** An earlier revision of this section described the two as "locating the divergence in the same place." That was too strong. They measure different things:
 
-Neither paper cites the other. That two methods with nothing in common converge on a claim about *systematic decision error* is the strongest prescriptive signal this literature has produced, and it deserves a direct test that nobody has run.
+- **Fernández et al.** measure suboptimal **targeting *within* an action** — given a pass, it often does not go to the highest-value destination. The action type is not in question.
+- **Yeung & Fujii** measure suboptimal **selection *between* actions** — given a shot situation, the shooter shoots when the equilibrium says pass. The destination is not in question.
+
+So **"shooters shoot too much" is Yeung & Fujii's claim alone.** What the two jointly support is weaker and still substantial: a large observed-versus-optimal gap appears under two unrelated methods, on different leagues, different data types and different decision granularities.
+
+That is convergence on the **existence** of a gap, not on its cause — and the cause matters, because at least three explanations produce a large gap with no decision error present:
+
+1. **Average-player models applied to specific players.** An elite finisher *should* shoot more than an average-player equilibrium prescribes, and would be scored as over-shooting for doing the right thing.
+2. **Execution difficulty is unmodelled.** Both value the *intent* of the best option, not the difficulty of playing it. The gap may be the price of reliability.
+3. **Equilibrium assumes a rational opponent.** If defenders systematically fail to block, the shooter's true best response shifts toward shooting.
+
+Neither paper tests whether the gap predicts anything outside its own model. See [[observed-versus-optimal-decisions]].
 
 ## Off-Ball Valuation: Four Mechanisms
 
@@ -122,11 +131,11 @@ A player has the ball for roughly **3 of 90 minutes**.
 
 **Forecasting produces metrics as a by-product**, needing no outcome labels, so goal sparsity never bites. See [[event-prediction]].
 
-### The handcrafted-features question, resolved
+### The handcrafted-features question
 
-Seq2Event degrades *without* engineered geometry; [[sig-model]] degrades *with* it; [[xsot|Yeung & Fujii]] find a [[theory-based-modelling|theory-based feature]] essential, and raw coordinates actively harmful (0.5684 against 0.5545 for shooter features alone).
+Seq2Event degrades *without* engineered geometry; [[sig-model]] degrades *with* it; [[xsot|Yeung & Fujii]] find a [[theory-based-modelling|theory-based feature]] essential and raw coordinates actively harmful.
 
-All three are consistent under one rule: **encode structure the representation cannot recover *and* the data cannot support learning; encode nothing else.** A path signature recovers geometry by construction, so adding it is redundant. A small MLP on 2,575 examples cannot recover occlusion geometry, so adding it is informative. See [[representation-learning]] and [[theory-based-modelling]].
+A rule reconciling all three is proposed on [[representation-learning]]: **encode structure the representation cannot recover *and* the data cannot support learning; encode nothing else.** Note this is a reconciliation *this vault constructed*, not a finding any source states, and it is untested — see [[handcrafted-features-rule]].
 
 The same sample-size logic explains why tree ensembles **won** on VAEP's 8.5M actions and came **last** on Yeung & Fujii's 2,575 shots. See [[gradient-boosting]].
 
@@ -154,6 +163,8 @@ Spearman's remains the strongest — **player-level**, against an **independent 
 
 Four validation checks in ascending strength: self-prediction → cross-horizon consistency ([[vdep]]) → external outcome (Spearman) → external criterion outside the pipeline ([[c-obso]] vs salary).
 
+A caution on the reliability side of this: [[split-half-reliability]] and [[performance-volatility]] turn out to be measuring the **same variance component** with opposite interpretations, so they are not independent evidence. See [[within-season-variation-noise-or-signal]].
+
 ## Limitations Shared Across Tasks
 
 1. **Offensive bias** — four causes, four remedies.
@@ -162,8 +173,8 @@ Four validation checks in ascending strength: self-prediction → cross-horizon 
 4. **No ground truth**, which is why reliability, predictive validity, calibration, imbalance-robust metrics and external criteria have all become substitute tests.
 5. **[[selection-bias]] throughout.**
 6. **Scale limits on interaction models** — [[c-obso]] predicts 3 of 22 players.
-7. **Two uncompared [[pitch-control]] traditions**, differing on additivity and ball travel time, feeding models whose outputs *are* compared.
-8. **Strategy-space coarsening** is the price of prescription — a 2×2 equilibrium is a statement about a heavily simplified game.
+7. **Component-level divergence, invisible in framework-level comparison.** Two uncompared [[pitch-control-traditions-compared|pitch-control traditions]], four unbenchmarked [[shot-value-formulations-compared|shot-value formulations]], and [[tracking-error-propagation|tracking error]] that nobody propagates. All three are shared ingredients that differ silently between frameworks whose outputs *are* compared — the benchmarking gap one level down, and worse there.
+8. **Strategy-space coarsening** is the price of prescription.
 9. **Price is absent everywhere.**
 10. **No cross-framework benchmarking.** Yeung & Fujii compare against no decision-making baseline either.
 
@@ -171,7 +182,7 @@ Four validation checks in ascending strength: self-prediction → cross-horizon 
 
 - **Season-long recruitment** → xT for stability; [[transfer-performance-prediction|regression on club/league strength]] to shortlist; [[scoutgpt|simulation]] for fit; [[player-development-curve|PDC]] for trajectory.
 - **Identifying an attacker whose output understates him** → [[obso|OBSO]] and [[c-obso]], the two metrics here with external validation.
-- **Coaching a decision, not describing one** → [[xsot|the SPC framework]], the only prescriptive tool here.
+- **Coaching a decision, not describing one** → [[xsot|the SPC framework]], the only prescriptive tool here — with the caveat above about what its gap does and does not establish.
 - **Assessing a defence** → [[vdep]] (team level only).
 - **Live or post-match decision support** → [[expected-value-possession-framework|Fernández et al.]]; [[obso|OBSO]] for ranking moments at far lower cost.
 - **Valuing what was available** → [[probability-surface|pass surfaces]].
@@ -179,6 +190,14 @@ Four validation checks in ascending strength: self-prediction → cross-horizon 
 - **Aerial or physical targets** → [[duel-skill-rating]].
 - **Small-data modelling** → [[theory-based-modelling|theory-based features]] over raw inputs, and avoid tree ensembles.
 - **Shot quality alone** → xG, a *component* of the others rather than a competitor.
+
+## Open Questions
+
+Each has a page carrying the analysis:
+
+- [[pitch-control-traditions-compared]] · [[shot-value-formulations-compared]] · [[tracking-error-propagation]] — component-level gaps
+- [[free-parameters-load-bearing]] · [[vaep-conceding-classifier]] — untested assumptions in held work
+- [[within-season-variation-noise-or-signal]] · [[observed-versus-optimal-decisions]] · [[handcrafted-features-rule]] — claims this vault generated
 
 ## See Also
 
@@ -191,5 +210,5 @@ Four validation checks in ascending strength: self-prediction → cross-horizon 
 - [[hpus]] · [[lpv]] · [[sig-model]] · [[nmstpp]] · [[seq2event]] · [[scoutgpt]] · [[event-prediction]]
 - [[symmetrical-duel-valuation]] · [[duel-skill-rating]] · [[possession-risk]] · [[temporal-discounting]] · [[effective-playing-time]]
 - [[transfer-performance-prediction]] · [[league-strength-rating]] · [[recruitment]] · [[player-rating-time-series]]
-- [[split-half-reliability]] · [[predictive-validity]] · [[selection-bias]]
+- [[split-half-reliability]] · [[predictive-validity]] · [[selection-bias]] · [[performance-volatility]]
 - [[william-spearman]] · [[keisuke-fujii]] · [[calvin-yeung]] · [[javier-fernandez]]
