@@ -71,28 +71,34 @@ recalculate confidence. Flag any page below 0.5 for review.
 
 ### INGEST (new source → wiki updates)
 
-1. Read it in full with read_note.
-2. Create a source summary page in wiki/summaries/ with write_note.
-3. List every distinct technical concept, method, or architecture introduced 
-   or substantially covered. For each, state whether it warrants a concept page 
-   and why. Err toward creating pages.
-4. Before creating any new concept or entity page, search wiki/concepts/ and 
-   wiki/entities/ for existing pages that reference the same topic. 
-5. Update existing pages which contain overlap or are further developed by 
-   the new raw source.
-5. Create entity pages for each entity mentioned and deemed appropriate 
-   for a page.
-6. Create concept pages for each concept discussed and deemed appropriate 
-   for page.
-7. Re-check for contradictions with existing pages.
-8. Add new tags to the tags tracker.
-9. Add [[wikilinks]] cross-references on all affected pages.
-10. Update the index with update_index.
-11. Log the operation with append_log.
-   `## [YYYY-MM-DD] ingest | Source Title`
-   `Pages created: X, Pages updated: Y`
+Read the CLAUDE.md schema first (use the read_schema tool).
+Follow it precisely for all operations.
 
-A single source should touch roughly 10-15 concepts/entries and have muliple tags.
+Your job: process new source documents into the wiki.
+Use list_unprocessed_sources to find new material, then
+follow the INGEST operation defined in the schema.
+
+For each source:
+1. Read it in full with read_note
+2. Create a source summary page in wiki/summaries/ with write_note
+3. List every distinct technical concept, method, or architecture introduced or substantially covered. For each, state whether it warrants a concept page and why. Err toward creating pages. Ensure you do this step transparently in the conversation.
+4. Before creating any new concept or entity page, search wiki/concepts/ and wiki/entities/ for existing pages that reference the same topic. Update existing pages rather than leaving stubs stale
+5. Any a claim marked "absence:" must be checked to assess any potential updates based on the new raw source
+6. Create or update entity pages for each entity mentioned and deemed appropriate for a page or with an existing page
+7. Create or update concept pages for each concept discussed and deemed appropriate for  page or with an existing page
+8. Re-check for contradictions with existing pages
+9. Add new tags to the taxonomy file
+10. Add [[wikilinks]] cross-references on all affected pages
+11. Update the index with update_index
+12. Log the operation with append_log
+
+A single source should touch 10-15 wiki pages. If it only touches 1-4 pages, you're not cross-referencing enough. If there a few pages / a new source is not covering many, create new concepts where appropriate. New summaries will very rarely not add or change existing concepts and entities, they should always provide some form of new information. A paper producing zero new concepts is a red flag that requires explicit justification.
+
+After processing, report:
+- Pages created (with paths)
+- Pages updated (with what changed)
+- Any contradictions found
+- Any new tags proposed in taxonomy
 
 ### QUERY (question → answer, optionally filed)
 
