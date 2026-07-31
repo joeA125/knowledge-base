@@ -1547,3 +1547,89 @@ CARRIED FORWARD:
 - 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-31 11:02] question | Two question pages created; five further candidates identified
+Created the two flagged question pages and identified further candidates. No new source read.
+
+Pages created: 2, Pages updated: 1 (index)
+
+CREATED — wiki/questions/shot-value-formulations-compared.md
+FRAMING CORRECTED WHILE DRAFTING: earlier entries said THREE unbenchmarked xG formulations. Enumerating properly gives FOUR, and the fourth is what makes the question interesting:
+A. Event-data learned (VAEP, xT's recursion, Shelopugin) — blind to defenders
+B. Tracking-augmented learned (Fernandez et al.) — counts defenders in a triangle, discrete
+C. Distance-only power law (OBSO as published) — no angle, no defenders, beta = 0.48 admitted by its author to be a fudge factor
+D. Angular-geometric physical (C-OBSO, refined by Yeung & Fujii) — continuous angular integration with occlusion
+
+Only ONE of six pairwise comparisons exists: Teranishi et al. replaced C with D inside OBSO, RMSE 0.309 vs 0.324, p < 10^-10. That was an internal justification for their own pipeline, not a survey.
+
+THE OBSERVATION THAT MAKES IT WORTH TESTING: OBSO is the vault's MOST PREDICTIVE metric (r = 0.26 with next-match goals, beating shots 0.17 and goals 0.12) and is built on its WORST shot-value model. Two readings with opposite implications — either the score term is not where OBSO's value lies, in which case the field is optimising a component that is not the bottleneck; or OBSO is under-performing and a drop-in improvement has gone uninstalled since 2022. Distinguishable by a single ablation nobody has run.
+
+CREATED — wiki/questions/observed-versus-optimal-decisions.md
+OVER-MERGE WALKED BACK. Earlier entries and the synthesis describe Fernandez et al. and Yeung & Fujii as "both locating the divergence in the same place". That is too strong. They measure DIFFERENT THINGS:
+- Fernandez et al.: suboptimal TARGETING WITHIN an action (given a pass, it often does not go to the best destination). Action type not in question.
+- Yeung & Fujii: suboptimal SELECTION BETWEEN actions (given a shot situation, the shooter shoots when equilibrium says pass). Destination not in question.
+So "players shoot too much" is Yeung & Fujii's claim ALONE. What the two jointly support is weaker and still substantial: a large observed-vs-optimal gap under two unrelated methods, different leagues, different data types, different decision granularities. Convergence on the EXISTENCE of a gap, not its cause.
+
+THREE WAYS THE GAP COULD BE AN ARTEFACT, none tested by either paper:
+1. Average-player models applied to specific players — an elite finisher SHOULD shoot more than an average-player equilibrium prescribes, and would be scored as over-shooting for doing the right thing.
+2. Execution difficulty unmodelled — both value the INTENT of the best option, not the difficulty of executing it. The gap may be the price of reliability rather than an error.
+3. Equilibrium assumes a rational opponent — if defenders systematically fail to block, the shooter's true best response shifts toward shooting.
+
+Decisive test is prescriptive validity, which nothing in the vault tests: does a larger gap predict worse real outcomes?
+
+STILL TO FIX: action-valuation-frameworks-compared carries the over-merged phrasing in its "Convergent Prescriptive Finding" section. The question page now supersedes it but the synthesis has not been corrected. First task next session.
+
+FURTHER QUESTION-PAGE CANDIDATES, in order of value-to-cost:
+
+1. RELIABILITY VS VOLATILITY — split-half reliability treats within-season variation as NOISE and marks VAEP down for it; performance-volatility treats the SAME variation as SIGNAL about the player. Both cannot be wholly right. The synthesis has flagged the decisive experiment as unrun for several entries: does short-term deviation from a player's long-term level predict next-match contribution beyond the long-term average? Strongest candidate — a genuine contradiction between two held pages, with a single clean test.
+
+2. DOES VAEP'S CONCEDING CLASSIFIER FAIL AT SCALE? — F1 = 0.000 on Toda et al.'s 45 matches. Decroos trained on 8.5M actions and never reported F1. ONE NUMBER would settle whether the failure is scale-dependent or fundamental, and it determines how far the vault's most-cited critique generalises. Cheapest decisive test held here.
+
+3. DOES TRACKING ERROR PROPAGATE? — every tracking-based framework takes player positions as GIVEN. They are a tracker's output with identity switches and localisation error baked in. No source propagates tracking uncertainty downstream, and the commercial providers report no MOTA, IDF1 or HOTA at all. So the error characteristics of the data underlying every tracking-based finding here are unknown.
+
+4. ARE THE FIVE FREE PARAMETERS LOAD-BEARING? — gamma = 0.95, epsilon = 15s, k = 5, C = 3.9, 4s horizon. Five frameworks, zero sensitivity analyses. Cheap per framework; the question is whether rankings move. gamma is the most suspect, spanning nearly two orders of magnitude in credit weight across its proposed range.
+
+5. IS THE HANDCRAFTED-FEATURES RULE RIGHT? — the vault proposes a reconciliation of the Sig-Model/Seq2Event/Yeung & Fujii disagreement ("encode structure the representation cannot recover AND the data cannot support learning"). That is a HYPOTHESIS generated here, not a tested finding, and no source tests the others' claim. Weakest of the five because it is a vault construct rather than a literature gap — but for the same reason it is the one nobody else will ever test.
+
+Note candidates 1 and 5 differ in kind from 2-4 and from the three created: they are contradictions or hypotheses the VAULT has generated by holding multiple sources, not gaps visible from any single paper. Those may be the most valuable question pages precisely because no individual author owns the claim.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- Spearman et al. (2017) supplies the PPCF priors, cited-only.
+- 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them.
+- Conversations section of the index remains empty and has never been used.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-07-31 11:40] question | Five question pages created; two change what the vault claims
+Created the five remaining question pages. Questions section now holds eight, grouped by why the question exists. No new source read.
+
+Pages created: 5, Pages updated: 1 (index)
+
+TWO DRAFTING RESULTS THAT CHANGE WHAT THE VAULT SAYS:
+
+1. RELIABILITY AND VOLATILITY ARE THE SAME QUANTITY — within-season-variation-noise-or-signal. The vault has carried these as an unresolved conflict for several entries. Working the algebra: modelling per-match value as X_i = mu_p + eps_i, split-half correlation is approximately sigma2_between / (sigma2_between + 2 sigma2_eps / n). So SPLIT-HALF RELIABILITY IS LOW PRECISELY WHEN sigma_eps IS HIGH, and sigma_eps is what volatility metrics measure. They are near-deterministic functions of each other given between-player spread and sample size; reporting both as independent findings overstates the evidence.
+Further: because splitting is RANDOM, each half samples across the season, so a slow form trend affects both halves alike and does NOT depress rho. What depresses rho is high-frequency match-to-match variation — exactly the component volatility isolates by residualising against trend. So the two are not merely correlated, they target the same variance component.
+This converts an open dispute into a decidable one: the question is not which reading is right but WHETHER eps IS EXCHANGEABLE NOISE OR A STABLE PLAYER PROPERTY. Decisive test — compute the SPLIT-HALF RELIABILITY OF THE VOLATILITY METRIC ITSELF. If volatility replicates, it is a real trait and VAEP's low rho is partly measuring genuine player inconsistency rather than metric failure. Cheap, needs no new data, and uses machinery both sides already have. Nobody has run it because each side would have to apply the other's tool to its own claim.
+
+2. THE F1 = 0.000 FINDING MAY BE MEASURING SOMETHING VAEP NEVER DOES — vaep-conceding-classifier. F1 requires HARD predictions, conventionally thresholded at 0.5. A well-calibrated classifier on a 0.23% base rate emits probabilities overwhelmingly below 0.05, crosses 0.5 almost never, predicts no positives, and scores F1 = 0.000 BY CONSTRUCTION regardless of how well it discriminates. And this model does discriminate somewhat (AUC 0.701) and is well calibrated (Brier 0.003, best in the comparison). VAEP NEVER THRESHOLDS — it computes a difference of two probabilities.
+So the vault has been citing a diagnostic that does not test the claim. The conclusion may still be right: VAEP correlates ~0 with goals conceded (r = -0.098) independently of any thresholding, and that IS a failure of the quantity VAEP uses. But the headline number is the wrong evidence for it.
+Better test proposed: report the STANDARD DEVIATION OF delta-P_concedes relative to delta-P_scores, and ablate the defensive term to see whether rankings move. One number and one ablation, both cheap, both testing what VAEP actually does. Also proposed re-running the VDEP comparison on PR-AUC rather than F1, which would be the fair version.
+GENERAL LESSON recorded: choosing an evaluation metric is choosing a use case. class-imbalance-evaluation correctly argues F1 exposes failures Brier hides; the converse also holds — F1 can MANUFACTURE a failure in a model that was never going to be thresholded. Both pages should say so.
+
+ALSO CREATED:
+- tracking-error-propagation — every tracking framework takes positions as given; providers publish no MOTA/IDF1/HOTA. Three reasons this is worse than generic noise: errors are STRUCTURED and concentrate under occlusion, i.e. exactly where value concentrates and where the two pitch-control traditions are also predicted to diverge; identity switches corrupt TWO trajectories coherently with no signal that anything is wrong; velocity is a DERIVATIVE and amplifies position noise, which is why Yeung & Fujii zeroing velocities entirely deserves a sensitivity analysis it never received. Key insight: a SENSITIVITY CURVE does not require knowing the true error rate — perturb clean data across a range, and providers' actual rates only need locating on the curve.
+- free-parameters-load-bearing — the five are NOT the same kind of parameter, which lumping them together has obscured. Horizons (epsilon, k, 4s) are likely self-limiting since most credit falls near the event anyway. gamma is a SHAPE parameter spanning two orders of magnitude across its author's own proposed range. C is a TRADE-OFF WEIGHT derived from a frequency ratio, which encodes how OFTEN each event happens and says nothing about how much each MATTERS. So the prior should be that gamma and C matter and the horizons do not — which is a narrower and more testable claim than the vault's blanket complaint. Test is rank correlation under sweep, not value correlation, since these decisions are ordinal.
+- handcrafted-features-rule — flagged explicitly as a claim THIS VAULT INVENTED to reconcile three sources that never addressed each other, and held to a higher standard accordingly. The rule's two clauses are not independent: "representation cannot recover" is a property of architecture, "data cannot support learning" is a property of position on the learning curve. That gives a 2x2 with one cell UNTESTED and Seq2Event's cell uncertain. So the rule is currently supported by one clean case per clause and no case testing them jointly. Predicts a locatable crossover in sample size; a data-scaling sweep on Yeung & Fujii's public code would find or refute it.
+
+A META-OBSERVATION recorded on handcrafted-features-rule and worth acting on: SYNTHESIS PRODUCES HYPOTHESES CHEAPLY AND VALIDATES THEM NOT AT ALL. Three of the eight question pages test claims that exist nowhere but here. The provenance field's `inferred` percentage does not distinguish "reasonable gloss on a source" from "novel claim invented here", and those carry very different risk. Worth considering a schema addition.
+
+INDEX: Questions section restructured from a flat list into three groups — component-level benchmarking gaps, untested assumptions in held work, and claims this vault generated — since the grouping determines WHO COULD ANSWER the question, which is the practically useful distinction.
+
+STILL TO FIX, carried: action-valuation-frameworks-compared retains the over-merged phrasing in its "Convergent Prescriptive Finding" section, superseded by observed-versus-optimal-decisions but not corrected on the synthesis itself.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- Spearman et al. (2017) supplies the PPCF priors, cited-only.
+- 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them.
+- Conversations section of the index remains empty and has never been used.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
