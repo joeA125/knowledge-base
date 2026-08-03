@@ -1919,3 +1919,51 @@ CARRIED FORWARD:
 - wiki/conversations/ has never been used despite QUERY step 6 requiring it.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-08-03 12:37] writeback | Claim-dependency retrofit complete; synthesis drift fixed
+Claim-dependency retrofit COMPLETE. All seven multi-page generated claims now have exactly one home declaration and are referenced by ID everywhere else. No new source read; no new pages created.
+
+Pages updated: 6
+
+HOME DECLARATIONS ADDED (2):
+- action-valuation declares `offensive-bias-four-causes` — rests-on four source premises, with the fourth (source:vaep-f1-zero) explicitly noted as under question, so the decomposition may reduce to three. Added a falsifier: a single remedy fixing all four at once would show they are facets of one cause. Noted that tracking data plausibly addresses causes 2 and 3 together while nothing addresses 1 and 4 jointly, which is the current basis for keeping them separate.
+- representation-learning declares `handcrafted-features-rule` — rests-on three source ablations, with the 2x2 showing one untested cell and the falsifying crossover prediction.
+
+DEPENDENT REFERENCES ADDED (4 pages, 7 references):
+- defensive-valuation — counterfactual-individuates, offensive-bias-four-causes, plus instances of no-cross-framework-benchmarking and no-reliability-for-off-ball-metrics
+- theory-based-modelling — handcrafted-features-rule, physical-units-admit-priors
+- performance-volatility — reliability-volatility-identity
+- off-ball-value — counterfactual-individuates, no-reliability-for-off-ball-metrics
+
+SYNTHESIS DRIFT FIXED. The synthesis had been DECLARING offensive-bias-four-causes and no-reliability-for-off-ball-metrics with full blockquote treatment, while their proper homes were elsewhere. Both now reference by ID with rests-on: claim: pointers. The synthesis retains home declaration only for no-cross-framework-benchmarking, which genuinely belongs there — it is a claim about the literature as a whole, not about any one concept.
+
+FINAL STATE — seven multi-page claims, each declared once:
+
+| Claim ID | Home |
+|---|---|
+| counterfactual-individuates | counterfactual-baseline |
+| physical-units-admit-priors | model-selection |
+| reliability-volatility-identity | split-half-reliability |
+| offensive-bias-four-causes | action-valuation |
+| handcrafted-features-rule | representation-learning |
+| no-cross-framework-benchmarking | synthesis |
+| no-reliability-for-off-ball-metrics | synthesis |
+
+Plus five absence claims declared at their home pages: no-tracking-uncertainty-propagation and providers-report-no-tracking-metrics (multi-object-tracking), pitch-control-traditions-uncompared (pitch-control), shot-value-formulations-unbenchmarked (expected-goals), no-sensitivity-analysis-in-held-sources (model-selection).
+
+BACKTRACKING NOW WORKS. Searching a claim ID returns one declaration plus every dependent. Searching "rests-on: claim:" returns the cascade set. Searching "absence:" returns everything with an expiry date, which is what CLAUDE.md ingest step 5 fires against.
+
+WHAT THE RETROFIT SURFACED:
+
+1. A DEPENDENCY CHAIN, not just a graph. offensive-bias-four-causes rests on source:vaep-f1-zero; that finding is questioned by the F1-thresholding argument; which rests on a claim about how VAEP is used. Three links. Before this, each was recorded on a separate page with no connection, and the chain was invisible.
+
+2. THE CASCADE SET IS SMALL AND CONCENTRATED. Only four claims carry rests-on: claim: — two on split-half-reliability, one on defensive-valuation, one on theory-based-modelling. That is manageable by hand, which is the useful finding: the mechanism does not need automation at this vault's scale.
+
+3. TWO CLAIMS ARE FRAGILE BY DEPENDENCY KIND ALONE, before anyone assesses their content. physical-units-admit-priors rests on a single source's parameter table and generalises to modelling culture. reliability-volatility-identity has an imported load-bearing premise. Both are now visibly flagged as such at every point of use.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- 8 orphan pages remain unlinked; six are lead authors whose summaries do not link them. Now the largest outstanding structural task.
+- CLAUDE.md page template is out of step with conventions.md provenance keys (flagged, not fixed, per instruction).
+- wiki/conversations/ has never been used despite QUERY step 6 requiring it.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+

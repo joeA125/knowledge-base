@@ -19,15 +19,13 @@ updated: 2026-07-27
 
 Quantifying the contribution of players who do not have the ball — the runs that stretch a defence, the positioning that opens a passing lane, the shape a defence holds to deny space.
 
-The framing statistic: **a player has the ball for roughly 3 of 90 minutes.** Everything else is off-ball, continuous, and — until recently — invisible to this vault's frameworks.
+The framing statistic: **a player has the ball for roughly 3 of 90 minutes.**
 
 Long the largest acknowledged gap here. **Four held mechanisms now address it.**
 
 ## Why Event Data Cannot See It
 
-An [[event-stream-data|event stream]] records actions. Off-ball contribution is by definition the absence of an action — a player who makes a decisive run and never receives the ball generates **no event at all**.
-
-No modelling sophistication recovers this from event data. It is a data limitation, fixable only with [[optical-tracking-data|tracking]].
+An [[event-stream-data|event stream]] records actions. Off-ball contribution is by definition the absence of an action — a player who makes a decisive run and never receives the ball generates **no event at all**. Fixable only with [[optical-tracking-data|tracking]].
 
 ## Four Routes
 
@@ -37,11 +35,9 @@ No modelling sophistication recovers this from event data. It is a data limitati
 
 [[obso|Spearman's OBSO]] is the same move with a different, physically-grounded surface — transition × control × score, read at the receiver's position.
 
-Neither predicts runs nor credits movement; both compute what locations are worth and read off who occupies them.
-
 ### 2. Put all 22 positions in the model state — the defence
 
-[[football-defence-evaluation-vdep|Toda et al.]]'s [[vdep]] appends all 22 coordinates plus each player's distance from the ball, **sorted by proximity** — a cheap permutation-invariance trick giving "the nearest defender" a fixed feature slot. [[shap]] confirms these dominate both classifiers.
+[[football-defence-evaluation-vdep|Toda et al.]]'s [[vdep]] appends all 22 coordinates plus each player's distance from the ball, **sorted by proximity** — a cheap permutation-invariance trick. [[shap]] confirms these dominate both classifiers.
 
 ### 3. Compare against a predicted reference — the *creator*
 
@@ -61,11 +57,11 @@ The only framework here that assigns value **relationally** — from the mover t
 | Cost | Substantial | Modest | Substantial |
 | Example | EPV surface, [[obso\|OBSO]] | [[vdep]] | [[c-obso]] |
 
-> ⚠️ **The individuating ingredient is the counterfactual, not the data.**^[generated: the vault's own diagnosis, drawn from comparing VDEP and C-OBSO. Neither paper states it. Stated in full, with what would falsify it, on [[counterfactual-baseline]].] VDEP and C-OBSO use comparable tracking data; VDEP puts everything into one classifier and gets one number per configuration with no principled way to split it, while C-OBSO intervenes on one named player and gets his number.
+**`counterfactual-individuates`** — the individuating ingredient is the counterfactual, not the data.^[generated: declared on [[counterfactual-baseline]], where a Shapley-style objection demotes it from law to tendency. rests-on: claim:counterfactual-individuates] VDEP and C-OBSO use comparable tracking data; VDEP puts everything into one classifier and gets one number per configuration, while C-OBSO intervenes on one named player.
 
 ## What Is Now Covered
 
-**Correction, 2026-07-27.** This page previously listed "credit for creating space someone else exploits" among the things no framework captures, and described combining the spatial and defensive routes as unattempted. Both claims are superseded by held sources.
+**Correction, 2026-07-27.** This page previously listed "credit for creating space someone else exploits" among the things no framework captures. Superseded by held sources — an `absence:` claim that expired on ingest.
 
 | Capability | Status |
 |---|---|
@@ -78,16 +74,14 @@ The only framework here that assigns value **relationally** — from the mover t
 
 ## What Remains Open
 
-- **Individual defensive credit** is addressed in the literature but not in `raw/`, so unverified. See [[defensive-valuation]].
-- **Scale.** C-OBSO predicts three of 22 players; Fujii describes the full-squad version as prohibitively expensive.
+- **Individual defensive credit** is addressed in the literature but not in `raw/`. See [[defensive-valuation]].
+- **Scale.** C-OBSO predicts three of 22 players; the full-squad version is described as prohibitively expensive.
 - **Errors of omission** — a defender who fails to press generates no event and occupies no notably bad position.
 - **Interpretable units.** C-OBSO values sit in the 0.001–0.01 range.
 - **Negative values.** C-OBSO clips them to zero, so it cannot penalise poor movement.
-- **No [[split-half-reliability|reliability]] figure** for any off-ball metric here.
+- **No reliability figure for any off-ball metric here.**^[generated: an instance of `no-reliability-for-off-ball-metrics`, declared on the synthesis. rests-on: claim:no-reliability-for-off-ball-metrics] Since [[split-half-reliability|reliability]] is the criterion that matters most for [[recruitment]], the metrics best suited to finding undervalued players are the ones whose stability is least known.
 
 ## What the Evidence Shows
-
-Two results, from different directions.
 
 **[[obso|OBSO]] predicts next-match goals better than shots or goals do** — 0.26 against 0.17 and 0.12, at player level against an independent outcome. The strongest [[predictive-validity]] result in the vault.
 
@@ -122,7 +116,7 @@ Salary is heavily confounded, but being the only positive result among three tes
 | **Umemoto & Fujii (2023)** | **Defensive positioning, per player** — cited, not held |
 | [[pitch-control]] | Values *space*, not the value of receiving there |
 
-[[pitch-control]] and off-ball value are complementary and often confused. Control asks *who would win the ball here*; off-ball value asks *what would this possession be worth if the ball arrived here*. A player can control empty space of no value, or occupy a dangerous position he would probably lose a contest for.
+Control asks *who would win the ball here*; off-ball value asks *what would this possession be worth if the ball arrived here*. A player can control empty space of no value, or occupy a dangerous position he would probably lose a contest for.
 
 Note the vault holds **two pitch-control traditions**, never compared — see [[pitch-control-traditions-compared]].
 

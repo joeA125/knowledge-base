@@ -31,17 +31,26 @@ Three football sources give apparently contradictory results on handcrafted feat
 
 ## The Proposed Reconciliation
 
-> ⚠️ ^[generated: this rule is a reconciliation constructed in this vault. No source states it, none of the three addresses the others, and it has never been tested against a case it was not built to fit. It also appears on [[theory-based-modelling]] and the synthesis.]
-
+> ### `handcrafted-features-rule`
+>
 > **Encode structure the representation cannot recover *and* the data cannot support learning. Encode nothing else.**
+>
+> ^[generated: a reconciliation constructed in this vault. No source states it, none of the three addresses the others, and it has never been tested against a case it was not built to fit. Also referenced by [[theory-based-modelling]] and the synthesis. rests-on: source:seq2event-ablation, source:sigmodel-ablation, source:yeung-fujii-ablation]
 
 A [[path-signature]] recovers path geometry by construction, so adding it is redundant. A small MLP on 2,575 examples cannot recover occlusion geometry, so adding it is informative. The disagreement is about which regime you are in.
 
-**What is wrong with it as stated.** The two clauses are not independent. "The representation cannot recover it" is a property of the *architecture*; "the data cannot support learning" is a property of *where on its learning curve* a flexible model sits. That gives a 2×2 with one cell untested and Seq2Event's cell uncertain — so the rule is supported by one clean case per clause and **no case testing them jointly**.
+**What is wrong with it as stated.** The two clauses are not independent. "The representation cannot recover it" is a property of the *architecture*; "the data cannot support learning" is a property of *where on its learning curve* a flexible model sits. That gives a 2×2:
 
-It predicts a locatable crossover in sample size, which a data-scaling sweep on public code would find or refute. See [[handcrafted-features-rule]].
+| | Representation **can** recover | Representation **cannot** |
+|---|---|---|
+| **Enough data** | Redundant → harmful ([[sig-model]]) | Helpful ([[seq2event]]?) |
+| **Not enough data** | **Untested** | Essential ([[xsot\|Yeung & Fujii]]) |
 
-Treat it as a working heuristic, not a finding.
+One cell is empty and Seq2Event's placement is uncertain — nobody has shown a transformer over zone tokens *cannot* recover the geometry, only that it performed worse without the features at that sample size. So the rule is supported by **one clean case per clause and no case testing them jointly**.
+
+**What would falsify it.** It predicts a locatable crossover: for a fixed architecture and engineered feature, the feature helps at small $N$ and stops helping as $N$ grows. If curve (b) never approaches curve (a) at any reachable $N$, the first clause is doing all the work and the second is decorative. A data-scaling sweep on Yeung & Fujii's public code would settle it. See [[handcrafted-features-rule]].
+
+**Treat it as a working heuristic, not a finding.**
 
 ## Three Routes
 
@@ -59,7 +68,7 @@ The first two are underrated. [[sig-model]] beats a transformer benchmark with a
 
 Removing the easy signal produced a better representation — the same logic as [[masked-language-model|masked language modelling]], and behind [[variational-lossy-autoencoder|VLAE]] restricting its decoder's receptive field to force global structure into the latent.
 
-The general form: **a representation learns what it is not given for free.**^[generated: the generalisation across these three cases is drawn here; each source states only its own version]
+The general form: **a representation learns what it is not given for free.**^[generated: the generalisation across these three cases is drawn here; each source states only its own version. rests-on: source:scoutgpt-masking, source:vlae-receptive-field]
 
 ## What Counts as Good
 
@@ -74,7 +83,7 @@ Rarely defined explicitly, and the candidates conflict:
 
 ## See Also
 
-- [[handcrafted-features-rule]] — the open question on the reconciliation above
+- [[handcrafted-features-rule]] — the open question on the rule above
 - [[feature-engineering]] · [[theory-based-modelling]] · [[player-embedding]] · [[path-signature]] · [[tokenization]]
 - [[graph-neural-network]] · [[fully-convolutional-network]] · [[soccermap]] · [[single-pixel-supervision]]
 - [[variational-autoencoder]] · [[variational-lossy-autoencoder]] · [[pre-train-then-fine-tune]] · [[masked-language-model]]

@@ -35,7 +35,7 @@ Frameworks differ only in **how they represent $S$** and **how they compute $Q$*
 
 **Action-based** — rich features of action and context, framed as supervised learning. [[vaep]]; [[pass-carry-reward|Shelopugin]]; [[expected-value-possession-framework|Fernández et al.]]; [[vdep]]. *Loses [[interpretability]]; less stable.*
 
-**Counterfactual** — value an action or position by comparison against a predicted reference rather than a learned value function. [[c-obso]] and Umemoto & Fujii's defensive positioning.^[generated: this fourth style is added here; Van Roy et al.'s taxonomy has three, and C-OBSO fits none of them] See [[counterfactual-baseline]].
+**Counterfactual** — value an action or position by comparison against a predicted reference rather than a learned value function. [[c-obso]] and Umemoto & Fujii's defensive positioning.^[generated: this fourth style is added here; Van Roy et al.'s taxonomy has three, and C-OBSO fits none of them. rests-on: source:vanroy-three-style-taxonomy, source:cobso-construction] See [[counterfactual-baseline]].
 
 ## What Distinguishes the Approaches
 
@@ -53,13 +53,13 @@ Frameworks differ only in **how they represent $S$** and **how they compute $Q$*
 | **Target rarity** | Goals → frequent proxies | Whether the classifier can learn |
 | **Whose value** | The actor → **a teammate's** | Whether space creation is credited |
 
-**Credit assignment** now has four positions ([[vaep]]'s $k=10$; a capped time decay; Fernández et al.'s $\epsilon = 15$s; [[temporal-discounting|Shelopugin's]] geometric decay). Every time-based approach carries a free parameter that **no source subjects to sensitivity analysis** — as does [[vdep]]'s $k=5$ and $C=3.9$, and [[c-obso]]'s 4-second window. See [[free-parameters-load-bearing]].
+**Credit assignment** now has four positions ([[vaep]]'s $k=10$; a capped time decay; Fernández et al.'s $\epsilon = 15$s; [[temporal-discounting|Shelopugin's]] geometric decay). Every time-based approach carries a free parameter that no source subjects to sensitivity analysis — as does [[vdep]]'s $k=5$ and $C=3.9$, and [[c-obso]]'s 4-second window. See [[free-parameters-load-bearing]] and [[model-selection]].
 
 ## Perspective: Attacking or Defending
 
 Every framework above except [[vdep]] measures **attacking** success and treats defence as its negative.
 
-[[football-defence-evaluation-vdep|Toda et al.]] report VAEP's conceding classifier at **F1 = 0.000** on a 45-match dataset. ⚠️ That figure needs care — it is near-guaranteed for any calibrated model at a 0.23% base rate, and VAEP never thresholds. See [[vaep-conceding-classifier]].
+[[football-defence-evaluation-vdep|Toda et al.]] report VAEP's conceding classifier at **F1 = 0.000** on a 45-match dataset. ⚠️ That figure is near-guaranteed for any calibrated model at a 0.23% base rate, and VAEP never thresholds. See [[vaep-conceding-classifier]].
 
 The proposed fix is to change the target rather than the model: predicting **ball recovery** and **being attacked** — roughly 90× and 35× more frequent — raises F1 to 0.522 and 0.484. See [[rare-event-proxy-targets]].
 
@@ -91,16 +91,20 @@ American football — Romer (2006), Yurko et al. (2020). Basketball — [[martin
 
 Every attacking-perspective framework rewards offensive actions more richly. Van Dijk ranks 81st by VAEP and 142nd by xT.
 
-> ^[generated: this four-way decomposition is constructed here. No source enumerates these causes, and the fourth rests on the F1 evidence flagged above. It also appears on [[defensive-valuation]] and the synthesis.]
-
-**Four causes, four remedies:**
+> ### `offensive-bias-four-causes`
+>
+> **Offensive bias has four distinct causes with four different remedies.**
+>
+> ^[generated: constructed in this vault; no source enumerates these, and the fourth was not identifiable before VDEP measured it. Also referenced by [[defensive-valuation]] and the synthesis. rests-on: source:vandijk-rankings, source:mendes-neves-event-data-limits, source:shelopugin-duel-tables, source:vaep-f1-zero]
 
 1. **Definitional** — value is proximity to scoring. → change the target ([[vdep]]).
 2. **Data** — event streams cannot judge tackles. → [[optical-tracking-data|tracking]].
 3. **Modelling choice** — van Dijk tops both [[duel-skill-rating|duel tables]]; the information exists unmodelled. → model those events.
 4. **Statistical** — too few positives to train a classifier. → a frequent proxy.
 
-The fourth is the least secure, since the evidence for it is the F1 figure now under question.
+**The fourth is the least secure**, because its premise `source:vaep-f1-zero` is itself under question — see [[vaep-conceding-classifier]]. If that finding is an artefact of thresholding a model that never thresholds, cause 4 loses its evidence and the decomposition reduces to three.
+
+**What would falsify the whole.** A single remedy that fixes all four at once would show they are facets of one cause rather than four. Tracking data plausibly addresses 2 and 3 together; nothing addresses 1 and 4 jointly, which is the current basis for keeping them separate.
 
 ## What Remains Invisible
 

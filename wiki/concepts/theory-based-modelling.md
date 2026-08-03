@@ -32,7 +32,7 @@ Two independent instances in this vault:
 | [[optimal-decisions-shot-taking-situations\|Yeung & Fujii]] | Geometric shot-block model (truncated normal per defender, integrated over shot angle) | $MLP_{block}$ |
 | [[expected-value-possession-framework\|Fernández et al.]] | Event-data [[expected-goals\|xG]] on 118k shots | Tracking-data xG on 14k shots |
 
-Two groups arriving at the same architectural idea independently is worth noting.^[generated: neither paper cites the other or frames its choice as an instance of a general pattern; the grouping is drawn here]
+Two groups arriving at the same architectural idea independently is worth noting.^[generated: neither paper cites the other or frames its choice as an instance of a general pattern; the grouping is drawn here. rests-on: source:yeung-fujii-hybrid, source:fernandez-xg-as-feature]
 
 ## The Ablation That Justifies It
 
@@ -44,8 +44,6 @@ Yeung & Fujii report the cleanest evidence, on shot-block prediction (cross-entr
 | MLP, basic shooter features only | 0.5545 |
 | **MLP, raw player coordinates (22 × 4)** | **0.5684** |
 | Theory-based model alone | 0.9220 |
-
-Three things fall out.
 
 **The hybrid beats both components.** Neither ingredient is sufficient.
 
@@ -63,15 +61,13 @@ Three things fall out.
 
 ## The Tension With Learned Representations
 
-This sits against the vault's other finding on the same question. [[sig-model]] degrades when handcrafted geometry is added; [[seq2event]] degrades without it. See [[representation-learning]].
+This sits against the vault's other finding on the same question. [[sig-model]] degrades when handcrafted geometry is added; [[seq2event]] degrades without it.
 
-> ⚠️ ^[generated: the reconciliation below is constructed in this vault. No source states it, none of the three addresses the others, and it has never been tested against a case it was not built to fit.]
-
-> **Encode structure the representation cannot recover and the data cannot support learning. Encode nothing else.**
+**`handcrafted-features-rule`** — encode structure the representation cannot recover *and* the data cannot support learning; encode nothing else.^[generated: declared on [[representation-learning]], where the 2×2 showing one untested cell and the falsifying crossover prediction are set out. rests-on: claim:handcrafted-features-rule]
 
 Sig-Model's representation *can* recover path geometry, so adding it is redundant. Yeung & Fujii's MLP *cannot* recover occlusion geometry from 2,575 examples, so adding it is informative. The disagreement is about which regime you are in, not about whether domain knowledge helps.
 
-The rule's two clauses are not independent — one is a property of architecture, the other of position on the learning curve — and no case tests them jointly. It predicts a locatable crossover in sample size. Treat it as a working heuristic; see [[handcrafted-features-rule]].
+Treat it as a working heuristic; see [[handcrafted-features-rule]].
 
 ## Contrast With Purely Theory-Based Models
 
@@ -84,7 +80,7 @@ Some vault models are theory *without* a learned component — [[obso|OBSO]] and
 | Parameters | Many, uninterpretable | Mixed | **Few, with units** |
 | Captures the unmodelled | **Yes** | Yes | No |
 
-The far-right column buys an underrated advantage: parameters with **physical units** admit priors from previous measurement, which is how [[beyond-expected-goals|Spearman]] fits six parameters on five matches.^[generated: the connection between physical units and prior availability is drawn here; Spearman states the priors' source but not this rationale] See [[model-selection]].
+The far-right column buys an underrated advantage: **`physical-units-admit-priors`**^[generated: declared on [[model-selection]], where its falsifier is stated. Rests on a single source's parameter table, making it the most fragile of the vault's multi-page generated claims by dependency alone. rests-on: claim:physical-units-admit-priors] — which is how [[beyond-expected-goals|Spearman]] fits six parameters on five matches.
 
 ## See Also
 
