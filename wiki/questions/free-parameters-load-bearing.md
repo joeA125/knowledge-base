@@ -1,87 +1,101 @@
 ---
-title: "Are the five free parameters load-bearing?"
+title: "Are the free parameters load-bearing?"
 type: question
 tags: [model-selection, discounting, evaluation, sports-analytics, action-valuation, reliability, predictive-validity, needs-review]
-sources: [raw/papers/epv_control_and_duel_skills_football.md, raw/papers/expected_value_possession_framework.md, raw/papers/football_defence_evaluation.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md]
-confidence: 0.75
+sources: [raw/papers/epv_control_and_duel_skills_football.md, raw/papers/expected_value_possession_framework.md, raw/papers/football_defence_evaluation.md, raw/papers/defensive_player_location_analysis.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md]
+confidence: 0.8
 provenance:
-  extracted: 45%
-  inferred: 50%
-  ambiguous: 5%
+  extracted: 50%
+  inferred: 45%
+  generated: 3%
+  imported: 0%
+  ambiguous: 2%
 lifecycle: draft
 created: 2026-07-27
 updated: 2026-07-27
 ---
 
-# Are the five free parameters load-bearing?
+# Are the free parameters load-bearing?
 
-**Status:** Open. Five frameworks, five asserted parameters, **zero sensitivity analyses between them.**
+**Status:** Open for four parameters. **One has been settled** — not by a sensitivity analysis, but by being superseded.
 
-| Parameter | Framework | Role | Stated justification |
-|---|---|---|---|
-| $\gamma = 0.95$/s | [[temporal-discounting\|Shelopugin]] | Credit decay | "Stylistic preference" |
-| $\epsilon = 15$ s | [[expected-value-possession-framework\|Fernández et al.]] | Hard credit cutoff | Mean possession duration |
-| $k = 5$ events | [[vdep]] | Lookahead window | Domain intuition |
-| $C \approx 3.9$ | [[vdep]] | Recovery/attack weighting | Event frequency ratio |
-| $4$ s | [[c-obso]] | Prediction horizon | Accuracy trade-off |
+> **Updated, 2026-07-27** on ingest of [[generalized-vdep-euro-location-analysis|GVDEP]]. This page previously listed five asserted parameters and claimed zero sensitivity analyses across the literature. Both figures have changed.
 
-[[obso|Spearman]] is the exception and shows it is possible: all six of his parameters are MAP-fitted with stated priors, because they carry **physical units** and can inherit priors from prior measurement. See [[model-selection]].
+| Parameter | Framework | Role | Justification given | Status |
+|---|---|---|---|---|
+| $\gamma = 0.95$/s | [[temporal-discounting\|Shelopugin]] | Credit decay | "Stylistic preference" | **Open** |
+| $\epsilon = 15$ s | [[expected-value-possession-framework\|Fernández et al.]] | Hard credit cutoff | Mean possession duration | **Open** |
+| $k = 5$ events | [[vdep]] | Lookahead window | Domain intuition | **Open** — inherited unchanged by [[gvdep]] |
+| $4$ s | [[c-obso]] | Prediction horizon | Accuracy trade-off | **Open** |
+| ~~$C \approx 3.9$~~ | ~~[[vdep]]~~ | ~~Recovery/attack weighting~~ | ~~Event frequency ratio~~ | **Superseded** |
 
-## They Are Not All the Same Kind of Parameter
+## What GVDEP Settled, and How
 
-Lumping them together, as the vault has, obscures that only some are suspect.
+[[gvdep|GVDEP]] does not sweep $C$ and report sensitivity. It **removes it**, replacing the frequency-derived constant with weights taken from [[vaep|VAEP]] evaluated at the moments ball gains and effective attacks occur:
 
-**Horizon parameters** ($\epsilon$, $k$, 4 s) bound how far a model looks. These are likely **self-limiting**: most credit falls near the event regardless, so extending or shortening the window changes little at the margin. The 4 s horizon is additionally the best-justified of the five, chosen against measured prediction error.
+$$w_{gains} = \frac{1}{|Ev_{gains}|}\sum_{j \in Ev_{gains}} \text{sign}(Team_j)\,V_{vaep}(s_j)$$
 
-**$\gamma$ is a shape parameter**, not a horizon, and it is the most suspect. Across the range its own author proposes, $0.9^{30} = 0.04$ against $0.99^{30} = 0.74$ — nearly **two orders of magnitude** in the weight given to a thirty-second-old action. Shelopugin offers it explicitly as a stylistic choice for attacking philosophy, which is a claim that rankings *should* change with it. He never shows by how much.
+Both terms move from a **frequency scale** to a **score scale**. The objection this page raised against $C$ — that a frequency ratio encodes how *often* each event happens and says nothing about how much each *matters* — is answered directly.
 
-**$C$ is a trade-off weight**, and different in kind again. It sets the exchange rate between two proxies — how many prevented attacks one ball recovery is worth. It comes from the **frequency ratio** of the two events, which encodes how often each happens and says nothing about how much each matters. A team that recovers often and concedes territory often will look better or worse depending entirely on $C$, and its value was never argued for.
+**This is the vault's only instance of an asserted parameter being fixed by principled derivation** rather than left unexamined or swept.
 
-So the prior should be: $\gamma$ and $C$ matter, the horizons probably do not.
+Two caveats keep it from being a clean win. The new weights depend on VAEP's $P_{scores}$ and $P_{concedes}$ classifiers, whose F1 on this data is **0.10–0.13 and 0.08–0.15** — a principled weight computed from an unreliable model. And GVDEP inherits $k = 5$ from VDEP without re-examination, so one parameter was fixed while another passed through untouched.
+
+## Sensitivity Analysis Is Rare, Not Absent
+
+The previous framing — "zero sensitivity analyses" — was wrong. GVDEP sweeps **$n\_nearest$ from 0 to 11**, reporting F1 for all four classifiers at each value. That is a genuine sensitivity analysis, on *which inputs to include* rather than on a horizon or weighting parameter.
+
+Its result is substantive: ball-gain prediction saturates at three or four players; scores, concedes and being-attacked gain nothing from player positions at all. And concedes prediction gets **worse** as players are added, 0.15 falling to 0.08.
+
+**This removes the excuse.** A group that sweeps one parameter and publishes the curve could sweep another. The absence of horizon-parameter sensitivity analysis is a choice, not a methodological blind spot in the field.
+
+## The Four Remaining Are Not Alike
+
+**Horizon parameters** ($\epsilon$, $k$, 4 s) bound how far a model looks. Likely **self-limiting**: most credit falls near the event regardless. The 4 s horizon is the best-justified of the four, chosen against measured prediction error.
+
+**$\gamma$ is a shape parameter**, and the most suspect. Across its author's own proposed range, $0.9^{30} = 0.04$ against $0.99^{30} = 0.74$ — nearly **two orders of magnitude** in the weight on a thirty-second-old action. Shelopugin offers it as a stylistic choice for attacking philosophy, which is a claim that rankings *should* change with it. He never shows by how much.
+
+With $C$ gone, **the trade-off-weight category is now empty**, and what remains is one shape parameter and three horizons. That is a narrower and more tractable question than the original five.
 
 ## The Test
 
-Rank correlation under a parameter sweep. For each parameter, recompute the player or team rankings across a defensible range and report Spearman's $\rho$ between the extremes.
+Rank correlation under a parameter sweep. For each, recompute the player or team rankings across a defensible range and report Spearman's $\rho$ between the extremes.
 
 | Result | Reading |
 |---|---|
-| $\rho > 0.95$ | The parameter is not load-bearing. The choice is free and the debate moot |
+| $\rho > 0.95$ | Not load-bearing. The choice is free and the debate moot |
 | $\rho \approx 0.7$–$0.9$ | Rankings shift at the margins — enough to change a shortlist, not a conclusion |
 | $\rho < 0.7$ | Every published ranking is one arbitrary choice away from a different answer |
 
-Reporting **rank correlation rather than value correlation** is the right summary, because the decisions these metrics inform are ordinal: who to sign, who to review, which moment to watch. Values can move a lot while rankings hold.
+**Rank correlation rather than value correlation** is the right summary, because the decisions these metrics inform are ordinal: who to sign, who to review, which moment to watch.
 
-Two refinements worth adding:
+**For $\gamma$, test the author's own claim.** He asserts 0.9 suits vertical attacking and 0.99 suits possession play. Do teams with direct styles rank higher under 0.9? If the parameter behaves as claimed, it is a *feature* and should be reported as a family of metrics. If rankings barely move, the stylistic framing is unfounded.
 
-**For $\gamma$, test the author's own claim.** He asserts 0.9 suits vertical attacking and 0.99 suits possession play. That is testable: do teams with direct styles rank higher under 0.9? If the parameter behaves as claimed, it is a *feature* and should be reported as a family of metrics. If rankings barely move, the stylistic framing is unfounded.
+## Two Routes Nobody Uses
 
-**For $C$, sweep beyond the frequency ratio.** The interesting range is not around 3.9 but across plausible *importance* ratios, which could be anywhere from 1 to 10. If VDEP's team ordering is stable across that, the arbitrary choice does not matter; if not, VDEP reports one of many possible orderings.
+**Fit against a criterion.** Choose the value maximising the resulting metric's [[split-half-reliability|reliability]] or [[predictive-validity]]. Both are already computed for other purposes. The objection — that optimising for reliability might favour a degenerate metric stable because it measures little — is real, which is why predictive validity is the better of the two and both should be reported.
 
-## The Better Alternative Nobody Uses
+**Derive it from an existing model**, as GVDEP does. This route was invisible before that paper and is now demonstrated: where a parameter expresses a *trade-off between quantities that another model already values*, the other model can supply the exchange rate.
 
-All five could be **fitted rather than asserted**, by a criterion the vault already has: choose the value maximising the resulting metric's [[split-half-reliability|reliability]] or [[predictive-validity]].
-
-That reframes a modelling preference as what it is — a [[model-selection]] problem — and it is cheap, since both criteria are already computed for other purposes. It also produces a defensible answer where "stylistic preference" produces an unfalsifiable one.
-
-The objection is that optimising for reliability might favour a degenerate metric that is stable because it measures little. That is real and is why [[predictive-validity]] is the better criterion of the two, and why the two should be reported together.
+Note the second route does not help the horizons. There is no existing model that values "how far back credit should propagate", so $\gamma$, $\epsilon$, $k$ and 4 s remain candidates for the first route only.
 
 ## What Would Change
 
-**If the horizons are inert and $\gamma$, $C$ are not** — the literature's blanket omission is half-excusable, but the two parameters that matter have never been examined, and that should be stated plainly on [[pass-carry-reward|PCR]] and [[vdep]].
+**If the horizons are inert and $\gamma$ is not** — the literature's omission is half-excusable, but the one parameter that matters has never been examined, and that should be stated plainly on [[pass-carry-reward|PCR]].
 
-**If all five are inert** — a genuinely useful negative result. It would mean the vault's repeated complaint about unjustified parameters, which now appears on [[model-selection]], [[action-valuation]] and the [[action-valuation-frameworks-compared|synthesis]], is overstated and should be softened.
+**If all four are inert** — a useful negative result, and the vault's repeated complaint about unjustified parameters should be softened.
 
-**If rankings move substantially** — then no framework here reports *a* ranking; each reports one point in a family, and comparisons between frameworks are confounded by parameter choice on top of everything else.
+**If rankings move substantially** — no framework here reports *a* ranking; each reports one point in a family, and cross-framework comparison is confounded by parameter choice on top of everything else.
 
 ## Why Nobody Has Done It
 
-A sensitivity analysis can only weaken a paper. It either shows the results are robust — which reviewers assume anyway — or shows they are not, which invites the question of why *this* value was chosen. There is no version of the outcome that helps the authors.
+A sensitivity analysis can only weaken a paper: it shows results are robust, which reviewers assume anyway, or shows they are not, which invites the question of why *this* value was chosen.
 
-That asymmetry is why it is a good task for a synthesis rather than an author: **the vault has no stake in any of the five values being right.**
+GVDEP is a partial counter-example — it published a sweep and the sweep was flattering, showing its method works with fewer inputs than its predecessor assumed. That suggests the asymmetry breaks when the sweep is over something the authors *want* to show is unnecessary, rather than over a value they had to choose.
 
 ## See Also
 
-- [[model-selection]] · [[temporal-discounting]] · [[split-half-reliability]] · [[predictive-validity]]
-- [[pass-carry-reward]] · [[vdep]] · [[c-obso]] · [[expected-possession-value]] · [[obso]]
+- [[model-selection]] · [[gvdep]] · [[vdep]] · [[temporal-discounting]]
+- [[split-half-reliability]] · [[predictive-validity]] · [[pass-carry-reward]] · [[c-obso]] · [[obso]]
 - [[action-valuation]] · [[action-valuation-frameworks-compared]]
-- [[epv-control-duel-skills-football|Shelopugin Summary]] · [[football-defence-evaluation-vdep|VDEP Summary]]
+- [[epv-control-duel-skills-football|Shelopugin Summary]] · [[football-defence-evaluation-vdep|VDEP Summary]] · [[generalized-vdep-euro-location-analysis|GVDEP Summary]]

@@ -2,14 +2,14 @@
 title: "Defensive Valuation"
 type: concept
 tags: [defensive-valuation, sports-analytics, action-valuation, off-ball, player-evaluation, evaluation, optical-tracking-data, proxy-target, counterfactual]
-sources: [raw/papers/football_defence_evaluation.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/epv_control_and_duel_skills_football.md]
-confidence: 0.8
+sources: [raw/papers/football_defence_evaluation.md, raw/papers/defensive_player_location_analysis.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/epv_control_and_duel_skills_football.md]
+confidence: 0.85
 provenance:
-  extracted: 45%
-  inferred: 30%
-  generated: 12%
+  extracted: 55%
+  inferred: 25%
+  generated: 10%
   imported: 0%
-  ambiguous: 13%
+  ambiguous: 10%
 lifecycle: reviewed
 created: 2026-07-27
 updated: 2026-07-27
@@ -27,16 +27,16 @@ Quantifying the contribution of preventing goals rather than creating them. Long
 
 **Credit is diffuse.** A defensive success involves the presser, the cover, the marker, and the shape they collectively hold — most of whom never touch the ball.
 
-**The data does not record it.** [[event-stream-data|Event data]] logs actions; pressing, screening and holding a line generate none. Only [[optical-tracking-data|tracking]] fixes this.
+**The data does not record it.** [[event-stream-data|Event data]] logs actions; pressing, screening and holding a line generate none. Only [[optical-tracking-data|tracking]] fixes this — though [[gvdep|GVDEP]] shows partial observation goes further than expected.
 
 ## The Symptom Across the Vault
 
 Van Dijk is **81st by [[vaep]], 142nd by [[expected-threat|xT]]**. Two results complicate the reading that this is purely definitional:
 
 - He tops **both** of [[duel-skill-rating|Shelopugin's duel-rating tables]] — the information exists in ordinary event data, unmodelled.
-- [[vaep]]'s conceding classifier scores F1 = 0.000 on 45 matches. ⚠️ Near-guaranteed for any calibrated model at a 0.23% base rate, and VAEP never thresholds. See [[vaep-conceding-classifier]].
+- [[vaep]]'s conceding classifier scores F1 = 0.000 on 45 matches. ⚠️ Near-guaranteed for any calibrated model at a 0.23% base rate, and VAEP never thresholds. [[gvdep|GVDEP]] reports 0.08–0.15 on a different dataset, so the zero is not a fixed property of the model. See [[vaep-conceding-classifier]].
 
-This is the third of the four causes in `offensive-bias-four-causes`^[generated: declared on [[action-valuation]]. The fourth cause rests on the F1 finding flagged above and is the least secure of the four. rests-on: claim:offensive-bias-four-causes], which separates definitional, data, modelling-choice and statistical explanations because they are fixed by different things.
+This is the third of the four causes in `offensive-bias-four-causes`^[generated: declared on [[action-valuation]]. The fourth cause rests on the F1 finding flagged above and is the least secure. rests-on: claim:offensive-bias-four-causes].
 
 ## Five Approaches
 
@@ -44,60 +44,60 @@ This is the third of the four causes in `offensive-bias-four-causes`^[generated:
 |---|---|---|---|---|
 | Negative half of an attacking model | Value defence as reduced $P(\text{concede})$ | [[vaep]] | Player | Yes |
 | Contested-event rating | Rate who wins physical contests | [[duel-skill-rating]] | Player | Yes |
-| Frequent proxy prediction | Predict recovery / being attacked | [[vdep]] | **Team** | Yes |
-| **Counterfactual positioning** | What would a different position have prevented? | Umemoto & Fujii (2023) | **Player** | **No** |
+| Frequent proxy prediction | Predict recovery / being attacked | [[vdep]], [[gvdep]] | **Team** | Yes |
+| **Counterfactual positioning** | What would a different position have prevented? | Umemoto & Fujii (**2023**) | **Player** | **No** |
 | Spatial suppression | Model the space a defence denies | [[pitch-control]] | Team, implicit | Yes |
 
-## What VDEP Establishes
+## The Proxy-Target Line
 
-[[vdep]] is the vault's first *held* framework where preventing value is the target rather than the negative of an attacking one:
+Two held frameworks, the second fixing the first.
 
-1. **Frequent proxies work.** F1 rises from 0.201/0.000 to 0.522/0.484 by predicting recoveries and effective attacks instead of goals.
-2. **Off-ball features carry the signal.** [[shap]] puts nearest-defender distance and nearest-attacker position at the top.
-3. **Defensive style is separable.** Recovery rate against being-attacked rate distinguishes high-press-high-risk from solid-and-contained.
+**[[vdep|VDEP]]** (Toda et al., 2022) establishes the approach: predict **ball recovery** and **being attacked** instead of conceding, raising F1 from 0.000 to 0.522 and 0.484. [[shap]] confirms off-ball features carry the signal.
 
-What it does not do: **it is team-level only.** Its own proposed next step — compute the change in VDEP when a player moves differently — is not implemented in that paper.
+**[[gvdep|GVDEP]]** (Umemoto, Tsutsui & Fujii, 2022) fixes three stated limitations:
 
-## The Follow-Up Literature
+- VDEP's weight $C$ came from the **frequency ratio** of the two events. GVDEP replaces it with **[[vaep|VAEP]] evaluated at the moments those events occur**, putting both terms on a score scale. See [[model-selection]].
+- VDEP assumed **all 22 players observed**. GVDEP uses broadcast frames and measures what the shortfall costs: ball-gain prediction saturates at **three or four players**; scores, concedes and being-attacked gain nothing from player positions at all.
+- VDEP used one domestic men's league. GVDEP covers **men's Euro 2020 and women's Euro 2022**.
 
-> **Provenance.** [[creating-scoring-opportunities-trajectory-prediction|C-OBSO]] is now **held and read**. The other three are **cited only** — bibliographic details verified, method and capability claims unverified here.
+**The gain/attacked trade-off replicates** across both ($r = -0.757$ in Euro 2020; same direction in the J-League) — one of the few genuine replications in this literature.
 
-| Work | Contribution | Held? |
+GVDEP's own limitation is that it correlates **0.993 with its attacked term alone**, so the metric is nearly a monotone function of one component. Its authors flag this.
+
+## Individual Credit Remains Open
+
+> **Superseded, 2026-07-27.** This page previously implied the Umemoto line had closed the individual-defender gap. **It has not.** [[gvdep|GVDEP]] — now held — is **team-level**, exactly like its predecessor.
+
+The vault **conflated two papers by the same author**:
+
+| Work | What it does | Held? |
 |---|---|---|
-| Teranishi, Fujii & Takeda (2020), IEEE GCCE pp. 124–125 | Earliest of the line; trajectory-based defensive evaluation | No |
-| Umemoto, Tsutsui & Fujii (2022), arXiv:2212.00021 | **GVDEP** — generalises VDEP to player-location level | No |
-| **Teranishi, Tsutsui, Takeda & Fujii (2022/23), MLSA** | **[[c-obso]]** — credits movement that creates space for a teammate | **Yes** |
-| Umemoto & Fujii (2023), StatsBomb Conference | **Individual defender evaluation** via counterfactual positioning | No |
+| Umemoto, Tsutsui & Fujii (**2022**), arXiv:2212.00021 | [[gvdep\|GVDEP]] — team-level, fixes VDEP's weighting and observation assumptions | **Yes** |
+| Umemoto & Fujii (**2023**), StatsBomb Conference | **Counterfactual positioning — individual defenders** | **No** |
 
-**Correction, 2026-07-27.** An earlier revision stated individual defensive credit was unaddressed anywhere. That was inferred from VDEP's limitations section without checking the follow-up literature — an `absence:` claim that expired the moment a search was run.
+Acquiring the first did nothing for the gap the second would close. That failure mode is worth naming: **a vault can appear to have closed a gap because it acquired a paper by the right author.** Bibliographic precision on cited-not-held work matters more than it looks.
 
-### What C-OBSO confirms
+Individual defensive credit is therefore **still unaddressed in `raw/`**, and the 2023 paper remains the vault's top acquisition target.
 
-C-OBSO is an *attacking* metric, but it validates the mechanism the defensive work depends on. Its construction — compare the actual world against a predicted reference, attribute the difference to one named agent — is the same [[counterfactual-baseline]] Umemoto & Fujii apply to defenders.
+### Why the counterfactual route is the plausible one
 
-**`counterfactual-individuates`** — the individuating ingredient is the counterfactual, not the data.^[generated: declared on [[counterfactual-baseline]], where a Shapley-style objection demotes it from law to tendency. rests-on: claim:counterfactual-individuates] [[vdep]] and [[c-obso]] use comparable tracking data; VDEP produces one number per configuration, C-OBSO a per-player number.
+**`counterfactual-individuates`** — the individuating ingredient is the counterfactual, not the data.^[generated: declared on [[counterfactual-baseline]], where a Shapley-style objection demotes it from law to tendency. rests-on: claim:counterfactual-individuates]
 
-If that reading is right, the claim that counterfactual positioning individuates defensive credit is *mechanically plausible* even though the paper is unread here. But the inference rests on a generated premise that has itself been demoted, and should not be treated as established.
+[[vdep]], [[gvdep]] and [[c-obso]] use comparable tracking data. The first two produce one number per configuration; C-OBSO intervenes on one *named* player and produces his number. On that reading, counterfactual positioning would individuate defensive credit for the same structural reason — but the inference rests on a generated premise that has itself been demoted, and should not be treated as established.
 
-It also inherits the mechanism's weakness: C-OBSO is **identically zero under perfect prediction**, so any such metric measures deviation from a particular model's expectation.
-
-### The counterfactual positioning method
-
-As described by Fujii in an overview article: identify the highest-[[obso|OBSO]] location, select the closest defender and his grid cell, then search which cell he could have occupied to reduce OBSO most.
-
-Both Fujii counterfactual lines build on [[obso|OBSO]] rather than event classification, placing that work closer to [[probability-surface|Fernández et al.'s]] value surfaces than to VDEP's classifiers.
+As described by Fujii in an overview article, the 2023 method identifies the highest-[[obso|OBSO]] location, selects the closest defender, and searches which cell he could have occupied to most reduce OBSO. Both Fujii counterfactual lines build on [[obso|OBSO]] rather than event classification.
 
 ### Cost
 
-Fujii reports the trajectory method needed **enormous computation to evaluate all 22 players** — one prediction per player. [[c-obso]] confirms it: only **three of 22** are predicted.
+Fujii reports the trajectory method needed **enormous computation to evaluate all 22 players**. [[c-obso]] confirms it: only three of 22 are predicted. GVDEP's n_nearest result offers a possible reprieve — if three or four players suffice for the prediction that matters, full-squad evaluation may be unnecessary rather than merely expensive.
 
 ## What Remains Open
 
-- **Individual defensive credit is unverified here.** Addressed in the literature; not in `raw/`.
-- **No cross-framework comparison.** GVDEP, counterfactual positioning and VDEP have never been benchmarked against one another.^[generated: an instance of `no-cross-framework-benchmarking`, declared on the synthesis. rests-on: claim:no-cross-framework-benchmarking]
+- **Individual defensive credit is unheld**, as above.
+- **No cross-framework comparison** with anything outside this line.^[generated: an instance of `no-cross-framework-benchmarking`, declared on the synthesis. Weakened: GVDEP is compared directly against VDEP on identical data, though by the same group. rests-on: claim:no-cross-framework-benchmarking]
 - **Errors of omission** — a defender who fails to press.
 - **Reliability unreported** for every defensive metric here.^[generated: an instance of `no-reliability-for-off-ball-metrics`, declared on the synthesis. rests-on: claim:no-reliability-for-off-ball-metrics]
-- **Scale.** Full-squad evaluation is prohibitively expensive by the only method that individuates.
+- **Goalkeeping excluded** by GVDEP, which misprices teams that defend by shot-stopping — Belgium and the Czech Republic score poorly despite few concedes.
 
 ## Beyond Football
 
@@ -105,9 +105,8 @@ The structure recurs wherever the valuable outcome is prevented: fraud not commi
 
 ## See Also
 
-- [[vdep]] · [[c-obso]] · [[counterfactual-baseline]] · [[rare-event-proxy-targets]] · [[class-imbalance-evaluation]]
+- [[vdep]] · [[gvdep]] · [[c-obso]] · [[counterfactual-baseline]] · [[rare-event-proxy-targets]] · [[class-imbalance-evaluation]]
 - [[vaep-conceding-classifier]] — the open question on the F1 evidence
-- [[action-valuation]] · [[vaep]] · [[duel-skill-rating]] · [[off-ball-value]] · [[obso]] · [[pitch-control]]
-- [[probability-surface]] · [[keisuke-fujii]] · [[optical-tracking-data]] · [[shap]]
-- [[action-valuation-frameworks-compared]]
-- [[football-defence-evaluation-vdep|VDEP Summary]] · [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]]
+- [[action-valuation]] · [[vaep]] · [[duel-skill-rating]] · [[off-ball-value]] · [[obso]] · [[pitch-control]] · [[model-selection]]
+- [[rikuhei-umemoto]] · [[keisuke-fujii]] · [[kosuke-toda]] · [[shap]] · [[optical-tracking-data]]
+- [[football-defence-evaluation-vdep|VDEP Summary]] · [[generalized-vdep-euro-location-analysis|GVDEP Summary]] · [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]]

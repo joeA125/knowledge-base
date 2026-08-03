@@ -1967,3 +1967,125 @@ CARRIED FORWARD:
 - wiki/conversations/ has never been used despite QUERY step 6 requiring it.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-08-03 13:04] ingest | GVDEP ingested — absence check fires for the first time
+Source: raw/papers/defensive_player_location_analysis.md — Umemoto, Tsutsui & Fujii, "Location analysis of players in UEFA EURO 2020 and 2022 using generalized valuation of defense by estimating probabilities", arXiv:2212.00021, compiled December 2022. StatsBomb open data: men's Euro 2020 (51 games) + women's Euro 2022 (31 games). Code public. Long held on the acquisition list.
+
+Pages created: 3, Pages updated: 2
+
+=== ABSENCE CHECK (CLAUDE.md ingest step 5) — FIRST LIVE FIRING ===
+
+Ran search_notes for "absence:". Returned 9 marked claims across the vault plus the schema and log. THE MECHANISM WORKED AS DESIGNED — this is the first ingest where absence claims were systematically checked rather than discovered by accident months later. Three of nine were affected.
+
+1. absence:no-sensitivity-analysis-in-held-sources — WEAKENED, model-selection updated with a Superseded block.
+   The claim read "five frameworks, five asserted free parameters, ZERO SENSITIVITY ANALYSES". GVDEP sweeps n_nearest from 0 to 11 and reports F1 at each value. That IS a sensitivity analysis — on which inputs to include rather than on a horizon or weighting parameter. Additionally GVDEP SUPERSEDES VDEP's C entirely, replacing the frequency-derived constant with VAEP-derived score-scaled weights.
+   Restated narrowly: no source sweeps a HORIZON OR WEIGHTING parameter. Recorded that this removes the excuse — a group that sweeps one parameter could sweep another.
+   The parameter table now carries a Status column; C is marked Superseded.
+
+2. absence:no-held-source-propagates-tracking-error — WEAKENED, multi-object-tracking updated.
+   GVDEP does not propagate uncertainty, but it measures the cost of INCOMPLETE OBSERVATION, which is the closest thing the vault holds to input-quality sensitivity analysis. Its result bounds the question: ball-gain prediction saturates at 3-4 players; scores, concedes and attacked need none beyond the ball. So for three of four targets, missing players cost nothing measurable.
+   Recorded what it does NOT address: positional error and identity switches are different failure modes from missing observations. A player tracked to the WRONG coordinates is worse than one absent, because the model has no signal anything is amiss.
+
+3. no-cross-framework-benchmarking — WEAKENED but not yet updated on the synthesis (see outstanding).
+   GVDEP compares directly against VDEP on identical data (Figure 8, showing both definitions). Same group and its own predecessor, so not an independent benchmark — but a genuine like-for-like comparison, the first in the vault.
+
+Unaffected and re-confirmed: providers-report-no-tracking-metrics, pitch-control-traditions-uncompared, shot-value-formulations-unbenchmarked, no-source-reports-both, no-reliability-for-off-ball-metrics.
+
+=== A CORRECTION THE ABSENCE CHECK DID NOT CATCH, BUT THE INGEST DID ===
+
+THE VAULT CONFLATED TWO UMEMOTO PAPERS. Multiple pages carried Umemoto & Fujii as the route to closing individual defensive credit, citing "Umemoto & Fujii (2023), StatsBomb Conference, counterfactual positioning". This paper — Umemoto, Tsutsui & Fujii (2022), GVDEP — is a DIFFERENT paper and is STILL TEAM-LEVEL. The 2023 work remains unheld and remains the acquisition target.
+Corrected on gvdep, rikuhei-umemoto and the GVDEP summary. NOT yet corrected on defensive-valuation, off-ball-value or the synthesis, which still list Umemoto & Fujii (2023) in a way that could be read as now-held.
+Worth noting the failure mode: acquiring ONE paper by an author can make a vault appear to have closed a gap that a DIFFERENT paper by the same author would close. Bibliographic precision on cited-not-held works matters more than it looks.
+
+=== KEY FINDINGS ===
+
+1. GVDEP's fix: replace VDEP's C (frequency ratio) with weights = mean VAEP at the moments gains/attacks occur. Puts both terms on a SCORE scale. Cost: GVDEP now depends on P_scores and P_concedes classifiers whose F1 here is 0.10-0.13 and 0.08-0.15 — a principled weight computed from an unreliable model.
+
+2. THE n_nearest SWEEP. Ball gain: 0.16 -> ~0.31, flat after 3-4 players. Attacked: ~0.44 -> 0.46, flat. Scores: ~0.10 -> 0.13, no gain. CONCEDES: 0.15 -> 0.08, GETS WORSE with more players. That last is not the authors' emphasis and matters — with 186 positives in 100,328 events, extra dimensions are noise. Same small-data overfitting as Yeung & Fujii's raw coordinates performing below shooter features alone.
+
+3. RELEVANT TO vaep-conceding-classifier: concedes F1 here is 0.08-0.15, NOT 0.000. So VAEP's conceding classifier is not universally degenerate — Toda's 0.000 was one dataset. Supports the reframe that F1 near zero is a thresholding artefact at extreme base rates rather than a fixed property of the model. NOT yet added to that question page.
+
+4. GVDEP correlates 0.993 with its attacked term alone, because |w_attacked| = 0.021 vs |w_gains| = 0.011. Authors flag it. The metric is nearly a monotone function of one of its two components.
+
+5. THE GAIN/ATTACKED TRADE-OFF REPLICATES across continents and competition types (r = -0.757, p = 0.001 in Euro 2020; VDEP found the same in the J-League). One of the few genuine replications in this literature.
+
+6. FIRST WOMEN'S FOOTBALL DATA in the vault (Euro 2022). Also first international-tournament data.
+
+=== OUTSTANDING ===
+
+- Synthesis: no-cross-framework-benchmarking needs the GVDEP-vs-VDEP qualification; GVDEP needs adding to the valuation table.
+- vdep: needs a successor note pointing at GVDEP's fix to C.
+- defensive-valuation, off-ball-value: the two-Umemoto-papers correction.
+- vaep-conceding-classifier: the concedes F1 = 0.08-0.15 data point.
+- keisuke-fujii, kazushi-tsutsui: fifth and third held source respectively.
+- free-parameters-load-bearing: C is now superseded, not merely unexamined.
+- Index not yet updated with the three new pages.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1 REMAINS Umemoto & Fujii (2023) StatsBomb counterfactual positioning — individual defensive credit is still open.
+- 8 orphan pages remain unlinked.
+- CLAUDE.md page template out of step with conventions.md provenance keys.
+- wiki/conversations/ never used despite QUERY step 6.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-08-03 14:45] writeback | GVDEP outstanding items — six of nine complete
+Completion of outstanding items from the GVDEP ingest. No new source read.
+
+Pages created: 0, Pages updated: 6 (+ index)
+
+COMPLETED:
+
+- index — three new pages added (gvdep, rikuhei-umemoto, generalized-vdep-euro-location-analysis). Questions section entries updated to reflect what GVDEP changed: tracking-error-propagation now notes incomplete observation is partially answered; free-parameters-load-bearing notes C has been superseded rather than merely unexamined.
+
+- defensive-valuation — MAJOR. Superseded block recording that the vault CONFLATED TWO UMEMOTO PAPERS. Added an explicit table distinguishing Umemoto, Tsutsui & Fujii (2022, GVDEP, team-level, HELD) from Umemoto & Fujii (2023, counterfactual positioning, individual, NOT HELD). Recorded the failure mode by name: A VAULT CAN APPEAR TO HAVE CLOSED A GAP BECAUSE IT ACQUIRED A PAPER BY THE RIGHT AUTHOR. Also added the proxy-target line as a two-paper progression and noted GVDEP's n_nearest result may make full-squad evaluation unnecessary rather than merely expensive — a possible reprieve on the cost limitation that has blocked the trajectory route.
+
+- vdep — new "What GVDEP Fixed" section with the three-limitation table. Recorded that the C fix is THE ONLY CASE IN THE VAULT of an asserted free parameter being superseded by a principled derivation rather than left unexamined. Also that the n_nearest result revises what VDEP's off-ball state was buying: it fed all 22 positions, and most of that was unnecessary — actively harmful for the concedes classifier.
+
+- vaep-conceding-classifier — updated with the second independent measurement. GVDEP reports concedes F1 of 0.08-0.15 at a base rate of 0.19%, marginally RARER than Toda's 0.23%. Three consequences recorded: (a) the strongest reading is RULED OUT, since the same model on comparable data gives non-zero F1, so Toda's 0.000 was one dataset's outcome not a constant; (b) the thresholding explanation GAINS support, since F1 hovering near zero and moving with implementation is what an artefact looks like where a degenerate model would be reliably zero; (c) the classifier is still weak, so the reframe rescues the DIAGNOSTIC without rescuing the MODEL.
+  Added an independent piece of evidence the authors do not emphasise: concedes F1 FALLS from 0.15 to 0.08 as players are added. That is small-data overfitting, not a thresholding artefact, and it is separate evidence the classifier is genuinely struggling.
+
+- keisuke-fujii — fifth held source. New section on ITERATION WITHIN THE GROUP: each paper fixes a limitation the previous one named. VDEP states three, GVDEP addresses all three; NMSTPP's stated gaps are addressed by VDEP and C-OBSO. Rare in this literature, where papers more often propose alternatives than repair predecessors. Also noted this makes the group's own work the closest thing the vault has to cross-framework comparison, with the caveat that same-group comparison is not independent.
+
+- kazushi-tsutsui — third held source; now on both GVDEP and C-OBSO, the two lines that meet at the counterfactual approach.
+
+NOT DONE:
+- synthesis — GVDEP is not in the valuation table, and no-cross-framework-benchmarking still lacks the GVDEP-vs-VDEP qualification. The claim's home declaration is there, so this is the one place the weakening is not yet recorded. FIRST TASK NEXT SESSION.
+- free-parameters-load-bearing — C is superseded, not merely unexamined; the question page still lists five parameters as open when four is now correct.
+- off-ball-value — carries the two-Umemoto conflation in milder form.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1 REMAINS Umemoto & Fujii (2023) StatsBomb counterfactual positioning. The GVDEP ingest did NOT close individual defensive credit, contrary to what several pages implied before today.
+- 8 orphan pages remain unlinked.
+- CLAUDE.md page template out of step with conventions.md provenance keys.
+- wiki/conversations/ never used despite QUERY step 6.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-08-03 15:33] writeback | GVDEP ingest closed — final three items logged
+Completion of the final three outstanding items from the GVDEP ingest. The GVDEP ingest is now fully closed — all nine identified updates done.
+
+NOTE ON THIS ENTRY: the three page updates below were written in the preceding turn but not logged, because that turn ended after the last write without an append_log call. This entry records work already on disk rather than new work. Verified by re-reading free-parameters-load-bearing before writing.
+
+Pages updated: 3 (all in the preceding turn)
+
+- action-valuation-frameworks-compared (synthesis) — GVDEP added to the valuation table, which now runs to TEN frameworks with a new "Weighting" row contrasting VDEP's frequency ratio against GVDEP's VAEP score scale. "Five of nine produce no player rating" corrected to six of ten. The no-cross-framework-benchmarking home declaration gained a Weakened block — see below. Limitation 3 now carries the two-Umemoto warning inline; limitation 6 notes GVDEP's n_nearest result may make the scale constraint less binding than assumed. Practical guidance gained two entries: GVDEP over VDEP for assessing a defence, and GVDEP/OBSO for working from broadcast video without a tracking licence.
+
+- free-parameters-load-bearing — the parameter table now carries a Status column with C struck through and marked Superseded. Title claim revised from five open parameters to four. New section on what GVDEP settled and how, with the caveat that the replacement weights derive from classifiers whose own F1 is 0.08-0.15. "Zero sensitivity analyses" corrected to "rare, not absent". Added the observation that WITH C GONE THE TRADE-OFF-WEIGHT CATEGORY IS EMPTY — what remains is one shape parameter and three horizons, a narrower and more tractable question than the original five.
+
+- off-ball-value — two-Umemoto conflation corrected with an inline warning block. GVDEP's n_nearest result added to route 2, with the inference that OFF-BALL VALUE FOR DEFENSIVE PURPOSES IS A LOCAL QUANTITY carried by the few players nearest the ball rather than by the whole configuration. The gain/attacked replication across VDEP and GVDEP added to the evidence section.
+
+THE SUBSTANTIVE REVISION IN THE SYNTHESIS. no-cross-framework-benchmarking was the vault's most-repeated absence claim and the stated basis for its comparison tables resting on design characteristics rather than results. GVDEP compares itself directly against VDEP on identical data, which is a genuine like-for-like comparison and the first held here.
+
+Rather than retire the claim, it is now stated more precisely: COMPARISON HAPPENS WITHIN RESEARCH LINES AND NEVER ACROSS THEM. Two qualifications carry it — the comparison is same-group own-predecessor work, which is the internal-justification pattern rather than a benchmark, and it is within one lineage, with nothing comparing VDEP or GVDEP against VAEP's defensive half, C-OBSO, or any framework outside the Fujii group.
+
+That is a weaker and more interesting claim than blanket absence, because it identifies the boundary: groups benchmark against themselves, and nobody benchmarks against a competitor. Worth noting as a general observation about how absence claims should be revised — narrowing to locate the boundary is usually more informative than deleting.
+
+A SECOND OBSERVATION, recorded on free-parameters-load-bearing. The page's explanation for why nobody runs sensitivity analyses is that they can only weaken a paper. GVDEP is a partial counter-example: it published a sweep, and the sweep was flattering, showing its method works with fewer inputs than its predecessor assumed. So the asymmetry breaks when the sweep is over something the authors WANT to show is unnecessary, rather than over a value they had to choose.
+
+PROCESS NOTE: this is the second time a turn has ended after a write without the log entry. The log is the only durable record of what was done and why; a completed edit with no log entry is indistinguishable from an outstanding task, which is exactly what happened here. Worth treating append_log as part of the write rather than as a closing step.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) StatsBomb counterfactual positioning. Individual defensive credit remains open; the 2022 GVDEP paper did not close it.
+- 8 orphan pages remain unlinked; six are lead authors whose summaries do not link them. Largest outstanding structural task.
+- CLAUDE.md page template out of step with conventions.md provenance keys (flagged, not fixed, per instruction).
+- wiki/conversations/ never used despite QUERY step 6 requiring it.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
