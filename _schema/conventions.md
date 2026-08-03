@@ -37,15 +37,9 @@ The test is whether an author of a held source would
 recognise the claim as theirs.
 
 - **Inferred** — a fair gloss, restatement, or comparison
-  that follows from what sources say. *"VDEP and xT differ
-  on whether risk is modelled"* is inferred: both papers
-  would agree.
+  that follows from what sources say.
 - **Generated** — a novel claim, reconciliation, or
-  mechanism that exists nowhere but here. *"Encode
-  structure the representation cannot recover and the data
-  cannot support learning"* is generated: it was invented
-  to reconcile three sources that never addressed each
-  other, and none of them states it.
+  mechanism that exists nowhere but here.
 
 The boundary case is a **comparison that produces a new
 conclusion**. Noting that two sources disagree is inferred.
@@ -62,12 +56,98 @@ Worked example: an entity page once stated an author was
 "associated with Liverpool FC's research department".
 That came from background knowledge, not from any held
 source, and was wrong — the primary source, acquired
-later, says Hudl. No amount of internal review would have
-caught it, because the vault contained nothing to check
-it against.
+later, says Hudl.
 
 **Rule: never state an imported claim as fact.** Mark it,
 or omit it.
+
+## Claim Dependencies
+
+A `^[generated]` marker records *that* a claim was invented
+here. It does not record what it was invented **on top of**
+— so when a premise is revised, nothing finds what else
+moves.
+
+### Claim IDs
+
+A generated claim referenced from more than one page gets a
+short kebab-case ID, declared once at its home page:
+
+> **`counterfactual-individuates`** — the individuating
+> ingredient is the counterfactual, not the data.
+
+The ID is the claim's handle. Backtracking is then a text
+search for it. Claims used on one page only do not need one.
+
+### rests-on
+
+Dependent claims record what they stand on, appended to the
+marker:
+
+```
+^[generated: the fourth cause of offensive bias.
+ rests-on: source:vdep-f1-zero]
+```
+
+Four dependency kinds, and they fail differently:
+
+| Kind | Means | Fails when |
+|---|---|---|
+| `source:` | A held source states it | The source is misread, or superseded by a better one |
+| `claim:` | Another generated claim | That claim is revised — **cascades** |
+| `imported:` | Outside the corpus | Any time. Nothing here can check it |
+| `absence:` | **No source does X** | **A source is acquired** |
+
+### Absence is the dangerous kind
+
+Most of this vault's corrections have come from acquiring a
+source, not from re-reading a held one. A claim resting on
+absence is not merely unsupported — it has a **built-in
+expiry date**, and the expiry is triggered by the ordinary
+business of ingesting papers.
+
+Examples that expired exactly this way:
+
+- *"Individual defensive credit is unaddressed anywhere"* —
+  rested on `absence:`. Propagated to three pages before a
+  search found Umemoto & Fujii (2023).
+- *"Spearman's OBSO factorises under an independence
+  assumption"* — rested on a secondary description.
+  Corrected on acquiring the primary source.
+
+**Rule: a claim marked `absence:` must be re-checked
+whenever a source is ingested in its area.** This belongs
+in the ingest checklist, not only here.
+
+### Worked example
+
+The claim *"offensive bias has four causes"* lives on
+[[action-valuation]]. Its fourth cause — too few positives
+to train a classifier — rests on the F1 = 0.000 finding on
+[[vaep]].
+
+That finding was later put in doubt: F1 is near-guaranteed
+for a calibrated model at a 0.23% base rate, and VAEP never
+thresholds. The fourth cause therefore weakened — but this
+was noticed **by accident**, months after both claims were
+written, because nothing connected them.
+
+Under this convention the fourth cause carries
+`rests-on: source:vaep-f1-zero`, and revising that finding
+surfaces the dependent by search.
+
+### What this does not solve
+
+The mechanism records dependencies **one way**. Finding
+dependents means searching for an ID, which relies on the
+ID being used consistently. There is no automatic cascade
+and no integrity check.
+
+Note also that the lint helper `_link_target` currently
+strips heading anchors, so if claim IDs are ever expressed
+as `[[page#claim]]` they will be invisible to
+`find_backlinks` and `find_mentioned_but_missing`. Plain
+text IDs avoid this.
 
 ## Frontmatter Provenance
 
@@ -82,15 +162,13 @@ provenance:
   ambiguous: 5%
 ```
 
-`generated` and `imported` default to 0 if absent, so
-pages written before this convention remain valid.
+`generated` and `imported` default to 0 if absent, so pages
+written before this convention remain valid.
 
 **A percentage is not sufficient on its own.** Risk is not
 proportional to volume — one wrong generated claim that
 propagates across pages does more damage than thirty
-percent harmless glossing. Where `generated` is non-zero,
-the claims should also carry inline markers, or be named
-in the body.
+percent harmless glossing.
 
 ## Supersession
 
@@ -103,7 +181,8 @@ Record it:
 
 Generated and imported claims are **more likely** to need
 supersession than extracted ones, and are the first place
-to look when a contradiction surfaces.
+to look when a contradiction surfaces. Where a superseded
+claim has an ID, search for it before closing the edit.
 
 ## Lifecycle States
 
@@ -116,8 +195,8 @@ draft → reviewed → verified → stale → archived
 - **archived**: Explicitly outdated. Kept for history.
 
 Note that **verified is unavailable to a generated claim**
-by definition — no source can confirm it, because no
-source states it. A page whose central claim is generated
-should not reach `verified` on the strength of its
-extracted material. Where a generated claim can be
-tested, a `question` page is the appropriate home for it.
+by definition — no source can confirm what no source
+states. A page whose central claim is generated should not
+reach `verified` on the strength of its extracted material.
+Where a generated claim can be tested, a `question` page is
+the appropriate home for it.
