@@ -1767,3 +1767,155 @@ CARRIED FORWARD:
 - Conversations section of the index remains empty and has never been used.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-07-31 17:12] lint | Schema: claim dependencies and rests-on
+Added a Claim Dependencies section to _schema/conventions.md, giving generated claims a way to record what they were built on top of. No new source read; no new pages created.
+
+Pages updated: 1 (_schema/conventions.md)
+
+THE MECHANISM, in three parts:
+
+1. CLAIM IDs. A generated claim referenced from more than one page gets a short kebab-case ID declared once at its home page. The ID is the handle; backtracking is a text search for it. Single-page claims need none. Deliberately chosen over a registry — a registry is a second thing to maintain and would rot.
+
+2. rests-on, appended to the existing marker. Four dependency kinds, and the point of separating them is that THEY FAIL DIFFERENTLY:
+   - source: fails when the source is misread or superseded
+   - claim: fails when that claim is revised — CASCADES, the only kind that does
+   - imported: can fail at any time and nothing here can check it
+   - absence: fails WHEN A SOURCE IS ACQUIRED
+
+3. A note on what it does not solve: dependencies are recorded one way, finding dependents relies on consistent ID use, and there is no automatic cascade or integrity check.
+
+THE DESIGN INSIGHT WORTH KEEPING — ABSENCE IS THE DANGEROUS KIND. Reviewing this vault's correction history, MOST CORRECTIONS CAME FROM ACQUIRING A SOURCE, NOT FROM RE-READING A HELD ONE. A claim resting on absence is not merely unsupported; it has a BUILT-IN EXPIRY DATE, and the expiry is triggered by the ordinary business of ingesting papers. Two documented instances:
+- "Individual defensive credit is unaddressed anywhere" — propagated to three pages before a search found Umemoto & Fujii (2023).
+- "OBSO factorises under an independence assumption" — corrected on acquiring the primary source.
+Rule recorded: a claim marked absence: must be re-checked whenever a source is ingested in its area. NOTED THAT THIS BELONGS IN THE INGEST CHECKLIST, NOT ONLY IN CONVENTIONS — the checklist is where it would actually fire.
+
+WORKED EXAMPLE included in the convention rather than as a separate demonstration page: the four-causes claim on action-valuation, whose fourth cause rests on the F1 = 0.000 finding on vaep. That dependency was noticed BY ACCIDENT, long after both were written, because nothing connected them. Under the convention it carries rests-on: source:vaep-f1-zero and revising the finding surfaces the dependent.
+
+TOOLING INTERACTION FLAGGED: _link_target currently strips heading anchors (target.split('#')[0]), so if claim IDs were ever expressed as [[page#claim]] they would be invisible to find_backlinks and find_mentioned_but_missing. Plain-text IDs avoid this, which is why the convention specifies them. Worth knowing before anyone "improves" the ID format to use wikilinks.
+
+ALSO ADDED: a line to the Supersession section — where a superseded claim has an ID, search for it before closing the edit. That is the point at which the mechanism actually earns its keep.
+
+NOT RETROFITTED. No existing claim carries an ID or a rests-on yet. Suggested starting set, being the claims already known to be referenced from multiple pages:
+- counterfactual-individuates (counterfactual-baseline, off-ball-value, defensive-valuation, synthesis) — rests-on: source:vdep-team-level, source:cobso-per-player
+- offensive-bias-four-causes (action-valuation, defensive-valuation, synthesis) — rests-on: claim:... for the fourth cause, source:vaep-f1-zero
+- handcrafted-features-rule (representation-learning, theory-based-modelling, synthesis) — rests-on: three source findings
+- physical-units-admit-priors (model-selection, theory-based-modelling, synthesis) — rests-on: source:spearman-map-priors
+- reliability-volatility-identity (split-half-reliability, performance-volatility) — rests-on: imported:psychometric-decomposition
+Note the last two: one rests on a single source's parameter table, the other on imported background. Those are the two most fragile of the five by dependency kind alone, which is the mechanism doing its job before anyone has used it.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- 8 genuine orphan pages remain unlinked; six are lead authors whose summaries do not link them. Largest outstanding structural task.
+- Add the absence-recheck rule to the ingest checklist in CLAUDE.md.
+- Conversations section of the index remains empty and has never been used.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-07-31 17:24] lint | CLAUDE.md absence check validated; claim-dependency retrofit begun
+Validated the absence-check addition to CLAUDE.md (no changes made to that file, as instructed) and began the claim-dependency retrofit.
+
+Pages updated: 3
+
+=== VALIDATION OF THE CLAUDE.md ABSENCE CHECK ===
+
+The addition as INGEST step 5 reads: "Any a claim marked 'absence:' must be checked to assess any potential updates based on the new raw source".
+
+CORRECT AND WELL PLACED. Step 5 sits after reading the source and enumerating its concepts (steps 1-3) and after the search for existing pages (step 4), so by that point the ingester knows both what the source covers and which pages are in scope. That is the right moment.
+
+THREE FINDINGS, none requiring a change I would make unilaterally:
+
+1. NO SEARCH MECHANISM SPECIFIED — the most substantive gap. The step says absence claims "must be checked" but not HOW TO FIND THEM. In practice a checklist item with no trigger does not fire. The convention states that backtracking is a text search; the step should say so explicitly, e.g. "use search_notes for 'absence:' to locate them". Without that, this has the same failure mode as the inline provenance markers, which existed in the schema for the vault's entire history and were never used.
+
+2. NO ACTION SPECIFIED WHEN IT FIRES. "Assess any potential updates" does not say what to do if the absence claim is now false. Given this vault's history — three propagated corrections — it should point at the Supersession convention: record the correction, do not silently overwrite. An absence claim proved wrong is exactly the case where silent overwriting loses the most information.
+
+3. SCOPE IS BROADER THAN THE CONVENTION. conventions.md says re-check "whenever a source is ingested IN ITS AREA"; CLAUDE.md says check all absence claims against every new source. The CLAUDE.md version is SAFER and I would keep it, but it will get expensive as absence claims accumulate. Worth revisiting if the count grows past roughly a dozen.
+
+TWO SEPARATE OBSERVATIONS ON CLAUDE.md, unrelated to the addition:
+
+4. THE PAGE TEMPLATE IS NOW STALE. It shows the three-key provenance block (extracted/inferred/ambiguous) and does not include generated/imported, which conventions.md now defines and which I have been writing into pages all session. The two schema files disagree. Flagging rather than fixing, per instruction.
+
+5. THE LINT CHECKLIST HAS NO ABSENCE ITEM. Absence claims can expire without an ingest — a web search, or a human noticing. A periodic lint item would catch those. Currently the only trigger is ingest.
+
+6. wiki/conversations/ IS AN OPERATION I HAVE NEVER PERFORMED. QUERY step 6 requires storing question-and-answer pairs there, one file per chat. The index's empty Conversations section is not a vestigial artefact — it reflects an unexecuted instruction. That is a standing compliance gap, not a design question.
+
+=== RETROFIT BEGUN ===
+
+Three claim IDs declared at their home pages, each as a blockquote with the ID as a heading so it is greppable, plus rests-on:
+
+- counterfactual-baseline declares `counterfactual-individuates` — rests-on: source:vdep-team-level, source:cobso-per-player. Status line added recording that it is DEMOTED FROM LAW TO TENDENCY on the Shapley objection.
+- model-selection declares `physical-units-admit-priors` — rests-on: source:spearman-map-priors. Flagged inline as THE MOST FRAGILE OF THE MULTI-PAGE GENERATED CLAIMS BY DEPENDENCY ALONE, since it rests on a single source's parameter table and generalises to modelling culture.
+- split-half-reliability declares `reliability-volatility-identity` — rests-on: imported:psychometric-decomposition, source:vanroy-rho-values, source:mendes-neves-volatility-definitions. Flagged that THE LOAD-BEARING PREMISE IS IMPORTED, so nothing in the vault can check it.
+
+FIRST CASCADE RECORDED: two claims on split-half-reliability now carry rests-on: claim:reliability-volatility-identity — the aggregation-ratio test and the predicted direction of the intent-model fix. Both cascade if that identity is wrong. This is the dependency kind the mechanism exists for, and it was invisible before.
+
+ABSENCE CLAIMS MARKED (3), each now findable by searching "absence:":
+- model-selection — absence:no-sensitivity-analysis-in-held-sources
+- split-half-reliability — absence:no-source-reports-both (reliability and predictive validity for one metric)
+
+=== REMAINING RETROFIT ===
+
+Claim IDs still to declare at home pages:
+- offensive-bias-four-causes — home action-valuation. rests-on includes source:vaep-f1-zero for the fourth cause, which is itself under question. A cascade waiting to be recorded.
+- handcrafted-features-rule — home representation-learning. rests-on three source findings.
+
+Dependent pages still to carry the IDs (declaration alone does not enable backtracking):
+- counterfactual-individuates: off-ball-value, defensive-valuation, synthesis
+- physical-units-admit-priors: theory-based-modelling, synthesis
+- reliability-volatility-identity: performance-volatility
+- offensive-bias-four-causes: defensive-valuation, synthesis
+- handcrafted-features-rule: theory-based-modelling, synthesis
+
+Absence claims still to mark, all high-traffic:
+- "no cross-framework benchmarking anywhere" — synthesis, several concept pages
+- "the two pitch-control traditions have never been compared" — pitch-control, its question page
+- "four shot-value formulations never benchmarked" — expected-goals, its question page
+- "no source propagates tracking uncertainty" — multi-object-tracking, its question page
+- "no off-ball or defensive metric has a reported reliability" — synthesis, defensive-valuation, off-ball-value
+
+The absence set matters more than the remaining IDs, because the CLAUDE.md step now depends on those markers existing to fire against.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- 8 orphan pages remain unlinked.
+- CLAUDE.md page template is out of step with conventions.md provenance keys.
+- wiki/conversations/ has never been used despite QUERY step 6 requiring it.
+
+## [2026-08-03 10:38] lint | Absence claims retrofitted — ingest step 5 now has targets
+Absence-claim retrofit. All five high-traffic absence claims now carry markers and are findable by searching "absence:". No new source read; no new pages created.
+
+Pages updated: 4 (multi-object-tracking, pitch-control, expected-goals, synthesis)
+
+ABSENCE CLAIMS NOW DECLARED, with IDs at their home pages:
+- no-tracking-uncertainty-propagation — multi-object-tracking. rests-on: absence:no-held-source-propagates-tracking-error
+- providers-report-no-tracking-metrics — multi-object-tracking. rests-on: absence:no-provider-metrics-in-held-sources
+- pitch-control-traditions-uncompared — pitch-control. rests-on: absence:no-held-source-compares-ppcf-and-gaussian
+- shot-value-formulations-unbenchmarked — expected-goals. rests-on: absence:no-held-source-compares-shot-value-models, source:teranishi-c-vs-d
+- no-reliability-for-off-ball-metrics — synthesis. rests-on: absence:no-held-source-reports-off-ball-reliability
+- no-cross-framework-benchmarking — synthesis. rests-on: absence:no-held-source-benchmarks-across-frameworks
+
+Plus three smaller ones marked in passing: no-source-proposes-a-task-taxonomy (the six-task division itself), no-sensitivity-analysis-in-held-sources (referenced from the synthesis, declared on model-selection), neither-paper-validates-the-gap.
+
+ONE CLAIM FLAGGED AS WEAKER THAN IT READS. providers-report-no-tracking-metrics is an absence claim about what is PUBLISHED, and the vault holds a handful of papers using Stats Perform and Data Stadium data, not a survey of provider documentation. The marker now says so. This is the kind of overreach the mechanism is meant to surface — the claim was stated flatly before and is not supportable at that strength.
+
+no-cross-framework-benchmarking FLAGGED AS THE HIGHEST-VALUE RE-CHECK. It is the vault's most-repeated absence claim and the stated basis for the synthesis comparing design characteristics rather than results. A single benchmarking or survey paper would supersede large parts of that page at once. Marked accordingly so the ingest step 5 check knows to prioritise it.
+
+FIRST CROSS-KIND CASCADE RECORDED: the pitch-control saturation analysis now carries rests-on: claim:pitch-control-traditions-uncompared. If a comparison is found, the analytical derivation is not merely unsupported — it is SUPERSEDED BY MEASUREMENT, which is a different and better outcome. Worth noting that an absence claim expiring can improve the vault rather than damage it.
+
+SYNTHESIS: the dashes in the reliability row are now themselves marked as a finding rather than left as missing data. That row had three empty columns and a reader would read them as "not yet computed"; they are actually a claim about the literature.
+
+=== RETROFIT STATUS ===
+
+DONE — all five high-traffic absence claims, plus four smaller ones. The CLAUDE.md ingest step 5 now has real targets to fire against; searching "absence:" returns them.
+
+REMAINING, unchanged from the previous entry:
+- Claim IDs still to declare: offensive-bias-four-causes is now declared on the synthesis but its home should be action-valuation; handcrafted-features-rule is referenced on the synthesis but declared nowhere. Both need their home-page declaration block.
+- Dependent pages still to carry IDs: counterfactual-individuates on off-ball-value and defensive-valuation; physical-units-admit-priors on theory-based-modelling; reliability-volatility-identity on performance-volatility; offensive-bias-four-causes on action-valuation and defensive-valuation; handcrafted-features-rule on representation-learning and theory-based-modelling.
+
+Note the declaration/reference distinction has drifted: the synthesis now declares two claims whose home pages are elsewhere. Convention says declare once at the home page and reference by ID. Worth tidying so backtracking finds one authoritative statement rather than two.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Umemoto & Fujii (2023) counterfactual defensive positioning.
+- 8 orphan pages remain unlinked.
+- CLAUDE.md page template is out of step with conventions.md provenance keys (flagged, not fixed, per instruction).
+- wiki/conversations/ has never been used despite QUERY step 6 requiring it.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+

@@ -19,7 +19,13 @@ updated: 2026-07-27
 
 A surface giving, for each location on the field, the probability that a given team would control the ball there. It turns 22 point positions into a continuous map of spatial dominance.
 
-The vault holds **two independent constructions**, used as inputs to different downstream value models and never compared against each other. See [[pitch-control-traditions-compared]].
+The vault holds **two independent constructions**.
+
+> ### `pitch-control-traditions-uncompared`
+>
+> **No source compares the two pitch-control traditions, and both feed value models whose outputs *are* compared.**
+>
+> ^[generated: an absence claim. rests-on: absence:no-held-source-compares-ppcf-and-gaussian — ⚠️ expires on ingest of any paper computing both, or any survey of spatial models. Also on [[pitch-control-traditions-compared]] and the synthesis.]
 
 ## Tradition 1: Arrival-Time Contest (Spearman)
 
@@ -66,7 +72,7 @@ with $\lambda_1 = \lambda_2 = \gamma = 1$ — nothing fitted.
 | Parameters | Fitted from measured priors | Set to 1 |
 | Used by | [[obso]], [[c-obso]], [[xsot\|xOSOT]] | [[expected-value-possession-framework\|Fernández et al.]] EPV |
 
-> ^[generated: the saturation analysis below is derived here from the two published formulations. Neither source compares them, and the predicted direction of disagreement is untested. Stated in full on [[pitch-control-traditions-compared]].]
+> ^[generated: the saturation analysis below is derived here from the two published formulations, and the predicted direction of disagreement is untested. rests-on: source:ppcf-shared-bracket, source:fb-sigmoid-difference, claim:pitch-control-traditions-uncompared — cascades if a comparison is found, since the analysis would then be superseded by measurement]
 
 The substantive difference is **how they saturate**. Both do, by different mechanisms. F&B saturates through the sigmoid on a *difference* of summed influences, so adding a second defender to an already-dominated zone still moves the value — $\sigma(2) = 0.88$ against $\sigma(1) = 0.73$. Spearman saturates on *total* control: once $\sum_k PPCF_k \to 1$, every remaining player's contribution is multiplied by approximately zero.
 
@@ -74,7 +80,7 @@ If that reading is right, **F&B assigns more extreme values in crowded areas**, 
 
 A second difference is **ball travel time**: PPCF makes a location twenty metres away genuinely harder to reach than one five metres away, *for both teams*. The Gaussian construction treats arrival as instantaneous.
 
-**No source compares them**, and both feed value models whose outputs *are* compared. See [[pitch-control-traditions-compared]] for the directional predictions and the decisive step — whether substituting one surface for the other changes [[obso|OBSO]] player rankings.
+See [[pitch-control-traditions-compared]] for the directional predictions and the decisive step — whether substituting one surface for the other changes [[obso|OBSO]] player rankings.
 
 ## The Integration Horizon
 

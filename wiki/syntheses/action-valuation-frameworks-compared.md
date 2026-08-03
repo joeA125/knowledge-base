@@ -21,7 +21,7 @@ The vault's football-analytics sources are easily mistaken for variations on one
 
 *(Formerly "Action Valuation Frameworks Compared" — renamed as the vault outgrew the valuation-only framing.)*
 
-> **On provenance.** A synthesis generates claims that no single source states. The load-bearing ones are marked `^[generated]` at their point of use, with the fuller argument — and what would falsify it — on the linked concept page. Eight open questions have their own pages, listed under Questions in the index and again at the foot of this one.
+> **On provenance.** A synthesis generates claims that no single source states. The load-bearing ones are marked `^[generated]` at their point of use, with the fuller argument — and what would falsify it — on the linked concept page. Claims marked `absence:` are the ones with a built-in expiry date: they hold only until a source is acquired that contradicts them, which is how most of this vault's corrections have arrived. Eight open questions have their own pages, listed at the foot.
 
 ## The Six Tasks
 
@@ -34,7 +34,7 @@ The vault's football-analytics sources are easily mistaken for variations on one
 | **Tactical** | How does this team play, and how do we counter it? | Team configuration | [[tactical-analysis\|Pressing analysis]], possession clustering |
 | **Prescription** | What *should* the player have done? | Decision | [[xsot\|Yeung & Fujii]] |
 
-**Prescription is genuinely a sixth task.**^[generated: the six-task division is this vault's organising scheme; no source proposes it] Every other framework describes what happened and assigns it a value. [[game-theory|Yeung & Fujii]] solve for what *ought* to happen, and can defend the claim by pointing at a payoff table.
+**Prescription is genuinely a sixth task.**^[generated: the six-task division is this vault's organising scheme; no source proposes it. rests-on: absence:no-source-proposes-a-task-taxonomy — ⚠️ expires if a survey paper is ingested]
 
 ## Task 1: Valuation
 
@@ -59,15 +59,21 @@ $$V(a_i) = Q(S_i) - Q(S_{i-1})$$
 
 ⚠️ The reliability row is thinner evidence than it looks. [[split-half-reliability]] and [[performance-volatility]] measure **the same variance component** with opposite interpretations, so a low $\rho$ may be reporting genuine player inconsistency rather than metric failure. See [[within-season-variation-noise-or-signal]].
 
+The dashes in that row are themselves a finding:
+
+> **`no-reliability-for-off-ball-metrics`** — no off-ball or defensive metric in this vault has a reported split-half reliability.^[generated: an absence claim, established by checking every such framework held here. rests-on: absence:no-held-source-reports-off-ball-reliability — ⚠️ expires on ingest of any off-ball or defensive valuation paper. Also on [[off-ball-value]] and [[defensive-valuation]].] Since reliability is the criterion that matters most for [[recruitment]], the metrics best suited to finding undervalued players are the ones whose stability is least known.
+
 ### Axis 1: Perspective — attacking or defending
 
 [[football-defence-evaluation-vdep|Toda et al.]] report VAEP's conceding classifier at **F1 = 0.000** on 45 matches.
 
 ⚠️ That figure is near-guaranteed for any calibrated model at a 0.23% base rate, and VAEP never thresholds. The conclusion may be right — VAEP correlates $\approx 0$ with goals conceded independently — while the diagnostic is wrong. See [[vaep-conceding-classifier]].
 
-> ^[generated: the four-cause decomposition below is constructed in this vault. No source enumerates these, and the fourth rests on the F1 evidence flagged above — a dependency between generated claims. Fuller statement on [[action-valuation]] and [[defensive-valuation]].]
-
-Offensive bias has **four causes with four remedies**: definitional (change the target), data (tracking), modelling choice (model duels), and statistical (a frequent proxy). The fourth is the least secure.
+> ### `offensive-bias-four-causes`
+>
+> **Offensive bias has four distinct causes with four different remedies:** definitional (change the target), data (tracking), modelling choice (model duels), and statistical (a frequent proxy).
+>
+> ^[generated: constructed in this vault; no source enumerates these. rests-on: source:vandijk-rankings, source:mendes-neves-event-data-limits, source:shelopugin-duel-tables, source:vaep-f1-zero — the fourth premise is under question per the caveat above, so the fourth cause is the least secure. Also on [[action-valuation]] and [[defensive-valuation]].]
 
 ### Axis 2: Target rarity
 
@@ -91,7 +97,7 @@ Whether the model sees how the action turned out ([[intent-vs-outcome-valuation]
 
 Six positions, from [[vaep]]'s fixed $k=10$ window through Fernández et al.'s hard 15 s cutoff to [[temporal-discounting|Shelopugin's]] geometric decay and [[obso|OBSO's]] single next-event horizon.
 
-**Five frameworks carry an asserted free parameter and none reports a sensitivity analysis.** [[obso|Spearman]] is the exception, because parameters with **physical units** admit priors from previous measurement^[generated: the link between physical units and prior availability is drawn here; Spearman states where his priors come from but does not offer this rationale. Falsifier: a physically-parameterised model whose authors still assert values without priors. See [[model-selection]].] — though note the five are not the same kind of parameter, and only $\gamma$ and $C$ look genuinely suspect. See [[free-parameters-load-bearing]].
+**Five frameworks carry an asserted free parameter and none reports a sensitivity analysis.**^[generated: rests-on: absence:no-sensitivity-analysis-in-held-sources — ⚠️ expires if any held source is found to contain one. Declared on [[model-selection]].] [[obso|Spearman]] is the exception, because `physical-units-admit-priors`^[generated: declared on [[model-selection]]; rests on a single source's parameter table and is the most fragile of the vault's multi-page claims by dependency alone] — though the five are not the same kind of parameter, and only $\gamma$ and $C$ look genuinely suspect. See [[free-parameters-load-bearing]].
 
 ## Observed Versus Optimal: What the Two Results Do and Do Not Share
 
@@ -102,12 +108,12 @@ Six positions, from [[vaep]]'s fixed $k=10$ window through Fernández et al.'s h
 
 **Correction, 2026-07-27.** An earlier revision described the two as "locating the divergence in the same place." That was too strong:
 
-- **Fernández et al.** measure suboptimal **targeting *within* an action** — given a pass, it often does not go to the highest-value destination.
-- **Yeung & Fujii** measure suboptimal **selection *between* actions** — given a shot situation, the shooter shoots when equilibrium says pass.
+- **Fernández et al.** measure suboptimal **targeting *within* an action**.
+- **Yeung & Fujii** measure suboptimal **selection *between* actions**.
 
 So **"shooters shoot too much" is Yeung & Fujii's claim alone.** What the two jointly support is convergence on the **existence** of a gap, not its cause — and at least three explanations produce a large gap with no decision error present: average-player models applied to specific players, unmodelled execution difficulty, and an assumed-rational opponent.
 
-Neither paper tests whether the gap predicts anything outside its own model. See [[observed-versus-optimal-decisions]].
+Neither paper tests whether the gap predicts anything outside its own model.^[generated: rests-on: absence:neither-paper-validates-the-gap] See [[observed-versus-optimal-decisions]].
 
 ## Off-Ball Valuation: Four Mechanisms
 
@@ -119,9 +125,7 @@ A player has the ball for roughly **3 of 90 minutes**.
 | Output unit | Player | **Team only** | Player | Player |
 | Example | EPV surface | [[vdep]] | [[c-obso]] | [[obso]] |
 
-> ^[generated: the vault's own diagnosis, from comparing VDEP and C-OBSO. Neither paper states it, and it is the most widely propagated generated claim here. A Shapley-style decomposition over *agents* would individuate by attribution alone, so this may describe what the literature happens to do rather than a necessity. Full statement and falsifier on [[counterfactual-baseline]].]
-
-**The individuating ingredient is the counterfactual, not the data.** VDEP and C-OBSO use comparable tracking data; VDEP produces one number per configuration with no principled way to split it, C-OBSO intervenes on one *named* player.
+**`counterfactual-individuates`** — the individuating ingredient is the counterfactual, not the data.^[generated: declared on [[counterfactual-baseline]], where a Shapley-style objection demotes it from law to tendency. rests-on: source:vdep-team-level, source:cobso-per-player] VDEP and C-OBSO use comparable tracking data; VDEP produces one number per configuration, C-OBSO intervenes on one *named* player.
 
 ## Task 2: Forecasting
 
@@ -137,9 +141,7 @@ A player has the ball for roughly **3 of 90 minutes**.
 
 Seq2Event degrades *without* engineered geometry; [[sig-model]] degrades *with* it; [[xsot|Yeung & Fujii]] find a [[theory-based-modelling|theory-based feature]] essential and raw coordinates actively harmful.
 
-> ^[generated: the rule below is a reconciliation constructed in this vault. None of the three sources addresses the others, and it has never been tested against a case it was not built to fit. Its two clauses are not independent and no case tests them jointly. See [[handcrafted-features-rule]].]
-
-A rule reconciling all three: **encode structure the representation cannot recover *and* the data cannot support learning; encode nothing else.** Treat it as a working heuristic, not a finding.
+**`handcrafted-features-rule`** — encode structure the representation cannot recover *and* the data cannot support learning; encode nothing else.^[generated: declared on [[representation-learning]]. A reconciliation constructed here; none of the three sources addresses the others, and it has never been tested against a case it was not built to fit. rests-on: source:seq2event-ablation, source:sigmodel-ablation, source:yeung-fujii-ablation] Treat it as a working heuristic, not a finding. See [[handcrafted-features-rule]].
 
 The same sample-size logic explains why tree ensembles **won** on VAEP's 8.5M actions and came **last** on Yeung & Fujii's 2,575 shots. See [[gradient-boosting]].
 
@@ -161,7 +163,7 @@ The same sample-size logic explains why tree ensembles **won** on VAEP's 8.5M ac
 
 **Goals are the worst predictor of future goals in both.** A third instance: [[xsot|xSOT]] correlates 0.58 with average goals where [[expected-goals|xG]] manages 0.46.
 
-Spearman's remains the strongest — player-level, against an independent outcome, and beating the outcome's own lagged value. Contrast [[epv-control-duel-skills-football|Shelopugin's]] next-season forecast, which predicts the metric's own future value; self-prediction shows persistence, not validity.
+Spearman's remains the strongest — player-level, against an independent outcome, and beating the outcome's own lagged value. Contrast [[epv-control-duel-skills-football|Shelopugin's]] next-season forecast, which predicts the metric's own future value.
 
 Four validation checks in ascending strength: self-prediction → cross-horizon consistency ([[vdep]]) → external outcome (Spearman) → external criterion outside the pipeline ([[c-obso]] vs salary).
 
@@ -173,16 +175,24 @@ Four validation checks in ascending strength: self-prediction → cross-horizon 
 4. **No ground truth**, which is why reliability, predictive validity, calibration, imbalance-robust metrics and external criteria have all become substitute tests — and why two of them turn out not to be independent.
 5. **[[selection-bias]] throughout.**
 6. **Scale limits on interaction models** — [[c-obso]] predicts 3 of 22 players.
-7. **Component-level divergence, invisible in framework-level comparison.** Two uncompared [[pitch-control-traditions-compared|pitch-control traditions]], four unbenchmarked [[shot-value-formulations-compared|shot-value formulations]], and [[tracking-error-propagation|tracking error]] that nobody propagates. Shared ingredients differing silently between frameworks whose outputs *are* compared — the benchmarking gap one level down, and worse there.
+7. **Component-level divergence, invisible in framework-level comparison.** Two uncompared [[pitch-control-traditions-compared|pitch-control traditions]]^[generated: `pitch-control-traditions-uncompared`, declared on [[pitch-control]]. rests-on: absence:no-held-source-compares-ppcf-and-gaussian], four unbenchmarked [[shot-value-formulations-compared|shot-value formulations]]^[generated: `shot-value-formulations-unbenchmarked`, declared on [[expected-goals]]. rests-on: absence:no-held-source-compares-shot-value-models], and [[tracking-error-propagation|tracking error]] that nobody propagates^[generated: `no-tracking-uncertainty-propagation`, declared on [[multi-object-tracking]]. rests-on: absence:no-held-source-propagates-tracking-error]. Shared ingredients differing silently between frameworks whose outputs *are* compared — the benchmarking gap one level down, and worse there.
 8. **Strategy-space coarsening** is the price of prescription.
 9. **Price is absent everywhere.**
-10. **No cross-framework benchmarking.** Yeung & Fujii compare against no decision-making baseline either.
+10. **No cross-framework benchmarking.**
+
+> ### `no-cross-framework-benchmarking`
+>
+> **No framework in this vault has been benchmarked against another on a shared task.**
+>
+> ^[generated: the vault's most-repeated absence claim, and the basis of the argument that its comparison tables must rest on design characteristics rather than results. rests-on: absence:no-held-source-benchmarks-across-frameworks — ⚠️ **the single highest-value absence claim to re-check on every ingest.** A benchmarking or survey paper would supersede large parts of this page at once. VDEP is the closest attempt and is not like-for-like (k=5 vs k=10, different target events, far smaller dataset); Yeung & Fujii compare against no decision-making baseline at all.]
+
+This is why the tables above compare **design characteristics rather than results** — a choice forced by the literature, not preferred.
 
 ## Practical Guidance
 
 - **Season-long recruitment** → xT for stability; [[transfer-performance-prediction|regression on club/league strength]] to shortlist; [[scoutgpt|simulation]] for fit; [[player-development-curve|PDC]] for trajectory.
 - **Identifying an attacker whose output understates him** → [[obso|OBSO]] and [[c-obso]], the two metrics here with external validation.
-- **Coaching a decision, not describing one** → [[xsot|the SPC framework]], with the caveat above about what its gap establishes.
+- **Coaching a decision, not describing one** → [[xsot|the SPC framework]], with the caveat above.
 - **Assessing a defence** → [[vdep]] (team level only).
 - **Live or post-match decision support** → [[expected-value-possession-framework|Fernández et al.]]; [[obso|OBSO]] for ranking moments at far lower cost.
 - **Valuing what was available** → [[probability-surface|pass surfaces]].

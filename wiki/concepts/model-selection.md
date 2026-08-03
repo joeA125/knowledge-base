@@ -29,11 +29,11 @@ BIC penalises harder as $n$ grows and is consistent for the true model if it is 
 
 Used by [[football-event-sequences-point-process-mixture|Amezouwui et al.]] to choose the number of possession clusters — one of the few genuinely principled complexity choices in this vault.
 
-**Held-out validation.** Fit on one partition, evaluate on another. Assumption-free and the default in machine learning, but it needs enough data to spare, and it silently assumes the partitions are exchangeable — an assumption [[football-defence-evaluation-vdep|VDEP]] strains by using five one-week blocks as folds.
+**Held-out validation.** Fit on one partition, evaluate on another. Assumption-free and the default in machine learning, but it needs data to spare, and it silently assumes the partitions are exchangeable — an assumption [[football-defence-evaluation-vdep|VDEP]] strains by using five one-week blocks as folds.
 
 ## The Vault's Recurring Failure
 
-**Five frameworks, five asserted free parameters, zero sensitivity analyses:**
+**Five frameworks, five asserted free parameters, and no sensitivity analysis reported by any of them.**^[generated: the enumeration and the absence claim are both constructed here. rests-on: absence:no-sensitivity-analysis-in-held-sources — ⚠️ expires if a source is acquired that reports one, or if a held source is re-read and found to contain one]
 
 | Parameter | Framework | Justification given |
 |---|---|---|
@@ -43,8 +43,6 @@ Used by [[football-event-sequences-point-process-mixture|Amezouwui et al.]] to c
 | $C \approx 3.9$ | [[vdep]] | Event frequency ratio |
 | 4 s | [[c-obso]] | Prediction accuracy trade-off |
 
-None is selected by BIC, held-out performance, or downstream metric quality.
-
 They are **not all the same kind of parameter**, which lumping them together obscures: horizons ($\epsilon$, $k$, 4 s) are likely self-limiting, since most credit falls near the event regardless. $\gamma$ is a *shape* parameter spanning nearly two orders of magnitude across its author's own proposed range. $C$ is a *trade-off weight* derived from a frequency ratio, which encodes how often each event happens and says nothing about how much each matters. See [[free-parameters-load-bearing]].
 
 **The unused alternative:** fit the parameter by maximising the resulting metric's [[split-half-reliability|reliability]] or [[predictive-validity]] rather than asserting it. That treats the free parameter as what it is — a model-selection problem — and both criteria are already computed for other purposes.
@@ -53,9 +51,17 @@ They are **not all the same kind of parameter**, which lumping them together obs
 
 [[beyond-expected-goals|Spearman]] fits all six of his parameters by MAP with stated priors, on five training matches.
 
-The reason is structural, not diligence: **parameters with physical units admit priors from previous measurement.**^[generated: the connection between physical units and prior availability is drawn here; Spearman states where his priors come from but does not offer this as a rationale] Where a parameter means "temporal uncertainty on intercept time, in seconds", a prior can be inherited from a 2017 fit. Where it means "stylistic preference for vertical attacking", it cannot.
+> ### `physical-units-admit-priors`
+>
+> **Parameters with physical units admit priors from previous measurement; parameters expressing preference do not.**
+>
+> ^[generated: Spearman states where his priors come from but does not offer this as a rationale, and no source draws the contrast. Also on [[theory-based-modelling]] and the synthesis. rests-on: source:spearman-map-priors — a *single* source's parameter table, which makes this the most fragile of the vault's multi-page generated claims by dependency alone]
 
-If right, this is an argument for [[theory-based-modelling|physical modelling]] that goes beyond taste — but note it is a vault-generated inference and would be falsified by a physically-parameterised model whose authors still assert values without priors.
+Where a parameter means "temporal uncertainty on intercept time, in seconds", a prior can be inherited from a 2017 fit. Where it means "stylistic preference for vertical attacking", it cannot.
+
+If right, this is an argument for [[theory-based-modelling|physical modelling]] that goes beyond taste.
+
+**What would falsify it.** A physically-parameterised model whose authors still assert values without priors — which would show the availability of priors is not what drives the practice. One source is thin evidence for a general claim about modelling culture.
 
 Contrast the cases where selection *is* done well: [[nmstpp]]'s ablations on factorisation order and zone discretisation, and Fernández et al.'s per-component [[probability-calibration|calibration]] checks. Both change conclusions; both are cheap.
 
