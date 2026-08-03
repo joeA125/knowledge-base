@@ -85,7 +85,7 @@ For each source:
 2. Create a source summary page in wiki/summaries/ with write_note
 3. List every distinct technical concept, method, or architecture introduced or substantially covered. For each, state whether it warrants a concept page and why. Err toward creating pages. Ensure you do this step transparently in the conversation.
 4. Before creating any new concept or entity page, search wiki/concepts/ and wiki/entities/ for existing pages that reference the same topic. Update existing pages rather than leaving stubs stale
-5. Any similar area claim marked "absence:" must be checked, if new source renders absence claim flase by providing information then correct this and record the changes, "use search_notes for 'absence:' to locate them.
+5. Any similar area claim marked "absence:" must be checked, if new source renders absence claim flase by providing information then correct this and record the changes, "use search_notes for "absence:" to locate them.
 6. Create or update entity pages for each entity mentioned and deemed appropriate for a page or with an existing page
 7. Create or update concept pages for each concept discussed and deemed appropriate for  page or with an existing page
 8. Re-check for contradictions with existing pages
@@ -119,7 +119,7 @@ Run through this checklist:
 1. find_orphan_pages — pages with no inbound links
 2. find_stale_pages — pages not modified in 90+ days
 3. find_mentioned_but_missing — dead wikilinks (gaps)
-4. "use search_notes for 'absence:' to locate pages containing claims with absent sources
+4. "use search_notes for "absence:" to locate pages containing claims with absent sources
 5. Read the taxonomy with read_taxonomy and check for tags used on pages that aren't in the tags logging
 6. Read recently updated pages and check for contradictions with other pages on the same topic
 7. list_unprocessed_sources — sources not yet ingested
