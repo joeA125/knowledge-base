@@ -2,12 +2,14 @@
 title: "Do the two pitch-control traditions agree?"
 type: question
 tags: [pitch-control, sports-analytics, optical-tracking-data, probability-surface, evaluation, model-selection, needs-review]
-sources: [raw/papers/beyond_expected_goals.md, raw/papers/expected_value_possession_framework.md, raw/papers/optimal_football_decisions_shot_taking_situations.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md]
-confidence: 0.65
+sources: [raw/papers/physics_based_pass_probabilities.md, raw/papers/beyond_expected_goals.md, raw/papers/expected_value_possession_framework.md, raw/papers/optimal_football_decisions_shot_taking_situations.md]
+confidence: 0.7
 provenance:
-  extracted: 40%
-  inferred: 55%
-  ambiguous: 5%
+  extracted: 50%
+  inferred: 45%
+  generated: 3%
+  imported: 0%
+  ambiguous: 2%
 lifecycle: draft
 created: 2026-07-27
 updated: 2026-07-27
@@ -15,87 +17,102 @@ updated: 2026-07-27
 
 # Do the two pitch-control traditions agree?
 
-**Status:** Open. Analytically partially resolved below; empirically untested.
+**Status:** Open. Analytically partially resolved; empirically untested. **Reframed 2026-07-27** on ingest of the origin paper for the first tradition.
 
 The vault holds two independent constructions of [[pitch-control]] — [[william-spearman|Spearman's]] arrival-time PPCF and [[javier-fernandez|Fernández]] & [[luke-bornn|Bornn's]] Gaussian influence model. Both are used as **inputs to value models whose outputs are compared against each other**, and no source has ever compared the surfaces themselves.
 
-This matters because a systematic difference propagates silently into [[obso|OBSO]], [[c-obso]], [[xsot|xOSOT]] and the EPV surfaces alike. If the two disagree in a structured way, then apparent differences between downstream metrics may be differences in their control substrate rather than in the valuation logic on top.
+## They Are Not Answering the Same Question
 
-## Why This Is Answerable Cheaply
+> **Reframed.** This page previously treated the two as competing estimators of one quantity. [[physics-based-pass-probabilities|Spearman et al. (2017)]] shows they were built for different purposes.
 
-Unlike most open questions in this literature, this one needs no ground truth, no labels, and no new modelling. Both surfaces are computable from the same tracking frame. The test is a correlation.
+**PPCF originates as a pass-reception model.** The 2017 paper asks *who will receive this pass*, fits parameters to that outcome, and derives a pitch control function by evaluating the same model for an imaginary stationary ball at every location. Control is a **by-product of reception**.
+
+**The Gaussian influence model originates as a spatial-dominance model.** It asks *who owns this region*, with no reception event in view.
+
+Those are related but distinct questions. A location may be one a team would reliably receive a pass at, and also one they do not meaningfully "control" in a territorial sense, and vice versa. Any disagreement between the surfaces is therefore **partly definitional rather than purely a modelling artefact** — which is a reason to expect disagreement, and a reason not to read it as one being wrong.
+
+## The Validation Asymmetry
+
+The sharpest difference, and it is extracted rather than inferred:
+
+| | PPCF | Gaussian influence |
+|---|---|---|
+| Parameters | **Fitted by MLE**, with stat and syst errors | Set to 1, unfitted |
+| Validated against | **Who actually received 5,471 held-out passes** — 81% team, 68% player | Nothing directly |
+| Correctness established by | Direct prediction of an observable outcome | Downstream EPV performance only |
+
+One tradition is an empirically validated model of a directly observable quantity. The other has never been checked against anything.
+
+That does not make the Gaussian model wrong — it was never claimed to predict pass receivers, and it may serve its own purpose well. But it means **the two are not equally warranted**, and a disagreement between them is not symmetrically informative. If they diverge, the prior should favour PPCF wherever the question resembles reception.
 
 ## What Can Be Settled Analytically
 
-The two differ on four counts. Three yield directional predictions.
+Four structural differences; three yield directional predictions.
 
 ### 1. Saturation under crowding — the largest expected effect
 
-$$\text{F\&B:}\quad PC = \sigma\Big(\textstyle\sum_{att} I_i - \sum_{def} I_j\Big) \qquad\quad \text{Spearman:}\quad \frac{dPPCF_j}{dT} = \Big(1 - \sum_k PPCF_k\Big) f_j \lambda_j$$
+$$\text{F\&B:}\quad PC = \sigma\Big(\textstyle\sum_{att} I_i - \sum_{def} I_j\Big) \qquad \text{Spearman:}\quad \frac{dPPCF_j}{dT} = \Big(1 - \sum_k PPCF_k\Big) f_j \lambda_j$$
 
-Both saturate, but by different mechanisms, and that is the crux.
+Both saturate, by different mechanisms. F&B saturates through the **sigmoid**, on a *difference* of summed influences — adding a second defender to an already-dominated zone still moves the value, $\sigma(2) = 0.88$ against $\sigma(1) = 0.73$. Spearman saturates through the **shared bracket**, on *total* control: once $\sum_k PPCF_k \to 1$, every remaining contribution is multiplied by approximately zero.
 
-F&B saturates through the **sigmoid**, on the *difference* of summed influences. Adding a second defender to a zone already dominated still moves $PC$ — $\sigma(2) = 0.88$ against $\sigma(1) = 0.73$.
-
-Spearman saturates through the **shared bracket**, on *total* control. Once $\sum_k PPCF_k \to 1$, every remaining player's contribution is multiplied by approximately zero. The second defender adds almost nothing.
-
-**Prediction:** F&B assigns more extreme control values in crowded areas than Spearman does. Disagreement should scale with **local player density**, and therefore be worst in the penalty area and around the ball — the regions that dominate valuation.
+**Prediction:** F&B assigns more extreme values in crowded areas. Disagreement should scale with **local player density**, worst in the penalty area and around the ball.
 
 ### 2. Attack/defence asymmetry — the cleanest to measure
 
-Spearman fits $\kappa = 1.72$, scaling defenders' control rate. F&B sets $\lambda_1 = \lambda_2 = 1$.
+Spearman (2018) fits $\kappa = 1.72$ for defenders; F&B sets $\lambda_1 = \lambda_2 = 1$. Note the 2017 paper has **no such term**, so this is a refinement of the tradition rather than a defining feature of it.
 
-**Prediction:** a systematic shift of Spearman's surfaces toward defensive control, roughly uniform across the pitch. This is a **bias**, not noise, and should be visible as a non-zero mean difference before any correlation is computed. It is also the one difference that could be removed by refitting rather than by redesign.
+**Prediction:** a systematic shift toward defensive control in the 2018 formulation, roughly uniform across the pitch — a **bias**, visible as a non-zero mean difference before any correlation. Removable by refitting.
 
 ### 3. Offside — sharp and localised
 
-Spearman sets $\lambda_i = 0$ for attackers in offside positions. F&B has no offside term.
+Spearman (2018) sets $\lambda_i = 0$ for attackers in offside positions; F&B has no offside term.
 
-**Prediction:** disagreement concentrated in a **band beyond the last defender**, near-zero elsewhere. Easy to isolate, and the one place where the two models are not approximating the same quantity at all — one is answering a question about the laws of the game.
+**Prediction:** disagreement concentrated in a **band beyond the last defender**, near-zero elsewhere. The one place the two are not approximating the same quantity at all.
 
 ### 4. Ball travel time — direction unclear
 
-Spearman holds $PPCF_j = 0$ until the ball could physically arrive, with flight simulated under aerodynamic drag. F&B treats arrival as instantaneous.
-
-Both effects push the same way qualitatively — distant locations are harder to control — but by different mechanisms: a *time budget* in one, *influence decay with distance from the player* in the other. Whether they agree at distance depends on parameter values, and I cannot predict the sign without computing it. This is the difference least amenable to analysis.
+PPCF holds control at zero until the ball could physically arrive, with flight simulated under drag. F&B treats arrival as instantaneous. Both push the same way qualitatively but by different mechanisms; the sign depends on parameter values.
 
 ## The Composite Prediction
 
-If the above is right, the surfaces should agree **least where valuation depends on them most**: crowded areas near goal, and the final third around the offside line. A global correlation would therefore *understate* the practical disagreement, because most of the pitch is empty and both models will agree that empty space near one team is controlled by that team.
+The surfaces should agree **least where valuation depends on them most**: crowded areas near goal, and the final third around the offside line. A global correlation would therefore *understate* practical disagreement, because most of the pitch is empty and both models will agree that empty space near one team belongs to that team.
 
-**A single global $r$ is the wrong summary.** The comparison should be stratified.
+**A single global $r$ is the wrong summary.** Stratify.
 
 ## Proposed Test
 
-Compute both surfaces on the same tracking frames — a few hundred frames suffice.
+Compute both surfaces on the same tracking frames — a few hundred suffice.
 
-1. **Global agreement.** Pearson $r$ over all cells, all frames. Expect high, and expect it to be misleading.
-2. **Stratify by local player density** (players within, say, 10 m of the cell). Prediction 1 says disagreement rises monotonically with density.
-3. **Mean signed difference**, globally. Prediction 2 says Spearman is systematically more defensive. Then **refit $\kappa = 1$** and re-measure: if the shift vanishes, the asymmetry is a parameter choice rather than a structural difference.
-4. **Mask the offside band** and re-run. Prediction 3 says disagreement in that band is large and elsewhere unaffected.
-5. **Stratify by distance from the ball**, to characterise the travel-time effect empirically since it resists analysis.
-6. **The decisive step:** recompute [[obso|OBSO]] with the Gaussian surface substituted for PPCF, and compare player rankings. Surface disagreement only matters if it changes conclusions. If OBSO rankings are stable under substitution, the whole question is academic; if they are not, every cross-framework comparison in the vault needs a caveat.
+1. **Global agreement.** Pearson $r$ over all cells. Expect high, and expect it to mislead.
+2. **Stratify by local player density.** Prediction 1 says disagreement rises monotonically.
+3. **Mean signed difference**, then refit with $\kappa = 1$ and re-measure. If the shift vanishes, the asymmetry is a parameter choice rather than a structural difference.
+4. **Mask the offside band** and re-run.
+5. **Stratify by distance from the ball**, to characterise the travel-time effect empirically.
+6. **The reception check.** Evaluate the Gaussian surface against **actual pass receivers** on held-out data, as the 2017 paper does for PPCF. This is now the most informative single test available: it would establish whether the Gaussian model predicts reception at all, and put both traditions on one directly observable criterion for the first time.
+7. **The decisive step.** Recompute [[obso|OBSO]] with the Gaussian surface substituted for PPCF and compare player rankings. Surface disagreement only matters if it changes conclusions.
 
-Step 6 is the one that answers the question that actually matters, and it is the reason the earlier steps are worth doing — they diagnose *why* any ranking difference arises.
+Step 6 is new to this revision and may be cheaper than step 7 — it needs pass outcomes rather than a full OBSO reimplementation, and the 2017 paper supplies the protocol.
 
 ## What Would Change Depending on the Answer
 
-**If they agree closely and rankings are stable** — the traditions are notational variants, and [[action-valuation-frameworks-compared|the synthesis]] can drop the caveat. The cheaper Gaussian model becomes the default with no cost.
+**If they agree closely and rankings are stable** — the traditions are notational variants, and the cheaper Gaussian model becomes the default at no cost.
 
-**If they disagree structurally but rankings are stable** — downstream metrics are robust to their substrate, which is a reassuring and non-obvious finding worth stating.
+**If they disagree structurally but rankings are stable** — downstream metrics are robust to their substrate, which is reassuring and non-obvious.
 
-**If rankings change** — then differences between [[obso|OBSO]], [[c-obso]] and the EPV surfaces are partly artefacts of control modelling, and the vault's comparative claims about them need qualifying. This is the outcome that would matter most and is not implausible, given that the predicted disagreement is concentrated exactly where those metrics take their largest values.
+**If the Gaussian model predicts reception poorly** — then using it as a control term in a value model is doing something different from what PPCF does there, and the two are not substitutable even where they correlate.
+
+**If rankings change** — differences between [[obso|OBSO]], [[c-obso]], [[drso]] and the EPV surfaces are partly artefacts of control modelling, and the vault's comparative claims about them need qualifying. Not implausible, since predicted disagreement concentrates exactly where those metrics take their largest values.
 
 ## Why Nobody Has Done It
 
-Both models are published with enough detail to reimplement, and Spearman's parameters are stated. The obstacle is not difficulty — it is that **the two traditions have no overlapping authors and cite each other only in passing**. Fernández, Bornn & Cervone cite Spearman as related work on off-ball valuation; the [[keisuke-fujii|Fujii group]] adopts PPCF wholesale without comparing alternatives. Nobody has an incentive to test whether their own substrate is the right one.
+The two traditions have **no overlapping authors and cite each other only in passing.** Fernández, Bornn & Cervone cite Spearman as related work on off-ball valuation; the [[keisuke-fujii|Fujii group]] adopts PPCF wholesale without comparing alternatives. Nobody has an incentive to test whether their own substrate is the right one.
 
-That is the general shape of the [[action-valuation-frameworks-compared|benchmarking gap]] in this literature, visible here at the level of a component rather than a framework.
+That is the [[action-valuation-frameworks-compared|benchmarking gap]] at **component** level — sharper than the framework-level version, because a shared component that differs silently is harder to notice than two frameworks that differ openly.
 
 ## See Also
 
-- [[pitch-control]] · [[obso]] · [[c-obso]] · [[xsot]] · [[probability-surface]]
-- [[expected-possession-value]] · [[off-ball-value]] · [[model-selection]]
+- [[pitch-control]] · [[obso]] · [[c-obso]] · [[drso]] · [[xsot]] · [[probability-surface]]
+- [[expected-possession-value]] · [[off-ball-value]] · [[model-selection]] · [[shot-value-formulations-compared]]
 - [[william-spearman]] · [[javier-fernandez]] · [[luke-bornn]]
-- [[beyond-expected-goals|Spearman Summary]] · [[expected-value-possession-framework|Fernández et al. Summary]]
+- [[physics-based-pass-probabilities|Spearman 2017 Summary]] · [[beyond-expected-goals|Spearman 2018 Summary]] · [[expected-value-possession-framework|Fernández et al. Summary]]
 - [[action-valuation-frameworks-compared]]

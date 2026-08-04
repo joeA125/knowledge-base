@@ -1,15 +1,15 @@
 ---
 title: "Action Valuation"
 type: concept
-tags: [sports-analytics, action-valuation, defensive-valuation, off-ball, space-creation, player-evaluation, markov-model, evaluation, event-stream-data, time-series, recruitment, discounting, duel-analysis, probability-surface, proxy-target, counterfactual]
-sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md, raw/papers/football-performance-time-series.md, raw/papers/epv_control_and_duel_skills_football.md, raw/papers/expected_value_possession_framework.md, raw/papers/football_defence_evaluation.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md]
+tags: [sports-analytics, action-valuation, defensive-valuation, off-ball, space-creation, player-evaluation, markov-model, evaluation, event-stream-data, time-series, recruitment, discounting, duel-analysis, probability-surface, proxy-target, counterfactual, theory-based-modelling]
+sources: [raw/papers/on-ball-actions-football-xt-vs-vaep.md, raw/papers/evaluating-football-player-actions.md, raw/papers/physics_based_pass_probabilities.md, raw/papers/football-performance-time-series.md, raw/papers/epv_control_and_duel_skills_football.md, raw/papers/expected_value_possession_framework.md, raw/papers/football_defence_evaluation.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md]
 confidence: 0.9
 provenance:
-  extracted: 70%
+  extracted: 72%
   inferred: 18%
-  generated: 8%
+  generated: 7%
   imported: 0%
-  ambiguous: 4%
+  ambiguous: 3%
 lifecycle: reviewed
 created: 2026-07-23
 updated: 2026-07-27
@@ -35,7 +35,27 @@ Frameworks differ only in **how they represent $S$** and **how they compute $Q$*
 
 **Action-based** — rich features of action and context, framed as supervised learning. [[vaep]]; [[pass-carry-reward|Shelopugin]]; [[expected-value-possession-framework|Fernández et al.]]; [[vdep]]. *Loses [[interpretability]]; less stable.*
 
-**Counterfactual** — value an action or position by comparison against a predicted reference rather than a learned value function. [[c-obso]] and Umemoto & Fujii's defensive positioning.^[generated: this fourth style is added here; Van Roy et al.'s taxonomy has three, and C-OBSO fits none of them. rests-on: source:vanroy-three-style-taxonomy, source:cobso-construction] See [[counterfactual-baseline]].
+**Counterfactual** — value an action or position by comparison against a reference rather than a learned value function. [[c-obso]], [[drso]].^[generated: this fourth style is added here; Van Roy et al.'s taxonomy has three, and C-OBSO fits none of them. rests-on: source:vanroy-three-style-taxonomy, source:cobso-construction] See [[counterfactual-baseline]].
+
+### A Physical Antecedent, Independently Derived
+
+> **Added 2026-07-27.** Van Roy et al.'s taxonomy covers the learned traditions. It misses an earlier, physically-grounded one.
+
+[[physics-based-pass-probabilities|Spearman et al. (2017)]] define pass value as
+
+$$V_j = p_j\,f(x_{suc}) - (1 - p_j)\,f(x_{fail})$$
+
+where $p_j$ is the modelled reception probability and $f$ is a state value — here "naïve", a negative exponential in distance to goal with three fitted constants.
+
+This is the unifying equation in a different dress: **value is the probability-weighted difference between the state if the action succeeds and the state if it fails.** It appears **a year before [[vaep|VAEP]]** and from an entirely separate lineage — a physics-based pass model built at Hudl, with no contact with the Leuven line.
+
+Two things follow.
+
+**The equation is more robust than its provenance suggests.** Two groups with different data, different methods and no shared citations arrive at the same algebraic form. That makes it look less like a convention of one research tradition and more like the natural shape of the problem.
+
+**The difference is where the probability comes from.** VAEP *learns* $P(\text{score})$ and $P(\text{concede})$ from labelled outcomes; Spearman *derives* $p_j$ from a physical model of interception and control, validated against who actually received 5,471 held-out passes. Same equation, opposite epistemology — see [[theory-based-modelling]].
+
+Spearman's state function is admittedly crude, and he says so. The interesting part is that the crude version still produced metrics correlating 0.63–0.83 with shots and attacking-third passes, which suggests **the value function may matter less than the probability model feeding it** — the same question [[shot-value-formulations-compared]] raises about OBSO's weak score term.
 
 ## What Distinguishes the Approaches
 
@@ -43,7 +63,7 @@ Frameworks differ only in **how they represent $S$** and **how they compute $Q$*
 |---|---|---|
 | State representation | Zone → last-$k$ actions → tracking snapshot | Which actions can be valued |
 | Horizon | Possession → next $k$ actions → next goal → unbounded | Whether risk is modelled |
-| Estimation | DP → supervised → Bayesian process → [[structured-model-decomposition\|decomposed]] → counterfactual | Interpretability and cost |
+| Estimation | DP → supervised → Bayesian process → [[structured-model-decomposition\|decomposed]] → counterfactual → **physical** | Interpretability and cost |
 | Data | [[event-stream-data]] → [[optical-tracking-data]] | Availability and off-ball coverage |
 | **Outcome visibility** | Included → withheld | Execution or *decision* |
 | **Credit assignment** | Fixed window → capped decay → hard cutoff → geometric decay | How value propagates back |
@@ -51,37 +71,39 @@ Frameworks differ only in **how they represent $S$** and **how they compute $Q$*
 | **Output granularity** | Per action → per location | Whether *unrealised* options can be valued |
 | **Perspective** | Attacking → defending | Whose success is measured |
 | **Target rarity** | Goals → frequent proxies | Whether the classifier can learn |
-| **Whose value** | The actor → **a teammate's** | Whether space creation is credited |
+| **Whose value** | The actor → a teammate's → the defender | Whether space creation is credited |
 
-**Credit assignment** now has four positions ([[vaep]]'s $k=10$; a capped time decay; Fernández et al.'s $\epsilon = 15$s; [[temporal-discounting|Shelopugin's]] geometric decay). Every time-based approach carries a free parameter that no source subjects to sensitivity analysis — as does [[vdep]]'s $k=5$ and $C=3.9$, and [[c-obso]]'s 4-second window. See [[free-parameters-load-bearing]] and [[model-selection]].
+**Credit assignment** now has four positions. Every time-based approach carries a free parameter that no source subjects to sensitivity analysis. See [[free-parameters-load-bearing]] and [[model-selection]].
 
 ## Perspective: Attacking or Defending
 
-Every framework above except [[vdep]] measures **attacking** success and treats defence as its negative.
+Every framework above except [[vdep]] and [[gvdep]] measures **attacking** success and treats defence as its negative.
 
-[[football-defence-evaluation-vdep|Toda et al.]] report VAEP's conceding classifier at **F1 = 0.000** on a 45-match dataset. ⚠️ That figure is near-guaranteed for any calibrated model at a 0.23% base rate, and VAEP never thresholds. See [[vaep-conceding-classifier]].
+[[football-defence-evaluation-vdep|Toda et al.]] report VAEP's conceding classifier at **F1 = 0.000**. ⚠️ Near-guaranteed for any calibrated model at a 0.23% base rate, and VAEP never thresholds. See [[vaep-conceding-classifier]].
 
-The proposed fix is to change the target rather than the model: predicting **ball recovery** and **being attacked** — roughly 90× and 35× more frequent — raises F1 to 0.522 and 0.484. See [[rare-event-proxy-targets]].
+The proposed fix is to change the target: predicting **ball recovery** and **being attacked** raises F1 to 0.522 and 0.484. See [[rare-event-proxy-targets]].
 
 ## Whose Value: Actor or Beneficiary
 
-Every framework above except [[c-obso]] credits the player **performing** the valued act. C-OBSO credits the player whose movement improved *someone else's* chance.
+Every framework except [[c-obso]] and [[drso]] credits the player **performing** the valued act. C-OBSO credits the player whose movement improved *someone else's* chance; DRSO credits a defender for where he stood.
 
-This is relational credit, and no other framework here expresses it. On the same 15 players, C-OBSO correlates 0.45 with annual salary while OBSO (−0.28) and goals (−0.23) do not. See [[space-creation]].
+On the same 15 players, C-OBSO correlates 0.45 with annual salary while OBSO (−0.28) and goals (−0.23) do not. See [[space-creation]].
 
 ## The Possession-Attributability Assumption
 
-The equation needs to know *whose* prospects $Q$ describes. Obvious for a pass, undefined for an aerial duel. Every framework except Shelopugin's resolves this by exclusion. [[symmetrical-duel-valuation]] closes it, and exposes the still-unsolved credit-splitting between passer and receiver.
+The equation needs to know *whose* prospects $Q$ describes. Obvious for a pass, undefined for an aerial duel. Every framework except Shelopugin's resolves this by exclusion. [[symmetrical-duel-valuation]] closes it.
 
 ## Valuing What Happened vs What Was Available
 
-A full [[probability-surface|surface]] over pass destinations changes the question to "how good was that pass *relative to what was available*?" Realised 0.032 against best-available 0.112; **the gap is the coaching output**. See [[policy-modelling]] and [[observed-versus-optimal-decisions]].
+A full [[probability-surface|surface]] over pass destinations changes the question to "how good was that pass *relative to what was available*?" Realised 0.032 against best-available 0.112.
+
+[[physics-based-pass-probabilities|Spearman et al.]] reach the same idea by simulated annealing over ball velocities, seven years earlier — see [[observed-versus-optimal-decisions]] and the prescription task on [[action-valuation-frameworks-compared]].
 
 ## The Aggregation Step
 
-Almost every framework ends by summing into a per-90 rating — where [[player-rating-time-series|a season of variation gets discarded]]. The denominator deserves equal scrutiny: [[effective-playing-time|effective playing time]] varies by team, scoreline and league.
+Almost every framework ends by summing into a per-90 rating — where [[player-rating-time-series|a season of variation gets discarded]]. [[effective-playing-time|Effective playing time]] varies by team, scoreline and league.
 
-Three frameworks decline the step. [[expected-value-possession-framework|Fernández et al.]] value situations. [[vdep]] aggregates to the team, because defensive credit cannot be individuated *by that method*. [[c-obso]] is defined only on shot-ending sequences.
+Four frameworks decline the step: [[expected-value-possession-framework|Fernández et al.]] value situations; [[vdep]] and [[gvdep]] aggregate to the team; [[c-obso]] is defined only on shot-ending sequences.
 
 ## Cross-Sport Lineage
 
@@ -89,30 +111,27 @@ American football — Romer (2006), Yurko et al. (2020). Basketball — [[martin
 
 ## Common Structural Bias
 
-Every attacking-perspective framework rewards offensive actions more richly. Van Dijk ranks 81st by VAEP and 142nd by xT.
+Van Dijk ranks 81st by VAEP and 142nd by xT.
 
 > ### `offensive-bias-four-causes`
->
 > **Offensive bias has four distinct causes with four different remedies.**
->
-> ^[generated: constructed in this vault; no source enumerates these, and the fourth was not identifiable before VDEP measured it. Also referenced by [[defensive-valuation]] and the synthesis. rests-on: source:vandijk-rankings, source:mendes-neves-event-data-limits, source:shelopugin-duel-tables, source:vaep-f1-zero]
+> ^[generated: no source enumerates these, and the fourth was not identifiable before VDEP measured it. Also on [[defensive-valuation]] and the synthesis. rests-on: source:vandijk-rankings, source:mendes-neves-event-data-limits, source:shelopugin-duel-tables, source:vaep-f1-zero]
 
 1. **Definitional** — value is proximity to scoring. → change the target ([[vdep]]).
 2. **Data** — event streams cannot judge tackles. → [[optical-tracking-data|tracking]].
-3. **Modelling choice** — van Dijk tops both [[duel-skill-rating|duel tables]]; the information exists unmodelled. → model those events.
+3. **Modelling choice** — van Dijk tops both [[duel-skill-rating|duel tables]]. → model those events.
 4. **Statistical** — too few positives to train a classifier. → a frequent proxy.
 
-**The fourth is the least secure**, because its premise `source:vaep-f1-zero` is itself under question — see [[vaep-conceding-classifier]]. If that finding is an artefact of thresholding a model that never thresholds, cause 4 loses its evidence and the decomposition reduces to three.
+**The fourth is least secure**, because its premise `source:vaep-f1-zero` is under question. If that finding is a thresholding artefact, cause 4 loses its evidence and the decomposition reduces to three.
 
-**What would falsify the whole.** A single remedy that fixes all four at once would show they are facets of one cause rather than four. Tracking data plausibly addresses 2 and 3 together; nothing addresses 1 and 4 jointly, which is the current basis for keeping them separate.
+**What would falsify the whole.** A single remedy fixing all four at once would show they are facets of one cause. Tracking plausibly addresses 2 and 3 together; nothing addresses 1 and 4 jointly.
 
 ## What Remains Invisible
 
-Three gaps have closed. [[off-ball-value|Off-ball positioning]] is readable from pass surfaces; [[vdep]] makes **team** defensive contribution measurable; [[c-obso]] credits [[space-creation|space created for teammates]].
+Three gaps have closed: [[off-ball-value|off-ball positioning]], **team** defensive contribution, and [[space-creation|space created for teammates]]. A fourth is computed but unreported — per-defender positioning, see [[drso]].
 
 Still open:
 
-- **Individual defensive credit** — addressed in the literature (Umemoto & Fujii, 2023) but not held here.
 - **Movement over time beyond short windows** — C-OBSO uses 4 s.
 - **Errors of omission** — a defender who fails to press generates no event.
 - **Scale** — C-OBSO predicts 3 of 22 players.
@@ -121,11 +140,11 @@ The general lesson: **a gap in the vault is not a gap in the field**, and inferr
 
 ## See Also
 
-- [[expected-possession-value]] · [[expected-threat]] · [[vaep]] · [[vdep]] · [[c-obso]] · [[obso]] · [[martingale-epv]] · [[pass-carry-reward]]
+- [[expected-possession-value]] · [[expected-threat]] · [[vaep]] · [[vdep]] · [[gvdep]] · [[c-obso]] · [[drso]] · [[obso]] · [[martingale-epv]] · [[pass-carry-reward]]
 - [[defensive-valuation]] · [[off-ball-value]] · [[space-creation]] · [[counterfactual-baseline]] · [[rare-event-proxy-targets]] · [[class-imbalance-evaluation]]
-- [[expected-goals]] · [[intent-vs-outcome-valuation]] · [[player-rating-time-series]] · [[model-selection]]
+- [[expected-goals]] · [[intent-vs-outcome-valuation]] · [[player-rating-time-series]] · [[model-selection]] · [[theory-based-modelling]]
 - [[temporal-discounting]] · [[possession-risk]] · [[effective-playing-time]] · [[symmetrical-duel-valuation]] · [[duel-skill-rating]]
-- [[probability-surface]] · [[policy-modelling]] · [[structured-model-decomposition]] · [[counterfactual-simulation]]
+- [[probability-surface]] · [[policy-modelling]] · [[structured-model-decomposition]] · [[counterfactual-simulation]] · [[pitch-control]]
 - [[markov-game]] · [[reinforcement-learning]] · [[action-valuation-frameworks-compared]]
-- [[vaep-conceding-classifier]] · [[free-parameters-load-bearing]] · [[observed-versus-optimal-decisions]]
-- [[on-ball-actions-football-xt-vs-vaep|xT/VAEP Summary]] · [[football-defence-evaluation-vdep|VDEP Summary]] · [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]]
+- [[vaep-conceding-classifier]] · [[free-parameters-load-bearing]] · [[observed-versus-optimal-decisions]] · [[shot-value-formulations-compared]]
+- [[physics-based-pass-probabilities|Spearman 2017 Summary]] · [[on-ball-actions-football-xt-vs-vaep|xT/VAEP Summary]] · [[football-defence-evaluation-vdep|VDEP Summary]]

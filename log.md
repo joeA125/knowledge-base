@@ -2193,3 +2193,168 @@ CARRIED FORWARD:
 - wiki/conversations/ never used despite QUERY step 6.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-08-04 09:08] ingest | Spearman et al. 2017 — parameter chain resolved, pitch control relocated
+Source: raw/papers/physics_based_pass_probabilities.md — Spearman, Basye, Dick, Hotovy & Pop, "Physics-Based Modeling of Pass Probabilities in Soccer", MIT Sloan Sports Analytics Conference 2017 Research Papers Competition. Hudl. 38 Crystal Palace matches, 2015-16 Premier League; 10,875 filtered passes across 23 games (5,404 train / 5,471 test).
+
+ACQUISITION PRIORITY 1, named one entry ago and acquired immediately. Held last of the chain that depends on it.
+
+Pages created: 1, Pages updated: 2
+
+=== ABSENCE CHECK (ingest step 5) ===
+Searched the bare string "absence:". Six wiki pages with live claims, all re-checked:
+- pitch-control-traditions-uncompared — HOLDS, and notably this paper is the ORIGIN of the first tradition and still compares to nothing.
+- no-sensitivity-analysis-on-horizon-parameters — HOLDS. This paper does a full likelihood grid search over sigma and lambda with contour intervals, which is more than a sensitivity analysis, but they are not horizon or weighting parameters. The narrowing done at the GVDEP ingest continues to earn its keep — third consecutive ingest where a blanket phrasing would have needed weakening and the narrowed one survives.
+- shot-value-formulations-unbenchmarked, no-cross-framework-benchmarking, no-reliability-for-off-ball-metrics, no-source-reports-both — all HOLD.
+- no-held-source-propagates-tracking-error — partially relevant: the authors name "inaccuracies in tracking data" as one candidate explanation for a systematic 11-point gap between predicted and actual completion rates. That is ACKNOWLEDGING tracking error affects results, not propagating it. Claim holds, with the acknowledgement noted.
+
+=== THE PARAMETER CHAIN, FULLY RESOLVED ===
+
+This paper fits sigma = 0.45 +/- 0.01 (stat) +/- 0.04 (syst) s and lambda = 4.30 +/- 0.28 (stat) +/- 1.1 (syst) /s by MLE grid search.
+
+SO 0.45 AND 4.30 ARE LEGITIMATE PUBLISHED FITTED VALUES — from THIS paper.
+
+The vault inferred exactly this when Spearman 2018 was acquired, recording that the Fujii-group values "match neither exactly — most likely the 2017 published fit". THAT INFERENCE WAS CORRECT. Full chain:
+- 2017: fits 0.45 / 4.30
+- 2018: refits by MAP to 0.54 / 3.99, using priors of 0.5 / 4.2 (rounded versions of the 2017 fits)
+- Teranishi et al., Umemoto & Fujii: use 0.45 / 4.30 while citing 2018
+
+THE ERROR IS BIBLIOGRAPHIC, NOT NUMERICAL. This SOFTENS the vault's earlier framing, which implied the values might be wrong. They are defensible published fits attributed to the wrong paper. Corrected on obso, pitch-control, william-spearman and the summary.
+Separately confirmed: DRSO's goalkeeper multiplier (lambda = 12.9) appears in NEITHER Spearman paper. A Fujii-group addition, distinct from the 2018 kappa = 1.72.
+
+=== A STRUCTURAL CORRECTION ===
+
+PITCH CONTROL IS NOT OBSO'S CONTROL TERM. The vault treated PPCF as a component of OBSO. It is a year older and more general: this paper builds a PASS-RECEPTION model, and the pitch control function is an EXTENSION of it — evaluate stationary reception probability for an imaginary ball at every location. Control is a by-product of asking who receives passes.
+
+That reverses the dependency the vault recorded and matters for how the two traditions compare: Spearman's surface answers "who receives a pass here", Fernandez & Bornn's answers "who dominates this space". Related but not identical questions. Corrected on pitch-control and william-spearman.
+
+=== THE VALIDATION ASYMMETRY, NEWLY VISIBLE ===
+
+PPCF was fitted and tested against WHO ACTUALLY RECEIVED 5,471 HELD-OUT PASSES — 81% on receiving team, 68% on specific player. A direct check against a directly observable quantity.
+
+The Gaussian tradition has NO such validation at any point: parameters set to 1, correctness inferred only from downstream EPV performance.
+
+Added as a row to the comparison table on pitch-control. This is a materially stronger difference than the saturation analysis the vault had been leading with, because it is extracted rather than generated — one tradition is empirically validated as a model of pass reception and the other is not validated at all.
+
+=== OTHER FINDINGS ===
+
+1. PRESCRIPTION IS OLDER THAN THE VAULT RECORDED. Section 6.2, "hypothetical passing": simulated annealing finds the ball velocity maximising reception probability for an intended receiver, then perturbation gives mu+sigma ("if well-kicked") and mu-sigma ("if poorly-kicked"). High-high means easy; high-low means feasible but requiring skill.
+That is a prescriptive method published in 2017 — SEVEN YEARS BEFORE xSOT and six before DRSO. The synthesis currently presents prescription as a recent task with two instances; it has three and the earliest is the oldest football source in the vault. Authors note computational cost prevented scaling, so no metric was built.
+
+2. THRESHOLD SHIFTING, WORKED. Accuracy rises 80.5% -> 81.9% by moving the success cutoff from 0.5 to 0.27, because most passes succeed. A clean worked instance of the argument on class-imbalance-evaluation that 0.5 is a convention, not a property of the model — and independent support for the vaep-conceding-classifier reframe.
+
+3. SYSTEMATIC UNDERESTIMATE. Model predicts 67.9% completion against actual 78.9%. Attributed to the ignored Magnus force, player tendencies, tracking inaccuracies, or team strategy. An 11-point gap the authors report rather than hide.
+
+4. RECEIVING/INTERCEPTION EFFICIENCY BY POSITION. Forwards over-receive relative to difficulty (1.36) and barely intercept (0.23); defenders lead interception (1.13). The authors caution that team strategy confounds credit — a striker may decline an interception he could make. Same intent/outcome problem as intent-vs-outcome-valuation, arrived at independently.
+
+5. PASS VALUE IN EMBRYO. V_j = p_j f(x_suc) - (1-p_j) f(x_fail), with f a negative exponential in distance to goal (a=0.93, b=0.14, c=0.02). Action valuation reached independently of the Leuven line, a year before VAEP.
+
+=== OUTSTANDING ===
+- index — physics-based-pass-probabilities not yet added.
+- obso — the parameter section still says "match neither"; needs the resolved chain and the reversed dependency (OBSO builds on the 2017 model, not vice versa).
+- synthesis — prescription task needs the 2017 instance and the seven-year revision; the PPCF validation asymmetry belongs in limitation 7.
+- action-valuation — pass value as an independent 2017 antecedent.
+- class-imbalance-evaluation, vaep-conceding-classifier — the threshold-shifting worked example.
+- pitch-control-traditions-compared — the validation asymmetry changes the question: one tradition is validated against observable pass outcomes, the other is not validated at all.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1 IS VACANT. The OBSO/PPCF chain is now complete — every paper the Fujii off-ball line rests on is held. Suggested next: Fernandez & Bornn (2018) "Wide Open Spaces", the origin of the SECOND pitch-control tradition and the vault's other route into space-creation. That would make the comparison question answerable from primary sources on both sides.
+- 8 orphan pages remain unlinked.
+- CLAUDE.md page template out of step with conventions.md provenance keys.
+- wiki/conversations/ never used despite QUERY step 6.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-08-04 10:06] writeback | Spearman 2017 outstanding — four of six complete
+Outstanding items from the Spearman 2017 ingest. Four of six complete.
+
+Pages updated: 4
+
+- obso — MAJOR. Two corrections. (1) The parameter section previously said the Fujii-group values "match neither the 2018 fit nor its stated priors", implying they might be wrong. Replaced with the resolved chain: 0.45/4.30 are the 2017 MLE fits, so the error is BIBLIOGRAPHIC NOT NUMERICAL. (2) The dependency is REVERSED — PPCF is not OBSO's control term, it is a year-older pass-reception model of which OBSO is an application. Added a column to the component table marking which terms are independently validated: control YES (2017, against 5,471 held-out pass receivers), transition and score NO. That distinction was invisible before and changes how much of OBSO is load-bearing.
+
+- pitch-control-traditions-compared — REFRAMED. The page treated the two traditions as competing estimators of one quantity. They are not: PPCF originates as a PASS-RECEPTION model and derives control as a by-product; the Gaussian model originates as a SPATIAL-DOMINANCE model. Related but distinct questions, so disagreement is PARTLY DEFINITIONAL rather than purely a modelling artefact.
+  Added the VALIDATION ASYMMETRY as a new section: PPCF fitted by MLE with stat and syst errors and tested against actual pass receivers (81%/68%); the Gaussian model has parameters set to 1 and is validated against nothing directly. THE TWO ARE NOT EQUALLY WARRANTED, so their disagreement is not symmetrically informative.
+  Added a new test step 6 — evaluate the Gaussian surface against actual pass receivers, as the 2017 paper does for PPCF. This may be CHEAPER than the previously-decisive step 7 (OBSO ranking substitution), since it needs pass outcomes rather than a full reimplementation, and the 2017 paper supplies the protocol.
+
+- class-imbalance-evaluation — the threshold-shifting argument now has a WORKED DEMONSTRATION rather than only an analytical one. Spearman et al. raise accuracy 80.5% -> 81.9% purely by moving the cutoff from 0.5 to 0.27, on a MAJORITY-class problem where the effect is mild. Under football's conceding base rate the same mechanism is catastrophic. Added "tune the threshold, or justify 0.5" to practical guidance, and to the general-rule table.
+
+- action-valuation-frameworks-compared — PRESCRIPTION IS THE OLDEST TASK, NOT THE NEWEST. Corrected with a three-instance table. Spearman et al. (2017) section 6.2 does hypothetical passing via simulated annealing with mu+/-sigma bounds — seven years before xSOT, six before DRSO, and the oldest football source in the vault.
+  The comparison surfaced something: the 2017 instance is the only one that DID NOT SCALE (authors report computational cost prevented large-scale application). Both successors solved the same problem by COARSENING THE CHOICE SET to a handful of options rather than by cheaper search. That makes "you can only prescribe over a choice set you can enumerate" look less like a limitation of the recent work and more like the constraint that shaped it.
+  Also added a FIFTH validation mode to the metrics section, stronger than the four already listed: validation of a COMPONENT against a directly observable quantity. Almost nothing here has an observable ground truth, which is why the substitute tests exist at all.
+  Limitation 7 gained the validation asymmetry and the parameter-attribution instance.
+
+NOT DONE — 2 remaining:
+- index — physics-based-pass-probabilities not yet listed.
+- action-valuation — pass value as an independent 2017 antecedent. Spearman et al. define V_j = p_j f(x_suc) - (1-p_j) f(x_fail) with f a negative exponential in distance to goal, a year before VAEP and independently of the Leuven line. The page's "Four Styles" section should record that the possession-based and action-based styles have an earlier physical-model cousin.
+- vaep-conceding-classifier — the Spearman threshold demonstration is now on class-imbalance-evaluation but not on the question page, which is where the argument is developed.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Fernandez & Bornn (2018) "Wide Open Spaces". Origin of the SECOND pitch-control tradition and the vault's other route into space-creation. Now unusually well-motivated: the validation asymmetry recorded today is drawn from the Gaussian tradition's DESCENDANTS rather than its source, and holding the origin paper would either confirm the asymmetry or correct it — exactly the situation that produced today's softening of the parameter claim.
+- 8 orphan pages remain unlinked.
+- CLAUDE.md page template out of step with conventions.md provenance keys.
+- wiki/conversations/ never used despite QUERY step 6.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-08-04 10:14] writeback | Spearman 2017 closed; index-priority and early-return errors recorded
+Final three items from the Spearman 2017 ingest. That ingest is now fully closed — six of six.
+
+PROCESS CORRECTION, raised by the human and accepted. Two failures:
+
+1. THE INDEX WAS BEING DEPRIORITISED ON FAULTY REASONING. I had been ordering work as "substantive content first, bookkeeping last". The index is not bookkeeping — IT IS THE ACCESS PATH. A page absent from it is effectively invisible regardless of quality. Both drso and gvdep spent a full turn unreachable because prose edits were ranked above the thing that makes prose findable. CORRECT ORDER: index immediately after the pages exist, before any concept updates.
+
+2. RETURNING EARLY WITH WORK OUTSTANDING. No good reason. Remaining budget was being treated as a signal to stop and report rather than to continue. Where tasks are enumerated and achievable, they should be completed in the turn.
+
+Both are recorded here rather than only acknowledged in conversation, because the same two errors have recurred across several entries and the log is the only place a future session would see them.
+
+Pages updated: 3 (+ index)
+
+- index — physics-based-pass-probabilities added, positioned chronologically at the head of the football sequence since it is now the oldest football source held. Spearman entity description updated to lead with the pass probability model rather than OBSO, matching the corrected dependency. Synthesis description updated to mention that prescription is the oldest task.
+
+- action-valuation — new subsection "A Physical Antecedent, Independently Derived". Spearman et al. (2017) define V_j = p_j f(x_suc) - (1-p_j) f(x_fail) A YEAR BEFORE VAEP and from a completely separate lineage — a Hudl physics model with no contact with the Leuven line.
+  TWO THINGS FOLLOW, both recorded. (a) The unifying equation is MORE ROBUST THAN ITS PROVENANCE SUGGESTS: two groups with different data, methods and no shared citations reach the same algebraic form, which makes it look like the natural shape of the problem rather than one tradition's convention. (b) The difference is WHERE THE PROBABILITY COMES FROM — VAEP learns it from labelled outcomes, Spearman derives it from a physical model validated against actual pass receivers. Same equation, opposite epistemology.
+  Also noted that Spearman's admittedly crude state function still produced metrics correlating 0.63-0.83 with shots and attacking-third passes, which suggests THE VALUE FUNCTION MAY MATTER LESS THAN THE PROBABILITY MODEL FEEDING IT — the same question shot-value-formulations-compared raises about OBSO's weak score term. Two independent routes to one hypothesis.
+
+- vaep-conceding-classifier — the Spearman threshold demonstration added as a second piece of independent support, alongside GVDEP's non-zero F1. The argument is now materially stronger: it was analytical, then had one contradicting data point, and now has a DIRECT DEMONSTRATION OF THE MECHANISM IN THE OPEN. Spearman et al. report 80.5% -> 81.9% purely by moving a cutoff from 0.5 to 0.27, on a majority-class problem where the effect is mild and costs 1.4 points. Football's conceding base rate is ~340x more extreme in the opposite direction.
+  Recorded the framing that matters: this converts the objection from an analytical argument into an OBSERVED EFFECT IN THE SAME LITERATURE, on a model whose authors noticed and corrected for it — where nobody in the valuation line does. Test step 3 is now well-specified rather than vague, since the 2017 paper supplies the protocol.
+
+STATE: no outstanding items from any ingest.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Fernandez & Bornn (2018) "Wide Open Spaces". Origin of the second pitch-control tradition. Well-motivated: today's validation asymmetry is drawn from that tradition's DESCENDANTS rather than its source, and holding the origin would either confirm or correct it — the same situation that produced this week's softening of the parameter claim.
+- 8 orphan pages remain unlinked; six are lead authors whose summaries do not link them. Largest outstanding structural task, and untouched for many entries.
+- CLAUDE.md page template out of step with conventions.md provenance keys (flagged, not fixed, per instruction).
+- wiki/conversations/ never used despite QUERY step 6 requiring it.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-08-04 10:26] writeback | Under-extraction corrected — three concepts from Spearman 2017
+Under-extraction corrected on the Spearman 2017 ingest, raised by the human. No new source read.
+
+THE FAILURE. That ingest produced a summary and nine page updates but ZERO new concept pages. The vault's own stated recurring quality failure is "under-extraction of concept pages", and this is a clean instance of it. Three distinct concepts were folded into updates of existing pages where they warranted their own.
+
+Worth naming the mechanism, because it is not laziness: the paper's content mapped neatly onto pages that ALREADY EXISTED (pitch-control, obso, action-valuation, class-imbalance-evaluation), so each finding found a home and none triggered the question "does this deserve its own page". THE AVAILABILITY OF A PLAUSIBLE HOME SUPPRESSED EXTRACTION. That is the opposite of the vault's stated principle that a paper landing in well-developed territory should trigger MORE work, not less.
+
+Pages created: 3, Pages updated: 1 (+ taxonomy, index)
+
+- pass-probability-model — THE ROOT OF THE CHAIN, and previously homeless. PPCF is this model evaluated over the pitch; OBSO is built on PPCF; the entire Fujii off-ball line is built on OBSO. It had been folded into pitch-control, which inverted the dependency.
+  Key content: the two components (logistic intercept, exponential control), the shared-mass term, and the design requirement that shapes everything — PREDICTIVE means only information available at the moment of the pass, so the ball trajectory must be SIMULATED rather than observed. That constraint is what makes hypothetical passes evaluable, and everything downstream that asks a counterfactual question inherits it. Recorded as: a model built to be predictive is a model that can be interrogated.
+  Also recorded the systematic-error trick: fitting per-game and taking the spread across games estimates how much a parameter is really pinned down. Cheap and reusable; nothing else in the vault does it.
+
+- poisson-binomial — GENERAL STATISTICAL MACHINERY the vault lacked. The distribution of successes in n Bernoulli trials with DIFFERENT probabilities; mean sum(p_i), variance sum(p_i(1-p_i)). It is the aggregation mechanism for any per-event probability model, and it is what turns a collection of per-event predictions into a testable expectation with an uncertainty attached.
+  Flagged the assumption nobody checks: both moments require INDEPENDENCE, and passes within a match are not independent (a team under pressure produces many low-probability passes in sequence). Positive correlation inflates true variance above sum(p_i(1-p_i)), so naive z-scores overstate significance. Nothing in the vault corrects for this.
+
+- receiving-efficiency — expected-versus-actual applied to RECEIVING rather than shooting. The position table is the finding: forwards over-receive by 36% and barely intercept (0.23), defenders lead interception (1.13) — while the TOTAL column shows defenders and midfielders as near-identical (1.06, 1.03). A composite efficiency is close to uninformative; the decomposition is where the signal is.
+  Also recorded that the authors' own confound — a striker declining an interception because team shape says hold — is the intent/outcome problem arriving from a third direction, and the same objection policy-modelling raises about behaviour policies generally.
+
+- receiving-efficiency — SELF-CORRECTED within the same run. First version introduced [[player-evaluation]], a tag name I had previously decided to UNLINK rather than create. Caught and fixed before it propagated. Third time this class of error has occurred; the pattern is that a natural-sounding concept name gets wikilinked reflexively without checking whether a page exists.
+
+TAXONOMY: two new tags added first, per convention — `physical-modelling` (deriving predictions from equations of motion rather than fitted associations) and `expected-versus-actual` (evaluating an agent by comparing observed counts against a model's expected counts). Also `pass-modelling`.
+
+INDEX UPDATED IMMEDIATELY AFTER PAGE CREATION, per the priority correction recorded last entry. Three new concepts listed; poisson-binomial under Statistics, the other two under Football.
+
+A CONNECTION WORTH KEEPING: receiving-efficiency generalises to any action with a modelled success probability — duels, tackles, aerial contests. Nobody has extended it that way. duel-skill-rating instead uses Glicko paired comparison, which needs no difficulty model but also cannot say a duel was unusually hard. Two routes to the same question, neither compared.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Fernandez & Bornn (2018) "Wide Open Spaces".
+- 8 orphan pages remain unlinked; six are lead authors whose summaries do not link them. Untouched for many entries and now the oldest outstanding item.
+- CLAUDE.md page template out of step with conventions.md provenance keys.
+- wiki/conversations/ never used despite QUERY step 6.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+

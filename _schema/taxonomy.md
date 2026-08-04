@@ -18,6 +18,7 @@ here first with a brief description.
 - `feature-engineering` — constructing, selecting, or learning input representations for a model
 - `feature-attribution` — per-feature explanation of a model's output (SHAP, LIME, permutation importance)
 - `theory-based-modelling` — encoding domain physics or statistics as an explicit model, often to supply features to a learned one
+- `physical-modelling` — deriving predictions from equations of motion, forces, and physical constraints rather than from fitted associations
 - `tokenization` — converting raw data into discrete units for sequence models (BPE, WordPiece, event tokens)
 - `entity-embedding` — learned dense representations of discrete entities (players, users, items)
 - `clustering` — unsupervised partitioning of data into groups
@@ -28,6 +29,7 @@ here first with a brief description.
 - `model-decomposition` — estimating a joint expectation by fitting and recombining separate subcomponents
 - `counterfactual` — reasoning about outcomes under hypothetical, unobserved conditions
 - `game-theory` — strategic interaction between agents; strategy profiles, payoffs, equilibrium
+- `expected-versus-actual` — evaluating an agent by comparing observed counts against a model's expected counts
 - `multi-task-learning` — jointly optimising several objectives so they share representation
 - `constrained-decoding` — restricting generation to outputs satisfying validity rules
 - `teacher-forcing` — training autoregressive models on ground-truth history, and the exposure bias it creates
@@ -139,6 +141,7 @@ here first with a brief description.
 - `space-creation` — off-ball movement that generates opportunity for a teammate rather than oneself
 - `tactical-analysis` — team shape, formation, pressing structure, and opposition analysis
 - `duel-analysis` — valuing and rating contested 50/50 events where ball possession is ambiguous
+- `pass-modelling` — predicting whether a pass succeeds and who receives it
 - `event-stream-data` — time-stamped, located event annotations of a game (passes, shots, etc.)
 - `optical-tracking-data` — continuous high-frequency positional tracking of all players and the ball
 - `player-evaluation` — quantifying individual player contribution, value, and playing style
