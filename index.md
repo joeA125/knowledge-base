@@ -35,10 +35,10 @@ A catalog of all wiki pages, organised by type.
 - [[daniel-cervone]] · [[alex-damour]] · [[kirk-goldsberry]] — the NBA martingale EPV paper
 - [[luke-bornn]] — NBA EPV, pitch control, and the soccer EPV framework
 - [[javier-fernandez]] — Soccer EPV framework, SoccerMap, and pitch control
-- [[keisuke-fujii]] — Senior author of VDEP, GVDEP, C-OBSO, NMSTPP and the SPC framework
+- [[keisuke-fujii]] — Senior author of VDEP, GVDEP, DRSO, C-OBSO, NMSTPP and the SPC framework
 - [[calvin-yeung]] — Lead author of NMSTPP and the game-theoretic SPC framework
 - [[kosuke-toda]] — Lead author of VDEP
-- [[rikuhei-umemoto]] — Lead author of GVDEP; the unheld 2023 counterfactual-positioning work
+- [[rikuhei-umemoto]] — Lead author of GVDEP and DRSO; the defensive-positioning line
 - [[masakiyo-teranishi]] — Lead author of C-OBSO; the trajectory-modelling line
 - [[kazushi-tsutsui]] — Co-author of C-OBSO and GVDEP
 - [[kazuya-takeda]] — Co-author of C-OBSO and the 2020 trajectory work
@@ -116,7 +116,7 @@ A catalog of all wiki pages, organised by type.
 - [[expected-possession-value]] — Umbrella: a possession's worth, and the four things the term means
 - [[expected-goals]] · [[expected-threat]] · [[vaep]] · [[martingale-epv]] · [[pass-carry-reward]] · [[on-ball-value]]
 - [[xsot]] — Expected shot on target, and its off-ball counterpart; game-theoretic payoffs
-- [[defensive-valuation]] · [[vdep]] · [[gvdep]] · [[duel-skill-rating]] · [[symmetrical-duel-valuation]]
+- [[defensive-valuation]] · [[vdep]] · [[gvdep]] · [[drso]] · [[duel-skill-rating]] · [[symmetrical-duel-valuation]]
 - [[off-ball-value]] · [[space-creation]] · [[obso]] · [[c-obso]] · [[pitch-control]]
 - [[possession-risk]] · [[effective-playing-time]] · [[intent-vs-outcome-valuation]]
 - [[dynamic-pressure-lines]] · [[tactical-analysis]] · [[probability-surface]] · [[soccermap]] · [[single-pixel-supervision]]
@@ -142,20 +142,16 @@ A catalog of all wiki pages, organised by type.
 Open investigations — a question, what can be settled from held sources, and what would settle the rest. Grouped by why the question exists, which determines who could answer it.
 
 ### Component-level benchmarking gaps
-*Shared ingredients that differ silently between frameworks whose outputs* are *compared.*
-
-- [[pitch-control-traditions-compared]] — **Do the two pitch-control traditions agree?** Analytically partial: disagreement should scale with local player density. Decisive step — does substituting one surface change OBSO rankings?
-- [[shot-value-formulations-compared]] — **Are the four shot-value formulations interchangeable?** One of six pairwise comparisons exists. OBSO is the vault's most predictive metric and is built on its *worst* shot-value model.
-- [[tracking-error-propagation]] — **Does tracking error propagate into value estimates?** Partially answered for *incomplete observation* by GVDEP; positional error and identity switches remain open.
+- [[pitch-control-traditions-compared]] — **Do the two pitch-control traditions agree?** Disagreement should scale with local player density. Decisive step — does substituting one surface change OBSO rankings?
+- [[shot-value-formulations-compared]] — **Are the four shot-value formulations interchangeable?** One of six pairwise comparisons exists.
+- [[tracking-error-propagation]] — **Does tracking error propagate into value estimates?** Partially answered for *incomplete observation*; positional error and identity switches remain open.
 
 ### Untested assumptions in held work
-- [[free-parameters-load-bearing]] — **Are the free parameters load-bearing?** $\gamma$, $\epsilon$, $k$, 4 s remain asserted; $C$ has been superseded by [[gvdep]].
-- [[vaep-conceding-classifier]] — **Is VAEP's conceding classifier broken, or just unthresholdable?** F1 = 0.000 is near-guaranteed for a calibrated model at a 0.23% base rate, and VAEP never thresholds.
+- [[free-parameters-load-bearing]] — **Are the free parameters load-bearing?** $\gamma$, $\epsilon$, $k$, 4 s remain asserted; $C$ superseded by [[gvdep]].
+- [[vaep-conceding-classifier]] — **Is VAEP's conceding classifier broken, or just unthresholdable?** F1 = 0.000 is near-guaranteed at a 0.23% base rate; GVDEP reports 0.08–0.15 on comparable data.
 
 ### Claims this vault generated
-*Contradictions and hypotheses visible only from holding several sources. No individual author owns them.*
-
-- [[within-season-variation-noise-or-signal]] — **Is within-season variation noise or signal?** Shown here to be the *same quantity* under two names; settled by measuring the split-half reliability of volatility itself.
+- [[within-season-variation-noise-or-signal]] — **Is within-season variation noise or signal?** Shown here to be the *same quantity* under two names.
 - [[observed-versus-optimal-decisions]] — **Do players decide suboptimally, or do the models only think so?** Three ways the gap could be artefactual, none tested.
 - [[handcrafted-features-rule]] — **Is the handcrafted-features rule right?** A reconciliation invented here, never tested against a fourth case.
 
@@ -210,6 +206,7 @@ Open investigations — a question, what can be settled from held sources, and w
 - [[expected-value-possession-framework]] — "A Framework for the Fine-Grained Evaluation of the Instantaneous Expected Value of Soccer Possessions" (Fernández, Bornn & Cervone, 2020)
 - [[football-defence-evaluation-vdep]] — "Evaluation of Soccer Team Defense Based on Prediction Models of Ball Recovery and Being Attacked" (Toda et al., PLOS ONE 2022)
 - [[generalized-vdep-euro-location-analysis]] — "Location Analysis of Players in UEFA EURO 2020 and 2022 using Generalized VDEP" (Umemoto, Tsutsui & Fujii, 2022) — GVDEP
+- [[team-defense-positioning-counterfactuals]] — "Evaluation of Team Defense Positioning by Computing Counterfactuals using StatsBomb 360 data" (Umemoto & Fujii, StatsBomb 2023) — EF-OBSO and DRSO
 - [[creating-scoring-opportunities-trajectory-prediction]] — "Evaluation of Creating Scoring Opportunities for Teammates in Soccer via Trajectory Prediction" (Teranishi et al., MLSA 2022/23)
 - [[beyond-expected-goals]] — "Beyond Expected Goals" (Spearman, MIT Sloan 2018) — OBSO and the potential pitch control field
 - [[optimal-decisions-shot-taking-situations]] — "A Strategic Framework for Optimal Decisions in Football 1-vs-1 Shot-Taking Situations" (Yeung & Fujii, Complex & Intelligent Systems 2024) — game theory, xSOT

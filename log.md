@@ -2089,3 +2089,107 @@ CARRIED FORWARD:
 - wiki/conversations/ never used despite QUERY step 6 requiring it.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-08-03 21:31] ingest | DRSO ingested — individual defensive credit nearly closed
+Source: raw/papers/team_defense_positioning_statsbomb.md — Umemoto & Fujii, "Evaluation of Team Defense Positioning by Computing Counterfactuals using StatsBomb 360 data", StatsBomb Conference 2023 (final draft). 290 Premier League games in 2021-22 and 290 in 2022-23; analysis on 180 games among the ten teams with full-season coverage.
+
+ACQUISITION PRIORITY 1 ACROSS SIX LOG ENTRIES, now held.
+
+Pages created: 2, Pages updated: 1
+
+=== ABSENCE CHECK (ingest step 5) ===
+
+Ran search_notes for absence claims. Note: the search returned empty for a natural-language phrasing ("absence: individual defensive credit"); it needs the bare marker string "absence:" to match. Worth knowing — the CLAUDE.md step should specify the exact search term, not a description.
+
+- INDIVIDUAL DEFENSIVE CREDIT — PARTIALLY EXPIRED. The headline. See below.
+- absence:no-sensitivity-analysis-on-horizon-parameters — SURVIVES. This paper does verify five velocity settings against RMSE, which is a real sensitivity analysis, but on ASSUMED SPEED not on a horizon or weighting parameter. The narrowing done at the GVDEP ingest is what lets the claim survive intact; the original blanket phrasing would have needed weakening twice in two ingests.
+- no-cross-framework-benchmarking — HOLDS. No comparison against anything outside the Fujii line.
+- no-reliability-for-off-ball-metrics — HOLDS.
+- pitch-control-traditions-uncompared — HOLDS. Uses PPCF (Spearman tradition) without comparing to the Gaussian one.
+- shot-value-formulations-unbenchmarked — HOLDS. Uses OBSO's distance-only score term.
+- no-tracking-uncertainty-propagation — partially weakened again, same direction as GVDEP: works from deliberately incomplete data and verifies parameters against it.
+
+=== THE HEADLINE FINDING ===
+
+THE CLAIM NEEDED SPLITTING, NOT RETIRING. The vault has carried "individual defensive credit is unaddressed in raw/" since the VDEP ingest, naming this paper as the work that would close it. Reading it:
+
+- The MECHANISM individuates. DRSO computes an optimal position and Diff_opt-obs for EACH NAMED DEFENDER. That is genuinely per-player.
+- The REPORTED EVALUATION does not. Every result averages three defenders, then events, then teams. Figures 6 and 7 rank TEAMS. No player-level table appears anywhere.
+
+So: "no held framework COMPUTES per-defender credit" is now FALSE; "no held framework REPORTS per-defender credit" is STILL TRUE. The gap is one aggregation step the authors chose not to skip, and nothing in the method prevents player-level output.
+
+That is a materially different open question from the one carried for six entries. It is no longer "can this be done" but "has anyone published it".
+
+VINDICATION WITH A CAVEAT for counterfactual-individuates. The claim predicted that intervening on one named agent is what produces per-agent credit from collective data. DRSO does exactly that, from the same kind of data that leaves VDEP and GVDEP at team level, and from the same research group. That is the mechanism behaving as predicted. It remains a claim about four instances rather than a proven necessity — the Shapley objection recorded on counterfactual-baseline still stands.
+
+=== A PROPAGATED CITATION ERROR, CAUGHT ===
+
+This paper sets PPCF parameters sigma = 0.45, lambda = 4.3 (12.9 for goalkeepers), "following the previous study [6]" where [6] is Spearman (2018).
+
+SPEARMAN (2018) FITS s = 0.54 AND lambda = 3.99. The vault established this when the primary source was acquired, and noted at the time that the 0.45/4.3 values recorded via Teranishi "match neither exactly — most likely the 2017 published fit".
+
+TWO FUJII-GROUP PAPERS NOW USE 0.45/4.3 WHILE CITING SPEARMAN 2018. That is a citation error propagating through a research line, and the vault caught it only because it holds the primary source. This is the clearest demonstration so far of why acquiring primary sources matters beyond filling gaps — it makes the vault able to audit the literature rather than only summarise it.
+
+Note the goalkeeper multiplier (lambda = 12.9, 3x outfield) is NEW here and is NOT Spearman's kappa = 1.72 defensive advantage. A different asymmetry, differently motivated.
+
+=== OTHER FINDINGS ===
+
+1. EF-OBSO's ATTACKING-THIRD RESTRICTION is better justified than it first appears — three independent grounds, not convenience: more players visible (especially the keeper, 54,359/92,294 vs 24,970/290,711, which matters because OBSO zeroes offside attackers); movement direction becomes assumable where velocity is unmeasurable; and it is where the question lives.
+
+2. SPEED VERIFICATION SHOWS A TRADE-OFF NOBODY CAN OPTIMISE. Condition V (5.0 m/s) is best for all attackers and scorers; condition II (0.0) is best for non-scorers. Nothing wins both. They chose V because scorers are the scarcer, harder case.
+
+3. NON-SCORER RMSE (0.119-0.134) SITS CLOSE TO THE GOALS-PER-SHOT RATIO (0.1156). A neat consistency check the authors draw: the model's error on non-scorers is about the base rate it should be predicting.
+
+4. DRSO IS CONFOUNDED BY POSSESSION SHARE, and the authors diagnose it themselves. Manchester City conceded fewest (31) and scored poorly on DRSO, because 60%+ possession means opponents rarely enter their attacking third — and when they do, City's shape is not organised for it. A team that defends rarely has fewer but more dangerous defensive moments. Proposed fix (weight by time or event count in the attacking third) is unimplemented.
+
+5. NO MACHINE LEARNING, DELIBERATELY. The authors argue ML's low interpretability limits practical application. Places DRSO alongside OBSO in the vault's purely theory-based column, and is a rare case of interpretability chosen OVER capability rather than traded against it.
+
+6. GOALKEEPING EXCLUDED explains two of the paper's own anomalies — Brentford and Everton conceded fewer while scoring worse on DRSO, traced to save percentage (Brentford 64/93 -> 90/108).
+
+=== OUTSTANDING ===
+
+- index — three new pages (drso, team-defense-positioning-counterfactuals) not yet added.
+- counterfactual-baseline — DRSO should be added to the instances table as a fourth case, and the vindication-with-caveat recorded at the claim declaration.
+- obso — the propagated PPCF parameter error should be recorded there, since that page carries the corrected values.
+- off-ball-value — the capability table still says individual defensive credit is "cited only, not held".
+- rikuhei-umemoto — second held source; the entity page still describes the 2023 work as unheld.
+- synthesis — DRSO in the valuation table; limitation 3 needs the split-claim treatment.
+- action-valuation-frameworks-compared, keisuke-fujii — sixth held source for Fujii.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1 IS NOW VACANT. Suggested replacement: Spearman et al. (2017) "Physics-based modeling of pass probabilities", which supplies the PPCF parameters two papers now misattribute, and would settle whether 0.45/4.3 are the 2017 fitted values.
+- 8 orphan pages remain unlinked.
+- CLAUDE.md ingest step 5 should specify the literal search string "absence:".
+- CLAUDE.md page template out of step with conventions.md provenance keys.
+- wiki/conversations/ never used despite QUERY step 6.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-08-04 08:35] writeback | DRSO outstanding items complete; absence-search verified
+All outstanding items from the DRSO ingest complete. No new source read.
+
+ABSENCE-SEARCH VERIFICATION: searching the bare string "absence:" returns 6 wiki pages carrying live claims (expected-goals, model-selection, multi-object-tracking, off-ball-value, pitch-control, split-half-reliability) plus the synthesis, CLAUDE.md, log.md and conventions.md. The natural-language phrasing tried at the DRSO ingest returned empty. CONFIRMED: the literal marker string is the working query. Also noted CLAUDE.md step 5 now includes the "what to do when it fires" clause and quotes "absence:" directly, which supplies the search term implicitly.
+
+Pages updated: 6 (+ index)
+
+- index — drso, team-defense-positioning-counterfactuals added; Fujii and Umemoto entity descriptions updated.
+
+- counterfactual-baseline — DRSO added as a fourth instance. THE CLAIM DECLARATION UPDATED WITH SUPPORTING EVIDENCE: DRSO is a direct test of counterfactual-individuates — same group, same domain, comparable data — and it computes per-defender values precisely because it intervenes on one defender at a time. Status revised to "supported on four instances, not proven; sufficiency well evidenced, necessity not". Also added a new distinction the fourth instance made visible: PREDICTED references risk MODEL ERROR (C-OBSO is zero under perfect prediction), OPTIMUM references risk INFEASIBILITY (DRSO never checks the optimal vertex was reachable). Different failure modes, previously conflated under one "dependency problem" heading.
+
+- obso — new flagged section on the propagated parameter error, with the full chain: Spearman fits s=0.54, lambda=3.99; both C-OBSO and DRSO use 0.45/4.3 while citing him; the vault recorded the wrong values too until the primary was acquired. Also added a Descendants table showing OBSO is the substrate for the whole Fujii off-ball line, both papers adding a counterfactual on top of it.
+
+- off-ball-value — fourth route added (optimal position). Capability table row corrected from "cited only, not held" to "computed but not reported", with a Superseded block. Route 3 and 4 now presented as the same machinery with opposite references.
+
+- rikuhei-umemoto — second held source. Records that GVDEP and DRSO are DIFFERENT APPROACHES, NOT ITERATIONS: GVDEP stays inside VDEP's classifier paradigm with a better weight; DRSO abandons it entirely for a physical surface plus counterfactual search, with no ML at all. The line runs classifier -> better-weighted classifier -> counterfactual search, and the third step is a change of kind.
+
+- keisuke-fujii — sixth held source. Restructured around TWO signatures rather than one: "change the target, not the model" (four of six) and "counterfactual on one named agent" (C-OBSO and DRSO, same machinery, opposite references). The second is the half that produces per-player values.
+
+- action-valuation-frameworks-compared — valuation table extended with DRSO and a new Reference row. PRESCRIPTION now has TWO INSTANCES arriving independently: xSOT solves for the optimal action via Nash equilibrium, DRSO for the optimal position via counterfactual search. Axis 4 rewritten around what they share — both shrink the choice set until every option is enumerable (two actions; four grid vertices), so the barrier is action-space size, not observational data. Limitation 3 rewritten with the split-claim Superseded block. Limitation 7 gained a FOURTH component-level instance: the PPCF parameter misattribution.
+
+KEY OBSERVATION FROM THIS PASS: the prescription task now has two instances from the same group by different routes, and both pay the same price — strategy-space coarsening. xSOT collapses ten possible pass recipients into "Pass"; DRSO collapses a continuous pitch into four grid vertices. Neither could enumerate its full choice set, and both are honest about it. That looks like a structural property of prescriptive analysis rather than a limitation of either method: YOU CAN ONLY PRESCRIBE OVER A CHOICE SET YOU CAN ENUMERATE.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1 (new): Spearman et al. (2017), "Physics-based modeling of pass probabilities in soccer", 11th MIT Sloan. Would settle whether 0.45/4.3 are its fitted values and close the parameter-misattribution question outright. Cited by every paper in the OBSO line and held by none.
+- 8 orphan pages remain unlinked; six are lead authors whose summaries do not link them. Largest outstanding structural task.
+- CLAUDE.md page template out of step with conventions.md provenance keys (flagged, not fixed, per instruction).
+- wiki/conversations/ never used despite QUERY step 6.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+

@@ -1,50 +1,58 @@
 ---
 title: "Rikuhei Umemoto"
 type: entity
-tags: [person, researcher, university, sports-analytics, defensive-valuation, off-ball]
-sources: [raw/papers/defensive_player_location_analysis.md]
-confidence: 0.75
+tags: [person, researcher, university, sports-analytics, defensive-valuation, off-ball, counterfactual]
+sources: [raw/papers/defensive_player_location_analysis.md, raw/papers/team_defense_positioning_statsbomb.md]
+confidence: 0.85
 provenance:
-  extracted: 60%
-  inferred: 30%
-  generated: 0%
+  extracted: 70%
+  inferred: 25%
+  generated: 3%
   imported: 0%
-  ambiguous: 10%
-lifecycle: draft
+  ambiguous: 2%
+lifecycle: reviewed
 created: 2026-07-27
 updated: 2026-07-27
 ---
 
 # Rikuhei Umemoto
 
-Researcher at the Graduate School of Informatics, [[nagoya-university]]. Lead author of [[generalized-vdep-euro-location-analysis|the GVDEP paper]] (2022), with [[kazushi-tsutsui]] and [[keisuke-fujii]].
+Researcher at the Graduate School of Informatics, [[nagoya-university]]. Lead author of **both** papers in the [[keisuke-fujii|Fujii group's]] defensive-positioning line.
 
-## Contribution
+| Year | Work | Contribution |
+|---|---|---|
+| 2022 | [[generalized-vdep-euro-location-analysis\|GVDEP]] (with [[kazushi-tsutsui]] and Fujii) | [[gvdep]] — score-scaled weights; partial-observation analysis |
+| 2023 | [[team-defense-positioning-counterfactuals\|DRSO]] (with Fujii) | [[drso]] — per-defender counterfactual positioning |
 
-[[gvdep]] generalises [[vdep|Toda et al.'s VDEP]] by replacing its frequency-derived weighting constant with **score-scaled weights taken from [[vaep|VAEP]]** at the moments ball gains and effective attacks occur. That fixes the single most arbitrary parameter in its predecessor — and does so by deriving it from an existing model rather than asserting a new value, which is a route to parameter choice the rest of this literature has not used. See [[model-selection]].
+## The Two Papers Are Different Approaches, Not Iterations
 
-The second contribution is methodological and more portable: a **sweep over the number of observed players**, showing that ball-gain prediction saturates at three or four while scores, concedes and being-attacked gain nothing from player positions at all. That makes defensive valuation available from broadcast-frame data rather than a tracking licence.
+Worth stating plainly, because the vault conflated them for several entries.
 
-## The 2023 Work, Not Held
+**[[gvdep|GVDEP]]** stays inside [[vdep|VDEP's]] paradigm: predict frequent defensive events with classifiers, then combine the probabilities. Its contributions are a **principled weight** (VAEP evaluated at the relevant events, replacing a frequency ratio) and a **sensitivity analysis** showing ball-gain prediction saturates at three or four observed players.
 
-Umemoto is also credited with **Umemoto & Fujii (2023)**, *Evaluation of team defense positioning by computing counterfactuals using StatsBomb 360 data* (StatsBomb Conference) — the counterfactual-positioning method that would individuate defensive credit.
+**[[drso|DRSO]]** abandons that paradigm entirely. No classifiers, **no machine learning at all** — a physical value surface ([[obso|OBSO]]) plus a search over candidate positions. It asks a different question: not *how well did the defence perform* but **where should each defender have stood**.
 
-**That is a different paper and is not held here.** The vault previously conflated the two, treating the Umemoto line as having closed the individual-defender gap. GVDEP is **team-level**; the gap remains open, and the 2023 work is the vault's outstanding acquisition target for it. See [[defensive-valuation]].
+So the line runs classifier → classifier-with-better-weights → **counterfactual search**, and the third step is a change of kind rather than degree.
 
-## Position in the Fujii Group
+## The Contribution That Mattered Most Here
 
-The [[keisuke-fujii|group's]] defensive line runs Toda → Umemoto → Umemoto, each addressing the previous paper's stated limitation:
+DRSO computes $Diff_{opt-obs}$ **for each named defender** — the vault's first held framework to do so from collective spatial data. It closes the mechanism half of a gap this vault carried across six log entries.
 
-| Work | Fixes |
-|---|---|
-| [[vdep\|Toda et al. (2022)]] | Establishes proxy-target defensive valuation |
-| **[[gvdep\|Umemoto et al. (2022)]]** | **The arbitrary weight; the full-observation assumption; single-league scope** |
-| Umemoto & Fujii (2023), unheld | Individual defender credit, by counterfactual positioning |
+It does not close the reporting half: every published result averages three defenders, then events, then teams. Nothing in the method prevents player-level output; the authors simply did not produce it. See [[defensive-valuation]].
 
-**Note:** vault knowledge of this person comes from one primary source and one citation. Nothing beyond these two works is established.
+## Two Design Choices Worth Borrowing
+
+**Restriction as an accommodation to bad data.** [[drso|EF-OBSO]] computes only for attacking-third events, justified on three independent grounds — more players visible (especially the keeper), movement direction becomes assumable without velocity data, and it is where the question lives. A principled restriction rather than a convenience.
+
+**Interpretability chosen over capability.** The authors argue explicitly that ML's low interpretability limits practical application, and that a physical model gives coaches more usable advice. Rare: interpretability is normally traded *against* something here, not preferred outright. See [[theory-based-modelling]] and [[interpretability]].
+
+## A Caution Carried Forward
+
+Both papers set PPCF parameters $\sigma = 0.45$, $\lambda = 4.3$ citing [[beyond-expected-goals|Spearman (2018)]], which actually fits $s = 0.54$, $\lambda = 3.99$. See [[obso]] — a citation error propagating through the line, invisible without the primary source.
 
 ## See Also
 
-- [[gvdep]] · [[vdep]] · [[defensive-valuation]] · [[model-selection]]
+- [[gvdep]] · [[drso]] · [[defensive-valuation]] · [[obso]] · [[counterfactual-baseline]] · [[off-ball-value]]
+- [[vdep]] · [[model-selection]] · [[theory-based-modelling]] · [[pitch-control]]
 - [[keisuke-fujii]] · [[kazushi-tsutsui]] · [[kosuke-toda]] · [[masakiyo-teranishi]] · [[nagoya-university]]
-- [[generalized-vdep-euro-location-analysis|Source Summary]]
+- [[generalized-vdep-euro-location-analysis|GVDEP Summary]] · [[team-defense-positioning-counterfactuals|DRSO Summary]]
