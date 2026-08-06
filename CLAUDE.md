@@ -86,13 +86,14 @@ For each source:
 3. List every distinct technical concept, method, or architecture introduced or substantially covered. For each, state whether it warrants a concept page and why. Err toward creating pages. Ensure you do this step transparently in the conversation.
 4. Before creating any new concept or entity page, search wiki/concepts/ and wiki/entities/ for existing pages that reference the same topic. Update existing pages rather than leaving stubs stale
 5. Any similar area claim marked "absence:" must be checked, if new source renders absence claim flase by providing information then correct this and record the changes, "use search_notes for "absence:" to locate them.
-6. Create or update entity pages for each entity mentioned and deemed appropriate for a page or with an existing page
-7. Create or update concept pages for each concept discussed and deemed appropriate for  page or with an existing page
-8. Re-check for contradictions with existing pages
-9. Add new tags to the taxonomy file
-10. Add [[wikilinks]] cross-references on all affected pages
-11. Update the index with update_index
-12. Log the operation with append_log
+6. Use search_notes for "rests-on: claim:" to find claims that cascade. For each, confirm the claim it rests on has not been revised or superseded.
+7. Create or update entity pages for each entity mentioned and deemed appropriate for a page or with an existing page
+8. Create or update concept pages for each concept discussed and deemed appropriate for  page or with an existing page
+9. Re-check for contradictions with existing pages
+10. Add new tags to the taxonomy file
+11. Add [[wikilinks]] cross-references on all affected pages
+12. Update the index with update_index
+13. Log the operation with append_log
 
 A single source should touch 10-15 wiki pages. If it only touches 1-4 pages, you're not cross-referencing enough. If there a few pages / a new source is not covering many, create new concepts where appropriate. New summaries will very rarely not add or change existing concepts and entities, they should always provide some form of new information. A paper producing zero new concepts is a red flag that requires explicit justification.
 
