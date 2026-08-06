@@ -33,8 +33,8 @@ A catalog of all wiki pages, organised by type.
 - [[garry-gelade]] — Practitioner; Bradley-Terry model of 1v1 duel ability
 - [[william-spearman]] — Hudl; pass probability model, PPCF and OBSO
 - [[daniel-cervone]] · [[alex-damour]] · [[kirk-goldsberry]] — the NBA martingale EPV paper
-- [[luke-bornn]] — NBA EPV, pitch control, and the soccer EPV framework
-- [[javier-fernandez]] — Soccer EPV framework, SoccerMap, and pitch control
+- [[luke-bornn]] — NBA EPV, Wide Open Spaces, and the soccer EPV framework
+- [[javier-fernandez]] — Wide Open Spaces, SoccerMap, and the soccer EPV framework
 - [[keisuke-fujii]] — Senior author of VDEP, GVDEP, DRSO, C-OBSO, NMSTPP and the SPC framework
 - [[calvin-yeung]] — Lead author of NMSTPP and the game-theoretic SPC framework
 - [[kosuke-toda]] — Lead author of VDEP
@@ -100,7 +100,7 @@ A catalog of all wiki pages, organised by type.
 - [[competing-risks]] · [[car-prior]] · [[inla]] · [[bayesian-inference]] · [[bayes-theorem]]
 - [[factor-graph]] · [[approximate-message-passing]] · [[expectation-propagation]] · [[gaussian-density-filtering]]
 - [[mixture-model]] · [[expectation-maximization]] · [[identifiability]] · [[clustering]]
-- [[model-selection]] — Choosing complexity; the vault's asserted free parameters, and what GVDEP superseded
+- [[model-selection]] — Choosing complexity; the vault's asserted free parameters
 - [[policy-modelling]] · [[counterfactual-baseline]] · [[counterfactual-simulation]] · [[temporal-discounting]]
 - [[kl-divergence]] · [[non-negative-matrix-factorization]] · [[eigenvector]] · [[path-signature]] · [[smoothing]]
 
@@ -109,7 +109,7 @@ A catalog of all wiki pages, organised by type.
 - [[probability-calibration]] · [[uncertainty-quantification]] · [[class-imbalance-evaluation]]
 - [[capability-profiling]] — Reporting a capability vector rather than a composite score
 - [[rare-event-proxy-targets]] — Predicting a frequent correlate when the target is too rare
-- [[sample-weighting]] · [[selection-bias]] · [[positive-unlabeled-learning]]
+- [[sample-weighting]] · [[selection-bias]] · [[positive-unlabeled-learning]] · [[weak-supervision|weak supervision]]
 - [[gradient-boosting]] · [[random-forest]] · [[shap]] · [[interpretability]]
 - [[split-half-reliability]] · [[predictive-validity]] · [[adjusted-rand-index]] · [[jaccard-index]]
 
@@ -120,7 +120,10 @@ A catalog of all wiki pages, organised by type.
 - [[xsot]] — Expected shot on target, and its off-ball counterpart; game-theoretic payoffs
 - [[defensive-valuation]] · [[vdep]] · [[gvdep]] · [[drso]] · [[duel-skill-rating]] · [[symmetrical-duel-valuation]]
 - [[off-ball-value]] · [[space-creation]] · [[obso]] · [[c-obso]] · [[pitch-control]]
-- [[pass-probability-model]] — Who receives a pass, from intercept and control times; root of the PPCF/OBSO chain
+- [[space-occupation-gain]] — SOG and SGG; space for oneself and for a teammate
+- [[pitch-value-model]] — Learning what a location is worth from where defenders stand
+- [[voronoi-tessellation]] — The discrete-dominance baseline both pitch-control traditions replaced
+- [[pass-probability-model]] — Who receives a pass, from intercept and control times
 - [[receiving-efficiency]] — Receptions and interceptions against a model's expectation
 - [[possession-risk]] · [[effective-playing-time]] · [[intent-vs-outcome-valuation]]
 - [[dynamic-pressure-lines]] · [[tactical-analysis]] · [[probability-surface]] · [[soccermap]] · [[single-pixel-supervision]]
@@ -146,12 +149,12 @@ A catalog of all wiki pages, organised by type.
 Open investigations — a question, what can be settled from held sources, and what would settle the rest. Grouped by why the question exists, which determines who could answer it.
 
 ### Component-level benchmarking gaps
-- [[pitch-control-traditions-compared]] — **Do the two pitch-control traditions agree?** They answer different questions (pass reception vs spatial dominance) and are unequally validated.
+- [[pitch-control-traditions-compared]] — **Do the two pitch-control traditions agree?** Both origins now held, and **neither cites the other** — they are siblings framed against [[voronoi-tessellation]], not rivals.
 - [[shot-value-formulations-compared]] — **Are the four shot-value formulations interchangeable?** One of six pairwise comparisons exists.
 - [[tracking-error-propagation]] — **Does tracking error propagate into value estimates?** Partially answered for *incomplete observation*.
 
 ### Untested assumptions in held work
-- [[free-parameters-load-bearing]] — **Are the free parameters load-bearing?** $\gamma$, $\epsilon$, $k$, 4 s remain asserted; $C$ superseded by [[gvdep]].
+- [[free-parameters-load-bearing]] — **Are the free parameters load-bearing?** Eight now asserted without sensitivity analysis; $C$ superseded by [[gvdep]].
 - [[vaep-conceding-classifier]] — **Is VAEP's conceding classifier broken, or just unthresholdable?**
 
 ### Claims this vault generated
@@ -203,7 +206,9 @@ Pages kept for history, superseded by a canonical page. **Intentionally without 
 - [[camera-calibration-benchmarking]] — "ProCC" (Magera et al., 2025)
 - [[ai-agent-architecture-breakdown]] — "AI Agent Architecture Breakdown" (technical article, 2026)
 - [[eigenvectors-explained]] — "Eigenvectors Explained" (tutorial article, 2026)
-- [[physics-based-pass-probabilities]] — "Physics-Based Modeling of Pass Probabilities in Soccer" (Spearman et al., MIT Sloan 2017) — the intercept/control model, PPCF, and the vault's earliest prescriptive method
+- [[physics-based-pass-probabilities]] — "Physics-Based Modeling of Pass Probabilities in Soccer" (Spearman et al., MIT Sloan 2017) — the intercept/control model and PPCF
+- [[wide-open-spaces-space-creation]] — "Wide Open Spaces" (Fernández & Bornn, MIT Sloan 2018) — Gaussian pitch control, pitch value, SOG and SGG
+- [[beyond-expected-goals]] — "Beyond Expected Goals" (Spearman, MIT Sloan 2018) — OBSO
 - [[evaluating-football-player-actions]] — "Actions Speak Louder than Goals" (Decroos et al., 2019)
 - [[multiresolution-stochastic-process-nba-possessions]] — "A Multiresolution Stochastic Process Model for Predicting Basketball Possession Outcomes" (Cervone et al., 2016)
 - [[on-ball-actions-football-xt-vs-vaep]] — "Valuing On-the-Ball Actions in Soccer: xT vs VAEP" (Van Roy et al., 2020)
@@ -219,5 +224,4 @@ Pages kept for history, superseded by a canonical page. **Intentionally without 
 - [[generalized-vdep-euro-location-analysis]] — "Location Analysis of Players in UEFA EURO 2020 and 2022 using Generalized VDEP" (Umemoto, Tsutsui & Fujii, 2022) — GVDEP
 - [[team-defense-positioning-counterfactuals]] — "Evaluation of Team Defense Positioning by Computing Counterfactuals using StatsBomb 360 data" (Umemoto & Fujii, StatsBomb 2023) — EF-OBSO and DRSO
 - [[creating-scoring-opportunities-trajectory-prediction]] — "Evaluation of Creating Scoring Opportunities for Teammates in Soccer via Trajectory Prediction" (Teranishi et al., MLSA 2022/23)
-- [[beyond-expected-goals]] — "Beyond Expected Goals" (Spearman, MIT Sloan 2018) — OBSO
 - [[optimal-decisions-shot-taking-situations]] — "A Strategic Framework for Optimal Decisions in Football 1-vs-1 Shot-Taking Situations" (Yeung & Fujii, Complex & Intelligent Systems 2024) — game theory, xSOT

@@ -2486,3 +2486,137 @@ CARRIED FORWARD:
 - find_mentioned_but_missing should be run after any batch of page creation rather than only at lint time.
 - wiki/conversations/ never used despite QUERY step 6 requiring it.
 
+## [2026-08-06 07:44] ingest | Wide Open Spaces ingested — second pitch-control origin held; two vault claims corrected
+Source: raw/papers/wide_open_spaces_creation_football.md — Javier Fernandez (FC Barcelona) & Luke Bornn (Simon Fraser / Sacramento Kings), "Wide Open Spaces: A statistical technique for measuring space creation in professional soccer", MIT Sloan Sports Analytics Conference 2018. Metrica Sports tracking; 20 Spanish matches (2.4M examples) for the value model, one Barcelona-Villarreal match (Jan 2017) for the analysis.
+
+ACQUISITION PRIORITY 1, named two entries ago. THE ORIGIN OF THE VAULT'S SECOND PITCH-CONTROL TRADITION. Both origins are now held.
+
+Pages created: 4, Pages updated: 1 (+ index)
+
+=== ABSENCE CHECK (ingest step 5) ===
+Searched "absence:". All six live claims re-checked. Two affected, BOTH STRENGTHENED rather than weakened:
+
+- absence:no-held-source-compares-ppcf-and-gaussian — HOLDS, and is now STRUCTURALLY EXPLAINED. This paper does not cite Spearman; it positions against Voronoi tessellation, as do all its cited predecessors. Spearman likewise does not cite this line. THE TWO TRADITIONS ARE SIBLINGS FRAMED AGAINST A COMMON ANCESTOR, NOT RIVALS — which is why neither compares to the other. Two methods that never engaged is a different situation from two that engaged and disagreed, and the silence is a fact about the field's structure rather than about relative merit.
+- absence:no-sensitivity-analysis-on-horizon-parameters — HOLDS and STRENGTHENED. This paper adds FOUR more asserted parameters (w=3s, delta=5m, alpha=3m, epsilon threshold), none swept. THE VAULT'S COUNT RISES FROM FOUR TO EIGHT.
+
+Unaffected: no-source-reports-both, no-held-source-reports-off-ball-reliability, no-held-source-propagates-tracking-error, no-held-source-compares-shot-value-models.
+
+=== CONCEPT ENUMERATION (step 3), done transparently in conversation ===
+Five candidates assessed; three warranted pages, two did not.
+
+CREATED:
+- space-occupation-gain — SOG and SGG. THE VAULT'S OTHER ROUTE INTO SPACE CREATION, referenced across four pages for months without being held, and the EARLIER of the two held approaches (2018 vs C-OBSO's 2022/23). Includes the comparison table against C-OBSO: SPATIAL PREDICATE vs COUNTERFACTUAL. Neither dominates — the predicate is cheap and transparent but ATTRIBUTES BY CO-OCCURRENCE (a defender leaving for unrelated reasons still credits the "generator"); the counterfactual is principled but inherits its predictor's errors.
+- pitch-value-model — learning what a location is worth from WHERE DEFENDERS CHOOSE TO STAND. A revealed-preference target needing no outcome labels, and the spatial cousin of policy-modelling and imitation-learning. Recorded the limitation the authors half-admit: THE HYPOTHESIS IS PARTLY FALSE IN A PREDICTABLE DIRECTION. Defenders crowd their own box, so the model learns one's own penalty area is highly valuable — true defensively, false for attacking. The distance-to-goal normalisation corrects a systematic bias the training signal introduces rather than adding a refinement. General form: THE BEHAVIOUR REVEALS THE AGENT'S OBJECTIVE, NOT YOURS.
+- voronoi-tessellation — the discrete-dominance baseline BOTH traditions replaced. Worth a page not because the vault uses it but because it explains the traditions' mutual silence.
+
+NOT CREATED, with reasons: Gaussian influence pitch control (substantial update to the existing pitch-control page); active vs passive occupation (a threshold within SOG).
+
+=== TWO VAULT CLAIMS CORRECTED BY THE PRIMARY SOURCE ===
+
+1. THE SATURATION ANALYSIS WAS RIGHT AND IS THE AUTHORS' OWN POINT. The vault marked it `generated` — a reading derived from the published formulation. The paper states it outright: "a single player without any influence of any other player at its current location only controls logistic(1) = 0.73 of the space. This provides the need of higher density of players near a given area." RECLASSIFIED FROM GENERATED TO EXTRACTED on pitch-control. Design intent, not artefact.
+
+2. "PARAMETERS SET TO 1, UNFITTED" WAS TOO CRUDE. gamma is an ACKNOWLEDGED simplification ("we can include a constant within sigma to add more flexibility, if desired"; Equation 2 called "a simplified version"). The influence-radius function (4->10m) IS parameterised, "based on the opinion of expert soccer analysts". So parameters are EXPERT-SET — a third position between MLE-fitted and unfitted. That matters for model-selection: expert-set parameters cannot inherit priors from measurement, but they are not arbitrary either.
+
+3. THE VALIDATION CLAIM NEEDED SOFTENING. The vault said the Gaussian tradition was "validated against nothing directly". Too strong. The authors state plainly that NO GROUND TRUTH EXISTS for space quantification, and validate through extensive video review with two FC Barcelona analysts. So: QUALITATIVE EXPERT VALIDATION, NOT NONE. The asymmetry with Spearman survives and is better stated — one tradition validates against an OBSERVABLE OUTCOME, the other against EXPERT JUDGEMENT, BECAUSE ITS TARGET HAS NO GROUND TRUTH. That is a difference in what is available, not in rigour.
+
+=== OTHER FINDINGS ===
+
+- MESSI'S PASSIVE OCCUPATION EXCEEDS HIS ACTIVE (66.7% passive against a squad norm nearer 40%), uniquely among outfield players, with 71% of gain in front of the ball. The paper reads the walking directly as "a conscious action to move through empty spaces of value". A composite SOG would rank him third and say nothing about mechanism — another instance of the decomposition-beats-composite pattern now on capability-profiling.
+- OCCUPATION AND GENERATION ARE DIFFERENT SKILLS. Iniesta/Busquets/Messi lead occupation (41% of team SOG); Neymar/Suarez lead generation while mid-table on occupation. Full-backs generate almost nothing — moving toward touchlines drags nobody.
+- A SHARED MOTIVE, INDEPENDENTLY REACHED. Both origins cite low data requirements and reproducibility as design goals — Fernandez & Bornn explicitly for Spanish-league clubs without tracking access. BOTH PITCH-CONTROL TRADITIONS WERE BUILT TO BE CHEAP AND REPRODUCIBLE, which is a stronger claim about the field's needs than either paper alone supports.
+
+=== A FINDING ABOUT MY OWN ERROR RATE ===
+
+Ran find_mentioned_but_missing after page creation — the check I recommended last entry rather than relying on noticing. IT CAUGHT TEN DEAD LINKS, SEVEN OF THEM MINE FROM RECENT WORK.
+
+I had reported four self-caught dead links this session and implied that was the total. THE ACTUAL RATE IS ROUGHLY 40% CAUGHT. Every one is a TAG NAME: approximation, inference, metric-learning, projective-geometry, reliability, transfer-learning, weak-supervision, zero-shot-learning. Plus `prescription` (a name I invented for the task) and `index` (a genuine cross-boundary link from overview.md to vault root).
+
+The tell is consistent and now well evidenced: TAGS AND PAGE NAMES ARE INDISTINGUISHABLE IN THIS VAULT'S NAMING SCHEME, so a tag name gets wikilinked reflexively while writing prose. Self-vigilance catches under half. THE CHECK SHOULD RUN AFTER EVERY BATCH OF PAGE CREATION, not at lint time.
+
+NOT FIXED THIS RUN. The ten need triage — some warrant pages (transfer-learning, zero-shot-learning, metric-learning, weak-supervision, projective-geometry are all real concepts with multiple referrers), some should be unlinked (approximation, inference are vague umbrellas), reliability should retarget to split-half-reliability, prescription to the synthesis section.
+
+=== OUTSTANDING FROM THIS INGEST ===
+- pitch-control-traditions-compared — the question is now structurally explained (siblings, not rivals) and the validation asymmetry needs restating as availability rather than rigour.
+- space-creation — SOG/SGG now held; the page describes it as "cited only".
+- off-ball-value — a fifth mechanism, and the SOG/SGG route.
+- javier-fernandez, luke-bornn — this is a held source for both; Bornn's entity page describes Wide Open Spaces as unheld.
+- free-parameters-load-bearing — count rises from four to eight.
+- action-valuation-frameworks-compared — SOG/SGG in the off-ball mechanisms table.
+- The ten dead links above.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1 IS VACANT. Both pitch-control origins are held; the OBSO chain is complete. No named gap remains in the football spatial line.
+- Run find_mentioned_but_missing after every batch of page creation.
+- wiki/conversations/ never used despite QUERY step 6.
+
+## [2026-08-06 13:16] writeback | SOG/SGG updates; pitch-control synthesis assessed and declined
+SOG/SGG updates from the Wide Open Spaces ingest, plus an assessment of whether a pitch-control synthesis is warranted. No new source read.
+
+Pages updated: 4
+
+=== SYNTHESIS ASSESSMENT: NOT YET ===
+
+Asked whether the pitch-control material now warrants its own synthesis page. Assessed and DECLINED, with the reasoning recorded so the question does not have to be re-litigated.
+
+The material looks synthesis-shaped: six held sources touch pitch control, two traditions, a shared ancestor, five downstream frameworks. But the content is ALREADY CORRECTLY DISTRIBUTED — the two-tradition comparison lives on pitch-control, the "do they agree" analysis on pitch-control-traditions-compared, the shared ancestor on voronoi-tessellation, and the downstream propagation in synthesis limitation 7. A synthesis would be a FOURTH HOME FOR THE SAME CONTENT.
+
+The test applied: DOES IT REACH A CONCLUSION NO SINGLE PAGE CAN HOLD? Today, no. The honest summary is "two traditions, never compared, here is why they never engaged" — which fits on a concept page.
+
+WHAT WOULD CHANGE THE ANSWER, recorded so it can be recognised: if the comparison question gets ANSWERED. A result showing the surfaces diverge in ways that move OBSO rankings would span six sources with consequences for five frameworks. That is synthesis material; the current ABSENCE of a result is not. Creating a synthesis now would restate rather than synthesise.
+
+Also noted: the vault's single existing synthesis covers the entire football modelling field. A component-level synthesis would sit oddly beside it, and the type would drift from "cross-source analysis" toward "long concept page".
+
+=== UPDATES ===
+
+- space-creation — MAJOR. Previously described the Fernandez & Bornn route as cited-but-not-held. Both are now held, and they differ more sharply than the earlier framing implied: NOT IN WHAT THEY MEASURE BUT IN WHAT LICENSES THE ATTRIBUTION. SGG attributes by CO-OCCURRENCE (a defender moved from near teammate to near generator); C-OBSO attributes by DEVIATION from a predicted reference. Failure modes are complementary — the predicate cannot distinguish being dragged from happening to move; the counterfactual inherits its predictor's errors and requires that predictor to be imperfect.
+  NEW ABSENCE CLAIM recorded: the two methods are DIRECTLY COMPARABLE ON A SINGLE MATCH AND HAVE NEVER BEEN COMPARED, and neither cites the other. Marked absence:no-held-source-compares-sgg-and-cobso.
+  Also recorded the convergence: occupation and generation are distinct skills, found independently by SOG/SGG in La Liga and C-OBSO in the J-League. Two methods, two leagues, same structural finding — stronger than either alone.
+
+- off-ball-value — expanded from four mechanisms to FIVE, with SOG inserted as route 2. Added a distinction the five-way table makes visible and no page had stated: SOG MEASURES A RATE WHERE THE OTHERS MEASURE A LEVEL. Routes 1 and 5 ask what a position is worth now; SOG asks what was GAINED, which credits movement rather than standing.
+  ALSO RECORDED A NEAR-COUNTER-EXAMPLE TO counterfactual-individuates. SGG produces per-player creation credit WITHOUT a counterfactual, by spatial predicate. That does not falsify the claim — SGG attributes by co-occurrence rather than by establishing what would otherwise have happened — but it is the nearest thing to a counter-example the vault holds, and it belongs on the record next to the Shapley objection.
+
+- luke-bornn — third held source. Restructured around the through-line (turn tracking into a spatial field, reason over the field) and the basketball-to-football trade. Recorded that TWO OF WIDE OPEN SPACES' THREE MODELS OUTLIVED THE THIRD: pitch control became substrate for the 2020 EPV framework and for others; the pitch value model is the vault's only outcome-label-free value surface; SOG and SGG have not been extended by anyone.
+
+- javier-fernandez — second held source. New section on CLUB ANALYSTS AS CO-DESIGNERS, which is unusual and substantive rather than decorative: the influence radius (4-10m), the three-second window, the 5m closeness threshold, and the validation of SOG/SGG are all expert-set or expert-reviewed. Places this line at one end of a spectrum against Spearman's MLE-fitted physical measurement.
+  Also recorded WHY SOG/SGG WERE NOT EXTENDED — four asserted parameters, a one-match analysis, and attribution by spatial co-occurrence rather than any causal test. Two plausible reasons, neither established.
+
+=== STILL OUTSTANDING FROM THIS INGEST ===
+- pitch-control-traditions-compared — the validation asymmetry should be restated as a difference in WHAT IS AVAILABLE rather than in rigour, and the siblings-not-rivals structure recorded.
+- free-parameters-load-bearing — count rises from four to eight.
+- action-valuation-frameworks-compared — SOG/SGG in the off-ball mechanisms table, which is still four-wide.
+- The ten dead links found by find_mentioned_but_missing, needing triage: transfer-learning, zero-shot-learning, metric-learning, weak-supervision and projective-geometry all have multiple referrers and are real concepts warranting pages; approximation and inference are vague umbrellas to unlink; reliability should retarget to split-half-reliability; prescription to the synthesis section; index is a genuine cross-boundary link from overview.md.
+
+CARRIED FORWARD:
+- Run find_mentioned_but_missing after every batch of page creation. Demonstrated this session to catch roughly 2.5x what self-vigilance catches.
+- ACQUISITION PRIORITY: vacant. No named gap in the football spatial line.
+- wiki/conversations/ never used despite QUERY step 6.
+
+## [2026-08-06 14:01] writeback | Wide Open Spaces ingest closed except dead-link triage
+Final three outstanding items from the Wide Open Spaces ingest. Complete except the dead-link triage, deferred at the human's instruction.
+
+Pages updated: 3
+
+- pitch-control-traditions-compared — the question is now FULLY SPECIFIED FROM PRIMARY SOURCES ON BOTH SIDES for the first time. Three substantive changes.
+  (1) New section on WHY THEY NEVER ENGAGED: neither cites the other, both position against Voronoi. Siblings framed against a common ancestor, not rivals. Consequence recorded — THE COMPARISON IS NOBODY'S RESPONSIBILITY, which is why it has stayed undone for eight years.
+  (2) VALIDATION ASYMMETRY RESTATED. Previously "validated against nothing directly", implying a rigour gap. Corrected: Fernandez & Bornn state plainly that no ground truth exists for space quantification and validate by expert video review accordingly. THE ASYMMETRY IS IN WHAT IS AVAILABLE, NOT IN WHAT WAS ATTEMPTED. The consequence for this question survives — only one tradition was ever tested on pass reception, so on reception-flavoured questions the prior should favour PPCF, not because it is better work but because it is the only one tested on that quantity.
+  (3) The saturation prediction now has a DIRECTION, since the F&B behaviour is authorial intent: F&B suppresses lone-player control (logistic(1) = 0.73) and rewards clustering, PPCF does neither. Test step 6 also noted to test the Gaussian model on a question it was not built for — informative about substitutability, not about success on its own terms.
+
+- free-parameters-load-bearing — count four -> eight, and the taxonomy expanded from three kinds to FOUR. The new SOG/SGG parameters are different in kind: delta and alpha are GATES, not weights.
+  THE POINT THAT MATTERS: a horizon parameter that is slightly wrong produces slightly wrong values; A GATE THAT IS SLIGHTLY WRONG PRODUCES THE WRONG SET OF EVENTS, and everything downstream is computed on that set. Per-player totals become sums over different things rather than differently-weighted sums over the same things. That makes gates LESS likely to be self-limiting than horizons, and makes rank correlation the right test rather than value correlation, which would be comparing sums over different populations.
+  Added a cheap pre-test for delta: count detected dragging incidents at 4, 5 and 6 m before computing any ranking.
+
+- action-valuation-frameworks-compared — valuation table extended to TEN frameworks with a new "Measures" row (level vs rate). Off-ball mechanisms table extended from four to FIVE. Free-parameters section rewritten around the four kinds. Space creation now recorded as COVERED TWICE BY UNRELATED MECHANISMS, with the unrun comparison flagged. Limitation 7 gained the siblings-not-rivals explanation and the ProCC contrast — THE BENCHMARKING GAP IS A PROPERTY OF ONE RESEARCH COMMUNITY, NOT OF SPORTS ANALYTICS AS A FIELD.
+  Also added the counterfactual-individuates near-counter-example inline at the claim reference, so a reader of the synthesis sees the qualification without following the link.
+
+=== SYNTHESIS ASSESSMENT, recorded in the previous entry, reinforced here ===
+The pitch-control synthesis question was assessed and declined. Working through pitch-control-traditions-compared confirmed the judgement: the page absorbed all three of the new cross-source observations (siblings-not-rivals, validation availability, directional saturation) without strain. The material has a home. A synthesis would restate it.
+The trigger to revisit is recorded on that page: if the OBSO-ranking substitution test changes rankings, that is a result spanning six sources with consequences for five frameworks, and would justify one.
+
+STATE: no outstanding items from any ingest except the dead-link triage, deferred.
+
+CARRIED FORWARD:
+- TEN DEAD LINKS awaiting triage, deferred by instruction. Five warrant pages (transfer-learning, zero-shot-learning, metric-learning, weak-supervision, projective-geometry — all real concepts with multiple referrers); approximation and inference should be unlinked as vague umbrellas; reliability should retarget to split-half-reliability; prescription to the synthesis section; index is a genuine cross-boundary link from overview.md and needs no action.
+- Run find_mentioned_but_missing after every batch of page creation. Demonstrated to catch ~2.5x what self-vigilance catches.
+- ACQUISITION PRIORITY: vacant. No named gap in the football spatial line.
+- wiki/conversations/ never used despite QUERY step 6.
+

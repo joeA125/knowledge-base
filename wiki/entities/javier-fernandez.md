@@ -1,65 +1,64 @@
 ---
 title: "Javier Fernández"
 type: entity
-tags: [person, researcher, sports-analytics, action-valuation, optical-tracking-data, deep-learning, probability-surface]
-sources: [raw/papers/expected_value_possession_framework.md, raw/papers/epv_control_and_duel_skills_football.md, raw/papers/football-performance-time-series.md]
-confidence: 0.85
+tags: [person, researcher, sports-club, sports-analytics, pitch-control, off-ball, space-creation, probability-surface, deep-learning]
+sources: [raw/papers/wide_open_spaces_creation_football.md, raw/papers/expected_value_possession_framework.md]
+confidence: 0.9
 provenance:
-  extracted: 65%
-  inferred: 30%
-  ambiguous: 5%
+  extracted: 72%
+  inferred: 24%
+  generated: 2%
+  imported: 2%
+  ambiguous: 0%
 lifecycle: reviewed
-created: 2026-07-27
+created: 2026-07-23
 updated: 2026-07-27
 ---
 
 # Javier Fernández
 
-Lead author of the deep-learning [[expected-possession-value|expected possession value]] framework for soccer, with [[luke-bornn]] and [[daniel-cervone]] — the work that carried the basketball [[martingale-epv|EPV]] programme across to football.
+Analyst at [[fc-barcelona]] and lead author of the vault's Gaussian [[pitch-control]] tradition and the decomposed soccer EPV framework.
 
-Led analytics at [[fc-barcelona]] during this work.
+**Two held sources.**
 
-## Line of Work
+| Year | Work | With | Contribution |
+|---|---|---|---|
+| 2018 | [[wide-open-spaces-space-creation\|Wide Open Spaces]] | [[luke-bornn\|Bornn]] | [[pitch-control]] (Gaussian), [[pitch-value-model]], [[space-occupation-gain\|SOG/SGG]] |
+| 2020/21 | [[expected-value-possession-framework\|Soccer EPV framework]] | Bornn, Cervone | Decomposed EPV, [[soccermap]], [[dynamic-pressure-lines]] |
 
-Three connected papers, the first two with Bornn:
+## The Progression
 
-| Year | Work | Contribution |
-|---|---|---|
-| 2018 | Wide Open Spaces (MIT Sloan) | [[pitch-control]] and pitch influence via player reachability surfaces |
-| 2020 | SoccerMap (arXiv) | [[soccermap]] — the fully convolutional surface architecture |
-| 2020/21 | [[expected-value-possession-framework\|EPV framework]] | Combines both into a decomposed, tracking-based EPV |
+The 2018 paper builds the spatial primitives; the 2020 framework builds a value model on top of them. [[pitch-control]] appears in both — as the substrate for space metrics in the first, and as an input feature plus the definition of *pressure* (control below 0.4) in the second.
 
-The EPV framework is the capstone: pitch control enters as an input feature, SoccerMap serves as the feature extractor for all three pass components, and the [[structured-model-decomposition|decomposition]] binds them into a single calibrated estimate.
+What changes between them is the **source of value**. In 2018, value comes from [[pitch-value-model|where defenders stand]] — a revealed-preference target needing no outcome labels. In 2020, it comes from [[structured-model-decomposition|nine components fitted to observed outcomes]]. The earlier approach is cheaper and assumption-heavy; the later one is expensive and validated per component by [[probability-calibration|calibration]].
 
-## The Contribution
+## Club Analysts as Co-Designers
 
-[[martingale-epv|Cervone et al.'s basketball model]] depends on 25 Hz [[optical-tracking-data|optical tracking]] and enormous computation. Fernández, Bornn & Cervone reconstruct the same *conceptual* object for soccer — a continuously-updating estimate of a possession's worth — but arrive at it by a very different route: nine separately-trained neural components rather than one Bayesian process model, and real-time inference rather than 461 processors.
+Unusual and worth noting. FC Barcelona analysts are not merely acknowledged in either paper — they **shape the models**:
 
-Two things distinguish the work within the vault.
+- The influence-radius range (4–10 m) is set *"based on the opinion of expert soccer analysts"*.
+- The three-second window and the 5 m closeness threshold are chosen *"alongside expert football analysts from F.C. Barcelona"*.
+- Validation of SOG and SGG is **expert video review by two analysts**, since no ground truth exists for space quantification.
+- The 2020 framework's contextual features are similarly club-informed.
 
-**It values off-ball positioning.** Because pass value is estimated at every pitch location, the worth of a player *standing* somewhere falls out for free. This is the vault's only substantive treatment of what every other framework lists as a shared limitation. See [[off-ball-value]].
+That places this line at one end of a spectrum the vault holds: **domain judgement encoded as parameters** at one end, [[physics-based-pass-probabilities|physical measurement fitted by MLE]] at the other. Expert-set parameters cannot inherit priors from prior measurement, but they are inspectable and disputable in a way fitted ones are not. See [[model-selection]].
 
-**It argues interpretability is compatible with model richness.** The vault's valuation comparison shows a consistent trade-off — richer state costs legibility. Fernández's answer is to decompose along axes coaches already use rather than to simplify. Whether that fully succeeds is arguable, but it is the only serious attempt here to escape the trade-off rather than pick a side.
+## The Interpretability Argument, Made Twice
 
-## On the Terminology Confusion
+Both papers argue that a model's components should each answer a recognisable football question — 2018 by composing control × value, 2020 by decomposing EPV into nine parts along pass/drive/shoot and success/failure axes.
 
-The "EPV" label had already been claimed in soccer by [[expected-threat|xT]]-style zonal Markov models, which are far simpler and satisfy none of the basketball model's stated criteria. Fernández's framework is a genuine Cervone-style construction wearing the same name — which is a substantial part of why the term now means several incompatible things. See the terminology warning on [[expected-possession-value]].
+[[obso|Spearman]] makes the same argument independently in 2018, and far more cheaply. Three papers, two research lines, one design principle: **components should be individually meaningful, not merely jointly predictive.** See [[structured-model-decomposition]] and [[interpretability]].
 
-## Dating
+## What the 2018 Work Left Unfinished
 
-The vault previously carried an unresolved note about whether to date this work 2019 or 2021. With the primary source held, the sequence is:
+[[space-occupation-gain|SOG and SGG]] have not been extended by anyone, including the authors. The pitch-control model became infrastructure for the 2020 framework and for others; the space metrics did not.
 
-- **2019** — MIT Sloan conference version, "Decomposing the immeasurable sport"
-- **2020** — arXiv:2011.09426, 18 November (the version in `raw/`)
-- **2021** — *Machine Learning* 110(6), 1389–1427
-
-Same line of work at increasing length. [[epv-control-duel-skills-football|Shelopugin]] cites the 2019 version; [[football-performance-time-series|Mendes-Neves et al.]] cite the 2021 one.
+Two plausible reasons, neither established: the metrics rest on **four asserted parameters** and a one-match analysis, and SGG attributes credit by **spatial co-occurrence** rather than by any causal test — a weakness [[c-obso]] addresses four years later from an unrelated group. See [[space-creation]].
 
 ## See Also
 
-- [[expected-value-possession-framework|Source Summary]]
-- [[expected-possession-value]] · [[martingale-epv]] · [[action-valuation]]
-- [[soccermap]] · [[pitch-control]] · [[probability-surface]] · [[off-ball-value]]
-- [[structured-model-decomposition]] · [[policy-modelling]]
-- [[luke-bornn]] · [[daniel-cervone]] · [[fc-barcelona]]
-- [[action-valuation-frameworks-compared]]
+- [[pitch-control]] · [[pitch-value-model]] · [[space-occupation-gain]] · [[space-creation]] · [[soccermap]]
+- [[expected-possession-value]] · [[probability-surface]] · [[structured-model-decomposition]] · [[dynamic-pressure-lines]] · [[off-ball-value]]
+- [[single-pixel-supervision]] · [[probability-calibration]] · [[interpretability]] · [[model-selection]] · [[voronoi-tessellation]]
+- [[luke-bornn]] · [[daniel-cervone]] · [[william-spearman]] · [[fc-barcelona]]
+- [[wide-open-spaces-space-creation|Wide Open Spaces]] · [[expected-value-possession-framework|Soccer EPV Framework]]
