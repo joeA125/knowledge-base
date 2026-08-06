@@ -121,9 +121,10 @@ Run through this checklist:
 2. find_stale_pages — pages not modified in 90+ days
 3. find_mentioned_but_missing — dead wikilinks (gaps)
 4. "use search_notes for "absence:" to locate pages containing claims with absent sources
-5. Read the taxonomy with read_taxonomy and check for tags used on pages that aren't in the tags logging
-6. Read recently updated pages and check for contradictions with other pages on the same topic
-7. list_unprocessed_sources — sources not yet ingested
+5. Use search_notes for "rests-on: claim:" to find claims that cascade. For each, confirm the claim it rests on has not been revised or superseded.
+6. Read the taxonomy with read_taxonomy and check for tags used on pages that aren't in the tags logging
+7. Read recently updated pages and check for contradictions with other pages on the same topic
+8. list_unprocessed_sources — sources not yet ingested
 
 Report findings. Fix what you can. Flag the rest.
 
