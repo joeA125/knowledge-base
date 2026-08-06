@@ -2620,3 +2620,65 @@ CARRIED FORWARD:
 - ACQUISITION PRIORITY: vacant. No named gap in the football spatial line.
 - wiki/conversations/ never used despite QUERY step 6.
 
+## [2026-08-06 18:13] lint | Dead-link diagnosis corrected — naming is not the cause
+Correcting a diagnosis I recorded repeatedly in this log. No pages changed.
+
+THE CLAIM I MADE, several times: dead links are caused by tags and page names being indistinguishable in this vault's naming scheme, so a tag name gets wikilinked reflexively while writing prose.
+
+THAT DIAGNOSIS DOES NOT SURVIVE ITS OWN EVIDENCE. Of the links find_mentioned_but_missing surfaced, `prescription` is NOT a tag — I invented the word mid-sentence because the prescription task needed a noun. `index` is not a tag either; it is a real file outside wiki/. If tag collision were the mechanism, neither could occur.
+
+THE ACTUAL MECHANISM: generating a plausible concept name from fluency and bracketing it WITHOUT LOOKUP. The tag overlap is incidental — it is simply which plausible names happen to exist as tags. Any naming scheme has this failure mode, because the failure happens at generation time when nothing is being consulted.
+
+CONSEQUENCE FOR THE PROPOSED FIX, raised by the human: separating how tags and page names are viewed would NOT help, and would be expensive.
+- Namespacing tags touches ~250 pages' frontmatter and does not address the cause, since the taxonomy is not consulted while writing prose.
+- Making every tag a page means ~180 pages, many of which should not exist (person, stub, needs-review, google), and contradicts deliberate earlier decisions to UNLINK spatiotemporal and player-evaluation as properties rather than concepts.
+- Note also that Obsidian ALREADY separates them: tags live in frontmatter and are written #tag; links are [[link]]. The collision exists only in generation, not in vault structure.
+
+WHAT WORKS: the check. find_mentioned_but_missing caught ten where self-vigilance caught four. It catches invented names as well as tag collisions, which no naming scheme would, and it does not depend on attention holding across a long writing pass.
+
+RECOMMENDATION UNCHANGED, now better grounded: run find_mentioned_but_missing after every batch of page creation. No structural change to tags or naming.
+
+A SECOND PROCESS FAILURE, recorded because it recurred a third time this session: a turn ended after append_log with no closing message to the human. The previous fix recorded — "treat append_log as part of the write" — was insufficient. THE LOG ENTRY IS NOT A SUBSTITUTE FOR REPORTING. A silent turn is indistinguishable from an incomplete one and costs the human a round trip to discover which. The work was complete on all three occasions; the reporting was not.
+
+CARRIED FORWARD:
+- TEN DEAD LINKS awaiting triage, deferred by instruction. Five warrant pages (transfer-learning, zero-shot-learning, metric-learning, weak-supervision, projective-geometry); approximation and inference to unlink; reliability to retarget to split-half-reliability; prescription to the synthesis section; index needs no action.
+- Run find_mentioned_but_missing after every batch of page creation.
+- ACQUISITION PRIORITY: vacant.
+- wiki/conversations/ never used despite QUERY step 6.
+
+## [2026-08-06 18:15] lint | Conventions: supersession now follows dependencies
+conventions.md updated. rests-on: was already documented; the additions close a gap found by re-reading rather than assuming.
+
+Pages updated: 1 (_schema/conventions.md)
+
+CHECKED BEFORE ACTING. The request was to add rests-on: to conventions.md. It was already there — added earlier this session with claim IDs, four dependency kinds, the absence warning, a worked example and limitations. Reading the file rather than assuming either "already done, nothing to do" or duplicating what existed turned up one genuine gap and three smaller ones.
+
+THE GAP THAT MATTERED — SUPERSESSION DID NOT TELL YOU TO FIND DEPENDENTS.
+
+The Supersession section said to search for the superseded claim's own ID before closing the edit. That finds where the claim is REFERENCED. It does not find what RESTS ON it. Those are opposite searches, and the second is the entire reason claim: dependencies are recorded.
+
+So the mechanism existed and its trigger did not. A revision would have updated every page stating the claim and left every page depending on it untouched — which is precisely the failure that produced the offensive-bias-four-causes problem in the first place.
+
+Added: a two-search subsection under Supersession, and a table under Claim Dependencies distinguishing four searches — the claim ID (where used), rests-on: claim:<id> (what depends on it), rests-on: claim: (vault-wide blast radius), and absence: (what a new source could overturn). Recorded that SEARCHING THE ID ALONE IS THE COMMON MISTAKE.
+
+THREE SMALLER ADDITIONS, each generalising something this session demonstrated:
+
+1. Supersession now says a dependent may WEAKEN rather than fall, with the worked case: the fourth cause of offensive bias did not disappear when its premise was questioned, it became the least secure of four and is marked so. RECORD THE WEAKENING RATHER THAN DELETING THE CLAIM.
+
+2. The absence section now records that NARROWING BEATS DELETING. "No source runs a sensitivity analysis" was falsified by one ingest; narrowed to "no source sweeps a horizon or weighting parameter" it survived three more. A narrowed absence claim locates the boundary; a deleted one loses the finding.
+
+3. The Linking section now carries the dead-link guidance, stated with the CORRECTED diagnosis: dead links are plausible concept names produced mid-sentence and bracketed without lookup, INCLUDING NAMES INVENTED ON THE SPOT, not only tag names that happen to exist. Recommends running find_mentioned_but_missing after any batch of page creation.
+
+4. Lifecycle States now documents that archived pages are intentionally orphaned, that find_orphan_pages skips them, and that they remain link SOURCES — so a page whose only referrer is archived is a genuine orphan. That asymmetry was implemented in the tool this session but recorded nowhere in the schema.
+
+Also added a forward reference from Provenance Markers to Claim Dependencies, since a reader meeting ^[generated: ...] had no signal that it could carry a rests-on: clause.
+
+STILL NOT ACTIONED, and not actionable from here: CLAUDE.md's LINT operation has no rests-on: claim: search item, so the cascade check has documentation but no operational hook in the checklist. Flagged in a previous entry; unchanged.
+
+CARRIED FORWARD:
+- TEN DEAD LINKS awaiting triage, deferred by instruction.
+- Run find_mentioned_but_missing after every batch of page creation.
+- CLAUDE.md LINT could gain a "rests-on: claim:" search item, mirroring the absence: one.
+- ACQUISITION PRIORITY: vacant.
+- wiki/conversations/ never used despite QUERY step 6.
+
