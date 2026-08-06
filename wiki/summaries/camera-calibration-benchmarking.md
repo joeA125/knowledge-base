@@ -7,21 +7,23 @@ confidence: 0.95
 provenance:
   extracted: 90%
   inferred: 8%
+  generated: 0%
+  imported: 0%
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-07-07
-updated: 2026-07-07
+updated: 2026-07-27
 ---
 
 # ProCC: A Universal Protocol to Benchmark Camera Calibration for Sports
 
-**Authors:** Floriane Magera, Thomas Hoyoux, Olivier Barnich, Marc Van Droogenbroeck
+**Authors:** [[floriane-magera]], Thomas Hoyoux, Olivier Barnich, [[marc-van-droogenbroeck]]
 **Affiliations:** EVS Broadcast Equipment, University of Liège
 **Published:** 2025 (CVPR)
 
 ## Key Contribution
 
-Introduces ProCC, a model-agnostic benchmarking protocol for [[camera-calibration]] in sports, based on two principles: (1) the protocol should be agnostic to the camera model, and (2) evaluation should use reprojection of accurately known 3D objects rather than [[homography]]-based IoU metrics. Introduces the JaC (Jaccard index for Camera Calibration) metric and demonstrates that richer camera models incorporating [[radial-distortion]] significantly outperform homography-based approaches.
+Introduces ProCC, a model-agnostic benchmarking protocol for [[camera-calibration]] in sports, based on two principles: (1) the protocol should be agnostic to the camera model, and (2) evaluation should use reprojection of accurately known 3D objects rather than [[homography]]-based IoU metrics. Introduces the [[jac-metric|JaC]] (Jaccard index for Camera Calibration) metric and demonstrates that richer camera models incorporating [[radial-distortion]] significantly outperform homography-based approaches.
 
 ## Core Argument: Field Registration ≠ Camera Calibration
 
@@ -42,7 +44,7 @@ For each visible field element $L$, project its 3D model into the image using es
 
 $$\text{JaC}_\tau = \frac{\text{TP}_\tau}{\text{TP}_\tau + \text{FN} + \text{FP}}$$
 
-where FP includes hallucinated elements and wrongly projected elements. This bridges camera calibration evaluation with object detection scoring.
+where FP includes hallucinated elements and wrongly projected elements. This bridges camera calibration evaluation with object detection scoring. See [[jac-metric]].
 
 ## Key Results
 
@@ -68,12 +70,15 @@ Disagreement between homography and pinhole+distortion models exceeds **2.5 metr
 
 ## Relation to Other Vault Papers
 
-This paper directly critiques the evaluation methodology used by [[tvcalib-camera-calibration-football|TVCalib]] (Theiner & Ewerth, 2023) — who are cited as having "showcased some discrepancies" between ProCC and WC14 evaluation. The [[soccernet-v2-action-spotting|CCBV-SN]] approach (Cioppa et al., 2021) is by the same University of Liège group (Magera, Barnich, Van Droogenbroeck are co-authors on both papers). The [[sports-camera-calibration-synthetic-data|Chen & Little (2019)]] results on WC14 (IoU$_{part}$ 94.5) are shown in the consolidated leaderboard.
+This paper directly critiques the evaluation methodology used by [[tvcalib-camera-calibration-football|TVCalib]] (Theiner & Ewerth, 2023) — cited as having "showcased some discrepancies" between ProCC and WC14 evaluation. The [[soccernet-v2-action-spotting|CCBV-SN]] approach (Cioppa et al., 2021) is by the same University of Liège group; [[floriane-magera|Magera]], Barnich and [[marc-van-droogenbroeck|Van Droogenbroeck]] are co-authors on both. The [[sports-camera-calibration-synthetic-data|Chen & Little (2019)]] results on WC14 (IoU$_{part}$ 94.5) appear in the consolidated leaderboard.
+
+**A benchmarking paper, in a vault where almost nothing benchmarks.** Worth noting against `no-cross-framework-benchmarking`, declared on [[action-valuation-frameworks-compared]]: that claim concerns the *football valuation* literature, and the computer-vision side of this vault behaves entirely differently. ProCC exists precisely to make cross-method comparison possible, and consolidates a leaderboard across groups. The valuation literature has no equivalent.
+
+That contrast is worth holding onto — it shows the benchmarking gap is a property of one research community rather than of sports analytics as a field.
 
 ## See Also
 
-- [[camera-calibration]]
-- [[radial-distortion]]
-- [[homography]]
-- [[game-state-reconstruction]]
-- [[tvcalib-camera-calibration-football|TVCalib]]
+- [[camera-calibration]] · [[jac-metric]] · [[radial-distortion]] · [[homography]] · [[projective-geometry]]
+- [[game-state-reconstruction]] · [[multi-object-tracking]] · [[object-detection]]
+- [[floriane-magera]] · [[marc-van-droogenbroeck]]
+- [[tvcalib-camera-calibration-football|TVCalib]] · [[sports-camera-calibration-synthetic-data|Chen & Little]] · [[soccernet-v2-action-spotting|CCBV-SN]]

@@ -74,7 +74,7 @@ A catalog of all wiki pages, organised by type.
 - [[message-passing]] — The pattern shared by graphical-model inference and GNNs
 - [[convolution]] · [[dilated-convolution]] · [[fully-convolutional-network]] · [[feature-pyramid-network]]
 - [[residual-connections]] · [[pre-activation-resnet]] · [[batch-normalization]] · [[layer-normalization]]
-- [[dropout]] · [[dropout-for-rnns]] · [[recurrent-dropout]] · [[label-smoothing]] · [[regularization]]
+- [[dropout]] · [[dropout-for-rnns]] · [[label-smoothing]] · [[regularization]]
 - [[adam-optimizer]] · [[teacher-forcing]] · [[multi-task-learning]] · [[constrained-decoding]]
 - [[representation-learning]] — Learning what to feed a model rather than hand-specifying it
 - [[theory-based-modelling]] — Encoding domain structure as a model, often to feed a learned one
@@ -107,6 +107,7 @@ A catalog of all wiki pages, organised by type.
 ### Machine Learning Practice and Evaluation
 - [[probabilistic-classification]] — Predicting probabilities rather than labels, and why it matters here
 - [[probability-calibration]] · [[uncertainty-quantification]] · [[class-imbalance-evaluation]]
+- [[capability-profiling]] — Reporting a capability vector rather than a composite score
 - [[rare-event-proxy-targets]] — Predicting a frequent correlate when the target is too rare
 - [[sample-weighting]] · [[selection-bias]] · [[positive-unlabeled-learning]]
 - [[gradient-boosting]] · [[random-forest]] · [[shap]] · [[interpretability]]
@@ -145,20 +146,26 @@ A catalog of all wiki pages, organised by type.
 Open investigations — a question, what can be settled from held sources, and what would settle the rest. Grouped by why the question exists, which determines who could answer it.
 
 ### Component-level benchmarking gaps
-- [[pitch-control-traditions-compared]] — **Do the two pitch-control traditions agree?** They answer different questions (pass reception vs spatial dominance) and are unequally validated — PPCF against 5,471 held-out pass receivers, the Gaussian model against nothing directly.
+- [[pitch-control-traditions-compared]] — **Do the two pitch-control traditions agree?** They answer different questions (pass reception vs spatial dominance) and are unequally validated.
 - [[shot-value-formulations-compared]] — **Are the four shot-value formulations interchangeable?** One of six pairwise comparisons exists.
-- [[tracking-error-propagation]] — **Does tracking error propagate into value estimates?** Partially answered for *incomplete observation*; positional error and identity switches remain open.
+- [[tracking-error-propagation]] — **Does tracking error propagate into value estimates?** Partially answered for *incomplete observation*.
 
 ### Untested assumptions in held work
 - [[free-parameters-load-bearing]] — **Are the free parameters load-bearing?** $\gamma$, $\epsilon$, $k$, 4 s remain asserted; $C$ superseded by [[gvdep]].
-- [[vaep-conceding-classifier]] — **Is VAEP's conceding classifier broken, or just unthresholdable?** F1 = 0.000 is near-guaranteed at a 0.23% base rate; Spearman et al. demonstrate the threshold mechanism directly.
+- [[vaep-conceding-classifier]] — **Is VAEP's conceding classifier broken, or just unthresholdable?**
 
 ### Claims this vault generated
 - [[within-season-variation-noise-or-signal]] — **Is within-season variation noise or signal?** Shown here to be the *same quantity* under two names.
-- [[observed-versus-optimal-decisions]] — **Do players decide suboptimally, or do the models only think so?** Three ways the gap could be artefactual, none tested.
+- [[observed-versus-optimal-decisions]] — **Do players decide suboptimally, or do the models only think so?**
 - [[handcrafted-features-rule]] — **Is the handcrafted-features rule right?** A reconciliation invented here, never tested against a fourth case.
 
 ## Conversations
+
+## Archived
+
+Pages kept for history, superseded by a canonical page. **Intentionally without inbound links** — they are expected to appear as orphans.
+
+- [[recurrent-dropout]] — merged into [[dropout-for-rnns]], 2026-07-07
 
 ## Source Summaries
 
@@ -177,7 +184,7 @@ Open investigations — a question, what can be settled from held sources, and w
 - [[autogressive-language-model-retrieval]] — "Shall We Pretrain Autoregressive LMs with Retrieval?" (Wang et al., 2023)
 - [[autogressive-language-model-retrieval-iterative]] — "ITER-RETGEN" (Shao et al., 2023)
 - [[augmented-llms-parametric-guiding]] — "PKG: Parametric Knowledge Guiding" (Luo et al., 2023)
-- [[agi-definition]] — "A Definition of AGI" (Hendrycks et al., 2025)
+- [[agi-definition]] — "A Definition of AGI" (Hendrycks et al., 2025) — the CHC-grounded capability profile
 - [[llm-factcheck-consistency-certainty]] — "PCC: Fact-Checking via Probabilistic Certainty and Consistency" (Wang et al., 2026)
 - [[soccernet-game-state-reconstruction]] — "SoccerNet Game State Reconstruction" (Somers et al., 2024)
 - [[soccernet-game-state-reconstruction-improvement]] — "From Broadcast to Minimap: SOTA GSR" (Golovkin et al., 2024)

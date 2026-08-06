@@ -1,76 +1,83 @@
 ---
 title: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding — Source Summary"
 type: source_summary
-tags: [deep-learning, transformer, language-modelling, transfer-learning, pre-training, masked-language-model, representation-learning]
+tags: [deep-learning, transformer, language-modelling, transfer-learning, pre-training, masked-language-model, representation-learning, weak-supervision]
 sources: [raw/papers/bert-bidirectional-transformers.md]
 confidence: 0.95
 provenance:
   extracted: 90%
   inferred: 8%
+  generated: 0%
+  imported: 0%
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-07-07
-updated: 2026-07-07
+updated: 2026-07-27
 ---
 
 # BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
 
-**Authors:** Jacob Devlin, Ming-Wei Chang, Kenton Lee, Kristina Toutanova
-**Affiliation:** Google AI Language
-**Published:** 2019 (NAACL 2019); arXiv:1810.04805
+**Authors:** [[jacob-devlin]], Ming-Wei Chang, Kenton Lee, Kristina Toutanova
+**Affiliation:** Google AI Language ([[google-research]])
+**Published:** 2019 (NAACL); arXiv:1810.04805
 
 ## Key Contribution
 
-Introduces BERT (Bidirectional Encoder Representations from Transformers), which pre-trains deep bidirectional representations using a [[masked-language-model]] (MLM) objective. Unlike [[language-understanding-gpt|GPT's]] left-to-right pre-training, BERT jointly conditions on both left and right context in all layers. Fine-tuning with one additional output layer achieves SOTA on 11 NLP benchmarks.
+Pre-trains deep bidirectional representations using a [[masked-language-model]] objective. Unlike [[language-understanding-gpt|GPT's]] left-to-right pre-training, BERT jointly conditions on left *and* right context in all layers. Fine-tuning with one additional output layer achieves SOTA on 11 NLP benchmarks.
 
 ## Architecture
 
-BERT uses a multi-layer bidirectional [[transformer]] encoder (not decoder):
-- **BERT$_\text{BASE}$:** L=12, H=768, A=12, 110M params (same size as GPT for comparison)
+A multi-layer bidirectional [[transformer]] **encoder**, not decoder:
+
+- **BERT$_\text{BASE}$:** L=12, H=768, A=12, 110M params — deliberately matched to GPT for comparison
 - **BERT$_\text{LARGE}$:** L=24, H=1024, A=16, 340M params
 
-Input representation: WordPiece embeddings (30K vocab) + segment embeddings (sentence A/B) + learned [[positional-encoding|position embeddings]], summed. Special tokens: `[CLS]` for classification output, `[SEP]` for sentence separation.
+Input: WordPiece embeddings (30K vocab) + segment embeddings + learned [[positional-encoding|position embeddings]], summed. See [[tokenization]]. Special tokens `[CLS]` for classification output and `[SEP]` for separation.
 
 ## Pre-training Tasks
 
-### Task 1: Masked Language Model (MLM)
-Randomly masks 15% of input tokens. For masked positions: 80% replaced with `[MASK]`, 10% with a random token, 10% unchanged. The model predicts the original token from bidirectional context. This solves the fundamental problem that standard LMs can only be trained left-to-right or right-to-left, since bidirectional conditioning would let each word "see itself."
+### Masked Language Model
 
-### Task 2: Next Sentence Prediction (NSP)
-Binary classification: given sentences A and B, predict whether B actually follows A (50%) or is random (50%). Trained using the `[CLS]` representation. Helps with QA and NLI tasks.
+Randomly masks 15% of tokens; of those, 80% become `[MASK]`, 10% a random token, 10% unchanged. The model predicts the original from bidirectional context.
 
-Pre-training data: BooksCorpus (800M words) + English Wikipedia (2,500M words). Trained for 1M steps, batch size 256 sequences × 512 tokens = 128K tokens/batch. 4 days on 16/64 TPU chips.
+This solves a real obstacle: standard LMs must run one direction, since bidirectional conditioning would let each word **see itself**. Masking removes the shortcut and forces the representation to be built from context.
+
+That is the same mechanism the vault records elsewhere as **a representation learns what it is not given for free** — [[scoutgpt]] masks position tokens and gets better [[player-embedding|player embeddings]]; [[variational-lossy-autoencoder|VLAE]] restricts its decoder to force global structure into the latent. See [[representation-learning]].
+
+The 80/10/10 split is itself a mitigation: `[MASK]` never appears at fine-tuning time, so training exclusively on it would create a train/test mismatch — a mild form of the [[teacher-forcing|exposure-bias]] problem.
+
+### Next Sentence Prediction
+
+Binary: does sentence B follow A (50%) or is it random? Trained through the `[CLS]` representation. Helps QA and NLI.
+
+Pre-training data: BooksCorpus (800M words) + English Wikipedia (2,500M). 1M steps, 128K tokens per batch, 4 days on 16–64 TPU chips.
 
 ## Key Results
 
-### GLUE Benchmark
-BERT$_\text{LARGE}$ achieves **80.5** overall (vs GPT's 72.8, prior SOTA 74.0). On MNLI: 86.7% (vs GPT's 82.1%).
-
-### SQuAD v1.1
-BERT$_\text{LARGE}$ ensemble: **93.2** F1 (+1.5 over previous best). Single model with TriviaQA: **91.8** F1.
-
-### SQuAD v2.0 (with unanswerable questions)
-BERT$_\text{LARGE}$: **83.1** F1 (+5.1 over previous best).
-
-### SWAG (commonsense inference)
-BERT$_\text{LARGE}$: **86.3%** (vs GPT's 78.0%, human expert 85.0%).
+| Benchmark | BERT$_\text{LARGE}$ | GPT | Prior SOTA |
+|---|---|---|---|
+| GLUE (overall) | **80.5** | 72.8 | 74.0 |
+| MNLI | **86.7%** | 82.1% | — |
+| SQuAD v1.1 (F1) | **93.2** | — | 91.7 |
+| SQuAD v2.0 (F1) | **83.1** | — | 78.0 |
+| SWAG | **86.3%** | 78.0% | human expert 85.0% |
 
 ## Ablation Findings
 
-1. **Bidirectionality is crucial:** Removing MLM (LTR only, like GPT) drops MRPC by 9.2 points and SQuAD F1 by 10.7 points.
-2. **NSP matters:** Removing NSP hurts QNLI (-3.5%) and MNLI (-0.5%).
-3. **Model size:** Strict improvements from 3→6→12→24 layers, even on tiny datasets (3.6K examples), confirming that [[scaling-laws|scale benefits transfer to small tasks]].
-4. **Feature-based approach:** Concatenating the top 4 hidden layers as fixed features achieves 96.1 F1 on CoNLL NER — only 0.3 behind full fine-tuning.
+1. **Bidirectionality is crucial.** Removing MLM (left-to-right only, like GPT) costs 9.2 points on MRPC and 10.7 F1 on SQuAD.
+2. **NSP matters**, though less: QNLI −3.5%, MNLI −0.5%.
+3. **Model size helps monotonically**, 3→6→12→24 layers, **even on tiny datasets** (3.6K examples). Notable because it runs against the sample-size logic the vault records elsewhere — [[gradient-boosting|tree ensembles]] and [[xsot|small MLPs]] both degrade with added capacity on small data. The difference is that BERT's capacity is *pre-trained elsewhere* and only transferred, so the small dataset never has to constrain it. See [[transfer-learning]].
+4. **Feature-based use is nearly as good.** Concatenating the top four hidden layers as fixed features reaches 96.1 F1 on CoNLL NER, 0.3 behind full fine-tuning.
 
 ## Impact
 
-BERT demonstrated that bidirectional pre-training is superior to unidirectional for understanding tasks, complementing GPT's generative strengths. It became the dominant paradigm for NLU (2019–2021), spawning variants (RoBERTa, ALBERT, DeBERTa, DistilBERT) and establishing the [[pre-train-then-fine-tune]] paradigm alongside GPT.
+BERT established bidirectional pre-training as superior for *understanding* tasks, complementing GPT's generative strengths — and the two together fixed [[pre-train-then-fine-tune]] as the dominant paradigm. Spawned RoBERTa, ALBERT, DeBERTa and DistilBERT.
+
+The division has held: encoder-only models for discriminative work, decoder-only for generative. The vault's football-as-language line ([[large-event-model]], [[scoutgpt]]) follows the *decoder* branch, because its questions are generative — simulate what happens next — rather than discriminative.
 
 ## See Also
 
-- [[masked-language-model]]
-- [[pre-train-then-fine-tune]]
-- [[transformer]]
-- [[language-understanding-gpt|GPT]]
-- [[scaling-laws]]
-- [[rlhf]]
+- [[bert]] · [[masked-language-model]] · [[pre-train-then-fine-tune]] · [[transformer]] · [[tokenization]]
+- [[representation-learning]] · [[transfer-learning]] · [[teacher-forcing]] · [[player-embedding]] · [[scaling-laws]]
+- [[jacob-devlin]] · [[google-research]]
+- [[language-understanding-gpt|GPT]] · [[scaling-neural-language-models|Scaling Laws]] · [[training-lm-follow-instructions-with-human-feedback|InstructGPT]]

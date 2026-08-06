@@ -46,7 +46,7 @@ Computed across 38 matches, split by whether the pass originated from a teammate
 
 **Forwards over-receive by 36% and barely intercept.** Defenders lead interception. The total column conceals this almost completely — defenders and midfielders look near-identical at 1.06 and 1.03, and the split shows they are doing entirely different things.
 
-That is the useful methodological point: **a composite efficiency is close to uninformative; the decomposition is where the signal is.**
+That is the useful methodological point: **a composite efficiency is close to uninformative; the decomposition is where the signal is.** The same lesson appears in AI evaluation, where a doubled aggregate score concealed a capability that had not improved at all — see [[capability-profiling]].
 
 ## The Confound the Authors Name
 
@@ -80,7 +80,7 @@ The pattern generalises to any action with a modelled success probability: [[sym
 
 ## See Also
 
-- [[pass-probability-model]] · [[poisson-binomial]] · [[expected-goals]] · [[action-valuation]]
+- [[pass-probability-model]] · [[poisson-binomial]] · [[expected-goals]] · [[capability-profiling]] · [[action-valuation]]
 - [[intent-vs-outcome-valuation]] · [[policy-modelling]] · [[duel-skill-rating]] · [[symmetrical-duel-valuation]]
 - [[predictive-validity]] · [[split-half-reliability]] · [[off-ball-value]] · [[recruitment]] · [[william-spearman]]
 - [[physics-based-pass-probabilities|Source Summary]]

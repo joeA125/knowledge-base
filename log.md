@@ -2358,3 +2358,131 @@ CARRIED FORWARD:
 - wiki/conversations/ never used despite QUERY step 6.
 - Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
 
+## [2026-08-04 14:15] lint | Orphan pages resolved — nine down to two false positives
+Orphan pages addressed. Nine down to two, and both remaining are FALSE POSITIVES of two different kinds.
+
+VERIFIED BY RE-RUNNING find_orphan_pages AFTER THE WORK — 9 -> 3 -> 2. The intermediate check caught a page I had just created and not linked, which would otherwise have shipped as a new orphan.
+
+Pages updated: 5, created: 1 (+ index)
+
+=== THE SIX AUTHOR ORPHANS ===
+
+All six were lead or senior authors whose own summary pages did not link them. One convention — summaries link their authors — applied retrospectively to the CV and NLP material, where it had never been applied. The football summaries have followed it throughout, which is why no football entity was ever orphaned.
+
+- camera-calibration-benchmarking (ProCC) -> floriane-magera, marc-van-droogenbroeck
+- sports-camera-calibration-synthetic-data -> jianhui-chen, james-little
+- language-understanding-gpt -> alec-radford
+- bert-bidirectional-transformers -> jacob-devlin
+
+Each summary was also brought up to current standard while open, since a full rewrite was required anyway. Substantive additions rather than link-plumbing:
+
+- ProCC — recorded that IT IS A BENCHMARKING PAPER IN A VAULT WHERE ALMOST NOTHING BENCHMARKS. The claim no-cross-framework-benchmarking concerns the FOOTBALL VALUATION literature; the computer-vision side behaves entirely differently, and ProCC exists precisely to make cross-method comparison possible, consolidating a leaderboard across groups. THE BENCHMARKING GAP IS A PROPERTY OF ONE RESEARCH COMMUNITY, NOT OF SPORTS ANALYTICS AS A FIELD. That materially qualifies a claim the vault has repeated for many entries.
+- Chen & Little — noted that HOG features match deep features on accuracy (94.5%) but are 116x less compact. The learned representation buys STORAGE AND RETRIEVAL SPEED, not accuracy, and the paper is honest about it. Also flagged that its headline IoU numbers were computed under the homography-based protocol ProCC argues is wrong.
+- GPT — the input-reshaping move (change the input, not the model) is the same manoeuvre as football-as-language. Its zero-shot-improves-during-pretraining finding is the same structural observation the vault records for event-prediction: A MODEL TRAINED TO FORECAST PRODUCES EVALUATIVE CAPABILITY AS A BY-PRODUCT.
+- BERT — masking as "a representation learns what it is not given for free", matching ScoutGPT's position-token masking and VLAE's receptive-field restriction. Also flagged that BERT's monotone benefit from scale ON TINY DATASETS runs against the vault's sample-size findings, and why: its capacity is pre-trained elsewhere and only transferred, so the small dataset never has to constrain it.
+
+=== THE SEVENTH: agi-definition ===
+
+A genuine orphan — a summary no concept cited. Fixed by EXTRACTION rather than by adding a link, which is the correct repair for this kind: created `capability-profiling` (evaluating by reporting a capability vector rather than a composite score).
+
+The concept earns its place through a connection the vault can make and the source cannot: DECOMPOSITION BEATING AGGREGATION recurs across five independent cases here — receiving-efficiency (defenders and midfielders identical on the composite, entirely different on the split), intent-vs-outcome-valuation, expected-possession-value (four quantities under one name), class-imbalance-evaluation (Brier vs F1), and now the AGI profile (a doubled aggregate concealing a capability at 0% in both generations).
+
+Stated generally: AN AGGREGATE IS ONLY A FAIR SUMMARY WHEN ITS COMPONENTS ARE SUBSTITUTES. Where they are not, the composite is the least informative number available and the one most likely to be quoted.
+
+That argues for capability profiling in the vault's OWN domain: almost every football framework ends by summing to a per-90 rating, and none reports a per-domain profile of what a player is good and bad at, despite the machinery existing.
+
+=== THE TWO REMAINING ARE FALSE POSITIVES, OF DIFFERENT KINDS ===
+
+- `overview` — a NAVIGATION page, linked from index.md which sits OUTSIDE wiki/ and is therefore not scanned. Known since the scoping fix.
+- `recurrent-dropout` — an ARCHIVED DUPLICATE, merged into dropout-for-rnns on 2026-07-07. Its own page states it "intentionally has no inbound links". CORRECTLY ORPHANED BY DESIGN.
+
+The second is a class the tool cannot currently distinguish. SUGGESTED FIX: find_orphan_pages should skip pages with `lifecycle: archived`, which is exactly what that state means. One condition, and it removes a permanent false positive that would otherwise be re-investigated every lint run.
+
+Meanwhile the index now has an "## Archived" section documenting the convention, so a reader encountering the orphan has an explanation without needing the log.
+
+=== A RECURRING ERROR, FOURTH OCCURRENCE ===
+
+While writing capability-profiling I introduced [[evaluation]] — a TAG NAME with no page, previously identified and deliberately not created. Caught and fixed within the same run.
+
+This is the fourth instance of the same error: space-creation, generative-model (density-estimation), receiving-efficiency (player-evaluation), and now capability-profiling (evaluation). THE PATTERN IS RELIABLE — a natural-sounding concept name gets wikilinked reflexively while writing prose, without checking a page exists. All four were tag names, which is the tell: tags and page names look identical in this vault's naming scheme.
+
+A cheap mitigation would be running find_mentioned_but_missing after any batch of page creation, rather than only at lint time.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Fernandez & Bornn (2018) "Wide Open Spaces".
+- find_orphan_pages should skip lifecycle: archived.
+- CLAUDE.md page template out of step with conventions.md provenance keys.
+- wiki/conversations/ never used despite QUERY step 6.
+- Duplicate log entry at [2026-07-27 10:06] still needs manual deletion.
+
+## [2026-08-06 07:10] lint | Orphan detection clean — zero orphans after archived skip
+Verification of the find_orphan_pages archived skip. No pages changed.
+
+RESULT: find_orphan_pages now returns []. Zero orphans, down from nine at the start of this session.
+
+SEQUENCE, worth recording because the intermediate states were misleading:
+1. First re-check after the code change: unchanged, still returned overview and recurrent-dropout. Diagnosed as a stale process rather than a code fault, on the precedent that every tool fix this session has needed a restart before taking effect.
+2. Second re-check: "Tool not found" — the expected transient during a server reload, and confirmation the restart was underway. Retried immediately, same error.
+3. Third re-check: [].
+
+The diagnosis was right and the code was fine throughout. Worth noting for future tool changes: AN UNCHANGED RESULT AFTER EDITING MCP SOURCE IS ALMOST ALWAYS A STALE PROCESS, NOT A BUG. Checking that first would have saved a round of speculative debugging — I offered three candidate code faults (regex anchoring against \r line endings, the 400-character frontmatter window, wrong loop) none of which were real.
+
+BOTH FALSE POSITIVES NOW CLEARED:
+- recurrent-dropout — resolved by the archived skip, as designed. Archived pages are no longer orphan CANDIDATES while remaining orphan SOURCES, so their outbound links still count. That asymmetry was the important part of the fix.
+- overview — ALSO cleared, which was not predicted. Two possible causes and they differ in durability: either an explicit exclusion was added alongside the archived skip, or something inside wiki/ now links it. If the latter, the link may be incidental rather than deliberate, and overview would silently return to the orphan list whenever that link is edited. Not resolved here; flagged.
+
+STATE: orphan detection is clean and meaningful for the first time. Every genuine orphan identified in this session has been fixed, and both false-positive classes are handled at the tool level rather than by remembering to discount them.
+
+REMAINING TOOL NOTE, unchanged: find_mentioned_but_missing should be run after any batch of page creation rather than only at lint time. Four dead links were introduced and self-caught this session, all of them tag names wikilinked reflexively while writing prose. The tool would catch them without relying on me noticing.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Fernandez & Bornn (2018) "Wide Open Spaces". Origin of the second pitch-control tradition; would make pitch-control-traditions-compared answerable from primary sources on both sides.
+- Confirm why overview cleared, per above.
+- CLAUDE.md page template out of step with conventions.md provenance keys (flagged, not fixed, per instruction).
+- wiki/conversations/ never used despite QUERY step 6 requiring it.
+
+## [2026-08-06 07:14] lint | Overview exclusion confirmed — orphan state fully explained
+Closing the item flagged in the previous entry. No pages changed.
+
+CONFIRMED BY THE HUMAN: `overview` clears because an explicit manual check for that page name was added to the orphan loop, alongside the archived skip. It is NOT an incidental inbound link from inside wiki/.
+
+That resolves the durability question raised last entry. The two possibilities differed materially — an incidental link could have disappeared on any future edit to whichever page carried it, silently returning overview to the orphan list. An explicit exclusion is stable.
+
+ONE RESIDUAL RISK, recorded rather than acted on: a hardcoded stem match breaks silently if the page is renamed. `overview` would rejoin the orphan list and present as a genuine regression rather than a stale exclusion. Not worth pre-empting for a single page — the alternative, a `type: navigation` frontmatter check, is more machinery than one page justifies — but worth recognising if it ever reappears.
+
+STATE: orphan detection is clean, both false-positive classes are handled at the tool level, and nothing about the current zero result is unexplained.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Fernandez & Bornn (2018) "Wide Open Spaces". Origin of the second pitch-control tradition; would make pitch-control-traditions-compared answerable from primary sources on both sides, and would either confirm or correct the validation asymmetry currently drawn from that tradition's descendants rather than its source.
+- find_mentioned_but_missing should be run after any batch of page creation rather than only at lint time. Four dead links were introduced and self-caught this session, all tag names wikilinked reflexively while writing prose.
+- CLAUDE.md page template out of step with conventions.md provenance keys (flagged, not fixed, per instruction).
+- wiki/conversations/ never used despite QUERY step 6 requiring it.
+
+## [2026-08-06 07:16] lint | Provenance mismatch was already resolved; claim-cascade hook missing
+Two carried-forward items closed, one corrected, one new gap identified. No pages changed.
+
+CLOSED — duplicate log entry at [2026-07-27 10:06]. Manually deleted by the human. REMOVED FROM CARRIED-FORWARD; future sessions should not re-raise it.
+
+CLOSED, AND I WAS WRONG TO CARRY IT — "CLAUDE.md page template out of step with conventions.md provenance keys". Re-read CLAUDE.md directly: the Page Template already specifies all five keys (extracted, inferred, generated, imported, ambiguous) in the same order as conventions.md. The example percentages differ between the two files but those are illustrative, not normative. THERE IS NO MISMATCH.
+
+I flagged this when the generated/imported keys were added to conventions.md and then carried it for many entries WITHOUT RE-READING THE FILE. Same error class as building the provenance-retrofit list from memory rather than by reading: INFERRING A FILE'S STATE INSTEAD OF CHECKING IT. Both instances produced work items that were already resolved. The cheap correction is to re-read before carrying an item forward, not merely before acting on it.
+
+NEW GAP IDENTIFIED while re-reading, and this one is real:
+
+THE CLAIM-DEPENDENCY MACHINERY HAS NO OPERATIONAL HOOK. conventions.md defines claim IDs and rests-on: with four dependency kinds (source:, claim:, imported:, absence:). CLAUDE.md's INGEST and LINT operations never reference them. The absence: check made it into both — INGEST step 5 and LINT step 4 — but rests-on: did not.
+
+This matters specifically for `claim:` dependencies, which are the only kind that CASCADES. When a premise is revised, its dependents need finding, and nothing currently triggers that search. The concrete instance: offensive-bias-four-causes rests on source:vaep-f1-zero, which is now under question following the thresholding argument — and that connection surfaced only because a manual read happened to notice it.
+
+SUGGESTED LINT ITEM, mirroring the absence one:
+  Use search_notes for "rests-on: claim:" to find claims that cascade. For each, confirm the claim it rests on has not been revised or superseded.
+
+The cascade set is currently small — four claims carry rests-on: claim: — so this is cheap and does not need automation at present scale.
+
+TWO TRIVIA, recorded not acted on: CLAUDE.md's "Three Laws" contains four items; and the type: field uses `source_summary` while the taxonomy's page-type tag is `summary`. Both usages have been applied correctly throughout, but they read as inconsistent to anyone checking one against the other.
+
+CARRIED FORWARD:
+- ACQUISITION PRIORITY 1: Fernandez & Bornn (2018) "Wide Open Spaces". Origin of the second pitch-control tradition; would make pitch-control-traditions-compared answerable from primary sources on both sides, and would either confirm or correct the validation asymmetry currently drawn from that tradition's descendants rather than its source.
+- Consider a LINT hook for rests-on: claim:, per above.
+- find_mentioned_but_missing should be run after any batch of page creation rather than only at lint time.
+- wiki/conversations/ never used despite QUERY step 6 requiring it.
+
