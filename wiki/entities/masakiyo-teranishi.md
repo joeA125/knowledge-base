@@ -1,16 +1,18 @@
 ---
 title: "Masakiyo Teranishi"
 type: entity
-tags: [person, researcher, university, sports-analytics, off-ball, space-creation, trajectory-prediction, counterfactual]
-sources: [raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/football_defence_evaluation.md]
+tags: [person, researcher, university, sports-analytics, off-ball, space-creation, trajectory-prediction, counterfactual, construct-validity]
+sources: [raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/football_defence_evaluation.md, raw/papers/action_valuation_football_agentic_reinforcement_learning.md]
 confidence: 0.85
 provenance:
-  extracted: 70%
+  extracted: 68%
   inferred: 25%
-  ambiguous: 5%
+  generated: 4%
+  imported: 0%
+  ambiguous: 3%
 lifecycle: reviewed
 created: 2026-07-27
-updated: 2026-07-27
+updated: 2026-08-07
 ---
 
 # Masakiyo Teranishi
@@ -41,10 +43,25 @@ Two portable ideas:
 
 His role on VDEP was data curation and software rather than method, so the two held sources show him in different capacities.
 
+## C-OBSO Has Now Been Externally Checked
+
+> **Added 2026-08-07** on ingest of [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al.]] — the first time any of this author's work has been compared against a metric he did not build.
+
+Nakahara et al. correlate their [[multi-agent-reinforcement-learning|RL]] Q-values against C-OBSO on **the same club, season, [[data-stadium|provider]] and essentially the same 14 players**: $\rho = 0.182$, no relationship.
+
+That is not a refutation, and it should not be read as one. Two points in C-OBSO's favour:
+
+- **The disagreement is predictable from the construction.** C-OBSO is defined only on **shot-ending sequences** (412 of them), credits improvement in a *shooter's* chance, and clips negatives to zero. Nakahara et al. evaluate every attacking-third possession regardless of outcome. These are different populations of moments, so different rankings are expected.
+- **C-OBSO has the stronger external validation.** Its 0.45 correlation with annual salary is a criterion **outside** the modelling pipeline; Nakahara et al. validate only against other metrics. See [[construct-validity]], where that distinction is set out.
+
+What the comparison does establish is that **"off-ball contribution" is not one construct**, and that C-OBSO measures a narrower thing than its name suggests — space creation *for a shooter*, which is forward-weighted. Teranishi's own results are consistent with that: C-OBSO tracks expert ratings for the season MVP and for nobody else.
+
+The obvious next step is his to take. The same dataset would support a correlation matrix over C-OBSO, the Q-values, [[obso|OBSO]] and [[space-occupation-gain|SOG]], which would say whether off-ball value has one factor or several. Nobody has run it.
+
 ## See Also
 
-- [[c-obso]] · [[obso]] · [[trajectory-prediction]] · [[counterfactual-baseline]]
-- [[off-ball-value]] · [[defensive-valuation]] · [[vdep]]
-- [[keisuke-fujii]] · [[kazushi-tsutsui]] · [[kazuya-takeda]] · [[kosuke-toda]]
-- [[nagoya-university]] · [[william-spearman]]
-- [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]] · [[football-defence-evaluation-vdep|VDEP Summary]]
+- [[c-obso]] · [[obso]] · [[trajectory-prediction]] · [[counterfactual-baseline]] · [[space-creation]] · [[space-occupation-gain]]
+- [[off-ball-value]] · [[defensive-valuation]] · [[vdep]] · [[construct-validity]] · [[multi-agent-reinforcement-learning]]
+- [[keisuke-fujii]] · [[kazushi-tsutsui]] · [[kazuya-takeda]] · [[kosuke-toda]] · [[hiroshi-nakahara]]
+- [[nagoya-university]] · [[data-stadium]] · [[william-spearman]]
+- [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]] · [[football-defence-evaluation-vdep|VDEP Summary]] · [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al. Summary]]

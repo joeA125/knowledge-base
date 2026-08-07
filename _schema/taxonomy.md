@@ -31,6 +31,7 @@ here first with a brief description.
 - `game-theory` — strategic interaction between agents; strategy profiles, payoffs, equilibrium
 - `expected-versus-actual` — evaluating an agent by comparing observed counts against a model's expected counts
 - `multi-task-learning` — jointly optimising several objectives so they share representation
+- `auxiliary-loss` — a secondary training objective added to shape or regularise the primary one, not itself the quantity of interest
 - `constrained-decoding` — restricting generation to outputs satisfying validity rules
 - `teacher-forcing` — training autoregressive models on ground-truth history, and the exposure bias it creates
 - `regression` — predicting continuous-valued targets rather than discrete classes
@@ -72,6 +73,7 @@ here first with a brief description.
 - `point-process` — models of discrete event occurrences in time/space via intensity or conditional density (Poisson, Hawkes, NTPP)
 - `path-signature` — iterated-integral feature maps for paths, from rough path theory
 - `dynamic-programming` — solving problems via recursive decomposition and value propagation (value iteration, Bellman equations)
+- `temporal-difference` — bootstrapped value learning that updates an estimate toward a successor estimate rather than a returned outcome (TD, SARSA, Q-learning)
 - `discounting` — geometric decay applied to rewards by temporal distance; discount factors and temporal credit assignment
 - `spatiotemporal` — joint modelling of variation across both space and time
 - `probability-surface` — predicting a value at every location on a field or image rather than at observed points
@@ -118,6 +120,9 @@ here first with a brief description.
 - `chain-of-thought` — prompting LLMs to produce intermediate reasoning steps
 - `instruction-tuning` — fine-tuning LMs on instruction-formatted data for better task generalisation
 - `reinforcement-learning` — learning policies via reward signals (includes RLHF for LLM alignment)
+- `multi-agent` — several interacting decision-makers modelled as separate agents rather than folded into one
+- `action-space` — the set of choices available to an agent, and how a continuous or open-ended one is discretised
+- `simulator` — an environment model used to generate synthetic interaction data or to enable forward-approach learning
 - `imitation-learning` — learning a policy by mimicking observed behaviour rather than optimising a reward
 - `ai-agent` — autonomous systems that plan, use tools, and act iteratively toward goals
 - `tool-use` — LLM function calling and interaction with external tools/APIs
@@ -125,6 +130,7 @@ here first with a brief description.
 - `evaluation` — benchmarking, testing, and measuring AI system capabilities
 - `reliability` — consistency of a measurement across repeated or split samples (split-half, test-retest)
 - `predictive-validity` — whether a metric forecasts future outcomes it should, used where ground truth is unavailable
+- `construct-validity` — whether a metric measures the construct it claims to, judged by its pattern of agreement with metrics of the same construct and divergence from metrics of others
 - `selection-bias` — systematic non-representativeness of a sample relative to the population it is meant to describe
 - `positive-unlabeled-learning` — learning where only positive and unlabelled instances are observed (presence-only data)
 - `interpretability` — the degree to which a model's outputs can be explained in human terms
@@ -164,6 +170,7 @@ here first with a brief description.
 - `research-institute` — non-university research laboratory or institute
 - `data-provider` — vendor supplying event or tracking data to clubs and researchers
 - `sports-club` — a professional sporting club or its corporate arm
+- `benchmark-environment` — a shared dataset, simulator, or task suite used as common ground for method comparison
 - `ai-research` — entity or work focused on AI research
 - `google` — Google and its divisions
 - `microsoft` — Microsoft and its divisions

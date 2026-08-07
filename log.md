@@ -2682,3 +2682,95 @@ CARRIED FORWARD:
 - ACQUISITION PRIORITY: vacant.
 - wiki/conversations/ never used despite QUERY step 6.
 
+## [2026-08-07 07:27] ingest | Nakahara et al. multi-agent deep RL ingested — first true RL framework held; first off-ball metric head-to-head; two vault entries corrected
+Source: raw/papers/action_valuation_football_agentic_reinforcement_learning.md — Hiroshi Nakahara, Kazushi Tsutsui, Kazuya Takeda & Keisuke Fujii (Nagoya University / RIKEN AIP / JST PRESTO), "Action Valuation of On- and Off-Ball Soccer Players Based on Multi-Agent Deep Reinforcement Learning", arXiv:2305.17886.
+
+CORRECTIONS TO PRIOR VAULT ENTRIES
+1. reinforcement-learning listed "Nakahara et al. (2023), arXiv:2305.17886" under "Cited, Not Held". Now HELD. Corrected.
+2. keisuke-fujii listed the same paper under "Cited, Not Held" and stated "Senior author on six held sources". Now SEVEN. Corrected.
+3. reinforcement-learning asserted the forward approach is closed off in football because there is "no simulator faithful enough to interact with". WEAKENED: GFootball exists and this paper borrows its action vocabulary while discarding its dynamics. Restated as a FIDELITY/TRANSFER problem, not an availability one.
+4. action-valuation carried "almost none of this work is reinforcement learning". Qualified — this source minimises a Bellman residual directly, so the claim now holds of the other frameworks but not universally.
+5. counterfactual-individuates (declared on counterfactual-baseline) WEAKENED — this source individuates by agent decomposition rather than by intervention, a second non-counterfactual individuator alongside SGG.
+
+PAGES CREATED (8)
+- wiki/summaries/action-valuation-multi-agent-reinforcement-learning.md
+- wiki/concepts/action-supervision.md — auxiliary imitation loss on softmax-Q; the lambda1 trade-off
+- wiki/concepts/multi-agent-reinforcement-learning.md — per-player agents vs team-as-one-agent; independence assumption; forward/inverse
+- wiki/concepts/temporal-difference-learning.md — SARSA, on-policy targets, bootstrapping vs differencing a supervised model
+- wiki/concepts/action-space-design.md — what counts as an action; fixes which counterfactuals are posable
+- wiki/concepts/construct-validity.md — validation by pattern of agreement/divergence
+- wiki/entities/hiroshi-nakahara.md
+- wiki/entities/google-research-football.md
+
+PAGES UPDATED (7)
+- reinforcement-learning — corrections 1/3/4; new "The One Framework That Actually Does RL" section; three-way gamma comparison; RL Proper list expanded
+- keisuke-fujii — correction 2; seventh source; "the outlier that fits neither signature"; the group's own metrics disagree
+- off-ball-value — SIXTH mechanism added (learned Q, the only route needing no baseline); the rho=0.182 disagreement; two absence claims re-checked and both still hold
+- c-obso — first external comparison this metric has received; construction explains the disagreement (shot-ending sequences only)
+- action-valuation — FIFTH style (RL-based); action-space added as a design axis; credit assignment gains a flat/terminal position; new "The Metrics Do Not Agree" section
+- free-parameters-load-bearing — SIX new parameters (8 -> 14); a FIFTH KIND introduced (prior-strength); the lambda1 sweep proposed as the most informative test on the page
+- observed-versus-optimal-decisions — FOURTH objection added, and the worst: the gap is tunable
+- counterfactual-simulation — THIRD counterfactual strength added (value-function readout); trade stated as compounding error vs frozen world
+
+NEW CLAIMS DECLARED
+- optimality-gap-is-tunable (action-supervision; also on reinforcement-learning, free-parameters-load-bearing, observed-versus-optimal-decisions) — rests-on: source:nakahara-lambda-tradeoff
+- action-space-sets-the-question (action-space-design; also on observed-versus-optimal-decisions) — rests-on: source:fernandez-pass-surface, source:yeung-four-profiles, source:nakahara-14-actions
+- discriminant-claims-need-a-convergent-anchor (construct-validity) — rests-on: source:nakahara-negative-goal-correlation, source:nakahara-no-ground-truth
+
+ABSENCE CLAIMS RE-CHECKED (all still hold)
+- no-held-source-compares-sgg-and-cobso — HOLDS. This source compares Q-values against C-OBSO and OBSO but not SGG.
+- no-reliability-for-off-ball-metrics — HOLDS. Six mechanisms, zero reliability estimates. Noted that reliability is now the cheapest way to disambiguate the rho=0.182 result.
+- no-held-source-compares-ppcf-and-gaussian — unaffected; this source uses no pitch-control model.
+- no-held-source-propagates-tracking-error — unaffected.
+- no-source-reports-both (reliability + predictive validity) — HOLDS; this source reports neither.
+- no-sensitivity-analysis-on-horizon-parameters — HOLDS. The lambda1 ablation is a two-point comparison on a prior-strength parameter, not a horizon.
+
+CASCADING CLAIMS CHECKED (rests-on:)
+- counterfactual-individuates — WEAKENED, see correction 5. Recorded on off-ball-value and c-obso.
+- offensive-bias-four-causes — checked, not revised. This source's ranking is topped by two zero-goal centre-backs, consistent with cause 1 (definitional), but no held source computes VAEP and Q on the same players, so it is a demonstration rather than a test.
+- reliability-volatility-identity, handcrafted-features-rule, physical-units-admit-priors — unaffected by this source.
+
+HEADLINE FINDING
+C-OBSO and this paper's Q-values correlate at rho = 0.182 (p > 0.05) on the same club, season, provider and essentially the same 14 players. Two Fujii-group metrics, both presented as measuring off-ball contribution, are statistically unrelated. This is the vault's FIRST head-to-head between two off-ball metrics. Neither reports reliability, so "different constructs" and "one is unstable" cannot be separated — which makes a reliability estimate the cheapest next measurement in this whole area.
+
+TAXONOMY: 7 tags added — multi-agent, action-space, simulator, temporal-difference, auxiliary-loss, construct-validity, benchmark-environment.
+
+ACQUISITION TARGET: Fujii, Tsutsui, Scott, Nakahara, Takeishi & Kawahara (2023), "Adaptive action supervision in RL from real-world multi-agent demonstrations", arXiv:2305.13030 — the dedicated treatment of action supervision, which would presumably settle the open lambda1 question.
+
+
+## [2026-08-07 07:55] writeback | Nakahara ingest completed — synthesis updated, 10 trailing pages brought current, Nagoya University page corrected after drift
+Follow-up to the 2026-08-07 Nakahara et al. ingest, completing the pages flagged as outstanding in that entry.
+
+SYNTHESIS UPDATED — wiki/syntheses/action-valuation-frameworks-compared.md
+- Source added to frontmatter; three tags added (reinforcement-learning, multi-agent, action-space, construct-validity)
+- Valuation comparison table gains an eleventh column (Nakahara Q)
+- FIFTH estimation style recorded (RL-based), following action-valuation
+- Off-ball mechanisms 5 -> 6, with a "needs a baseline" row added to the table; route 6 is the only one requiring no reference
+- NEW SECTION: "The Off-Ball Metrics Have Now Been Compared, and They Disagree" — the rho=0.182 result, both readings, and the argument that the reliability gap and the disagreement gap are the same gap
+- Free parameters 8 -> 14; four kinds -> FIVE (prior strength added); optimality-gap-is-tunable declared
+- Validation modes 5 -> 6, with construct validity inserted third and discriminant-claims-need-a-convergent-anchor declared
+- Prescription table gains a parenthetical row: Nakahara et al. hold the largest tractable prescriptive choice set in the vault and decline to use it. Lesson revised — enumerability is necessary but a group also has to want to make the prescriptive claim.
+- Limitation 11 added: where metrics have been compared, they disagree
+- Practical guidance revised: OBSO/C-OBSO recommendation now carries a disagreement warning; a new line added for deep midfielders and defenders
+- no-cross-framework-benchmarking WEAKENED a second time and restated (first weakening was GVDEP). Nakahara et al. compare against OBSO, a Spearman metric from an unrelated lineage — the first cross-lineage results comparison in the corpus. Partial, because it uses the group's own reimplementation and N=14.
+- handcrafted-features-rule checked: Nakahara et al. are a candidate fourth case (raw positions into a GRU, no geometric features, 1,669 sequences) but report no accuracy metric, so the case is UNINFORMATIVE rather than confirming or falsifying.
+- counterfactual-individuates weakening carried through from off-ball-value
+- offensive-bias-four-causes check carried through from action-valuation
+
+FRONTMATTER AND BODY UPDATES (10)
+- kazushi-tsutsui — second held source; single-source tag removed; noted he is co-author on BOTH sides of the vault's only off-ball metric head-to-head
+- kazuya-takeda — second held source; single-source and stub tags removed; movement-modelling thread strengthened (state is positions/velocities, action space is movement directions, 10 Hz downsampling inherited from arXiv:2007.03155)
+- nagoya-university — CORRECTED: page said "two vault sources originate here" and had drifted; now SEVEN, with a full table. Signature restated ("prediction or physics first, metric downstream") and the RL paper noted as the one that breaks it.
+- data-stadium — three held sources now; single-source tag removed. New section on shared data rather than shared method being what makes comparison possible.
+- masakiyo-teranishi — C-OBSO externally checked for the first time; two points recorded in its favour (disagreement predictable from shot-ending-only construction; C-OBSO has the stronger external validation via salary)
+- obso — new section "OBSO as an External Benchmark". Generated observation: reimplementability, not quality, is what makes a metric a benchmark — and the metric most used as a reference here has the weakest score term. Also records that OBSO cannot value a player who never receives the ball, the limitation Nakahara et al. cite as motivation.
+- temporal-discounting — two reasons to discount -> three, plus a declined case. gamma=1 assessed: defensible and probably inert, but credit is flat across 30 s and the bootstrap does the attribution work implicitly. Three-value comparison table added.
+- imitation-learning — CORRECTED the "no simulator faithful enough" claim, same fix as on reinforcement-learning. Roles reorganised: imitation as a policy, as a measuring instrument, and NEW as a prior on competence (action supervision). Fourth row added to the learning-regimes table.
+- policy-modelling — new section on SARSA's on-policy update as a second, structural route to average-policy value. Notes the unresolved tension: the counterfactual arm is on-policy in its training signal and off-policy in its use. Enumerability sharpened — necessary but not sufficient; each enumerated cell must also be estimable.
+- gated-recurrent-unit — was a thin ML-only page untouched since May. Added the small-data argument (1,669 sequences, 64 units, L1) and the observation that with gamma=1 the recurrence depth is the ONLY thing performing temporal credit assignment, and nobody reports it.
+
+TAGS: no new tags required; all seven added in the prior entry were sufficient. Four `single-source` and one `stub` meta tag removed where a second primary source now supports the page.
+
+STATUS: the Nakahara ingest is now complete. 8 pages created, 18 updated, plus taxonomy and index.
+
+

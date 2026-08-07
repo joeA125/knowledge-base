@@ -1,16 +1,18 @@
 ---
 title: "C-OBSO (Creating Off-Ball Scoring Opportunity)"
 type: concept
-tags: [off-ball, space-creation, sports-analytics, player-evaluation, counterfactual, trajectory-prediction, optical-tracking-data, action-valuation, theory-based-modelling]
-sources: [raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/optimal_football_decisions_shot_taking_situations.md]
+tags: [off-ball, space-creation, sports-analytics, player-evaluation, counterfactual, trajectory-prediction, optical-tracking-data, action-valuation, theory-based-modelling, construct-validity]
+sources: [raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/optimal_football_decisions_shot_taking_situations.md, raw/papers/action_valuation_football_agentic_reinforcement_learning.md]
 confidence: 0.8
 provenance:
-  extracted: 75%
+  extracted: 72%
   inferred: 20%
-  ambiguous: 5%
+  generated: 6%
+  imported: 0%
+  ambiguous: 2%
 lifecycle: reviewed
 created: 2026-07-27
-updated: 2026-07-27
+updated: 2026-08-07
 ---
 
 # C-OBSO (Creating Off-Ball Scoring Opportunity)
@@ -81,6 +83,30 @@ Against annual salary, 15 Yokohama players with ≥10 evaluated sequences:
 
 **Goals predict expert ratings strongly for everyone; C-OBSO only for the MVP.** Seven further players show no correlation. The generous reading is that ratings are largely goal-driven and C-OBSO measures what raters ignore; the sceptical reading is that one significant result in eight is chance. The evidence does not settle it.
 
+## C-OBSO Has Now Been Compared Against Another Off-Ball Metric
+
+> **Added 2026-08-07** on ingest of [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al.]] — **the first external check this metric has received.**
+
+Nakahara et al.'s [[multi-agent-reinforcement-learning|multi-agent RL]] Q-values are computed on **the same club, the same season, the same [[data-stadium|provider]] and essentially the same 14 players**. The correlation:
+
+$$\rho = 0.182,\quad p > 0.05$$
+
+**No relationship.** Two metrics, from the same research group, both presented as measures of off-ball contribution, on the same data, are statistically unrelated.
+
+### What the source says, and what it does not
+
+Nakahara et al. read this benignly: C-OBSO ranks forwards highly (Edigar, Nakagawa), their Q-values rank midfielders and defenders highly (Kida with 0 season goals, Hirose with 1), so the two capture different aspects of off-ball play.
+
+That reading is available and probably partly right. But it **concedes something the paper does not follow through on**: if C-OBSO ranks forwards and Q-values rank defenders, then C-OBSO is not measuring "off-ball contribution" — it is measuring *space creation for a shooter*, which is a narrower and more forward-weighted construct than its name implies.
+
+That narrower reading is in fact **exactly what the construction says it measures.** C-OBSO is defined only on shot-ending sequences, credits improvement in a *shooter's* OBSO, and clips negative values. The disagreement with Q-values is not a surprise on the mathematics; it is a surprise only on the naming. See [[construct-validity]].
+
+### Why this matters more than the number
+
+$N = 14$. The correlation is weak evidence of anything. Its significance is that **it exists at all** — it is the only head-to-head between two off-ball metrics in the vault, and the field's stock of such comparisons is now one. See [[off-ball-value]].
+
+It also creates a specific, cheap next step. The same dataset would support a full correlation matrix over C-OBSO, Q-values, [[obso|OBSO]] and [[space-occupation-gain|SOG]], which would say whether off-ball value has one factor or several. Nobody has run it.
+
 ## Limitations
 
 - **Negative values clipped to zero**, because the *predicted* defender often behaves implausibly. The metric therefore cannot penalise bad movement.
@@ -88,22 +114,27 @@ Against annual salary, 15 Yokohama players with ≥10 evaluated sequences:
 - **Values are tiny** (0.001–0.01) on no interpretable scale.
 - **One team, 34 games, one season.**
 - **Salary is heavily confounded** by age, position, nationality, contract timing.
-- **Only shot-ending sequences** (412), so movement creating chances that never become shots is invisible.
-- **No [[split-half-reliability|reliability]] figure.**
+- **Only shot-ending sequences** (412), so movement creating chances that never become shots is invisible. **This is now the limitation that best explains the $\rho = 0.182$ result** — Nakahara et al. evaluate all attacking-third possessions regardless of outcome.
+- **No [[split-half-reliability|reliability]] figure.** Neither does its only comparator, so the disagreement above cannot be attributed between "different constructs" and "one of them is unstable".
 
 ## Where It Sits
 
-| | [[obso]] | **C-OBSO** | [[vdep]] | [[xsot\|xOSOT]] |
-|---|---|---|---|---|
-| Values | The receiver | **The creator** | The defence | Best passing option |
-| Unit | Player | **Player** | Team | Situation |
-| Mechanism | Surface read at position | **Counterfactual difference** | Classifier on 22 positions | Max over teammates |
+| | [[obso]] | **C-OBSO** | [[vdep]] | [[xsot\|xOSOT]] | Nakahara $Q$ |
+|---|---|---|---|---|---|
+| Values | The receiver | **The creator** | The defence | Best passing option | The mover |
+| Unit | Player | **Player** | Team | Situation | Player |
+| Mechanism | Surface read at position | **Counterfactual difference** | Classifier on 22 positions | Max over teammates | Learned [[temporal-difference-learning\|TD]] action-value |
+| Needs a baseline | Yes | **Yes** | No | Yes | **No** |
+| Sequences used | All | **Shot-ending only** | All | Shot situations | All attacking-third |
 
-C-OBSO and [[vdep]] are the two Fujii-group answers to off-ball valuation, taking opposite routes — VDEP puts everything in the model state and gets a team number; C-OBSO intervenes on one player and gets an individual number. **The individuating ingredient is the counterfactual, not the data.** See [[counterfactual-baseline]].
+C-OBSO and [[vdep]] were the two Fujii-group answers to off-ball valuation, taking opposite routes — VDEP puts everything in the model state and gets a team number; C-OBSO intervenes on one player and gets an individual number. **The individuating ingredient is the counterfactual, not the data.** See [[counterfactual-baseline]].
+
+**A third route now exists.** Nakahara et al. individuate by **agent decomposition** rather than by intervention — one value function per player, no baseline. That weakens the claim above, which is recorded on [[off-ball-value]].
 
 ## See Also
 
 - [[obso]] · [[space-creation]] · [[counterfactual-baseline]] · [[trajectory-prediction]] · [[imitation-learning]]
 - [[theory-based-modelling]] · [[xsot]] · [[off-ball-value]] · [[vdep]] · [[defensive-valuation]] · [[pitch-control]]
-- [[masakiyo-teranishi]] · [[keisuke-fujii]] · [[william-spearman]] · [[calvin-yeung]]
-- [[creating-scoring-opportunities-trajectory-prediction|Source Summary]] · [[optimal-decisions-shot-taking-situations|Yeung & Fujii Summary]]
+- [[construct-validity]] · [[split-half-reliability]] · [[multi-agent-reinforcement-learning]] · [[action-space-design]] · [[space-occupation-gain]]
+- [[masakiyo-teranishi]] · [[keisuke-fujii]] · [[william-spearman]] · [[calvin-yeung]] · [[hiroshi-nakahara]] · [[data-stadium]]
+- [[creating-scoring-opportunities-trajectory-prediction|Source Summary]] · [[optimal-decisions-shot-taking-situations|Yeung & Fujii Summary]] · [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al. Summary]]

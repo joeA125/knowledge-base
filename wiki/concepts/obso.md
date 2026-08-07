@@ -1,18 +1,18 @@
 ---
 title: "OBSO (Off-Ball Scoring Opportunity)"
 type: concept
-tags: [off-ball, sports-analytics, pitch-control, probability-surface, optical-tracking-data, player-evaluation, action-valuation, model-decomposition, predictive-validity]
-sources: [raw/papers/beyond_expected_goals.md, raw/papers/physics_based_pass_probabilities.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/team_defense_positioning_statsbomb.md]
+tags: [off-ball, sports-analytics, pitch-control, probability-surface, optical-tracking-data, player-evaluation, action-valuation, model-decomposition, predictive-validity, construct-validity]
+sources: [raw/papers/beyond_expected_goals.md, raw/papers/physics_based_pass_probabilities.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/team_defense_positioning_statsbomb.md, raw/papers/action_valuation_football_agentic_reinforcement_learning.md]
 confidence: 0.9
 provenance:
-  extracted: 82%
-  inferred: 14%
-  generated: 2%
+  extracted: 80%
+  inferred: 15%
+  generated: 3%
   imported: 0%
   ambiguous: 2%
 lifecycle: reviewed
 created: 2026-07-27
-updated: 2026-07-27
+updated: 2026-08-07
 ---
 
 # OBSO (Off-Ball Scoring Opportunity)
@@ -65,6 +65,8 @@ He also names a bias: the curve is the average scoring chance given *an on-ball 
 
 **Does not value** the player whose movement created the space. OBSO is egocentric; [[c-obso]] fills that gap.
 
+**Does not value a player who will never receive the ball at all**, which is the limitation [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al.]] name explicitly as motivating their framework. OBSO's question is conditional on arrival; a deep midfielder recycling possession is invisible to it.
+
 ## Validation
 
 Per-player, match $i$ against match $i{+}1$ across 53 matches:
@@ -79,6 +81,20 @@ Per-player, match $i$ against match $i{+}1$ across 53 matches:
 
 Taken with the 2017 paper, the Spearman line covers **both validation modes** — a component checked against directly observable outcomes (pass receivers), and a derived metric checked against future ones (next-match goals). Few authors here do either.
 
+**This remains the only external-outcome validation of any off-ball metric in the vault**, and its importance grew on 2026-08-07 — see below.
+
+## OBSO as an External Benchmark
+
+> **Added 2026-08-07** on ingest of [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al.]], who correlate their [[multi-agent-reinforcement-learning|RL]] Q-values against OBSO at $\rho = -0.305$ on 14 J-League players.
+
+Two things follow, and the second matters more than the number.
+
+**The disagreement is explicable and mild.** OBSO values the receiver; the Q-values reward passers and movers who may never receive. A low negative correlation is close to what the constructions predict. Nakahara et al. make the point cleanly with two players on three season goals each: Miyoshi scores well on OBSO (good movement *to receive*), Theerathon on the Q-values (good passing and other off-ball movement). **Same goal tally, opposite off-ball profiles, and it takes two metrics to see it.**
+
+**OBSO has become the field's reference point.** It is now the only metric here that an *unrelated lineage* has computed and reported alongside its own. That partially weakens the vault's `no-cross-framework-benchmarking` claim on [[action-valuation-frameworks-compared]] — partially, because Nakahara et al. use their own group's reimplementation rather than Spearman's published numbers, and $N = 14$.
+
+Why OBSO and not something else is worth stating: it is **cheap, physically specified, and fully described in its source paper**, so another group can implement it without a licence or a code release. [[vaep|VAEP]] needs a specific event-stream vendor; [[expected-value-possession-framework|Fernández et al.'s EPV]] needs nine neural components and Barcelona's tracking. **Reimplementability, not quality, is what makes a metric a benchmark** — and the metric most often used as a reference here is the one with the weakest score term.
+
 ## Descendants
 
 OBSO is the substrate for the entire [[keisuke-fujii|Fujii group]] off-ball and defensive line:
@@ -87,8 +103,9 @@ OBSO is the substrate for the entire [[keisuke-fujii|Fujii group]] off-ball and 
 |---|---|
 | [[c-obso]] | Replaces the score term; differences it against a **predicted trajectory** to credit space creation |
 | [[drso]] | Adapts it to broadcast freeze frames (**EF-OBSO**); differences it against an **optimal position** to evaluate defending |
+| [[action-valuation-multi-agent-reinforcement-learning\|Nakahara et al.]] | **Uses it as a comparator, not a substrate** — the first of the group's works to depart from it entirely |
 
-Both add a [[counterfactual-baseline|counterfactual]] on top of a value surface — which is why that group's off-ball work sits closer to Spearman's physical tradition than to [[vdep]]'s event classification, despite shared authorship.
+Both C-OBSO and DRSO add a [[counterfactual-baseline|counterfactual]] on top of a value surface — which is why that group's off-ball work sits closer to Spearman's physical tradition than to [[vdep]]'s event classification, despite shared authorship. The RL paper breaks that pattern: no pitch-control model, no value surface, raw positions into a [[gated-recurrent-unit|GRU]].
 
 ## The Parameter Chain, Resolved
 
@@ -120,7 +137,8 @@ Recorded because the errors were confident and specific:
 ## See Also
 
 - [[pitch-control]] · [[c-obso]] · [[drso]] · [[off-ball-value]] · [[space-creation]] · [[probability-surface]]
-- [[expected-goals]] · [[shot-value-formulations-compared]] · [[structured-model-decomposition]] · [[predictive-validity]]
-- [[counterfactual-baseline]] · [[william-spearman]] · [[keisuke-fujii]] · [[javier-fernandez]]
+- [[expected-goals]] · [[shot-value-formulations-compared]] · [[structured-model-decomposition]] · [[predictive-validity]] · [[construct-validity]]
+- [[counterfactual-baseline]] · [[multi-agent-reinforcement-learning]] · [[action-space-design]] · [[action-valuation-frameworks-compared]]
+- [[william-spearman]] · [[keisuke-fujii]] · [[javier-fernandez]] · [[hiroshi-nakahara]] · [[masakiyo-teranishi]]
 - [[physics-based-pass-probabilities|Spearman 2017 Summary]] · [[beyond-expected-goals|Spearman 2018 Summary]]
-- [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]] · [[team-defense-positioning-counterfactuals|DRSO Summary]]
+- [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]] · [[team-defense-positioning-counterfactuals|DRSO Summary]] · [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al. Summary]]

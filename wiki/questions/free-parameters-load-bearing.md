@@ -1,25 +1,25 @@
 ---
 title: "Are the free parameters load-bearing?"
 type: question
-tags: [model-selection, discounting, evaluation, sports-analytics, action-valuation, reliability, predictive-validity, space-creation, needs-review]
-sources: [raw/papers/epv_control_and_duel_skills_football.md, raw/papers/expected_value_possession_framework.md, raw/papers/football_defence_evaluation.md, raw/papers/defensive_player_location_analysis.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/wide_open_spaces_creation_football.md]
+tags: [model-selection, discounting, evaluation, sports-analytics, action-valuation, reliability, predictive-validity, space-creation, reinforcement-learning, auxiliary-loss, needs-review]
+sources: [raw/papers/epv_control_and_duel_skills_football.md, raw/papers/expected_value_possession_framework.md, raw/papers/football_defence_evaluation.md, raw/papers/defensive_player_location_analysis.md, raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/wide_open_spaces_creation_football.md, raw/papers/action_valuation_football_agentic_reinforcement_learning.md]
 confidence: 0.8
 provenance:
   extracted: 55%
-  inferred: 42%
-  generated: 2%
+  inferred: 41%
+  generated: 3%
   imported: 0%
   ambiguous: 1%
 lifecycle: draft
 created: 2026-07-27
-updated: 2026-07-27
+updated: 2026-08-07
 ---
 
 # Are the free parameters load-bearing?
 
-**Status:** Open for eight parameters. **One has been settled** — not by a sensitivity analysis, but by being superseded.
+**Status:** Open for fourteen parameters. **One has been settled** — not by a sensitivity analysis, but by being superseded. **One now has a two-point ablation** and an explicit statement of what goes wrong at each extreme.
 
-> **Updated 2026-07-27** on ingest of [[wide-open-spaces-space-creation|Wide Open Spaces]], which adds four. The count has gone four → five → eight across three ingests, and no source has swept any of them.
+> **Updated 2026-08-07** on ingest of [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al.]], which adds six and introduces a **fourth kind**. The count has gone four → five → eight → fourteen across four ingests.
 
 | Parameter | Framework | Role | Justification given | Status |
 |---|---|---|---|---|
@@ -31,31 +31,65 @@ updated: 2026-07-27
 | $\delta = 5$ m | [[space-occupation-gain\|SGG]] | Closeness threshold | Mean marking distance | **Open** |
 | $\alpha = 3$ m | [[space-occupation-gain\|SGG]] | Minimum attraction | Avoids spurious drags | **Open** |
 | $\epsilon$ (gain) | [[space-occupation-gain\|SOG/SGG]] | Gain threshold | Excludes ordinary drift | **Open** |
+| **$\lambda_1 = 0.01$** | **[[action-supervision\|Nakahara et al.]]** | **Imitation weight** | **Asserted; two-point ablation** | **Open — but characterised** |
+| $\lambda_2 = 0.1$ | Nakahara et al. | $L_1$ weight | Asserted | **Open** |
+| $\gamma = 1$ | Nakahara et al. | Discount | "Simplicity", citing Liu et al. | **Open — but probably inert** |
+| $T_{max} = 300$ frames | Nakahara et al. | Episode cap | Asserted | **Open** |
+| 0.1 m/s | Nakahara et al. | Stop threshold → "idle" label | Asserted | **Open** |
+| 24 km/h | Nakahara et al. | Sprint threshold → sprint labels | Asserted | **Open** |
 | ~~$C \approx 3.9$~~ | ~~[[vdep]]~~ | ~~Recovery/attack weighting~~ | ~~Event frequency ratio~~ | **Superseded** |
 
-## Four Kinds, Not One List
+## Four Kinds, Now Five
 
 The count is less informative than the taxonomy. Lumping them together obscures that only some are suspect.
 
-**Horizon parameters** ($\epsilon = 15$s, $k$, 4 s, $w$) bound how far a model looks. Likely **self-limiting**: most credit falls near the event regardless, so extending or shortening the window changes little at the margin.
+**Horizon parameters** ($\epsilon = 15$s, $k$, 4 s, $w$, $T_{max}$) bound how far a model looks. Likely **self-limiting**: most credit falls near the event regardless, so extending or shortening the window changes little at the margin.
 
-**Shape parameters** ($\gamma$) govern *how* weight decays rather than *where* it stops. The most suspect: across its author's own proposed range, $0.9^{30} = 0.04$ against $0.99^{30} = 0.74$ — nearly **two orders of magnitude** in the weight on a thirty-second-old action, offered as a stylistic choice for attacking philosophy.
+**Shape parameters** ($\gamma$) govern *how* weight decays rather than *where* it stops. The most suspect: across Shelopugin's own proposed range, $0.9^{30} = 0.04$ against $0.99^{30} = 0.74$ — nearly **two orders of magnitude** in the weight on a thirty-second-old action, offered as a stylistic choice for attacking philosophy.
 
-**Geometric thresholds** ($\delta$, $\alpha$) define when a spatial relationship counts. New with this ingest, and different in kind: they do not weight anything, they **gate whether an event is recorded at all**. A 5 m closeness threshold does not scale SGG's magnitude — it decides which draggings exist.
+**Geometric thresholds** ($\delta$, $\alpha$) define when a spatial relationship counts. They do not weight anything, they **gate whether an event is recorded at all**.
 
-**Detection thresholds** ($\epsilon$ gain) separate signal from drift. Also gating rather than weighting.
+**Detection thresholds** ($\epsilon$ gain, 0.1 m/s, 24 km/h) separate signal from drift, or one label from another. Also gating rather than weighting.
 
-**With $C$ gone, the trade-off-weight category is empty.** What remains is one shape parameter, four horizons, and three gates.
+**Prior-strength parameters** ($\lambda_1$) — **new with this ingest.** See below.
 
-## The Gates Are the New Problem
+## The Fifth Kind Is the Most Interesting Yet
 
-The four SOG/SGG parameters are worse-behaved than the horizons, for a reason worth stating.
+$\lambda_1$ weights an [[action-supervision|auxiliary imitation loss]] against a [[temporal-difference-learning|TD]] loss. It does not bound a horizon, shape a decay, or gate an event. It sets **how strongly the model's notion of a good action is pulled toward what humans actually did.**
 
-A horizon parameter that is slightly wrong produces slightly wrong values. **A gate that is slightly wrong produces the wrong set of events**, and everything downstream is computed on that set. Move $\delta$ from 5 m to 6 m and a different population of dragging incidents enters the metric; the per-player totals are then sums over different things, not differently-weighted sums over the same things.
+| $\lambda_1 \to 0$ | $\lambda_1 \to \infty$ |
+|---|---|
+| Pure value learning | Pure [[imitation-learning\|imitation]] |
+| Counterfactual actions unconstrained | No counterfactuals — model reproduces observed choices |
+| Players look arbitrary | **Players look optimal by construction** |
 
-That makes the gates **less likely to be self-limiting** than the horizons, and it makes rank correlation under a sweep the right test rather than value correlation — see below.
+That last row is why this parameter deserves separating from the others.
 
-The authors set $\delta$ from *"the minimum distance an opponent is on average to a player in possession"*, which is a principled anchor, and $w$ and $\alpha$ *"alongside expert football analysts"*, which is a defensible source but not a measurement.
+> ### `optimality-gap-is-tunable`
+> **In any framework that regularises a value function toward observed behaviour, the measured gap between observed and optimal action is partly a function of the regularisation weight, not of the players.**
+> ^[generated: drawn from the source's own description of the $\lambda_1$ extremes; the general claim is not stated there. Declared on [[action-supervision]]. Also on [[reinforcement-learning]] and [[observed-versus-optimal-decisions]]. rests-on: source:nakahara-lambda-tradeoff]
+
+Every other parameter here, if wrong, produces wrong *values* or the wrong *event set*. A wrong $\lambda_1$ produces a wrong **conclusion about football** — specifically, about whether players decide well. See [[observed-versus-optimal-decisions]].
+
+## The Closest Thing to a Sweep, and Why It Isn't One
+
+Nakahara et al. do more than anyone else here, and still not enough. They:
+
+- Compare $\lambda_1 = 0$ against $\lambda_1 = 0.01$, reporting both losses and mean on/off-ball Q-values.
+- **State the failure mode at each extreme in words** — too little supervision gives insufficient learning of counterfactual values, too much overfits to actual actions.
+- **Decline to say which model is better**, on the grounds that no ground truth for a Q-value exists.
+
+So the authors know the parameter is load-bearing, describe its behaviour qualitatively, and report two points. What is missing is the curve — and, more damagingly, any *criterion* on which a curve could be read, since they have argued there is none.
+
+**That is a different and harder problem than the rest of this page poses.** Elsewhere the objection is that nobody swept; here it is that the authors sweep and have no metric to sweep against. See [[construct-validity]].
+
+## The Gates Are Still the Structural Problem
+
+A horizon parameter that is slightly wrong produces slightly wrong values. **A gate that is slightly wrong produces the wrong set of events**, and everything downstream is computed on that set.
+
+Nakahara et al. add two of the cleanest gates in the vault. The 24 km/h sprint threshold and 0.1 m/s stop threshold do not scale any value — they **decide which of 14 action labels a frame receives**. A player at 23.8 km/h is running; at 24.1 km/h he is sprinting, and the two get different Q-values from different columns of the output layer.
+
+Worse, these gates apply to the *action* rather than to the *outcome*, so a mislabelled frame corrupts both the state-action pair used in the TD update and the label used in the supervision loss. See [[action-space-design]].
 
 ## What GVDEP Settled, and How
 
@@ -65,11 +99,23 @@ The objection this page raised against $C$ — that a frequency ratio encodes ho
 
 Two caveats keep it from being clean: the new weights depend on classifiers whose F1 on that data is 0.08–0.15, and GVDEP inherits $k = 5$ untouched.
 
+## The Discount Factor Now Has Three Values and No Argument
+
+| Framework | $\gamma$ | Justification | Effect at 30 s |
+|---|---|---|---|
+| [[temporal-discounting\|Shelopugin]] | 0.95 /s | Stylistic preference | 21% weight retained |
+| Nakahara et al. | **1** | "Simplicity", citing Liu et al. | **100% — credit spread flat** |
+| Most others | n/a | Fixed horizon instead | — |
+
+Nakahara et al.'s choice is defensible on its own terms: reward arrives only at the terminal frame of an episode capped at 300 frames, so the undiscounted return is a finite single term and convergence is not at issue. **Probably inert**, and marked so above.
+
+But the juxtaposition is the point. Two football valuation frameworks use the same symbol at 0.95 and 1, one calling it a stylistic choice about attacking philosophy and the other a simplification, **and neither acknowledges the other's position exists.** See [[reinforcement-learning]].
+
 ## Sensitivity Analysis Is Rare, Not Absent
 
-GVDEP sweeps **$n\_nearest$ from 0 to 11**, reporting F1 for all four classifiers at each value — a genuine sensitivity analysis, on *which inputs to include*. [[drso|DRSO]] verifies **five velocity assumptions** against RMSE. [[physics-based-pass-probabilities|Spearman et al.]] fit by MLE grid search with contour intervals.
+[[gvdep|GVDEP]] sweeps **$n\_nearest$ from 0 to 11**, reporting F1 for all four classifiers at each value — a genuine sensitivity analysis, on *which inputs to include*. [[drso|DRSO]] verifies **five velocity assumptions** against RMSE. [[physics-based-pass-probabilities|Spearman et al.]] fit by MLE grid search with contour intervals. Nakahara et al. run a two-point ablation on $\lambda_1$.
 
-So the practice exists in this literature and is well understood. **It has simply never been applied to a horizon, shape or gate parameter.** That removes the excuse: groups that sweep one parameter and publish the curve could sweep another.
+So the practice exists in this literature and is well understood. **It has still never been applied to a horizon, shape or gate parameter**, and the one prior-strength parameter got two points rather than a curve.
 
 ## The Test
 
@@ -83,33 +129,42 @@ Rank correlation under a parameter sweep. For each, recompute the player or team
 
 **Rank correlation rather than value correlation**, because the decisions these metrics inform are ordinal: who to sign, who to review, which moment to watch. This matters doubly for the gates, where value correlation would be measuring sums over different event sets.
 
-**For $\gamma$, test the author's own claim.** He asserts 0.9 suits vertical attacking and 0.99 possession play. Do direct-style teams rank higher under 0.9? If so it is a *feature* and should be reported as a family of metrics; if rankings barely move, the stylistic framing is unfounded.
+**For $\gamma$, test Shelopugin's own claim.** He asserts 0.9 suits vertical attacking and 0.99 possession play. Do direct-style teams rank higher under 0.9?
 
-**For $\delta$, check the event count first.** A cheap pre-test: how many dragging incidents does SGG detect at 4, 5 and 6 m? If the count moves sharply, the gate is load-bearing before any ranking is computed.
+**For $\delta$, check the event count first.** How many dragging incidents does SGG detect at 4, 5 and 6 m? If the count moves sharply, the gate is load-bearing before any ranking is computed.
+
+**For $\lambda_1$, the test is different and better.** Sweep it and report, at each value, the **gap between the Q-value of the observed action and the maximum Q-value**. That curve *is* `optimality-gap-is-tunable`, measured. It needs no ground truth — it reports how much of the apparent suboptimality is the regulariser's doing. **This is the single most informative sweep available anywhere on this page**, and it is cheap: one model retrain per point.
+
+**For the 24 km/h sprint gate**, count label flips. What fraction of frames change action label between 22 and 26 km/h? If it is small, the gate is inert; if large, every Q-value in the paper is conditional on it.
 
 ## Two Routes Nobody Uses
 
-**Fit against a criterion.** Choose the value maximising the resulting metric's [[split-half-reliability|reliability]] or [[predictive-validity]] — both already computed for other purposes. The objection, that optimising for reliability might favour a degenerate metric stable because it measures little, is why predictive validity is the better of the two and both should be reported.
+**Fit against a criterion.** Choose the value maximising the resulting metric's [[split-half-reliability|reliability]] or [[predictive-validity]]. The objection — that optimising for reliability might favour a degenerate metric stable because it measures little — is why predictive validity is the better of the two and both should be reported.
 
-**Derive it from an existing model**, as GVDEP does. Available where a parameter expresses a *trade-off between quantities another model already values*. It does not help the horizons or gates: no existing model values "how far back credit should propagate" or "how close counts as marking".
+This route is **blocked for Nakahara et al. as they frame things**, since they argue no ground truth exists. But it is not really blocked: [[obso|OBSO]] demonstrates that next-match goals serve as an external criterion for an off-ball metric. The criterion exists; the paper does not reach for it.
+
+**Derive it from an existing model**, as GVDEP does. Available where a parameter expresses a *trade-off between quantities another model already values*. It does not help the horizons or gates.
 
 ## What Would Change
 
-**Horizons inert, $\gamma$ and the gates not** — the literature's blanket omission is half-excusable, but the parameters that matter have never been examined, and that should be stated on [[pass-carry-reward|PCR]] and [[space-occupation-gain|SOG/SGG]].
+**Horizons inert, $\gamma$, the gates and $\lambda_1$ not** — the literature's blanket omission is half-excusable, but the parameters that matter have never been examined.
 
-**All eight inert** — a useful negative result, and the vault's repeated complaint should be softened.
+**All fourteen inert** — a useful negative result, and the vault's repeated complaint should be softened.
 
-**Rankings move substantially** — no framework here reports *a* ranking; each reports one point in a family, and cross-framework comparison is confounded by parameter choice on top of everything else.
+**$\lambda_1$ load-bearing** — this is the consequential branch. It would mean the observed-versus-optimal finding, which [[observed-versus-optimal-decisions]] treats as possibly the literature's only actionable output, is partly an artefact of a regularisation weight in at least one framework.
 
 ## Why Nobody Has Done It
 
 A sensitivity analysis can only weaken a paper: it shows results are robust, which reviewers assume anyway, or shows they are not, which invites the question of why *this* value was chosen.
 
-GVDEP is a partial counter-example — it published a sweep and the sweep was **flattering**, showing its method works with fewer inputs than its predecessor assumed. That suggests the asymmetry breaks when the sweep is over something the authors *want* to show is unnecessary, rather than over a value they had to choose.
+GVDEP is a partial counter-example — it published a sweep and the sweep was **flattering**, showing its method works with fewer inputs than its predecessor assumed. That suggests the asymmetry breaks when the sweep is over something the authors *want* to show is unnecessary.
+
+Nakahara et al. are a second, subtler counter-example: they publish the ablation that shows their contribution *helps* ($\lambda_1 = 0$ against 0.01) and stop exactly where a sweep would start asking whether it helps too much.
 
 ## See Also
 
-- [[model-selection]] · [[gvdep]] · [[vdep]] · [[temporal-discounting]] · [[space-occupation-gain]]
-- [[split-half-reliability]] · [[predictive-validity]] · [[pass-carry-reward]] · [[c-obso]] · [[drso]] · [[obso]]
-- [[action-valuation]] · [[action-valuation-frameworks-compared]]
-- [[epv-control-duel-skills-football|Shelopugin]] · [[football-defence-evaluation-vdep|VDEP]] · [[generalized-vdep-euro-location-analysis|GVDEP]] · [[wide-open-spaces-space-creation|Wide Open Spaces]]
+- [[model-selection]] · [[gvdep]] · [[vdep]] · [[temporal-discounting]] · [[space-occupation-gain]] · [[action-supervision]]
+- [[split-half-reliability]] · [[predictive-validity]] · [[construct-validity]] · [[pass-carry-reward]] · [[c-obso]] · [[drso]] · [[obso]]
+- [[action-valuation]] · [[action-space-design]] · [[reinforcement-learning]] · [[temporal-difference-learning]] · [[imitation-learning]]
+- [[observed-versus-optimal-decisions]] · [[action-valuation-frameworks-compared]]
+- [[epv-control-duel-skills-football|Shelopugin]] · [[football-defence-evaluation-vdep|VDEP]] · [[generalized-vdep-euro-location-analysis|GVDEP]] · [[wide-open-spaces-space-creation|Wide Open Spaces]] · [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al.]]
