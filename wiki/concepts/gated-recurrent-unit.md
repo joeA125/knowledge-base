@@ -36,11 +36,11 @@ GRUs combine the LSTM's forget and input gates into a single update gate, and me
 
 ## Why It Persists in Small-Data Settings
 
-> **Added 2026-08-07.** This page had covered only the [[machine-translation]] origin. The GRU's more interesting recent role in this vault is elsewhere.
+> **Added 2026-08-07.** This page had covered only the machine-translation origin. The GRU's more interesting recent role in this vault is elsewhere.
 
 [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al. (2023)]] use a **single 64-unit GRU layer with ReLU** as the value network for ten [[multi-agent-reinforcement-learning|per-player RL agents]], taking a 92-dimensional state plus a 14-dimensional one-hot action per timestep and emitting 14 Q-values.
 
-That is a very small network in 2023, and the choice is instructive rather than dated. The training set is **1,669 possession sequences**. Against that, the [[transformer]] would be badly over-parameterised — the fewer-parameters property in the section above stops being a footnote and becomes the reason for the choice. Compare [[nmstpp]], which does use a Transformer on football events, on a corpus of a different order.
+That is a very small network in 2023, and the choice is instructive rather than dated. The training set is **1,669 possession sequences**. Against that, the [[transformer]] would be badly over-parameterised — the fewer-parameters property above stops being a footnote and becomes the reason for the choice. Compare [[nmstpp]], which does use a Transformer on football events, on a corpus of a different order.
 
 The vault's general form of this observation is on [[theory-based-modelling]] and [[handcrafted-features-rule]]: **at football data scale, architecture capacity is usually not the binding constraint.** Nakahara et al. also apply $L_1$ [[regularization|regularisation]] to weights and biases explicitly to prevent overfitting "on the relatively small demonstration dataset".
 
@@ -50,11 +50,11 @@ Worth separating, because it is easy to miss. In a [[temporal-difference-learnin
 
 That partly compensates for a state vector containing only current positions and velocities — no history, no possession phase, no scoreline. It also means the framework's effective credit horizon is set by **how far the GRU actually propagates signal**, which nobody reports. Since the same paper sets its discount factor to 1, recurrence depth is the *only* thing performing temporal credit assignment there. See [[temporal-discounting]].
 
-Standard TD stabilisers — target networks, replay buffers — are absent; the recurrence over whole possessions is what stands in for them.
+Standard TD stabilisers — target networks, replay buffers — are absent; the recurrence over whole possessions is what stands in for them. The companion paper [[adaptive-action-supervision-multi-agent-rl|Fujii et al.]] uses the full stabiliser stack and **no recurrence at all**, which is the clearest illustration available that the two are substitutes for the same problem. See [[deep-q-network]].
 
 ## See Also
 
-- [[bidirectional-rnn]] · [[lstm]] · [[recurrence]] · [[encoder-decoder]] · [[additive-attention]]
-- [[temporal-difference-learning]] · [[multi-agent-reinforcement-learning]] · [[reinforcement-learning]] · [[regularization]]
-- [[trajectory-prediction]] · [[nmstpp]] · [[theory-based-modelling]] · [[representation-learning]]
+- [[bidirectional-rnn]] · [[lstm]] · [[recurrence]] · [[encoder-decoder]] · [[additive-attention]] · [[transformer]]
+- [[temporal-difference-learning]] · [[deep-q-network]] · [[multi-agent-reinforcement-learning]] · [[reinforcement-learning]] · [[regularization]]
+- [[trajectory-prediction]] · [[nmstpp]] · [[theory-based-modelling]] · [[representation-learning]] · [[temporal-discounting]]
 - [[neural-machine-translation|Bahdanau et al. Summary]] · [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al. Summary]]

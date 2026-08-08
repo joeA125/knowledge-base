@@ -35,14 +35,16 @@ A catalog of all wiki pages, organised by type.
 - [[daniel-cervone]] · [[alex-damour]] · [[kirk-goldsberry]] — the NBA martingale EPV paper
 - [[luke-bornn]] — NBA EPV, Wide Open Spaces, and the soccer EPV framework
 - [[javier-fernandez]] — Wide Open Spaces, SoccerMap, and the soccer EPV framework
-- [[keisuke-fujii]] — Senior author of VDEP, GVDEP, DRSO, C-OBSO, NMSTPP, the SPC framework, and the multi-agent RL valuation paper
+- [[keisuke-fujii]] — **Author on eight held sources**; senior author of VDEP, GVDEP, DRSO, C-OBSO, NMSTPP, SPC and Nakahara et al., and **first author** of the adaptive action supervision paper
 - [[calvin-yeung]] — Lead author of NMSTPP and the game-theoretic SPC framework
 - [[kosuke-toda]] — Lead author of VDEP
 - [[rikuhei-umemoto]] — Lead author of GVDEP and DRSO; the defensive-positioning line
 - [[masakiyo-teranishi]] — Lead author of C-OBSO; the trajectory-modelling line
-- [[hiroshi-nakahara]] — Lead author of the multi-agent deep RL valuation framework
-- [[kazushi-tsutsui]] — Co-author of C-OBSO, GVDEP and the multi-agent RL paper
-- [[kazuya-takeda]] — Co-author of C-OBSO, the multi-agent RL paper, and the 2020 trajectory work
+- [[hiroshi-nakahara]] — Lead author of the multi-agent deep RL valuation framework; the inverse half of a forward/inverse pair
+- [[kazushi-tsutsui]] — Three held sources; the only author on both sides of every division in the Fujii group
+- [[kazuya-takeda]] — Co-author of C-OBSO, Nakahara et al., and the 2020 trajectory work
+- [[atom-scott]] — Co-author of the adaptive action supervision paper; lead author of the cited-not-held GFootball/real-football comparison
+- [[naoya-takeishi]] · [[yoshinobu-kawahara]] — the Fujii group's methodological line: multi-agent modelling, counterfactual inference, animal behaviour
 - [[keisuke-kushiro]] — Co-author of VDEP (supervision)
 - [[tony-sit]] — Statistician, co-author of NMSTPP
 - [[ian-simpson]] — Seq2Event and the poss-util metric
@@ -55,13 +57,15 @@ A catalog of all wiki pages, organised by type.
 - [[andrei-shelopugin]] — Independent researcher; EPV of control and duel actions, PCR
 - [[alexander-sirotkin]] — Glicko-2 duel-rating and league-rating papers
 - [[openai]] · [[google-brain]] · [[google-deepmind]] · [[google-research]] · [[microsoft-research]] — research organisations
-- [[google-research-football]] — GFootball; RL simulator whose action vocabulary was borrowed for real-match analysis
+- [[google-research-football]] — GFootball; the shared simulator whose action vocabulary was borrowed and whose environment was ultimately rejected
+- [[nfootball]] — the Fujii group's bespoke replacement, and what building your own environment costs in comparability
 - [[university-of-toronto]] · [[jacobs-university-bremen]] · [[universite-de-montreal]] — universities
 - [[universidade-do-porto]] · [[inesc-tec]] — the Porto football-analytics group
 - [[nagoya-university]] · [[kyoto-university]] — the Fujii group and the VDEP lead author
+- [[university-of-tokyo]] · [[osaka-university]] — affiliations on the Fujii group's methodological line
 - [[fc-porto]] · [[fc-barcelona]] — clubs with co-author affiliations
 - [[stats-perform]] — Sports data provider (STATS LLC / Opta)
-- [[data-stadium]] — Japanese sports data provider; J-League data
+- [[data-stadium]] — Japanese sports data provider; the J-League data behind four held sources, each subsetting it differently
 
 ## Concepts
 
@@ -87,16 +91,19 @@ A catalog of all wiki pages, organised by type.
 - [[autoregressive-model]] · [[variational-autoencoder]] · [[variational-lossy-autoencoder]] · [[conditional-gan]]
 - [[trajectory-prediction]] — Positions of interacting agents; VRNN, GVRNN, prediction-as-reference
 - [[event-prediction]] — Forecasting the next event; how forecasting yields valuation metrics
-- [[imitation-learning]] — Learning a policy by mimicking; imitation as a measuring instrument
+- [[imitation-learning]] — Learning a policy by mimicking; imitation as a measuring instrument, and as a prior on competence
 - [[rlhf]] · [[gpt]] · [[bert]] · [[masked-language-model]] · [[chain-of-thought]] · [[react]]
 - [[scaling-laws]] · [[retrieval-augmented-generation]] · [[ai-agent]] · [[tool-use]] · [[agent-memory]]
 
 ### Reinforcement Learning and Decision Modelling
-- [[reinforcement-learning]] — What sports valuation borrows from RL, what it does not, and the one framework here that genuinely does it
-- [[multi-agent-reinforcement-learning]] — Per-player agents against team-as-one-agent; the independence assumption and what it costs
+- [[reinforcement-learning]] — What sports valuation borrows from RL, what it does not, and the two frameworks here that genuinely do it
+- [[multi-agent-reinforcement-learning]] — Per-player agents against team-as-one-agent; independence, and the centralised alternative that changed nothing
 - [[temporal-difference-learning]] — Bootstrapped value learning; SARSA, on-policy targets, and why differencing a supervised model is not TD
-- [[action-supervision]] — An imitation loss added to a value objective, and the hyperparameter that tunes the optimality gap
+- [[deep-q-network]] — Target networks, replay buffers, double Q; why one held RL paper uses all of it and the other none
+- [[action-supervision]] — An imitation loss added to a value objective, and the weight neither paper reports
 - [[action-space-design]] — What counts as an action; the choice that fixes which counterfactuals a framework can pose
+- [[domain-adaptation]] — Sim-to-Real and its harder inversion; why the football simulator gap is a fidelity problem
+- [[imitation-reward-tradeoff]] — Reproducing the demonstrator against obtaining reward, and where on that frontier a model stops
 - [[policy-modelling]] · [[counterfactual-baseline]] · [[counterfactual-simulation]] · [[temporal-discounting]]
 - [[markov-game]] · [[value-iteration]] · [[game-theory]]
 
@@ -110,6 +117,7 @@ A catalog of all wiki pages, organised by type.
 - [[factor-graph]] · [[approximate-message-passing]] · [[expectation-propagation]] · [[gaussian-density-filtering]]
 - [[mixture-model]] · [[expectation-maximization]] · [[identifiability]] · [[clustering]]
 - [[model-selection]] — Choosing complexity; the vault's asserted free parameters
+- [[dynamic-time-warping]] — Aligning sequences that run at different rates; alignment as a loss, and as a metric
 - [[kl-divergence]] · [[non-negative-matrix-factorization]] · [[eigenvector]] · [[path-signature]] · [[smoothing]]
 
 ### Machine Learning Practice and Evaluation
@@ -151,7 +159,7 @@ A catalog of all wiki pages, organised by type.
 
 ## Syntheses
 
-- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the six distinct tasks (valuation, forecasting, clustering, counterfactual/transfer, tactical, prescription), how each is validated, why possession metrics outpredict goals, the seven axes of valuation design, and why prescription turns out to be the oldest task rather than the newest
+- [[action-valuation-frameworks-compared]] — **Football Modelling Tasks Compared**: the **seven** distinct tasks (valuation, forecasting, clustering, counterfactual/transfer, tactical, prescription, and now simulation), how each is validated, why possession metrics outpredict goals, the axes of valuation design, the finding that where two off-ball metrics have been compared they disagree, and the finding that where the forward approach has been attempted it failed
 
 ## Questions
 
@@ -163,13 +171,13 @@ Open investigations — a question, what can be settled from held sources, and w
 - [[tracking-error-propagation]] — **Does tracking error propagate into value estimates?** Partially answered for *incomplete observation*.
 
 ### Untested assumptions in held work
-- [[free-parameters-load-bearing]] — **Are the free parameters load-bearing?** Fourteen now asserted; one superseded, one with a two-point ablation and a **fifth kind** (prior strength) added.
+- [[free-parameters-load-bearing]] — **Are the free parameters load-bearing?** Sixteen now asserted, across **six kinds**. The paper the vault predicted would settle the $\lambda_1$ question has been acquired and does not.
 - [[vaep-conceding-classifier]] — **Is VAEP's conceding classifier broken, or just unthresholdable?**
 
 ### Claims this vault generated
 - [[within-season-variation-noise-or-signal]] — **Is within-season variation noise or signal?** Shown here to be the *same quantity* under two names.
-- [[observed-versus-optimal-decisions]] — **Do players decide suboptimally, or do the models only think so?** A fourth objection added: in regularised value learning, the gap is **tunable**.
-- [[handcrafted-features-rule]] — **Is the handcrafted-features rule right?** A reconciliation invented here, never tested against a fourth case.
+- [[observed-versus-optimal-decisions]] — **Do players decide suboptimally, or do the models only think so?** The gap is **tunable** by a loss weight and, newly, by a training budget.
+- [[handcrafted-features-rule]] — **Is the handcrafted-features rule right?** Two candidate test cases arrived and both were uninformative — the rule may be unfalsifiable within this literature.
 
 ## Conversations
 
@@ -235,3 +243,4 @@ Pages kept for history, superseded by a canonical page. **Intentionally without 
 - [[creating-scoring-opportunities-trajectory-prediction]] — "Evaluation of Creating Scoring Opportunities for Teammates in Soccer via Trajectory Prediction" (Teranishi et al., MLSA 2022/23)
 - [[optimal-decisions-shot-taking-situations]] — "A Strategic Framework for Optimal Decisions in Football 1-vs-1 Shot-Taking Situations" (Yeung & Fujii, Complex & Intelligent Systems 2024) — game theory, xSOT
 - [[action-valuation-multi-agent-reinforcement-learning]] — "Action Valuation of On- and Off-Ball Soccer Players Based on Multi-Agent Deep Reinforcement Learning" (Nakahara et al., 2023) — per-player SARSA agents, action supervision, and the first off-ball metric comparison
+- [[adaptive-action-supervision-multi-agent-rl]] — "Adaptive Action Supervision in RL from Real-World Multi-Agent Demonstrations" (Fujii et al., 2023) — Real-to-Sim domain adaptation, DTW-adaptive supervision, NFootball, and the vault's clearest negative result on simulator fidelity

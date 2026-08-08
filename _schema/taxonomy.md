@@ -45,6 +45,7 @@ here first with a brief description.
 - `graph-neural-network` — neural networks operating on graph-structured data via message passing
 - `machine-translation` — translating text between languages with ML
 - `sequence-modelling` — modelling sequential data (text, time series, etc.)
+- `sequence-alignment` — matching two sequences that may differ in timing or length (DTW, edit distance, warping paths)
 - `trajectory-prediction` — forecasting future positions of one or more interacting agents
 - `time-series` — observations indexed by time, and the extraction of trend, form, and volatility from them
 - `smoothing` — recovering trend from noisy series (moving averages, exponential smoothing, windowing)
@@ -57,6 +58,7 @@ here first with a brief description.
 - `normalization` — normalisation techniques (layer norm, batch norm, etc.)
 - `regularization` — techniques to prevent overfitting (dropout, label smoothing, etc.)
 - `training-technique` — optimiser schedules, training tricks, and procedures
+- `experience-replay` — storing and resampling past transitions to decorrelate updates in off-policy RL
 - `sample-weighting` — reweighting a loss function to correct uneven representation of groups in the training data
 - `weak-supervision` — learning from incomplete, indirect, or single-point labels rather than full ground truth
 - `paired-comparison` — models of pairwise contest outcomes from which latent strengths are inferred (Bradley-Terry, Thurstone)
@@ -111,6 +113,7 @@ here first with a brief description.
 - `projective-geometry` — homographies, epipolar geometry, and camera projection models
 - `radial-distortion` — lens distortion modelling (barrel/pincushion) in camera calibration
 - `transfer-learning` — reusing representations learned on one task/dataset for another
+- `domain-adaptation` — transferring a model across a shift between source and target environments, including Sim-to-Real and Real-to-Sim
 - `pre-training` — unsupervised or self-supervised training on large corpora before task-specific fine-tuning
 - `masked-language-model` — predicting randomly masked tokens from bidirectional context (BERT-style)
 - `prompt-engineering` — designing or retrieving prompts to guide LLM behaviour
@@ -127,6 +130,7 @@ here first with a brief description.
 - `ai-agent` — autonomous systems that plan, use tools, and act iteratively toward goals
 - `tool-use` — LLM function calling and interaction with external tools/APIs
 - `cognitive-science` — models of human cognition, psychometrics, and cognitive ability
+- `animal-behaviour` — modelling non-human collective and individual behaviour (pursuit, flocking, foraging)
 - `evaluation` — benchmarking, testing, and measuring AI system capabilities
 - `reliability` — consistency of a measurement across repeated or split samples (split-half, test-retest)
 - `predictive-validity` — whether a metric forecasts future outcomes it should, used where ground truth is unavailable

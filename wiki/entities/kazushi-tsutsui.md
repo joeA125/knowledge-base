@@ -1,47 +1,61 @@
 ---
 title: "Kazushi Tsutsui"
 type: entity
-tags: [person, researcher, university, sports-analytics, trajectory-prediction, off-ball, reinforcement-learning, multi-agent, defensive-valuation]
-sources: [raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/action_valuation_football_agentic_reinforcement_learning.md]
-confidence: 0.75
+tags: [person, researcher, university, sports-analytics, trajectory-prediction, off-ball, reinforcement-learning, multi-agent, defensive-valuation, animal-behaviour, domain-adaptation]
+sources: [raw/papers/evaluation_creating_scoring_opportunities_trajectory_prediction.md, raw/papers/action_valuation_football_agentic_reinforcement_learning.md, raw/papers/adaptive_action_supervision_multi_agent_reinforcement.md]
+confidence: 0.8
 provenance:
-  extracted: 55%
-  inferred: 35%
-  generated: 5%
+  extracted: 58%
+  inferred: 33%
+  generated: 6%
   imported: 0%
-  ambiguous: 5%
-lifecycle: draft
+  ambiguous: 3%
+lifecycle: reviewed
 created: 2026-07-27
 updated: 2026-08-07
 ---
 
 # Kazushi Tsutsui
 
-Researcher at the Graduate School of Informatics, [[nagoya-university]]. Co-author of two held sources.
+Researcher at the Graduate School of Informatics, [[nagoya-university]]. **Co-author of three held sources** — the most of any non-senior author in the [[keisuke-fujii|Fujii group]].
 
 | Work | Lead author | Contribution |
 |---|---|---|
 | [[creating-scoring-opportunities-trajectory-prediction\|C-OBSO]] | [[masakiyo-teranishi\|Teranishi]] | [[c-obso]] — credit for space created for a teammate |
 | [[action-valuation-multi-agent-reinforcement-learning\|Multi-agent deep RL valuation]] | [[hiroshi-nakahara\|Nakahara]] | [[multi-agent-reinforcement-learning\|Per-player RL agents]]; [[action-supervision]] |
+| [[adaptive-action-supervision-multi-agent-rl\|Adaptive action supervision]] | **[[keisuke-fujii\|Fujii]]** | [[domain-adaptation\|Real-to-Sim]]; [[dynamic-time-warping\|DTW]]-adaptive supervision |
 
-Also co-author on the Umemoto, Tsutsui & Fujii [[gvdep|GVDEP]] paper (arXiv:2212.00021), held as [[generalized-vdep-euro-location-analysis]].
+Also co-author on the Umemoto, Tsutsui & Fujii [[gvdep|GVDEP]] paper, held as [[generalized-vdep-euro-location-analysis]].
 
-## Position in the Fujii Group
+## The Only Author on Both Sides of Every Division
 
-Tsutsui appears on **three** of the group's off-ball papers — the two held with him as co-author above, plus GVDEP. That places him at the junction of the group's lines: attacking space creation via trajectory prediction, defensive valuation via location analysis, and now reinforcement learning.
+Tsutsui's co-authorship pattern is the most revealing in the group, because he crosses every line the vault has drawn through it.
 
-> **Added 2026-08-07.** The two papers he co-authors are also **the two whose outputs have been compared against each other** — and they disagree. Nakahara et al. report $\rho = 0.182$ between their Q-values and C-OBSO on the same club, season and provider. Tsutsui is a co-author on both sides of the vault's only off-ball metric head-to-head, and neither paper treats the disagreement as a problem. See [[construct-validity]] and [[off-ball-value]].
+| Division | One side | Other side | Tsutsui |
+|---|---|---|---|
+| Applied metrics / methodological | C-OBSO, GVDEP, Nakahara et al. | Fujii et al. | **Both** |
+| Inverse / forward | C-OBSO, Nakahara et al. | Fujii et al. | **Both** |
+| Attacking / defensive | C-OBSO, Nakahara et al. | GVDEP | **Both** |
+| The two metrics that disagree | C-OBSO | Nakahara Q-values | **Both** |
 
-He is also credited on **Fujii, Tsutsui, Scott, Nakahara, Takeishi & Kawahara (2023)**, *Adaptive action supervision in RL from real-world multi-agent demonstrations*, arXiv:2305.13030 — cited, not held, and the source of the [[action-supervision]] method the RL paper applies.
+> **The last row is the pointed one.** Nakahara et al. report $\rho = 0.182$ between their Q-values and C-OBSO on the same club, season and provider — the vault's only head-to-head between two off-ball metrics, and it finds no relationship. **Tsutsui is a co-author on both sides**, and neither paper treats the disagreement as a problem. See [[construct-validity]] and [[off-ball-value]].
 
-Whether the spread across lines reflects a methodological specialism or coincidence of collaboration is not established by anything held here.
+## Beyond Football
+
+He is also credited on **Tsutsui, Tanaka, Takeda & Fujii**, *Collaborative hunting in artificial agents with deep reinforcement learning* (bioRxiv) and *Emergence of collaborative hunting via multi-agent deep RL* (ICPR workshop), and on **Tsutsui, Takeda & Fujii (2023)**, *Synergizing deep RL and biological pursuit behavioral rule* (ICML workshop) — all cited, not held.
+
+That matters for reading [[adaptive-action-supervision-multi-agent-rl|Fujii et al.]]: **the chase-and-escape experiment is his line of work, not a toy example invented for the paper.** The predator-prey environment is a modification of MAPE "following (Tsutsui et al., 2022a)", and the demonstration data was generated by a DQN trained under that prior setting.
+
+So the paper's two experiments are not "a simple task and then the real one". They are **two established research lines of the same group placed side by side** — collaborative hunting and football valuation — which is why the method is framed around biological multi-agents generally rather than around sport. See [[naoya-takeishi]] and [[domain-adaptation]].
+
+That also explains an asymmetry in the results. DTW-adaptive supervision helps on chase-and-escape and not at all on football. The task where it works is the one the group has modelled longest and where the domain gap is a single known parameter.
 
 **Correction note.** Tsutsui was omitted from author lists on [[keisuke-fujii]] when those works were recorded from citation only. Recorded here on acquisition of the primary sources.
 
 ## See Also
 
-- [[c-obso]] · [[trajectory-prediction]] · [[defensive-valuation]] · [[gvdep]] · [[off-ball-value]]
-- [[multi-agent-reinforcement-learning]] · [[action-supervision]] · [[reinforcement-learning]] · [[construct-validity]]
-- [[masakiyo-teranishi]] · [[keisuke-fujii]] · [[kazuya-takeda]] · [[hiroshi-nakahara]] · [[rikuhei-umemoto]]
-- [[nagoya-university]] · [[data-stadium]]
-- [[creating-scoring-opportunities-trajectory-prediction|C-OBSO Summary]] · [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al. Summary]]
+- [[c-obso]] · [[trajectory-prediction]] · [[defensive-valuation]] · [[gvdep]] · [[off-ball-value]] · [[construct-validity]]
+- [[multi-agent-reinforcement-learning]] · [[action-supervision]] · [[reinforcement-learning]] · [[domain-adaptation]] · [[dynamic-time-warping]] · [[imitation-reward-tradeoff]]
+- [[masakiyo-teranishi]] · [[keisuke-fujii]] · [[kazuya-takeda]] · [[hiroshi-nakahara]] · [[rikuhei-umemoto]] · [[atom-scott]]
+- [[nagoya-university]] · [[data-stadium]] · [[nfootball]]
+- [[creating-scoring-opportunities-trajectory-prediction|C-OBSO]] · [[action-valuation-multi-agent-reinforcement-learning|Nakahara et al.]] · [[adaptive-action-supervision-multi-agent-rl|Fujii et al.]]

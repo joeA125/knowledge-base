@@ -2774,3 +2774,100 @@ TAGS: no new tags required; all seven added in the prior entry were sufficient. 
 STATUS: the Nakahara ingest is now complete. 8 pages created, 18 updated, plus taxonomy and index.
 
 
+## [2026-08-07 13:28] ingest | Fujii et al. adaptive action supervision ingested — vault's lambda_1 prediction failed; simulator-fidelity claim confirmed by held source
+Source: raw/papers/adaptive_action_supervision_multi_agent_reinforcement.md — Fujii, Tsutsui, Scott, Nakahara, Takeishi & Kawahara, "Adaptive action supervision in reinforcement learning from real-world multi-agent demonstrations", arXiv:2305.13030 (ICAART). Nagoya / RIKEN AIP / JST PRESTO / Univ. Tokyo / Osaka Univ.
+
+This was named in the 2026-08-07 Nakahara log as the highest-value acquisition target.
+
+=== THE PREDICTION FAILED — RECORD THIS ===
+Three pages (action-supervision, free-parameters-load-bearing, observed-versus-optimal-decisions) stated this paper "would presumably settle" the open lambda_1 question. IT DOES NOT.
+- The paper reports NO value for lambda_1 or lambda_2 anywhere. Text says only "the lambda parameters control the weight of these losses."
+- Its ablation is over WHICH LOSSES ARE PRESENT (DQN/DQfD/DQfAD/DQAS/DQAAS), not over their weights.
+- No sweep, no curve.
+So the dedicated methodological paper is LESS specific about its own mechanism's parameter than the applied paper citing it (Nakahara et al. at least state lambda_1 = 0.01 and compare against 0).
+Lesson recorded on free-parameters-load-bearing: a paper's contribution being a mechanism does not mean it characterises that mechanism's parameters. Methods papers optimise for ablation questions ("is this component needed?") not calibration questions ("how much of it?"). Expecting the latter from the former was the vault's error.
+All three pages corrected. The lambda_1 question is UNCHANGED and now harder, since the obvious place has been checked.
+
+=== CLAIM CONFIRMED ===
+On 2026-08-07 the vault weakened reinforcement-learning's "no simulator faithful enough" claim to "the forward approach is available; what is unavailable is evidence of transfer" — an INFERENCE from Nakahara et al. borrowing GFootball's action vocabulary while discarding its dynamics.
+This paper CONFIRMS it directly. The authors build their own simulator (NFootball), fail to reproduce demonstrated football behaviour, test whether the cause is algorithmic (decentralised vs centralised MARL via CDS; classic vs recent deep RL), conclude it is NOT, and attribute the failure to "the domain-specific modeling and reality of the simulator".
+A purpose-built simulator by domain experts still could not support imitation of real football, with the algorithm ruled out. Strongest available evidence for the fidelity reading. Carried to reinforcement-learning, imitation-learning (pending), google-research-football, domain-adaptation.
+
+=== CLAIM STRENGTHENED ===
+optimality-gap-is-tunable — previously rested on Nakahara et al.'s VERBAL description of the lambda_1 extremes. This paper MEASURES the reward/imitation trade-off ("The obtained rewards and DTW distance had a trade-off relationship"). Claim survives in MODIFIED form: the dial is real and measured, but lambda_1 is not the only knob — training time also moves the model along the frontier ("first learned the ability to maximize a reward and then learned the reproducibility at the expense of the reward").
+rests-on updated: source:nakahara-lambda-tradeoff, source:fujii-reward-dtw-tradeoff
+
+PAGES CREATED (11)
+- wiki/summaries/adaptive-action-supervision-multi-agent-rl.md
+- wiki/concepts/domain-adaptation.md — Sim-to-Real vs Real-to-Sim; the asymmetry; two conditions favouring learning from demonstration
+- wiki/concepts/dynamic-time-warping.md — alignment as loss mechanism AND as evaluation metric; what DTW can and cannot fix
+- wiki/concepts/deep-q-network.md — target networks, replay, double Q; DQfD and its failure at this data scale
+- wiki/concepts/imitation-reward-tradeoff.md — the measured frontier; where-you-stop-is-a-modelling-choice
+- wiki/entities/nfootball.md
+- wiki/entities/atom-scott.md
+- wiki/entities/naoya-takeishi.md
+- wiki/entities/yoshinobu-kawahara.md
+- wiki/entities/university-of-tokyo.md (stub)
+- wiki/entities/osaka-university.md (stub)
+
+PAGES UPDATED (5)
+- action-supervision — the failed prediction; the DTW-adaptive variant; why Nakahara needs no DTW (never rolls out, so no phase drift); DQfD margin-loss failure (zero reward on every football task) as the case for cross-entropy
+- free-parameters-load-bearing — 14 -> 16 params; FIVE kinds -> SIX (stopping parameters added); the acquisition-that-did-not-help section
+- reinforcement-learning — simulator claim CONFIRMED; two RL frameworks now held and they face opposite directions (inverse vs forward); Scott et al. 2022 promoted to highest-value acquisition target
+- google-research-football — three uses across three papers, progressively less flattering; why it was rejected; the "Shared?" column argument
+- keisuke-fujii — SEVEN -> EIGHT held sources; FIRST-authorship on this one marks a genuine methodological/applied split in the programme with a partly disjoint co-author set
+
+NEW CLAIMS DECLARED
+- alignment-should-precede-supervision (dynamic-time-warping) — rests-on: source:fujii-dtw-supervision-motivation
+- stabilisers-track-the-feedback-loop (deep-q-network) — rests-on: source:fujii-ddqn-full-stack, source:nakahara-sarsa-no-stabilisers
+- where-you-stop-is-a-modelling-choice (imitation-reward-tradeoff, free-parameters-load-bearing) — rests-on: source:fujii-training-step-ordering
+- bespoke-environments-foreclose-comparison (nfootball) — rests-on: source:fujii-nfootball-motivation, absence:no-held-source-benchmarks-across-frameworks
+
+OTHER FINDINGS
+- Rare-event proxy substitution appears again, inside a REWARD FUNCTION rather than a classifier target: shot reward +1 added "because the goal reward was sparse and limited". Most portable idea the group has; applied without comment.
+- DTW helps on chase-and-escape (controlled 120%->110% mobility gap) and NOT AT ALL on football (DQAS and DQAAS identical, zero standard error). Reading recorded: DTW corrects phase mismatch; the football gap is not phase, it is that the demonstrated behaviour is unavailable in the target.
+- Zero standard error across five seeds on both football tasks, unexplained — flagged as suggesting one degenerate solution rather than robustness.
+- Fourth held source on the Data Stadium J1 2019 dataset.
+- L2 regularisation here vs L1 in Nakahara et al., same small-data justification, no discussion.
+- Action space 12 here vs 14 in Nakahara et al., overlapping authors, same data, neither mentions the other's choice.
+
+TAXONOMY: 5 tags added — sequence-alignment, domain-adaptation, experience-replay, animal-behaviour, and (retained) simulator.
+
+ACQUISITION TARGET (replaces arXiv:2305.13030): Scott, Fujii & Onishi (2022), "How does AI play football? An analysis of RL and real-world football strategies", ICAART — the only cited work directly measuring the GFootball/real-football gap. See atom-scott.
+
+OUTSTANDING — pages linked from new work but not yet updated with this source: imitation-learning (carries the corrected simulator claim and needs the DQfD/role-3 material), multi-agent-reinforcement-learning (forward/inverse now formalised by a held source; CDS centralised-vs-decentralised result), observed-versus-optimal-decisions (trade-off now measured), temporal-difference-learning (DQN machinery), action-space-design (12-action NFootball space), counterfactual-simulation, kazushi-tsutsui (third held source), hiroshi-nakahara (second), nagoya-university (eight sources), data-stadium (fourth source), and the synthesis.
+
+
+## [2026-08-08 11:00] writeback | Fujii et al. ingest completed — synthesis gains a seventh task; seven self-inflicted dead links found and fixed
+Completes the Fujii et al. (arXiv:2305.13030) ingest by bringing the eleven trailing pages current.
+
+PAGES UPDATED (11)
+- imitation-learning — simulator correction now CONFIRMED rather than inferred; role 3 (prior on competence) gains the alignment wrinkle: plain action supervision assumes agent and expert are in phase, true only in the inverse setting. DQfD margin-loss failure (zero reward on every football task) recorded as evidence for the cross-entropy substitution. New caveat: imitation across a domain gap may be unachievable rather than merely imperfect.
+- multi-agent-reinforcement-learning — forward/inverse now FORMALISED by a held source (on the inverse side the transition model is not modelled at all; on the forward side it must be assumed). NEW: the centralised alternative was tested (CDS, Li et al. 2021) and changed nothing, which retires the natural objection that these papers fail because their agents do not model each other.
+- observed-versus-optimal-decisions — fourth objection upgraded from inference to measurement. NEW second knob: the gap moves with TRAINING TIME, not only with a loss weight, so even a paper reporting and sweeping lambda_1 would not have pinned it down. Proposed test 3 added (checkpoint and plot) — nearly free, checkpoints already exist.
+- temporal-difference-learning — the two held TD papers take opposite branches (SARSA on-policy vs DDQN off-policy) on the same dataset and neither notes it. stabilisers-track-the-feedback-loop carried in.
+- action-space-design — action-space-sets-the-question STRENGTHENED: the Nakahara(14)/Fujii(12) divergence occurs within ONE group on ONE dataset, removing the explanation that action spaces differ because data or goals differ. NEW section: a forward framework's action space is bounded by what the simulator can execute, so it is a statement about the simulator as much as about football.
+- counterfactual-simulation — NEW claim regeneration-fidelity-scales-with-representation-coarseness. ScoutGPT/EventGPT re-generate event TOKENS; Fujii et al. re-generate continuous multi-agent MOVEMENT and fail. Uncomfortable implication recorded: ScoutGPT's counterfactuals may work partly because event tokens hide the physics — more trustworthy or merely less falsifiable is untested. Also added Fujii et al.'s controlled-domain-gap check as a sanity check worth borrowing (no football counterfactual paper runs an analogue).
+- kazushi-tsutsui — third held source. He is the only author crossing EVERY division the vault has drawn through the group: applied/methodological, inverse/forward, attacking/defensive, and both sides of the rho=0.182 disagreement. His collaborative-hunting line supplies the chase-and-escape experiment, so the paper's two tasks are two established group research lines side by side, not "a toy and then the real one".
+- hiroshi-nakahara — second held source. The inverse half of a forward/inverse pair. Recorded that he is on a paper declining the group's target-substitution signature and one applying it (shot reward), months apart, same data, neither commenting.
+- nagoya-university — SEVEN -> EIGHT sources. New "Two Registers" section. Second internal inconsistency recorded: two action spaces and two regularisers chosen differently by overlapping authors on one dataset. Concentration makes comparison possible and apparently does not make it happen.
+- data-stadium — FOUR held sources. NEW section: each of the four SUBSETS the data differently (all events / shot-ending only / attacking-third possessions / last-pass sequences). This is a third and more mundane explanation for the rho=0.182 result than either reading the papers offer. Also: four papers share this dataset, only ONE PAIR has been compared, the other five pairings are equally computable and unrun.
+- SYNTHESIS action-valuation-frameworks-compared — SIX TASKS -> SEVEN. Simulation added as a distinct task: counterfactual work generates to produce a number about a player, simulation work generates to produce a faithful environment. ScoutGPT would succeed with implausible rollouts; Fujii et al. would not. New section "Task 7: Simulation, and Where Generation Breaks". Limitation 12 added. Free params 16 across six kinds. bespoke-environments-foreclose-comparison folded in. Prescription lesson revised: enumerability is necessary but a group also has to WANT to make the prescriptive claim.
+
+SELF-CORRECTION — DEAD LINKS I INTRODUCED
+Ran find_mentioned_but_missing after the batch. It caught SEVEN broken links created earlier in this session, all from one cause: I LINKED TO TAG NAMES AS IF THEY WERE PAGES. Affected: [[counterfactual]], [[evaluation]] x2, [[experience-replay]], [[machine-translation]], [[simulator]] x2, [[time-series]], [[transfer-learning]] x2.
+Fixed by rewriting: atom-scott, naoya-takeishi, nfootball, gated-recurrent-unit, domain-adaptation, dynamic-time-warping, deep-q-network, construct-validity. Re-ran the scan; all seven clear.
+Note for future ingests: adding a tag to taxonomy.md does NOT create a page, and the two namespaces are easy to conflate when a new tag and a new concept are introduced in the same run. Nine pre-existing dead links remain (approximation, index, inference, metric-learning, prescription, projective-geometry, reliability, transfer-learning from bert summary, weak-supervision, zero-shot-learning) — same tag-as-page pattern, predating this session, NOT fixed here.
+
+CLAIMS CARRIED OR MODIFIED
+- optimality-gap-is-tunable — strengthened, second knob (training steps) recorded on three pages
+- where-you-stop-is-a-modelling-choice — carried to observed-versus-optimal-decisions and the synthesis
+- regeneration-fidelity-scales-with-representation-coarseness — NEW, declared on counterfactual-simulation, carried to synthesis
+- action-space-sets-the-question — strengthened by the within-group divergence
+- handcrafted-features-rule — checked TWICE (Nakahara, Fujii); both cases uninformative because neither reports an accuracy metric. Recorded on the synthesis that the rule may be unfalsifiable within this literature.
+- no-reliability-for-off-ball-metrics, no-sensitivity-analysis-on-horizon-parameters, no-held-source-compares-sgg-and-cobso — all re-checked, all still hold.
+
+STATUS: Fujii et al. ingest fully complete. 11 pages created, 16 updated, plus taxonomy, index and two log entries.
+ACQUISITION TARGET unchanged: Scott, Fujii & Onishi (2022), "How does AI play football?", ICAART.
+
+
